@@ -1,10 +1,9 @@
 import React from 'react'
 import Form from "./common/form";
-import { Formik } from 'formik'
+// import { Formik } from 'formik'
 import Joi from "joi-browser";
-//import Select from "./select";
 import { getReportType } from '../services/fakeReportType';
-import { getSubCategoryType, getSubCategoryType1 } from '../services/fakeSubReportType';
+import { getSubCategoryType } from '../services/fakeSubReportType';
 
 class ReportType extends Form {
     // constructor(props) {
@@ -16,6 +15,7 @@ class ReportType extends Form {
             typeId: "",
             subtypeId: "",
             ReqDesc: ""
+
         },
         reporttypes: [],
         reportsubcateories: [],
@@ -55,9 +55,7 @@ class ReportType extends Form {
     validateProperty = ({ name, value }) => {
         const obj = { [name]: value };
         const schema = { [name]: this.schema[name] };
-        console.log('before Joi call');
         const { error } = Joi.validate(obj, schema);
-        console.log('After Joi call');
         return error ? error.details[0].message : null;
     };
 
@@ -69,7 +67,7 @@ class ReportType extends Form {
         const data = { ...this.state.data };
         errors[input.name] = errorMessage;
         data[input.name] = input.value;
-        // console.log('errorMessage:' + errorMessage)
+
         let isSubCategoryHidden = '';
         if (errorMessage) {
             isSubCategoryHidden = input.name === 'typeId' ? false : true;
