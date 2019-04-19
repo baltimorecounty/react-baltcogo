@@ -5,9 +5,11 @@ import FormReportType from './components/formreporttype';
 class App extends Component {
   render() {
     return (
-      <div className="App">
+      <main className="container">
+        {/* <div className="App"> */}
         <FormReportType />
-      </div>
+        {/* </div> */}
+      </main>
     );
   }
 }
