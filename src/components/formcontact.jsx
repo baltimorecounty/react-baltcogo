@@ -1,23 +1,10 @@
-import React from 'react'
-import Form from "./common/form";
-// import { Formik } from 'formik'
+import React, { Component } from 'react'
 import Joi from "joi-browser";
 
+class FormContact extends Component {
 
-class FormContact extends Form {
-    // constructor(props) {
-    //    super(props);
-    state = {
-        data: {
-            firstname: "",
-            lastname: "",
-            email: "",
-            phone: ""
-        },
-
-        errors: {}
-    };
-    schema = {
+    Schema = {
+        _id: Joi.string(),
         firstname: Joi.string()
             .required()
             .label("First Name"),
@@ -29,56 +16,33 @@ class FormContact extends Form {
             .email()
             .label("Email"),
         phone: Joi.string()
+            .regex(/^\d{3}-\d{3}-\d{4}$/)
             .required()
             .label("Phone")
     };
 
-
-    validate = () => {
-        console.log("inside validate");
-        const options = { abortEarly: false };
-        const { error } = Joi.validate(this.state.data, this.schema, options);
-        //console.log('error return:' + error);
-        if (!error) return null;
-
-        const errors = {};
-        for (let item of error.details) errors[item.path[0]] = item.message;
-        return errors;
-    };
-
-    validateProperty = ({ name, value }) => {
-        const obj = { [name]: value };
-        const schema = { [name]: this.schema[name] };
-        const { error } = Joi.validate(obj, schema);
-        return error ? error.details[0].message : null;
-    };
-
-
-    handleChange = ({ currentTarget: input }) => {
-
-        const errors = { ...this.state.errors };
-        const errorMessage = this.validateProperty(input);
-        const data = { ...this.state.data };
-        errors[input.name] = errorMessage;
-        data[input.name] = input.value;
-        this.setState({ data, errors });
-
-    };
-
-
-
     render() {
-        return (
-            <div>
-                <form>
-                    {this.renderInput("firstname", "Firstname")}
-                     {this.renderInput("lastname", "Lastname")}
-                    {this.renderInput("email", "Email")}
-                    {this.renderInput("phone", "Phone")}
-                    {this.renderButton("FILE YOUR REPORT ")} 
-                </form>
-            </div>
 
+        const { renderInput, nextStep, prestep, validate, data } = this.props;
+        return (
+            <React.Fragment>
+                {renderInput("firstname", "Firstname", this.Schema)}
+                {renderInput("lastname", "Lastname", this.Schema)}
+                {renderInput("email", "Email", this.Schema)}
+                {renderInput("phone", "Phone", this.Schema)}
+                <button
+                    className="btn btn-primary"
+                    onClick={prestep}>
+                    "PREVIOUS"
+                    </button>
+                <button
+                    disabled={validate(data, this.Schema)}
+                    className="btn btn-primary"
+                    onClick={nextStep}>
+                    "NEXT"
+                    </button>
+
+            </React.Fragment>
 
         );
     }
