@@ -6,10 +6,7 @@ class App extends Component {
   render() {
     return (
       <main className="container">
-        {/* <div className="App"> */}
-        {/* <FormReportType /> */}
         <FormContact />
-        {/* </div> */}
       </main>
     );
   }
