@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
 import './App.css';
-// import FormReportType from './components/formreporttype';
-import FormContact from './components/formcontact';
+import Form from './components/form';
 class App extends Component {
   render() {
     return (
-      <main className="container">
-        <FormContact />
-      </main>
+      <React.Fragment>
+        <main className="container">
+
+
+          <Form />
+
+        </main>
+      </React.Fragment>
     );
   }
 }
