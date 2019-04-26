@@ -7,7 +7,6 @@ import FormReportType from './formreporttype'
 import FormLocation from './formlocation'
 import PostData from './services/categories';
 import FormContact from './formcontact'
-import AppBar from './appbar'
 import Joi from "joi-browser";
 
 
@@ -345,19 +344,14 @@ class Form extends Component {
 
   render() {
 
-    const { step, activeStep, completed, reporttypes: values, isSubCategoryHidden, reportsubcateories, dataContact, dataReportType } = this.state;
+    const { step,  reporttypes: values, isSubCategoryHidden, reportsubcateories, dataContact, dataReportType } = this.state;
 
     switch (step) {
 
       case 1:
         return (
           <React.Fragment>
-        
-            <AppBar
-              activeStep={activeStep}
-              completed={completed}
-              handleStep={this.handleStep}
-            />
+      
             <FormReportType
               nextStep={this.nextStep}
               handleChange={this.handleChange}
@@ -375,11 +369,7 @@ class Form extends Component {
       case 2:
         return (
           <React.Fragment>
-            <AppBar
-              activeStep={activeStep}
-              completed={completed}
-              handleStep={this.handleStep}
-            />
+     
             <FormLocation
               nextStep={this.nextStep}
               prestep={this.preStep} />
@@ -387,12 +377,7 @@ class Form extends Component {
       case 3:
         return (
           <React.Fragment>
-            <AppBar
-              activeStep={activeStep}
-              completed={completed}
-              handleStep={this.handleStep}
-
-            />
+    
             <FormContact
               nextStep={this.nextStep}
               prestep={this.preStep}
