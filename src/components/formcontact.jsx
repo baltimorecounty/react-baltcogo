@@ -4,7 +4,6 @@ import Joi from "joi-browser";
 class FormContact extends Component {
 
     Schema = {
-        _id: Joi.string(),
         firstname: Joi.string()
             .required()
             .label("First Name"),
@@ -33,13 +32,13 @@ class FormContact extends Component {
                 <button
                     className="btn btn-primary"
                     onClick={prestep}>
-                    "PREVIOUS"
+                    PREVIOUS
                     </button>
                 <button
                     disabled={validate(data, this.Schema)}
                     className="btn btn-primary"
                     onClick={nextStep}>
-                    "NEXT"
+                    NEXT
                     </button>
 
             </React.Fragment>

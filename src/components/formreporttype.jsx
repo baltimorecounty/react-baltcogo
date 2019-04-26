@@ -1,9 +1,5 @@
 import React, { Component } from 'react'
-
 import Joi from "joi-browser";
-
-// import { getReportType } from './services/fakeReportType';
-// import { getSubCategoryType } from './services/fakeSubReport';
 
 class ReportType extends Component {
 
@@ -26,10 +22,9 @@ class ReportType extends Component {
     }
 
     render() {
-
-        //  let isSubCategoryHidden = this.props.state.isSubCategoryHidden; 
+        
         const { renderSelect, values, isSubCategoryHidden, reportsubcateories, renderTextArea, validate, data } = this.props;
-
+     
         return (
 
             <React.Fragment>
@@ -41,7 +36,7 @@ class ReportType extends Component {
                     disabled={validate(data, this.Schema)}
                     className="btn btn-primary"
                     onClick={this.continue}>
-                    "Next"
+                    Next
                  </button>
 
             </React.Fragment>

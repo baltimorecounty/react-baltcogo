@@ -10,13 +10,13 @@ class FormLocation extends Component {
                 <button
                     className="btn btn-primary"
                     onClick={prestep}>
-                    "PREVIOUS"
+                    PREVIOUS
                     </button>
                 <button
 
                     className="btn btn-primary"
                     onClick={nextStep}>
-                    "NEXT"
+                    NEXT
                     </button>
 
             </React.Fragment>
