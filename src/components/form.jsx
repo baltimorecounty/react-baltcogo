@@ -18,7 +18,7 @@ class Form extends Component {
     activeStep: 0,
     totalSteps: 3,
     isSubCategoryHidden: false,
-    textareavalue: 'this is the value for text area',
+    textareavalue: "",
 
     dataReportType: {
       categories: "",
@@ -46,19 +46,20 @@ class Form extends Component {
   };
   //Proceed to next step
   nextStep = () => {
-    const { step } = this.state;
-    this.setState({ step: step + 1 });
+    const step = this.state.step +1;
+    this.setState({ step });
     this.handleNext();
   }
   handleNext = () => {
     if (!this.isLastStep()) {
-      this.setState({ activeStep: this.state.activeStep + 1 });
+      const activeStep =  this.state.activeStep + 1 ;
+      this.setState({ activeStep});
     }
   };
   //Go back to pre step
   preStep = () => {
-    const { step } = this.state;
-    this.setState({ step: step - 1 });
+    const step = this.state.step - 1;
+    this.setState({ step});
     this.handleBack();
   }
 
