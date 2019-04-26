@@ -4,12 +4,14 @@ import Select from "./common/select";
 import TextArea from "./common/textarea";
 import Input from "./common/input";
 import FormReportType from './formreporttype'
-import { getReportType } from './services/fakeReportType';
-import { getSubCategoryType } from './services/fakeSubReportType';
+// import { getReportType } from './services/fakeReportType';
+// import { getSubCategoryType } from './services/fakeSubReportType';
+import PostData from './services/categories';
+import FormLocation from './formlocation'
 import FormContact from './formcontact'
 
 import Joi from "joi-browser";
-import { reportType } from './services/fakeReportType';
+// import { reportType } from './services/fakeReportType';
 
 class Form extends Component {
 
@@ -29,11 +31,20 @@ class Form extends Component {
       email: "",
       phone: ""
     },
-    reporttypes: getReportType(),
+    reporttypes: this.getReportType(),
     reportsubcateories: [],
     errors: {}
 
   };
+
+
+  getReportType() {
+    return PostData;
+  }
+  getSubCategoryType(id) {
+    let t1 =  PostData.filter(m => m.id === parseInt(id)) ;
+    return t1[0].types
+  }
 
 
   //Proceed to next step
@@ -152,10 +163,8 @@ class Form extends Component {
       delete errors[input.name];
 
       if (input.name === 'typeId') {
-        console.log('++++++ typdId')
-        const reportsubcateories = getSubCategoryType(input.value);
-        console.log(reportsubcateories);
-        console.log('------end typeId');
+ 
+        const reportsubcateories = this.getSubCategoryType(input.value);
         data = { ...this.state.data };
         data[input.name] = input.value;
         this.setState({ data, isSubCategoryHidden, reportsubcateories, errors });
@@ -290,12 +299,7 @@ class Form extends Component {
 
 
   renderSelect = (name, label, options, schema) => {
-    console.log('---schema---');
-    console.log(schema);
-    console.log('--end schema--');
-    console.log('---options---');
-    console.log(options);
-    console.log('--end options--');
+
     const { data, errors } = this.state;
     return (
 
@@ -316,32 +320,33 @@ class Form extends Component {
 
   render() {
 
-    const { step } = this.state;
-    const values = this.state.reporttypes;
-    const isSubCategoryHidden = this.state.isSubCategoryHidden;
-    const reportsubcateories = this.state.reportsubcateories;
+    const { step, reporttypes: values, isSubCategoryHidden, reportsubcateories, dataContact, dataReportType } = this.state;
 
     switch (step) {
       case 1:
         return <FormReportType
-          nextStep={this.nextStep}
-          handleChange={this.handleChange}
-          renderSelect={this.renderSelect}
-          values={values}
-          isSubCategoryHidden={isSubCategoryHidden}
-          reportsubcateories={reportsubcateories}
-          renderTextArea={this.renderTextArea}
-          validate={this.buttonValidate}
-          data={this.state.data} />
+             nextStep={this.nextStep}
+              handleChange={this.handleChange}
+              handleNext={this.handleNext}
+              renderSelect={this.renderSelect}
+              values={values}
+              isSubCategoryHidden={isSubCategoryHidden}
+              reportsubcateories={reportsubcateories}
+              renderTextArea={this.renderTextArea}
+              validate={this.buttonValidate}
+              data={dataReportType} />
       case 2:
-        return <FormContact
-          nextStep={this.nextStep}
-          prestep={this.preStep}
-          renderInput={this.renderInput}
-          validate={this.buttonValidate}
-          data={this.state.dataContact} />
+      return <FormLocation
+            nextStep={this.nextStep}
+            prestep={this.preStep} />
+
       case 3:
-        return <h1> step3</h1>
+        return<FormContact
+        nextStep={this.nextStep}
+        prestep={this.preStep}
+        renderInput={this.renderInput}
+        validate={this.buttonValidate}
+        data={dataContact} />
       default:
         return 'NONE'
     }
