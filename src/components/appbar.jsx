@@ -11,17 +11,17 @@ const styles = theme => ({
     }
 });
 
-function getSteps() {
-    return ['Choose a Report Type', 'Enter a Location', 'Provide Your Contact Information'];
-}
+  function getSteps() {
+     return ['Choose a Report Type', 'Enter a Location', 'Provide Your Contact Information'];
+ } 
 
 
 class HorizontalNonLinearStepper extends React.Component {
 
     render() {
         const { classes } = this.props;
-        const steps = getSteps();
-        const { activeStep } = this.props;
+       const steps = getSteps();
+        const { activeStep} = this.props;
         return (
             <div className={classes.root}>
                 <Stepper alternativeLabel nonLinear activeStep={activeStep}>

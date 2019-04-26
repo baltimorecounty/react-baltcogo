@@ -25,8 +25,8 @@ class FormContact extends Component {
         const { renderInput, nextStep, prestep, validate, data } = this.props;
         return (
             <React.Fragment>
-                {renderInput("firstname", "Firstname", this.Schema)}
-                {renderInput("lastname", "Lastname", this.Schema)}
+                {renderInput("firstname", "First Name", this.Schema)}
+                {renderInput("lastname", "Last Name", this.Schema)}
                 {renderInput("email", "Email", this.Schema)}
                 {renderInput("phone", "Phone", this.Schema)}
                 <button
