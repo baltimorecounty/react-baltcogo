@@ -8,11 +8,16 @@ import FormLocation from './formlocation'
 import PostData from './services/categories';
 import FormContact from './formcontact'
 import Joi from "joi-browser";
+import AppBar from './appbar'
 
+function   getSteps(){
+  return ['Choose a Report Type', 'Enter a Location', 'Provide Your Contact Information'];
+}
 class Form extends Component {
 
   state = {
     step: 1,
+    activeStep: 0,
     isSubCategoryHidden: false,
     textareavalue: 'this is the value for text area',
 
@@ -34,6 +39,55 @@ class Form extends Component {
 
   };
 
+  //======================================================================================
+
+
+  totalSteps = () => getSteps().length;
+
+
+   
+  handleNext = () => {
+    let activeStep;
+
+    if (this.isLastStep() && !this.allStepsCompleted()) {
+      // It's the last step, but not all steps have been completed,
+      // find the first step that has been completed
+      const steps = getSteps();
+      activeStep = steps.findIndex((step, i) => !(i in this.state.completed));
+    } else {
+      activeStep = this.state.activeStep + 1;
+    }
+    this.setState({
+      activeStep,
+    });
+  };
+  completedSteps() {
+    return Object.keys(this.state.completed).length;
+  }
+
+  isLastStep() {
+    return this.state.activeStep === this.totalSteps() - 1;
+  }
+
+  allStepsCompleted() {
+    return this.completedSteps() === this.totalSteps();
+  }
+
+
+  handleBack = () => {
+    this.setState(state => ({
+      activeStep: state.activeStep - 1,
+    }));
+  };
+
+  handleStep = step => () => {
+    this.setState({
+      activeStep: step,
+    });
+  };
+
+
+  //===========================================================================
 
   handleBack = () => {
     this.setState(state => ({
@@ -54,11 +108,13 @@ class Form extends Component {
   nextStep = () => {
     const { step } = this.state;
     this.setState({ step: step + 1 });
+    this.handleNext();
   }
   //Go back to pre step
   preStep = () => {
     const { step } = this.state;
     this.setState({ step: step - 1 });
+    this.handleBack();
   }
 
   buttonValidate = (data, schema) => {
@@ -219,13 +275,17 @@ class Form extends Component {
 
   render() {
 
-    const { step, reporttypes: values, isSubCategoryHidden, reportsubcateories, dataContact, dataReportType } = this.state;
+    const { step,activeStep,  reporttypes: values, isSubCategoryHidden, reportsubcateories, dataContact, dataReportType } = this.state;
 
     switch (step) {
 
       case 1:
         return (
           <React.Fragment>
+          <AppBar
+              activeStep={activeStep}
+              handleStep={this.handleStep}
+            />
             <FormReportType
               nextStep={this.nextStep}
               handleChange={this.handleChange}
@@ -241,6 +301,10 @@ class Form extends Component {
       case 2:
         return (
           <React.Fragment>
+          <AppBar
+              activeStep={activeStep}
+              handleStep={this.handleStep}
+            />
             <FormLocation
               nextStep={this.nextStep}
               prestep={this.preStep} />
@@ -248,6 +312,10 @@ class Form extends Component {
       case 3:
         return (
           <React.Fragment>
+          <AppBar
+              activeStep={activeStep}
+              handleStep={this.handleStep}
+            />
             <FormContact
               nextStep={this.nextStep}
               prestep={this.preStep}
