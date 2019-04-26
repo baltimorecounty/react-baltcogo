@@ -162,7 +162,6 @@ class Form extends Component {
     if (errorMessage) errors[input.name] = errorMessage;
     else delete errors[input.name];
     const data = { ...this.state.dataReportType };
-    // console.log (input.name);
 
     data[input.name] = input.value;
     this.setState({ dataReportType: data, errors });
@@ -171,7 +170,7 @@ class Form extends Component {
 
   renderTextArea = (name, label, schema, type = "text") => {
     const { dataReportType: data, errors } = this.state;
-    // console.log(data);
+
     return (
 
       <TextArea
