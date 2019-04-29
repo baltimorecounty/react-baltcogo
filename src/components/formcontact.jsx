@@ -25,22 +25,31 @@ class FormContact extends Component {
         const { renderInput, nextStep, prestep, validate, data } = this.props;
         return (
             <React.Fragment>
+            <div className="container Container-bg">
+            <hr />
+                <h4>Add a Location</h4>
+                <hr/>
                 {renderInput("firstname", "First Name", this.Schema)}
                 {renderInput("lastname", "Last Name", this.Schema)}
                 {renderInput("email", "Email", this.Schema)}
                 {renderInput("phone", "Phone", this.Schema)}
+
+            </div>
+            <div className="text-left">
                 <button
-                    className="btn btn-primary"
+                    className="btn btn-warning button"
                     onClick={prestep}>
                     PREVIOUS
                     </button>
+            </div>
+            <div className="text-right">
                 <button
                     disabled={validate(data, this.Schema)}
-                    className="btn btn-primary"
+                    className="btn btn-warning button"
                     onClick={nextStep}>
                     NEXT
                     </button>
-
+            </div>
             </React.Fragment>
 
         );

@@ -8,7 +8,8 @@ import FormLocation from './formlocation'
 import PostData from './services/categories';
 import FormContact from './formcontact'
 import Joi from "joi-browser";
-import AppBar from './appbar'
+import AppBar from './appbar';
+//import MapWithASearchBox from './map';
 
 
 class Form extends Component {
@@ -32,6 +33,7 @@ class Form extends Component {
       email: "",
       phone: ""
     },
+    dataLocation:'',
     reporttypes: this.getReportType(),
     reportsubcateories: [],
     errors: {}
@@ -46,20 +48,20 @@ class Form extends Component {
   };
   //Proceed to next step
   nextStep = () => {
-    const step = this.state.step +1;
+    const step = this.state.step + 1;
     this.setState({ step });
     this.handleNext();
   }
   handleNext = () => {
     if (!this.isLastStep()) {
-      const activeStep =  this.state.activeStep + 1 ;
-      this.setState({ activeStep});
+      const activeStep = this.state.activeStep + 1;
+      this.setState({ activeStep });
     }
   };
   //Go back to pre step
   preStep = () => {
     const step = this.state.step - 1;
-    this.setState({ step});
+    this.setState({ step });
     this.handleBack();
   }
 
@@ -76,7 +78,7 @@ class Form extends Component {
   buttonValidate = (data, schema) => {
     const options = { abortEarly: false };
     const { error } = Joi.validate(data, schema, options);
-    //console.log('error return:' + error);
+    console.log('error return:' + error);
     if (!error) return null;
     const errors = {};
     for (let item of error.details) errors[item.path[0]] = item.message;
@@ -88,7 +90,7 @@ class Form extends Component {
 
     const options = { abortEarly: false };
     const { error } = Joi.validate(this.state.dataReportType, this.schema, options);
-    //console.log('error return:' + error);
+   // console.log('error return:' + error);
     if (!error) return null;
     const errors = {};
     for (let item of error.details) errors[item.path[0]] = item.message;
@@ -198,7 +200,7 @@ class Form extends Component {
 
 
 
-  renderInput = (name, label, schema, type = "text") => {
+  renderInput = (name, label, schema, type = "text", style="none") => {
     const { dataContact: data, errors } = this.state;
     return (
       <Input
@@ -211,6 +213,21 @@ class Form extends Component {
       />
     );
   }
+  renderInputLocation = (name, label, schema, type = "text", style="none") => {
+    const { googlesearch: data, errors } = this.state;
+    return (
+      <Input
+        type={type}
+        name={name}
+        value={data[name]}
+        label={label}
+        style={style}
+        onChange={e => this.handleChange(e, schema, data)}
+        error={errors[name]}
+      />
+    );
+  }
+
 
 
 
@@ -230,7 +247,7 @@ class Form extends Component {
 
   render() {
 
-    const { step, activeStep, reporttypes: values, isSubCategoryHidden, reportsubcateories, dataContact, dataReportType } = this.state;
+    const { step, activeStep, reporttypes: values, isSubCategoryHidden, reportsubcateories, dataLocation,dataContact, dataReportType } = this.state;
 
     switch (step) {
 
@@ -258,9 +275,14 @@ class Form extends Component {
             <AppBar
               activeStep={activeStep}
             />
+           
             <FormLocation
               nextStep={this.nextStep}
-              prestep={this.preStep} />
+              prestep={this.preStep} 
+              dataLocation = {dataLocation}
+              validate={this.buttonValidate}
+              renderInput={this.renderInputLocation}
+              />
           </React.Fragment>)
       case 3:
         return (

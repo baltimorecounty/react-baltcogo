@@ -28,17 +28,23 @@ class ReportType extends Component {
         return (
 
             <React.Fragment>
-
+            <div className="container Container-bg">
+            <hr />
+                <h4>How Can We Help</h4>
+                <hr/>
                 {renderSelect("categories", 'Request Category', values, this.Schema)}
                 {isSubCategoryHidden && renderSelect("subCategories", 'Request Sub-Category', reportsubcateories, this.Schema)}
                 {renderTextArea("description", "Service Request Description", this.Schema)}
-                <button
+               <span>  Nothing submitted through this application is anonymous. All submittals are public and subject to the Maryland Public Information Act.</span>
+             </div>
+             <div className="text-right">
+             <button 
                     disabled={validate(data, this.Schema)}
-                    className="btn btn-primary"
+                    className="btn btn-warning botton"
                     onClick={this.continue}>
                     Next
                  </button>
-
+            </div>
             </React.Fragment>
 
         );
