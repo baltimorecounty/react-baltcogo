@@ -72,8 +72,7 @@ const MapWithASearchBox = compose(
     }),
     withScriptjs,
     withGoogleMap
-)
-(props => <GoogleMap
+)(props => <GoogleMap
     ref={props.onMapMounted}
     defaultZoom={15}
     center={props.center}
@@ -89,7 +88,7 @@ const MapWithASearchBox = compose(
             name ="googlesearch"
             type="text"
             placeholder="Customized your placeholder"
-            {/* onChange={handleChange()} */}
+       
             style={{
                 boxSizing: `border-box`,
                 border: `1px solid transparent`,
