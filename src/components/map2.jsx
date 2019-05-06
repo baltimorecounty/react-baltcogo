@@ -1,110 +1,99 @@
-import React from 'react'
-import { google } from 'react-google-maps';
-//import { google } from 'googlemaps';
+import React, { Component } from 'react'
+import { render } from 'react-dom';
+//import Joi from "joi-browser";
 
-const _ = require("lodash");
-const { compose, withProps, lifecycle } = require("recompose");
-const {
-    withScriptjs,
-    withGoogleMap,
-    GoogleMap,
-    Marker,
-} = require("react-google-maps");
-const { SearchBox } = require("react-google-maps/lib/components/places/SearchBox");
+//import { google } from 'react-google-maps';
+class Map extends Component {
 
-const MapWithASearchBox = compose(
-    withProps({
-        googleMapURL: "https://maps.googleapis.com/maps/api/js?key=AIzaSyAqazsw3wPSSxOFVmij32C_LIhBSuyUNi8&libraries=geometry,drawing,places",
-       // googleMapURL: "https://maps.google.com/maps/api/js?key=AIzaSyAqazsw3wPSSxOFVmij32C_LIhBSuyUNi8&libraries=places",
-        loadingElement: <div style={{ height: `100%` }} />,
-        containerElement: <div style={{ height: `400px` }} />,
-        mapElement: <div style={{ height: `100%` }} />,
-    }),
-    lifecycle({
-        componentWillMount() {
-            const refs = {}
+    constructor(props) {
+        super(props);
+        this.onScriptLoad = this.onScriptLoad.bind(this)
+    }
 
-            this.setState({
-                bounds: null,
-                center: {
-                    lat: 41.9, lng: -87.624
-                },
-                markers: [],
-                onMapMounted: ref => {
-                    refs.map = ref;
-                },
-                onBoundsChanged: () => {
-                    this.setState({
-                        bounds: refs.map.getBounds(),
-                        center: refs.map.getCenter(),
-                    })
-                },
-                onSearchBoxMounted: ref => {
-                    refs.searchBox = ref;
-                },
-                onPlacesChanged: () => {
-                    const places = refs.searchBox.getPlaces();
-                    const bounds = new google.maps.LatLngBounds();
+    onScriptLoad() {
+        console.log('--inside onScriptLoad()--');
+        console.log('--this.props.id-:' + this.props.id);
+        const map = new window.google.maps.Map(document.getElementById(this.props.id), this.props.options);
 
-                    places.forEach(place => {
-                        if (place.geometry.viewport) {
-                            bounds.union(place.geometry.viewport)
-                        } else {
-                            bounds.extend(place.geometry.location)
-                        }
-                    });
-                    const nextMarkers = places.map(place => ({
-                        position: place.geometry.location,
-                    }));
-                    const nextCenter = _.get(nextMarkers, '0.position', this.state.center);
-                    this.setState({
-                        center: nextCenter,
-                        markers: nextMarkers,
-                    });
-                    // refs.map.fitBounds(bounds);
-                },
+        var searchBox = new window.google.maps.places.SearchBox( document.getElementById('googlesearch'));
+          window.google.maps.event.addDomListener(searchBox, 'places_changed', function () {
+            var data = document.getElementById('googlesearch').value;
+            console.log( data);
+            console.log('--before mapHandleChange---');
+           //{this.props.mapHandleChange(document.getElementById('googlesearch').value);}
+            console.log('--After mapHandleChange---');
+        var places = searchBox.getPlaces();
+         var bounds = new window.google.maps.LatLngBounds();
+
+         places = searchBox.getPlaces();
+
+                var marker = new window.google.maps.Marker({
+                   position: {
+                       lat: 27.72,
+                       lng: 85.36
+                   },
+                   map: map,
+                   draggable: true
+               }); 
+        var i, place;
+        for (i = 0; place = places[i]; i++) {
+           bounds.extend(place.geometry.location);
+        marker.setPosition(place.geometry.location);
+         }
+          map.fitBounds(bounds);
+        map.setZoom(15);
+          })
+         
+        // console.log('--inside onScriptLoad()1--');
+        // this.props.onMapLoad(map)
+        // console.log('--out onScriptLoad()--');
+    }
+
+
+    componentDidMount() {
+        console.log('--componentDidMount--');
+        if (!window.google) {
+            var s = document.createElement('script');
+            s.type = 'text/javascript';
+            s.src = "https://maps.google.com/maps/api/js?key=AIzaSyAqazsw3wPSSxOFVmij32C_LIhBSuyUNi8&libraries=geometry,drawing,places"
+            console.log('--working--');
+            var x = document.getElementsByTagName('script')[0];
+            console.log('--working2--');
+            x.parentNode.insertBefore(s, x);
+            console.log('--working3--');
+            /*   var mi = document.createElement("input");
+              mi.setAttribute('id', 'googlesearch1');
+              mi.setAttribute('type', 'text');
+              mi.setAttribute('value', 'default'); */
+
+
+            s.addEventListener('load', e => {
+                this.onScriptLoad()
             })
-        },
-    }),
-    withScriptjs,
-    withGoogleMap
-)(props =>
-    <GoogleMap
-        ref={props.onMapMounted}
-        defaultZoom={15}
-        center={props.center}
-        onBoundsChanged={props.onBoundsChanged}
-    > 
-        <SearchBox
-            ref={props.onSearchBoxMounted}
-            bounds={props.bounds}
-            controlPosition={google.maps.ControlPosition.TOP_LEFT}
-            onPlacesChanged={props.onPlacesChanged}
-        >
-              <input
-                type="text"
-                placeholder="Customized your placeholder"
-                style={{
-                    boxSizing: `border-box`,
-                    border: `1px solid transparent`,
-                    width: `240px`,
-                    height: `32px`,
-                    marginTop: `27px`,
-                    padding: `0 12px`,
-                    borderRadius: `3px`,
-                    boxShadow: `0 2px 6px rgba(0, 0, 0, 0.3)`,
-                    fontSize: `14px`,
-                    outline: `none`,
-                    textOverflow: `ellipses`,
-                }}
-            /> 
-        </SearchBox>
-        {props.markers.map((marker, index) =>
-            <Marker key={index} position={marker.position} />
-        )}
-    </GoogleMap>
-);
+        } else {
+            this.onScriptLoad()
+        }
+    }
 
 
 
-export default MapWithASearchBox;
+    render() {
+        console.log('--inside render-map2-');
+        return (
+            <React.Fragment>
+               
+
+                <div style={{ width: 500, height: 500 }} id={this.props.id} />
+            </React.Fragment>
+        );
+    }
+}
+
+export default Map;
+
+export function test1(){
+    console.log ('--inise test1---');
+    console.log(document.getElementById('googlesearch').value);
+var data = document.getElementById('googlesearch').value;
+return data;
+}

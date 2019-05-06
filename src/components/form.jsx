@@ -4,11 +4,12 @@ import Select from "./common/select";
 import TextArea from "./common/textarea";
 import Input from "./common/input";
 import FormReportType from './formreporttype'
-import FormLocation from './formlocation'
+import FormLocation from './formlocation1'
 import PostData from './services/categories';
 import FormContact from './formcontact'
 import Joi from "joi-browser";
 import AppBar from './appbar';
+import Map from './formlocation1'
 //import MapWithASearchBox from './map';
 
 
@@ -33,7 +34,9 @@ class Form extends Component {
       email: "",
       phone: ""
     },
-    dataLocation:'',
+    dataLocation: {
+      googlesearch: "",
+    },
     reporttypes: this.getReportType(),
     reportsubcateories: [],
     errors: {}
@@ -90,7 +93,7 @@ class Form extends Component {
 
     const options = { abortEarly: false };
     const { error } = Joi.validate(this.state.dataReportType, this.schema, options);
-   // console.log('error return:' + error);
+    // console.log('error return:' + error);
     if (!error) return null;
     const errors = {};
     for (let item of error.details) errors[item.path[0]] = item.message;
@@ -124,12 +127,21 @@ class Form extends Component {
 
     errors[input.name] = errorMessage;
     let isSubCategoryHidden = '';
+    console.log('- before if -input.name ---:' + input.name);
     if (errorMessage) {
+      console.log('- Inside if -input.name ---:' + input.name);
       if (input.name === 'categories' || input.name === 'subCategories') {
         data = { ...this.state.dataReportType };
         data[input.name] = input.value;
         isSubCategoryHidden = input.name === 'categories' ? false : true;
         this.setState({ dataReportType: data, isSubCategoryHidden, errors });
+      }
+      else if (input.name === 'googlesearch') {
+
+        data = { ...this.state.dataLocation };
+        data[input.name] = input.value;
+        this.setState({ dataLocation: data, errors });
+
       }
       else {
         data = { ...this.state.dataContact };
@@ -140,6 +152,7 @@ class Form extends Component {
     else {
       isSubCategoryHidden = true;
       delete errors[input.name];
+      //  console.log('-else -input.name ---:' + input.name );
       if (input.name === 'categories') {
         const reportsubcateories = this.getSubCategoryType(input.value);
         data = { ...this.state.dataReportType };
@@ -150,6 +163,13 @@ class Form extends Component {
         data = { ...this.state.dataReportType };
         data[input.name] = input.value;
         this.setState({ dataReportType: data, isSubCategoryHidden, errors });
+      }
+      else if (input.name === 'googlesearch') {
+        //   console.log('input.name === googlesearch');
+        data = { ...this.state.dataLocation };
+        data[input.name] = input.value;
+        this.setState({ dataLocation: data, errors });
+        //  console.log(input.value);
       }
       else {
         data = { ...this.state.dataContact };
@@ -198,9 +218,18 @@ class Form extends Component {
     );
   }
 
+  keyPress(e, data) {
+    console.log('--inside keyPRESSS-----:' + e.keyCode);
+    if (e.keyCode === 13) {
+      let data = {};
+          //  data = { ...this.state.dataLocation };
+            data[e.input.name] = e.input.value;
+            this.setState({ dataLocation: data }); 
 
+    }
+  }
 
-  renderInput = (name, label, schema, type = "text", style="none") => {
+  renderInput = (name, label, schema, type = "text", style = "none") => {
     const { dataContact: data, errors } = this.state;
     return (
       <Input
@@ -209,20 +238,21 @@ class Form extends Component {
         value={data[name]}
         label={label}
         onChange={e => this.handleChange(e, schema, data)}
+      // onKeyDown={e => this.keyPress(e, data)}
         error={errors[name]}
       />
     );
   }
-  renderInputLocation = (name, label, schema, type = "text", style="none") => {
-    const { googlesearch: data, errors } = this.state;
+  renderInputLocation = (name, label, schema, type = "text") => {
+    const { dataLocation: data, errors } = this.state;
     return (
       <Input
         type={type}
         name={name}
         value={data[name]}
         label={label}
-        style={style}
         onChange={e => this.handleChange(e, schema, data)}
+      //  onKeyDown={this.keyPress}
         error={errors[name]}
       />
     );
@@ -247,7 +277,7 @@ class Form extends Component {
 
   render() {
 
-    const { step, activeStep, reporttypes: values, isSubCategoryHidden, reportsubcateories, dataLocation,dataContact, dataReportType } = this.state;
+    const { step, activeStep, reporttypes: values, isSubCategoryHidden, reportsubcateories, dataLocation, dataContact, dataReportType } = this.state;
 
     switch (step) {
 
@@ -275,14 +305,16 @@ class Form extends Component {
             <AppBar
               activeStep={activeStep}
             />
-           
+
+
             <FormLocation
+              handleChange={this.handleChange}
               nextStep={this.nextStep}
-              prestep={this.preStep} 
-              dataLocation = {dataLocation}
+              prestep={this.preStep}
+              data={dataLocation}
               validate={this.buttonValidate}
               renderInput={this.renderInputLocation}
-              />
+            />
           </React.Fragment>)
       case 3:
         return (

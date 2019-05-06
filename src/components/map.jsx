@@ -7,6 +7,8 @@ import React from 'react'
 const _ = require("lodash");
 const { compose, withProps, lifecycle } = require("recompose");
 
+/* console.log('-----test2----');
+console.log(test2); */
 const {
     withScriptjs,
     withGoogleMap,
@@ -23,7 +25,7 @@ const MapWithASearchBox = compose(
         containerElement: <div style={{ height: `400px` }} />,
         mapElement: <div style={{ height: `100%` }} />,
     }),
-   
+
     lifecycle({
         componentWillMount() {
             const refs = {}
@@ -38,15 +40,31 @@ const MapWithASearchBox = compose(
                     refs.map = ref;
                 },
                 onBoundsChanged: () => {
+                    console.log('--onBoundsChanged--');
                     this.setState({
                         bounds: refs.map.getBounds(),
                         center: refs.map.getCenter(),
                     })
                 },
                 onSearchBoxMounted: ref => {
+                    console.log('--onSearchBoxMounted--');
                     refs.searchBox = ref;
                 },
+                onChange: ({ currentTarget: input }) => {
+
+                    console.log('--onChange--');
+                    console.log(input.value);
+                    if (!input.value) {
+                        this.setState({inputval : 0});
+                        return false;
+                    }
+                    else {
+                        this.setState({inputval : 1});
+                        return true;
+                    }
+                },
                 onPlacesChanged: () => {
+                    console.log('--insdie onPlaceChanged--');
                     const places = refs.searchBox.getPlaces();
                     const bounds = new window.google.maps.LatLngBounds();
 
@@ -71,24 +89,26 @@ const MapWithASearchBox = compose(
         },
     }),
     withScriptjs,
-    withGoogleMap
+   withGoogleMap
 )(props => <GoogleMap
     ref={props.onMapMounted}
     defaultZoom={15}
     center={props.center}
     onBoundsChanged={props.onBoundsChanged}
 >
+
     <SearchBox
         ref={props.onSearchBoxMounted}
         bounds={props.bounds}
         controlPosition={window.google.maps.ControlPosition.TOP_LEFT}
         onPlacesChanged={props.onPlacesChanged}
+
     >
-     <input
-            name ="googlesearch"
+        <input
+            name="googlesearch"
             type="text"
             placeholder="Customized your placeholder"
-       
+            onChange={e => props.onChange(e)}
             style={{
                 boxSizing: `border-box`,
                 border: `1px solid transparent`,
@@ -102,7 +122,7 @@ const MapWithASearchBox = compose(
                 fontSize: `14px`,
                 outline: `none`,
                 textOverflow: `ellipses`,
-            }} 
+            }}
         />
     </SearchBox>
     {props.markers.map((marker, index) =>
@@ -114,6 +134,6 @@ const MapWithASearchBox = compose(
 
 export default MapWithASearchBox;
 
-/* export function handleChange (){
-    console.log('inside handleChange');
- } */
+ export function CheckhandleChange (){
+  //  console.log('this.state.inputval---:' + this.inputval);
+ }  
