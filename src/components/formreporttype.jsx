@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Joi from "joi-browser";
-import { register } from './../serviceWorker';
+//import { register } from './../serviceWorker';
 
 class ReportType extends Component {
 

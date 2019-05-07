@@ -43,8 +43,8 @@ class FormContact extends Component {
     				{renderInput("firstname", "First Name", this.Schema)}
     				{renderInput("lastname", "Last Name", this.Schema)}
     				{renderInput("streetaddress", "Your Street Address", this.Schema)}
-    				{renderInput("zipcode", "Your Zip Code", this.Schema)}
     				{renderInput("yourcity", "Your City", this.Schema)}
+    				{renderInput("zipcode", "Your Zip Code", this.Schema)}
     				{renderInput("email", "Email", this.Schema)}
     				{renderInput("phone", "Phone", this.Schema)}
 
