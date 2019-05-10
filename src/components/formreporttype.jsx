@@ -1,70 +1,121 @@
-import React, { Component } from 'react'
-import Joi from "joi-browser";
+import React, { useState } from "react";
+import { Formik, Form, Field } from "formik";
+import Categories from "./services/categories.json";
+import * as Yup from 'yup';
+import ErrorMsg from "./errormsg"
+
+const getSubCategories = (categories, categoryId) => {
+	var cats = categories.find(category => category.id === categoryId);
+	return cats ? cats.types : [];
+};
 
 
-class ReportType extends Component {
+const ServiceRequestForm = props => {
 
-	Schema = {
-		categories: Joi.string()
-			.required()
-			.label("Request Category"),
-		subCategories: Joi.string()
-			.required()
-			.label("Request Sub-Category")
+	const [categories] = useState(Categories);
+	const [subCategories, setSubCategories] = useState([]);
 
+	const handleServiceRequestChange = (changeEvent) => {
+		const { value } = changeEvent.currentTarget;
+		const subCategories = getSubCategories(categories, parseInt(value));
+		setSubCategories(subCategories);
 	};
 
-	continue = e => {
-		e.preventDefault();
-		this.props.nextStep();
-	}
 
-	render() {
+	return (
 
-		const { renderSelect, values, isSubCategoryHidden, reportsubcateories,validate,data } = this.props;
+		<React.Fragment>
+			<div className="container Container-bg">
+				<h4>How Can We Help?</h4>
+				<Formik
+					initialValues={{
+						requestType: '',
+						subRequestType: '',
+					}}
+					validationSchema={Yup.object().shape({
+						requestType: Yup.string().required('Request Category is required'),
+						subRequestType: Yup.string().required('Sub Category is required'),
+					})}
 
-		return (
+					onSubmit={(values, { setSubmitting }) => {
+						setTimeout(() => {
+							alert(JSON.stringify(values, null, 2));
+							setSubmitting(false);
+						}, 400);
+					}}
+				>
+					{
+						(props) => {
+							const { values, isSubmitting, errors, touched } = props;
 
-			<React.Fragment>
-				<div className="container Container-bg">
-					<hr />
-					<h4>How Can We Help</h4>
-					<hr />
-					{renderSelect("categories", 'Request Category', values, this.Schema)}
-					{isSubCategoryHidden && renderSelect("subCategories", 'Request Sub-Category', reportsubcateories, this.Schema)}
+							return (
 
-					<span>  Nothing submitted through this application is anonymous. All submittals are public and subject to the Maryland Public Information Act.</span>
-				</div>
-				<div className="text-right">
+								<Form onSubmit={props.handleSubmit}>
+									<label htmlFor="requestType">Request Category</label>
+									<br />
+									<Field
+										component="select"
+										id="requestType"
+										name="requestType"
+										onChange={e => {
+											handleServiceRequestChange(e)
+											props.setFieldValue(e.currentTarget.name, e.currentTarget.value)
+											props.setFieldValue('subRequestType', '')
+										}}
+									>
+										<option key='default' value=''>--Please select a category--</option>
+										{Categories.map(category => (
+											<option key={category.id} value={category.id}>{category.name}</option>
+										))}
+									</Field>
 
-
-					<button
-						disabled="true"
-						className="btn btn-warning botton"
-						onClick={this.continue}>
-						Sign In
-    				</button>
-					<button
-						disabled="true"
-						className="btn btn-warning botton"
-						onClick={this.continue}>
-						register
-    				</button>
-					<button
-						disabled={validate(data, this.Schema)}
-						className="btn btn-warning botton"
-						onClick={this.continue}>
-						Next
-    				</button>
+									<div className="input-feedback">
+										{<ErrorMsg
+											errormessage={errors.requestType}
+											touched={touched.requestType} />}
+									</div>
 
 
-				</div>
-				<h6>Why do I need this </h6>
-				{/* 				  TODO: This feature will be enable in future
-                <a href="/test">{link(more info to follow )}</a>  */}
-			</React.Fragment>
+									{
+										values['requestType'] !== '' ?
+											<div>
+												<label name="subRequestType" htmlFor="subRequestType">
+													Request Sub-Category
+												</label>
+												<br />
+												<Field component="select"
+													id="subRequestType"
+													name="subRequestType"
+												>
+													<option key='default' value=''>--Please Select a sub-category--</option>;
+													{subCategories.map(category => (
+														<option key={category.id} value={category.id}>{category.name}</option>
+													))}
+												</Field>
+												<div className="input-feedback">
+													{<ErrorMsg
+														errormessage={errors.subRequestType}
+														touched={touched.subRequestType} />}
+												</div>
+											</div>
+											: null
+									}
+									<br />
+									<button type="submit" disabled={isSubmitting}>
+										Submit
+									</button>
+									<br />
+								</Form>
 
-		);
-	}
+							)
+						}
+					}
+				</Formik>
+			</div>
+		</React.Fragment >
+	);
+
+
 }
-export default ReportType;
+
+export default ServiceRequestForm;
