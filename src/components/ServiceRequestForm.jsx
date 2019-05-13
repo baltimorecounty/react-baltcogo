@@ -1,16 +1,14 @@
 import React, { useState } from "react";
 import { Formik, Form, Field } from "formik";
 import Categories from "./services/categories.json";
-import * as Yup from 'yup';
-import ErrorMsg from "./errormsg"
-
+import * as Yup from "yup";
+import ErrorMsg from "./errormsg";
 import FormContainer from './FormContainer';
 
 const getSubCategories = (categories, categoryId) => {
 	var category = categories.find(category => category.id === categoryId);
 	return category ? category.types : [];
 };
-
 
 const ServiceRequestForm = props => {
 
