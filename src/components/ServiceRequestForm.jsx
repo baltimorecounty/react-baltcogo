@@ -58,7 +58,6 @@ const ServiceRequestForm = props => {
 									<br />
 									<Field
 										component="select"
-										id="requestType"
 										name="requestType"
 										onChange={e => { handleServiceRequestChange(e, props.setFieldValue) }}
 									>
@@ -83,7 +82,6 @@ const ServiceRequestForm = props => {
 												</label>
 												<br />
 												<Field component="select"
-													id="subRequestType"
 													name="subRequestType"
 												>
 													<option key='default' value=''>--Please Select a sub-category--</option>;
