@@ -57,7 +57,7 @@ const ServiceRequestForm = props => {
 										errors.requestType && touched.requestType ? "input-feedback" : "text-label"}
 
 								>Request Category</label>
-								<br />
+
 								<Field
 									component="select"
 									name="requestType"
@@ -86,7 +86,6 @@ const ServiceRequestForm = props => {
 											>
 												Request Sub-Category
 											</label>
-											<br />
 											<Field component="select"
 												name="subRequestType"
 												className={
@@ -106,11 +105,11 @@ const ServiceRequestForm = props => {
 										</div>
 										: null
 								}
-								<br />
+
 								<button type="submit" disabled={isSubmitting}>
 									Submit
 								</button>
-								<br />
+
 								<h6>Why do I need this </h6>
 								{/* 				  TODO: This feature will be enable in future
                 <a href="/test">{link(more info to follow )}</a>  */}
