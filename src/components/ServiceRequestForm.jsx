@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Formik, Form, Field } from "formik";
 import Categories from "./services/categories.json";
 import * as Yup from "yup";
-import ErrorMsg from "./errormsg";
+import ErrorMsg from "./ErrorMessage";
 import FormContainer from './FormContainer';
 
 const getSubCategories = (categories, categoryId) => {
