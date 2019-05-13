@@ -53,7 +53,7 @@ const ServiceRequestForm = props => {
 
 							return (
 
-								<Form onSubmit={props.handleSubmit}>
+								<Form >
 									<label htmlFor="requestType">Request Category</label>
 									<br />
 									<Field
