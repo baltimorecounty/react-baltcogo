@@ -26,102 +26,102 @@ const ServiceRequestForm = props => {
 
 	return (
 
-		<React.Fragment>
-			<FormContainer title="How Can We Help?">
-				<Formik
-					initialValues={{
-						requestType: '',
-						subRequestType: '',
-					}}
-					validationSchema={Yup.object().shape({
-						requestType: Yup.string().required('Request Category is required'),
-						subRequestType: Yup.string().required('Sub Category is required'),
-					})}
 
-					onSubmit={(values, { setSubmitting }) => {
+		<FormContainer title="How Can We Help?">
+			<Formik
+				initialValues={{
+					requestType: '',
+					subRequestType: '',
+				}}
+				validationSchema={Yup.object().shape({
+					requestType: Yup.string().required('Request Category is required'),
+					subRequestType: Yup.string().required('Sub Category is required'),
+				})}
 
-						alert(JSON.stringify(values, null, 2));
-						setSubmitting(false);
+				onSubmit={(values, { setSubmitting }) => {
 
-					}}
-				>
-					{
-						(props) => {
-							const { values, isSubmitting, errors, touched } = props;
+					alert(JSON.stringify(values, null, 2));
+					setSubmitting(false);
 
-							return (
+				}}
+			>
+				{
+					(props) => {
+						const { values, isSubmitting, errors, touched } = props;
 
-								<Form >
-									<label htmlFor="requestType"
-										className={
-											errors.requestType && touched.requestType ? "input-feedback" : "text-label"}
+						return (
 
-									>Request Category</label>
-									<br />
-									<Field
-										component="select"
-										name="requestType"
-										onChange={e => { handleServiceRequestChange(e, props.setFieldValue) }}
-										className={errors.requestType && touched.requestType ? "text-select error" : "text-select"}
-									>
-										<option key='default' value=''>--Please select a category--</option>
-										{Categories.map(category => (
-											<option key={category.id} value={category.id}>{category.name}</option>
-										))}
-									</Field>
+							<Form >
+								<label htmlFor="requestType"
+									className={
+										errors.requestType && touched.requestType ? "input-feedback" : "text-label"}
 
-									<div className="input-feedback">
-										<ErrorMsg
-											errormessage={errors.requestType}
-											touched={touched.requestType} />
-									</div>
+								>Request Category</label>
+								<br />
+								<Field
+									component="select"
+									name="requestType"
+									onChange={e => { handleServiceRequestChange(e, props.setFieldValue) }}
+									className={errors.requestType && touched.requestType ? "text-select error" : "text-select"}
+								>
+									<option key='default' value=''>--Please select a category--</option>
+									{Categories.map(category => (
+										<option key={category.id} value={category.id}>{category.name}</option>
+									))}
+								</Field>
+
+								<div className="input-feedback">
+									<ErrorMsg
+										errormessage={errors.requestType}
+										touched={touched.requestType} />
+								</div>
 
 
-									{
-										values['requestType'] !== '' ?
-											<div>
-												<label name="subRequestType" htmlFor="subRequestType"
-													className={
-														errors.subRequestType && touched.subRequestType ? "input-feedback" : "text-label"}
-												>
-													Request Sub-Category
-												</label>
-												<br />
-												<Field component="select"
-													name="subRequestType"
-													className={
-														errors.subRequestType && touched.subRequestType ? "text-select error" : "text-select"}
+								{
+									values['requestType'] !== '' ?
+										<div>
+											<label name="subRequestType" htmlFor="subRequestType"
+												className={
+													errors.subRequestType && touched.subRequestType ? "input-feedback" : "text-label"}
+											>
+												Request Sub-Category
+											</label>
+											<br />
+											<Field component="select"
+												name="subRequestType"
+												className={
+													errors.subRequestType && touched.subRequestType ? "text-select error" : "text-select"}
 
-												>
-													<option key='default' value=''>--Please Select a sub-category--</option>;
-													{subCategories.map(category => (
-														<option key={category.id} value={category.id}>{category.name}</option>
-													))}
-												</Field>
-												<div className="input-feedback">
-													<ErrorMsg
-														errormessage={errors.subRequestType}
-														touched={touched.subRequestType} />
-												</div>
+											>
+												<option key='default' value=''>--Please Select a sub-category--</option>;
+												{subCategories.map(category => (
+													<option key={category.id} value={category.id}>{category.name}</option>
+												))}
+											</Field>
+											<div className="input-feedback">
+												<ErrorMsg
+													errormessage={errors.subRequestType}
+													touched={touched.subRequestType} />
 											</div>
-											: null
-									}
-									<br />
-									<button type="submit" disabled={isSubmitting}>
-										Submit
-									</button>
-									<br />
-									<h6>Why do I need this </h6>
-									{/* 				  TODO: This feature will be enable in future
+										</div>
+										: null
+								}
+								<br />
+								<button type="submit" disabled={isSubmitting}>
+									Submit
+								</button>
+								<br />
+								<h6>Why do I need this </h6>
+								{/* 				  TODO: This feature will be enable in future
                 <a href="/test">{link(more info to follow )}</a>  */}
-								</Form>
+							</Form>
 
-							)
-						}
+						)
 					}
-				</Formik>
-			</FormContainer>
-		</React.Fragment >
+				}
+			</Formik>
+		</FormContainer>
+
 	);
 
 
