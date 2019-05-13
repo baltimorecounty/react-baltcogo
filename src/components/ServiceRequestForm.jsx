@@ -62,7 +62,7 @@ const ServiceRequestForm = props => {
 									component="select"
 									name="requestType"
 									onChange={e => { handleServiceRequestChange(e, props.setFieldValue) }}
-									className={errors.requestType && touched.requestType ? "text-select error" : "text-select"}
+									className={`text-select ${errors.requestType && touched.requestType ? "error" : ""}`}
 								>
 									<option key='default' value=''>--Please select a category--</option>
 									{Categories.map(category => (
@@ -88,8 +88,7 @@ const ServiceRequestForm = props => {
 											</label>
 											<Field component="select"
 												name="subRequestType"
-												className={
-													errors.subRequestType && touched.subRequestType ? "text-select error" : "text-select"}
+												className={`text-select ${errors.subRequestType && touched.subRequestType ? "error" : ""}`}
 
 											>
 												<option key='default' value=''>--Please Select a sub-category--</option>;
@@ -109,10 +108,6 @@ const ServiceRequestForm = props => {
 								<button type="submit" disabled={isSubmitting}>
 									Submit
 								</button>
-
-								<h6>Why do I need this </h6>
-								{/* 				  TODO: This feature will be enable in future
-                <a href="/test">{link(more info to follow )}</a>  */}
 							</Form>
 
 						)
