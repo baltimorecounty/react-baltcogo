@@ -54,7 +54,11 @@ const ServiceRequestForm = props => {
 							return (
 
 								<Form >
-									<label htmlFor="requestType">Request Category</label>
+									<label htmlFor="requestType"
+										className={
+											errors.requestType && touched.requestType ? "input-feedback" : "text-label"}
+
+									>Request Category</label>
 									<br />
 									<Field
 										component="select"
@@ -77,7 +81,10 @@ const ServiceRequestForm = props => {
 									{
 										values['requestType'] !== '' ?
 											<div>
-												<label name="subRequestType" htmlFor="subRequestType">
+												<label name="subRequestType" htmlFor="subRequestType"
+													className={
+														errors.subRequestType && touched.subRequestType ? "input-feedback" : "text-label"}
+												>
 													Request Sub-Category
 												</label>
 												<br />
