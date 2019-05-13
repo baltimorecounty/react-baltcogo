@@ -89,6 +89,9 @@ const ServiceRequestForm = props => {
 												<br />
 												<Field component="select"
 													name="subRequestType"
+													className={
+														errors.subRequestType && touched.subRequestType ? "text-select error" : "text-select"}
+
 												>
 													<option key='default' value=''>--Please Select a sub-category--</option>;
 													{subCategories.map(category => (
