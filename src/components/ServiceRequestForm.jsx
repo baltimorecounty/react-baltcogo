@@ -64,6 +64,7 @@ const ServiceRequestForm = props => {
 										component="select"
 										name="requestType"
 										onChange={e => { handleServiceRequestChange(e, props.setFieldValue) }}
+										className={errors.requestType && touched.requestType ? "text-select error" : "text-select"}
 									>
 										<option key='default' value=''>--Please select a category--</option>
 										{Categories.map(category => (
