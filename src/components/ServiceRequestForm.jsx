@@ -5,8 +5,8 @@ import * as Yup from 'yup';
 import ErrorMsg from "./errormsg"
 
 const getSubCategories = (categories, categoryId) => {
-	var cats = categories.find(category => category.id === categoryId);
-	return cats ? cats.types : [];
+	var category = categories.find(category => category.id === categoryId);
+	return category ? category.types : [];
 };
 
 
@@ -15,9 +15,11 @@ const ServiceRequestForm = props => {
 	const [categories] = useState(Categories);
 	const [subCategories, setSubCategories] = useState([]);
 
-	const handleServiceRequestChange = (changeEvent) => {
+	const handleServiceRequestChange = (changeEvent, setFieldValue) => {
 		const { value } = changeEvent.currentTarget;
 		const subCategories = getSubCategories(categories, parseInt(value));
+		setFieldValue(changeEvent.currentTarget.name, changeEvent.currentTarget.value)
+		setFieldValue('subRequestType', '')
 		setSubCategories(subCategories);
 	};
 
@@ -38,10 +40,10 @@ const ServiceRequestForm = props => {
 					})}
 
 					onSubmit={(values, { setSubmitting }) => {
-						setTimeout(() => {
-							alert(JSON.stringify(values, null, 2));
-							setSubmitting(false);
-						}, 400);
+
+						alert(JSON.stringify(values, null, 2));
+						setSubmitting(false);
+
 					}}
 				>
 					{
@@ -57,11 +59,7 @@ const ServiceRequestForm = props => {
 										component="select"
 										id="requestType"
 										name="requestType"
-										onChange={e => {
-											handleServiceRequestChange(e)
-											props.setFieldValue(e.currentTarget.name, e.currentTarget.value)
-											props.setFieldValue('subRequestType', '')
-										}}
+										onChange={e => { handleServiceRequestChange(e, props.setFieldValue) }}
 									>
 										<option key='default' value=''>--Please select a category--</option>
 										{Categories.map(category => (
@@ -70,9 +68,9 @@ const ServiceRequestForm = props => {
 									</Field>
 
 									<div className="input-feedback">
-										{<ErrorMsg
+										<ErrorMsg
 											errormessage={errors.requestType}
-											touched={touched.requestType} />}
+											touched={touched.requestType} />
 									</div>
 
 
@@ -93,9 +91,9 @@ const ServiceRequestForm = props => {
 													))}
 												</Field>
 												<div className="input-feedback">
-													{<ErrorMsg
+													<ErrorMsg
 														errormessage={errors.subRequestType}
-														touched={touched.subRequestType} />}
+														touched={touched.subRequestType} />
 												</div>
 											</div>
 											: null
