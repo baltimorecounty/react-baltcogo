@@ -4,7 +4,7 @@ import axios from "axios"
 import * as Yup from "yup";
 import ErrorMsg from "./ErrorMessage";
 import FormContainer from './FormContainer';
-import CustomField from "./CustomFormField";
+import RequestTypeField from "./RequestTypeField";
 
 const getSubCategories = (categories, categoryId) => {
 	var category = categories.find(category => category.id === categoryId);
@@ -63,7 +63,7 @@ const ServiceRequestForm = props => {
 										errors.requestType && touched.requestType ? "input-feedback" : "text-label"}
 
 								>Request Category</label>
-								<CustomField
+								<RequestTypeField
 									component="select"
 									name="requestType"
 									formikProps={rest}
@@ -73,7 +73,7 @@ const ServiceRequestForm = props => {
 									{Categories.map(category => (
 										<option key={category.id} value={category.id}>{category.name}</option>
 									))}
-								</CustomField>
+								</RequestTypeField>
 								<div className="input-feedback">
 									<ErrorMsg
 										errormessage={errors.requestType}

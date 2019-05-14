@@ -1,7 +1,7 @@
 import React from "react";
 import { Field } from "formik";
 
-const CustomFormField = props => {
+const RequestTypeField = props => {
 	const { component, name,  formikProps, onChange } = props;
 	const handleChange = changeEvent => {
 		const { name, value } = changeEvent.target;
@@ -16,4 +16,4 @@ const CustomFormField = props => {
 	);
 };
 
-export default CustomFormField;
+export default RequestTypeField;
