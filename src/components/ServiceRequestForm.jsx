@@ -25,7 +25,7 @@ const ServiceRequestForm = props => {
 		fetchData();
 	}, []);
 
-	const handleServiceRequestChange = (changeEvent, setFieldValue) => {
+	const handleServiceRequestChange = (changeEvent) => {
 		const { value } = changeEvent.currentTarget;
 		const subCategories = getSubCategories(Categories, parseInt(value));
 		setSubCategories(subCategories);
