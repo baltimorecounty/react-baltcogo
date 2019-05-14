@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 
-import Form from './components/ServiceRequestForm';
+import SignIn from './components/SignIn';
 
 class App extends Component {
 	render() {
@@ -9,7 +9,7 @@ class App extends Component {
 		return (
 			<main className="container">
 
-				<Form />
+				<SignIn />
 			</main>
 
 		);

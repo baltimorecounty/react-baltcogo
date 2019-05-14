@@ -5,6 +5,25 @@ import ErrorMsg from "./ErrorMessage";
 import FormContainer from './FormContainer';
 
 const SignIn = props => {
+	const [Categories, setData] = useState([]);
+	const [subCategories, setSubCategories] = useState([]);
+	useEffect(() => {
+		const fetchData = async () => {
+			const result = await axios(
+				'//dev.baltimorecountymd.gov/sebin/q/m/categories.json',
+			);
+			setData(result.data);
+		};
+
+		fetchData();
+	}, []);
+
+	const handleServiceRequestChange = (changeEvent, setFieldValue) => {
+		const { value } = changeEvent.currentTarget;
+		const subCategories = getSubCategories(Categories, parseInt(value));
+		setSubCategories(subCategories);
+	};
+
 
 
 	return (
@@ -17,7 +36,7 @@ const SignIn = props => {
 					password: '',
 				}}
 				validationSchema={Yup.object().shape({
-					emailAddress: Yup.string().required('Emal Address is required'),
+					emailAddress: Yup.string().email('Invalid email').required('Email Address is required'),
 					password: Yup.string().required('Password is required'),
 				})}
 
@@ -28,7 +47,7 @@ const SignIn = props => {
 			>
 				{
 					(props) => {
-						const { values, isSubmitting, errors, touched} = props;
+						const { values, isSubmitting, errors, touched, handleChange } = props;
 						return (
 
 							<Form >
@@ -40,6 +59,8 @@ const SignIn = props => {
 								<Field
 									type="email"
 									name="emailAddress"
+									onChange={handleChange}
+									className={`text-input ${errors.emailAddress && touched.emailAddress ? "error" : ""}`}
 								/>
 
 								<div className="input-feedback">
@@ -50,29 +71,31 @@ const SignIn = props => {
 
 
 								{
-									values['requestType'] !== '' ?
-										<div>
-											<label name="Password" htmlFor="Password"
-												className={
-													errors.Password && touched.Password ? "input-feedback" : "text-label"}
-											>
-												Password
-											</label>
-											<Field type="Password"
-												name="Password"
-												className={`text-select ${errors.subRequestType && touched.subRequestType ? "error" : ""}`}
-											>
-					
-											</Field>
-											<div className="input-feedback">
-												<ErrorMsg
-													errormessage={errors.Password}
-													touched={touched.Password} />
-											</div>
-										</div>
-										: null
-								}
 
+									<div>
+										<label name="password" htmlFor="password"
+											className={
+												errors.Password && touched.Password ? "input-feedback" : "text-label"}
+										>
+											Password
+										</label>
+										<Field type="password"
+											name="password"
+											onChange={handleChange}
+											className={`text-input ${errors.password && touched.password ? "error" : ""}`}
+										/>
+
+										<div className="input-feedback">
+											<ErrorMsg
+												errormessage={errors.password}
+												touched={touched.password} />
+										</div>
+									</div>
+
+								}
+								<label htmlFor="forgetpassword">Forgot password</label><br />
+								<label htmlFor="signup"
+								>Don't have an account? Sign up</label><br />
 								<button type="submit" disabled={isSubmitting}>
 									SIGN IN AND CONTINUTE
 								</button>
