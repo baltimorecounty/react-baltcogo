@@ -7,29 +7,10 @@ import FormContainer from './FormContainer';
 
 const SignUp = props => {
 
-	const { component, name, value, formikProps } = props;
-	const [Categories, setData] = useState([]);
 	const [fieldType, setFieldType] = useState('password');
-	const handleServiceRequestChange = (e) => {
-
-		console.log('--first value---:' + fieldType);
-
-		/* const { name, value, type } = this.password;
-
-        console.log('---type of the field ----');
-
-        console.log(type);*/
-
-		const newtype = (fieldType === 'password' ? 'text' : 'password');
-
-		setFieldType(newtype);
-
-
-
-		console.log('--after update--' + fieldType);
-
+	const handlePasswordToggleChange = () => {
+		setFieldType(fieldType === 'password' ? 'text' : 'password');
 	};
-
 
 
 	return (
@@ -53,19 +34,11 @@ const SignUp = props => {
 					alert(JSON.stringify(values, null, 2));
 					setSubmitting(false);
 				}}
-
 			>
-
 				{
-
 					(props) => {
-
 						const { values, isSubmitting, errors, touched } = props;
-
 						return (
-
-
-
 							<Form >
 								<label htmlFor="firstName"
 									className={
@@ -81,7 +54,6 @@ const SignUp = props => {
 										errormessage={errors.firstName}
 										touched={touched.firstName} />
 								</div>
-
 								<label htmlFor="lastName"
 									className={
 										errors.lastName && touched.lastName ? "input-feedback" : "text-label"}
@@ -96,9 +68,6 @@ const SignUp = props => {
 										errormessage={errors.lastName}
 										touched={touched.lastName} />
 								</div>
-
-
-
 								<label htmlFor="emailAddress"
 									className={
 										errors.emailAddress && touched.emailAddress ? "input-feedback" : "text-label"}
@@ -113,69 +82,35 @@ const SignUp = props => {
 										errormessage={errors.emailAddress}
 										touched={touched.emailAddress} />
 								</div>
-
 								<div>
-
 									<label name="password" htmlFor="password"
-
 										className={
-
 											errors.Password && touched.Password ? "input-feedback" : "text-label"}
-
 									>
-
-                                        Password
-
+										Password
 									</label>
-
 									<Field type={fieldType === 'password' ? 'password' : 'text'}
-
 										name="password"
-
 										value={values.password}
-
 										className={`text-input ${errors.password && touched.password ? "error" : ""}`}
-
 									/>
-
-									<span onClick={handleServiceRequestChange} className="glyphicon glyphicon-eye-open">test</span>
-
-
-
+									<span onClick={handlePasswordToggleChange}
+										className={`fa fa-fw fa-eye field-icon ${fieldType === 'text' ? "fa-eye-slash" : ""}`}></span>
 									<div className="input-feedback">
-
 										<ErrorMsg
-
 											errormessage={errors.password}
-
 											touched={touched.password} />
-
 									</div>
-
 								</div>
-
-
-
-
-
-
 								<label htmlFor="signup"
-
 								>Already have an account? SignIn </label><br />
-
 								<button type="submit" disabled={isSubmitting}>
-
-                                    SIGN UP AND CONTINUTE
-
+									SIGN UP AND CONTINUE
 								</button>
-
-
-
 							</Form>
 						)
 					}
 				}
-
 			</Formik>
 		</FormContainer>
 	);
