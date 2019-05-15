@@ -1,39 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import ErrorMsg from "./ErrorMessage";
 import FormContainer from './FormContainer';
 
 const SignIn = props => {
-	const [Categories, setData] = useState([]);
-	const [subCategories, setSubCategories] = useState([]);
-	useEffect(() => {
-		const fetchData = async () => {
-			const result = await axios(
-				'//dev.baltimorecountymd.gov/sebin/q/m/categories.json',
-			);
-			setData(result.data);
-		};
-
-		fetchData();
-	}, []);
-
-	const handleServiceRequestChange = (changeEvent, setFieldValue) => {
-		const { value } = changeEvent.currentTarget;
-		const subCategories = getSubCategories(Categories, parseInt(value));
-		setSubCategories(subCategories);
+	const [fieldType, setFieldType] = useState('password');
+	const handlePasswordToggleChange = () => {
+		setFieldType(fieldType === 'password' ? 'text' : 'password');
 	};
-
-
-
 	return (
-
-
 		<FormContainer title="Sign In">
 			<Formik
 				initialValues={{
 					emailAddress: '',
-					password: '',
+					password: ''
 				}}
 				validationSchema={Yup.object().shape({
 					emailAddress: Yup.string().email('Invalid email').required('Email Address is required'),
@@ -47,9 +28,8 @@ const SignIn = props => {
 			>
 				{
 					(props) => {
-						const { values, isSubmitting, errors, touched, handleChange } = props;
+						const { values, isSubmitting, errors, touched } = props;
 						return (
-
 							<Form >
 								<label htmlFor="emailAddress"
 									className={
@@ -59,48 +39,39 @@ const SignIn = props => {
 								<Field
 									type="email"
 									name="emailAddress"
-									onChange={handleChange}
 									className={`text-input ${errors.emailAddress && touched.emailAddress ? "error" : ""}`}
 								/>
-
 								<div className="input-feedback">
 									<ErrorMsg
 										errormessage={errors.emailAddress}
 										touched={touched.emailAddress} />
 								</div>
+								<div>
+									<label name="password" htmlFor="password"
+										className={
+											errors.Password && touched.Password ? "input-feedback" : "text-label"}
+									>Password</label>
+									<Field
+										type={fieldType === 'password' ? 'password' : 'text'}
+										name="password"
+										className={`text-input ${errors.password && touched.password ? "error" : ""}`}
+									/>
+									<span onClick={handlePasswordToggleChange}
+										className={`fa fa-fw fa-eye field-icon ${fieldType === 'text' ? "fa-eye-slash" : ""}`}></span>
 
-
-								{
-
-									<div>
-										<label name="password" htmlFor="password"
-											className={
-												errors.Password && touched.Password ? "input-feedback" : "text-label"}
-										>
-											Password
-										</label>
-										<Field type="password"
-											name="password"
-											onChange={handleChange}
-											className={`text-input ${errors.password && touched.password ? "error" : ""}`}
-										/>
-
-										<div className="input-feedback">
-											<ErrorMsg
-												errormessage={errors.password}
-												touched={touched.password} />
-										</div>
+									<div className="input-feedback">
+										<ErrorMsg
+											errormessage={errors.password}
+											touched={touched.password} />
 									</div>
-
-								}
-								<label htmlFor="forgetpassword">Forgot password</label><br />
+								</div>
+								<label htmlFor="forgetpassword">Forgot password?</label><br />
 								<label htmlFor="signup"
 								>Don't have an account? Sign up</label><br />
 								<button type="submit" disabled={isSubmitting}>
 									SIGN IN AND CONTINUTE
 								</button>
 							</Form>
-
 						)
 					}
 				}
@@ -108,8 +79,6 @@ const SignIn = props => {
 		</FormContainer>
 
 	);
-
-
 }
 
 export default SignIn;
