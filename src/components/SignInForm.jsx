@@ -68,7 +68,7 @@ const SignIn = props => {
 								<label htmlFor="signup"
 								>Don't have an account? Sign up</label><br />
 								<button type="submit" disabled={isSubmitting}>
-									SIGN IN AND CONTINUTE
+									SIGN IN AND CONTINUE
 								</button>
 							</Form>
 						)
