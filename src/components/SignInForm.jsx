@@ -34,7 +34,6 @@ const SignIn = props => {
 								<label htmlFor="emailAddress"
 									className={
 										errors.emailAddress && touched.emailAddress ? "input-feedback" : "text-label"}
-
 								>Email Address</label>
 								<Field
 									type="email"
