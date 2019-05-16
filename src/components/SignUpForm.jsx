@@ -1,9 +1,10 @@
 
-import React, { useState, } from "react";
+import React, { useState } from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import ErrorMsg from "./ErrorMessage";
 import FormContainer from './FormContainer';
+
 
 const SignUp = props => {
 
@@ -15,6 +16,7 @@ const SignUp = props => {
 
 	return (
 		<FormContainer title="Register for an Account?">
+
 			<Formik
 
 				initialValues={{
@@ -22,7 +24,9 @@ const SignUp = props => {
 					lastName: '',
 					emailAddress: '',
 					password: '',
-					type: fieldType
+					type: fieldType,
+
+
 				}}
 				validationSchema={Yup.object().shape({
 					firstName: Yup.string().required('First Name is required'),
@@ -38,6 +42,7 @@ const SignUp = props => {
 				{
 					(props) => {
 						const { values, isSubmitting, errors, touched } = props;
+
 						return (
 							<Form >
 								<label htmlFor="firstName"
@@ -112,7 +117,7 @@ const SignUp = props => {
 					}
 				}
 			</Formik>
-		</FormContainer>
+		</FormContainer >
 	);
 
 
