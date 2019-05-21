@@ -48,7 +48,7 @@ const SignIn = props => {
 								<div>
 									<label name="password" htmlFor="password"
 										className={
-											errors.Password && touched.Password ? "input-feedback" : "text-label"}
+											errors.password && touched.password ? "input-feedback" : "text-label"}
 									>Password</label>
 									<Field
 										type={fieldType === 'password' ? 'password' : 'text'}
