@@ -61,13 +61,13 @@ const ServiceRequestForm = props => {
 								<label htmlFor="requestType"
 									className={
 										errors.requestType && touched.requestType ? "input-feedback" : "text-label"}
-
 								>Request Category</label>
 								<RequestTypeField
 									component="select"
 									name="requestType"
 									formikProps={rest}
 									onChange={handleServiceRequestChange}
+									className={`text-select ${errors.requestType && touched.requestType ? "error" : ""}`}
 								>
 									<option key='default' value=''>--Please select a category--</option>
 									{Categories.map(category => (
