@@ -17,8 +17,8 @@ const SignIn = props => {
 					password: ''
 				}}
 				validationSchema={Yup.object().shape({
-					emailAddress: Yup.string().email('Invalid email').required('Email Address is required'),
-					password: Yup.string().required('Password is required'),
+					emailAddress: Yup.string().email('Invalid email').required('Please enter a valid email address.'),
+					password: Yup.string().required('Please enter your password.'),
 				})}
 
 				onSubmit={(values, { setSubmitting }) => {
@@ -68,7 +68,7 @@ const SignIn = props => {
 								<label htmlFor="signup"
 								>Don't have an account? Sign up</label><br />
 								<button type="submit" disabled={isSubmitting}>
-									SIGN IN AND CONTINUE
+									Sign In and Continue
 								</button>
 							</Form>
 						)
