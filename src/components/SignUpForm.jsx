@@ -15,7 +15,7 @@ const SignUp = props => {
 
 
 	return (
-		<FormContainer title="Register for an Account?">
+		<FormContainer title="Register for an Account">
 
 			<Formik
 
