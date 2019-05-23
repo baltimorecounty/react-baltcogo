@@ -21,7 +21,7 @@ const SignUp = props => {
 				initialValues={{
 					NameFirst: '',
 					NameLast: '',
-					phoneNumber: '',
+					Telephone: '',
 					Email: '',
 					Password: '',
 					type: fieldType,
@@ -31,7 +31,7 @@ const SignUp = props => {
 				validationSchema={Yup.object().shape({
 					NameFirst: Yup.string().required('Please enter your first name.'),
 					NameLast: Yup.string().required('Please enter your last name.'),
-					phoneNumber: Yup.string()
+					Telephone: Yup.string()
 						.required('Please enter your phone number.')
 						.matches(
 							/^[0-9]{3}-[0-9]{3}-[0-9]{4}/,
@@ -84,19 +84,19 @@ const SignUp = props => {
 										errormessage={errors.NameLast}
 										touched={touched.NameLast} />
 								</div>
-								<label htmlFor="phoneNumber"
+								<label htmlFor="Telephone"
 									className={
-										errors.phoneNumber && touched.phoneNumber ? "input-feedback" : "text-label"}
+										errors.Telephone && touched.Telephone ? "input-feedback" : "text-label"}
 								>Phone</label>
 								<Field
 									type="text"
-									name="phoneNumber"
-									className={`text-input ${errors.phoneNumber && touched.phoneNumber ? "error" : ""}`}
+									name="Telephone"
+									className={`text-input ${errors.Telephone && touched.Telephone ? "error" : ""}`}
 								/>
 								<div className="input-feedback">
 									<ErrorMsg
-										errormessage={errors.phoneNumber}
-										touched={touched.phoneNumber} />
+										errormessage={errors.Telephone}
+										touched={touched.Telephone} />
 								</div>
 								<label htmlFor="Email"
 									className={
