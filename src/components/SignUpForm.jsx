@@ -8,9 +8,9 @@ import FormContainer from './FormContainer';
 
 const SignUp = props => {
 
-	const [fieldType, setFieldType] = useState('password');
+	const [fieldType, setFieldType] = useState('Password');
 	const handlePasswordToggleChange = () => {
-		setFieldType(fieldType === 'password' ? 'text' : 'password');
+		setFieldType(fieldType === 'Password' ? 'text' : 'Password');
 	};
 
 
@@ -19,29 +19,29 @@ const SignUp = props => {
 			<Formik
 
 				initialValues={{
-					firstName: '',
-					lastName: '',
+					NameFirst: '',
+					NameLast: '',
 					phoneNumber: '',
-					emailAddress: '',
-					password: '',
+					Email: '',
+					Password: '',
 					type: fieldType,
 
 
 				}}
 				validationSchema={Yup.object().shape({
-					firstName: Yup.string().required('Please enter your first name.'),
-					lastName: Yup.string().required('Please enter your last name.'),
+					NameFirst: Yup.string().required('Please enter your first name.'),
+					NameLast: Yup.string().required('Please enter your last name.'),
 					phoneNumber: Yup.string()
 						.required('Please enter your phone number.')
 						.matches(
 							/^[0-9]{3}-[0-9]{3}-[0-9]{4}/,
 							"Please enter your phone number in the correct format (e.g. 410-555-1212)."),
-					emailAddress: Yup.string().email('Invalid email.').required('Please enter a valid email address.'),
-					password: Yup.string()
+					Email: Yup.string().email('Invalid email.').required('Please enter a valid email address.'),
+					Password: Yup.string()
 						.required('Please enter your password.')
 						.max(30, "Maximum 30 characters allowed.")
 						.matches(
-							/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]{8}/,
+							/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9!@#$%^&*(),.?":{}|<>]{8}/,
 							"Your password must be 8 to 30 characters and contain at least one uppercase letter, one lowercase letter and one number.")
 
 				})}
@@ -56,33 +56,33 @@ const SignUp = props => {
 
 						return (
 							<Form >
-								<label htmlFor="firstName"
+								<label htmlFor="NameFirst"
 									className={
-										errors.firstName && touched.firstName ? "input-feedback" : "text-label"}
+										errors.NameFirst && touched.NameFirst ? "input-feedback" : "text-label"}
 								>First Name</label>
 								<Field
 									type="text"
-									name="firstName"
-									className={`text-input ${errors.firstName && touched.firstName ? "error" : ""}`}
+									name="NameFirst"
+									className={`text-input ${errors.NameFirst && touched.NameFirst ? "error" : ""}`}
 								/>
 								<div className="input-feedback">
 									<ErrorMsg
-										errormessage={errors.firstName}
-										touched={touched.firstName} />
+										errormessage={errors.NameFirst}
+										touched={touched.NameFirst} />
 								</div>
-								<label htmlFor="lastName"
+								<label htmlFor="NameLast"
 									className={
-										errors.lastName && touched.lastName ? "input-feedback" : "text-label"}
+										errors.NameLast && touched.NameLast ? "input-feedback" : "text-label"}
 								>Last Name</label>
 								<Field
 									type="text"
-									name="lastName"
-									className={`text-input ${errors.lastName && touched.lastName ? "error" : ""}`}
+									name="NameLast"
+									className={`text-input ${errors.NameLast && touched.NameLast ? "error" : ""}`}
 								/>
 								<div className="input-feedback">
 									<ErrorMsg
-										errormessage={errors.lastName}
-										touched={touched.lastName} />
+										errormessage={errors.NameLast}
+										touched={touched.NameLast} />
 								</div>
 								<label htmlFor="phoneNumber"
 									className={
@@ -98,38 +98,38 @@ const SignUp = props => {
 										errormessage={errors.phoneNumber}
 										touched={touched.phoneNumber} />
 								</div>
-								<label htmlFor="emailAddress"
+								<label htmlFor="Email"
 									className={
-										errors.emailAddress && touched.emailAddress ? "input-feedback" : "text-label"}
+										errors.Email && touched.Email ? "input-feedback" : "text-label"}
 								>Email Address</label>
 								<Field
 									type="email"
-									name="emailAddress"
-									className={`text-input ${errors.emailAddress && touched.emailAddress ? "error" : ""}`}
+									name="Email"
+									className={`text-input ${errors.Email && touched.Email ? "error" : ""}`}
 								/>
 								<div className="input-feedback">
 									<ErrorMsg
-										errormessage={errors.emailAddress}
-										touched={touched.emailAddress} />
+										errormessage={errors.Email}
+										touched={touched.Email} />
 								</div>
 								<div>
-									<label name="password" htmlFor="password"
+									<label name="Password" htmlFor="Password"
 										className={
 											errors.Password && touched.Password ? "input-feedback" : "text-label"}
 									>
 										Password
 									</label>
-									<Field type={fieldType === 'password' ? 'password' : 'text'}
-										name="password"
-										value={values.password}
-										className={`text-input ${errors.password && touched.password ? "error" : ""}`}
+									<Field type={fieldType === 'Password' ? 'Password' : 'text'}
+										name="Password"
+										value={values.Password}
+										className={`text-input ${errors.Password && touched.Password ? "error" : ""}`}
 									/>
 									<span onClick={handlePasswordToggleChange}
 										className={`fa fa-fw fa-eye field-icon ${fieldType === 'text' ? "fa-eye-slash" : ""}`}></span>
 									<div className="input-feedback">
 										<ErrorMsg
-											errormessage={errors.password}
-											touched={touched.password} />
+											errormessage={errors.Password}
+											touched={touched.Password} />
 									</div>
 								</div>
 								<label htmlFor="signup"
