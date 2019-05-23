@@ -34,7 +34,7 @@ const SignUp = props => {
 					Telephone: Yup.string()
 						.required('Please enter your phone number.')
 						.matches(
-							/^[0-9]{3}-[0-9]{3}-[0-9]{4}/,
+							/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/,
 							"Please enter your phone number in the correct format (e.g. 410-555-1212)."),
 					Email: Yup.string().email('Invalid email.').required('Please enter a valid email address.'),
 					Password: Yup.string()
