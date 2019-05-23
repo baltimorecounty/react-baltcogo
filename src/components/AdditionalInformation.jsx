@@ -19,12 +19,12 @@ const AdditionalInformation = props => {
 				}}
 
 				validationSchema={Yup.object().shape({
-					streeAddress: Yup.string().required('Your Street Address is required'),
-					city: Yup.string().required('Your City is required'),
+					streeAddress: Yup.string().required('Please enter your street address.'),
+					city: Yup.string().required('Please enter your city.'),
 					zipCode: Yup.string().matches(/(^\d{5}$)|(^\d{5}-\d{4}$)/, {
-						message: 'Need valid five digit ',
+						message: 'Need valid five-digit ZIP code.',
 						excludeEmptyString: true
-					}).required('Your Zip Code is required')
+					}).required('Please enter your five-digit ZIP code.')
 				})}
 				onSubmit={(values, { setSubmitting }) => {
 					alert(JSON.stringify(values, null, 2));
@@ -69,7 +69,7 @@ const AdditionalInformation = props => {
 										className={
 											errors.zipCode && touched.zipCode ? "input-feedback" : "text-label"}
 									>
-                                        Your ZIP Code
+										Your ZIP Code
 									</label>
 									<Field type='text'
 										name="zipCode"
