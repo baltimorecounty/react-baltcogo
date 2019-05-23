@@ -17,7 +17,7 @@ const SignIn = props => {
 					password: ''
 				}}
 				validationSchema={Yup.object().shape({
-					emailAddress: Yup.string().email('Invalid email').required('Please enter a valid email address.'),
+					emailAddress: Yup.string().email('Invalid email address.').required('Please enter a valid email address.'),
 					password: Yup.string().required('Please enter your password.'),
 				})}
 
