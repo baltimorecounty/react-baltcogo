@@ -16,12 +16,13 @@ const SignUp = props => {
 
 	return (
 		<FormContainer title="Register for an Account">
-
+			{/* /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/, */}
 			<Formik
 
 				initialValues={{
 					firstName: '',
 					lastName: '',
+					phoneNumber: '',
 					emailAddress: '',
 					password: '',
 					type: fieldType,
@@ -29,10 +30,21 @@ const SignUp = props => {
 
 				}}
 				validationSchema={Yup.object().shape({
-					firstName: Yup.string().required('First Name is required'),
-					lastName: Yup.string().required('Last Name is required'),
-					emailAddress: Yup.string().email('Invalid email').required('Email Address is required'),
-					password: Yup.string().required('Password is required'),
+					firstName: Yup.string().required('Please enter your first name.'),
+					lastName: Yup.string().required('Please enter your last name.'),
+					phoneNumber: Yup.string()
+						.required('Please enter your phone number.')
+						.matches(
+							/^[0-9]{3}-[0-9]{3}-[0-9]{4}/,
+							"Please enter your phone number in the correct format (e.g. 410-555-1212)."),
+					emailAddress: Yup.string().email('Invalid email.').required('Please enter a valid email address.'),
+					password: Yup.string()
+						.required('Please enter your password.')
+						.max(30, "Maximum 30 characters allowed.")
+						.matches(
+							/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]{8}/,
+							"Your password must be 8 to 30 characters and contain at least one uppercase letter, one lowercase letter and one number.")
+
 				})}
 				onSubmit={(values, { setSubmitting }) => {
 					alert(JSON.stringify(values, null, 2));
@@ -73,6 +85,20 @@ const SignUp = props => {
 										errormessage={errors.lastName}
 										touched={touched.lastName} />
 								</div>
+								<label htmlFor="phoneNumber"
+									className={
+										errors.phoneNumber && touched.phoneNumber ? "input-feedback" : "text-label"}
+								>Phone</label>
+								<Field
+									type="text"
+									name="phoneNumber"
+									className={`text-input ${errors.phoneNumber && touched.phoneNumber ? "error" : ""}`}
+								/>
+								<div className="input-feedback">
+									<ErrorMsg
+										errormessage={errors.phoneNumber}
+										touched={touched.phoneNumber} />
+								</div>
 								<label htmlFor="emailAddress"
 									className={
 										errors.emailAddress && touched.emailAddress ? "input-feedback" : "text-label"}
@@ -110,7 +136,7 @@ const SignUp = props => {
 								<label htmlFor="signup"
 								>Already have an account? SignIn </label><br />
 								<button type="submit" disabled={isSubmitting}>
-									SIGN UP AND CONTINUE
+									Sign Up and Continue
 								</button>
 							</Form>
 						)
