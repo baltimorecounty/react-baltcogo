@@ -16,7 +16,6 @@ const SignUp = props => {
 
 	return (
 		<FormContainer title="Register for an Account">
-			{/* /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/, */}
 			<Formik
 
 				initialValues={{
@@ -145,13 +144,7 @@ const SignUp = props => {
 			</Formik>
 		</FormContainer >
 	);
-
-
-
 }
-
-
-
 export default SignUp;
 
 
