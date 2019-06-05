@@ -57,13 +57,11 @@ const ServiceRequestForm = props => {
 		setFieldValue(changeEvent.currentTarget.name, value);
 		//setFieldValue('animalBreed', '');
 		setAnimalSubCategories(subBreeds.breeds);
+		console.log(subBreeds.sex);
 		setAnimalSex(subBreeds.sex)
 
 	};
-	const handleSubmitTest=(test)=>{
 
-		console.log('--handleSubmitTest---');
-	};
 
 
 	return (
@@ -151,9 +149,34 @@ const ServiceRequestForm = props => {
 										</div>
 										: null
 								}
+								
+
+		{ /* Can or lid lost or damaged*/
+							
+							values['subRequestType'] === '1011083' ?
+								<div>
+					
+								The County will only replace damaged cans or lids with evidence of hauler negligence. After submitting your report, please email any evidence to solidwaste@baltimorecountymd.gov and reference your request ID number.
+								</div>
+								: null
+
+						}
+
+
+								{ /* icy condition*/
+							
+									values['subRequestType'] === '1011069' ?
+										<div>
+							
+Due to the safety risk posed by ice in the roadway, we cannot take your report online.
+
+Please call the Department of Public Works immediately at 410-887-0000 to ensure we obtain the necessary information to address the issue as soon as possible.
+										</div>
+										: null
+
+								}
 															
 								{
-							
 									values['subRequestType'] === '1010186' ?
 										<div>
 								    
@@ -186,6 +209,7 @@ To report animal cruelty when immediate police intervention is not required, cal
 											<Field
 												component="select"
 												name="petType"
+												onChange={handleServicePetChange(props.setFieldValue)}
 												className={errors.petType && touched.petType ? "text-select error" : null}       
 											>
 
@@ -259,7 +283,7 @@ To report animal cruelty when immediate police intervention is not required, cal
 					
 								{
 
-									((values['petType'] === '1010188'|| values['petType'] === '1010189' || values['petType'] === '1010190' || values['petType'] === '1010191')) && animalSex !==undefined ?
+									((values['petType'] === '1010188'|| values['petType'] === '1010189' || values['petType'] === '1010190' || values['petType'] === '1010191')) ?
 										<div>
 											<label htmlFor="sexType"
 												className={
@@ -272,7 +296,7 @@ To report animal cruelty when immediate police intervention is not required, cal
 											<Field
 												component="select"
 												name="sexType"
-												onChange={handleServicePetChange(props.setFieldValue)}
+												//	onChange={handleServicePetChange(props.setFieldValue)}
 		
 												className={errors.sexType && touched.sexType ? "text-select error" : null}       
 											>
