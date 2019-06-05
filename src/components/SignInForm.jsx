@@ -3,12 +3,20 @@ import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import ErrorMsg from "./ErrorMessage";
 import FormContainer from './FormContainer';
+import {login} from './authService';
 
 const SignIn = props => {
 	const [fieldType, setFieldType] = useState('Password');
 	const handlePasswordToggleChange = () => {
 		setFieldType(fieldType === 'Password' ? 'text' : 'Password');
 	};
+
+	const signup= async(values)=>{
+
+		console.log('--inside signnup');
+		console.log(values);
+		await login(values.email, values.Password);
+	}
 	return (
 		<FormContainer title="Sign In">
 			<Formik
@@ -28,6 +36,7 @@ const SignIn = props => {
 
 				onSubmit={(values, { setSubmitting }) => {
 					alert(JSON.stringify(values, null, 2));
+					signup(values);
 					setSubmitting(false);
 				}}
 			>
