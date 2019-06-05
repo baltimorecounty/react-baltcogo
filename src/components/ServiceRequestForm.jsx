@@ -16,16 +16,9 @@ const getSubCategories = (categories, categoryId) => {
 	return category ? category.types : [];
 };
 const getAnimalSubCategories = (breeds, animalId) => {
-	console.log('--inside getAnimalSubCategories--');
+	//console.log('--inside getAnimalSubCategories--');
 
 	var animalCats = breeds.find(animal => animal.id === animalId);
-	//console.log(animalCats);
-	//const breeds1 =   animalCats.breeds  ;
-
-	//console.log('-------+++++++++------');
-	//console.log(breeds1);
-	//console.log(breeds1.length)
-	//console.log('------++++++++-----');
 	return animalCats ? animalCats : [];
 
 };
@@ -60,17 +53,13 @@ const ServiceRequestForm = props => {
 		console.log('pet value:' + value);
 		// console.log(breeds);
 		const subBreeds = getAnimalSubCategories(breeds, parseInt(value));
-		console.log('++++++++++++++++++++++');
-		console.log(subBreeds, breeds);
-		console.log();
-		console.log('++++++++++++++++++++++');
+
 		setFieldValue(changeEvent.currentTarget.name, value);
-		setFieldValue('animalBreed', '');
+		//setFieldValue('animalBreed', '');
 		setAnimalSubCategories(subBreeds.breeds);
 		setAnimalSex(subBreeds.sex)
 
 	};
-
 	const handleSubmitTest=(test)=>{
 
 		console.log('--handleSubmitTest---');
@@ -85,22 +74,22 @@ const ServiceRequestForm = props => {
 				initialValues={{
 					requestType: '',
 					subRequestType: '',
-					animalBreed: '',
 					petType: '',
+					animalBreed: '',
 					sexType: '',
 					animalColorType: '',
 					otherAnimalTypes:''
-
-
 				}}
 				validationSchema={Yup.object().shape({
 					requestType: Yup.string().required('Request Category is required'),
 					subRequestType: Yup.string().required('Sub Category is required'),
+					petType:Yup.string().required('Pet Type is required'),
+					animalColorType:Yup.string().required('Primary Animal Color is required'),
 				})}
 
 				onSubmit={(values, { setSubmitting }) => {
 					alert(JSON.stringify(values, null, 2));
-					handleSubmitTest();
+					//handleSubmitTest();
 					setSubmitting(false);
 				}}
 			>
@@ -189,7 +178,7 @@ To report animal cruelty when immediate police intervention is not required, cal
 									||values['subRequestType'] === '1010185'
 									||values['subRequestType'] === '1010186' )?
 										<div>
-											<label htmlFor="petType"
+											<label htmlFor="petType" name="petType"
 												className={
 													errors.petType && touched.petType ? "input-feedback" : "text-label"}
 											>Pet Type</label>
@@ -197,8 +186,6 @@ To report animal cruelty when immediate police intervention is not required, cal
 											<Field
 												component="select"
 												name="petType"
-												onChange={handleServicePetChange(props.setFieldValue)}
-		
 												className={errors.petType && touched.petType ? "text-select error" : null}       
 											>
 
@@ -329,8 +316,6 @@ To report animal cruelty when immediate police intervention is not required, cal
 											<Field
 												component="select"
 												name="animalColorType"
-												onChange={handleServicePetChange(props.setFieldValue)}
-		
 												className={errors.animalColorType && touched.animalColorType ? "text-select error" : null}       
 											>
 
