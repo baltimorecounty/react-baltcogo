@@ -1,49 +1,44 @@
-{
-  "proxy": {
-    "/login": {
-      "target": "https://testservices.baltimorecountymd.gov/platform.citysourced.net",
-      "changeOrigin": true
-    }},
-    "name": "react-baltcogo",
-    "version": "0.1.0",
-    "private": true,
-    "dependencies": {
-      "@google/maps": "^0.5.5",
-      "@material-ui/core": "^3.9.3",
-      "@types/googlemaps": "^3.30.19",
-      "axios": "^0.18.0",
-      "bootstrap": "^4.3.1",
-      "eslint-config-baltimorecounty": "^1.0.13",
-      "font-awesome": "^4.7.0",
-      "formik": "^1.5.4",
-      "joi-browser": "^13.4.0",
-      "jquery": "^3.4.1",
-      "moment": "^2.24.0",
-      "react": "^16.8.6",
-      "react-dom": "^16.8.6",
-      "react-google-maps": "^9.4.5",
-      "react-moment": "^0.9.2",
-      "react-router-dom": "^5.0.0",
-      "react-scripts": "2.1.8",
-      "react-toastify": "^5.2.1",
-      "yup": "^0.27.0"
-    },
-    "scripts": {
-      "start": "react-scripts start",
-      "build": "react-scripts build",
-      "test": "react-scripts test",
-      "eject": "react-scripts eject"
-    },
-    "eslintConfig": {
-      "extends": [
-        "react-app",
-        "baltimorecounty"
-      ]
-    },
-    "browserslist": [
-      ">0.2%",
-      "not dead",
-      "not ie <= 11",
-      "not op_mini all"
+{  "name": "react-baltcogo",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@google/maps": "^0.5.5",
+    "@material-ui/core": "^3.9.3",
+    "@types/googlemaps": "^3.30.19",
+    "axios": "^0.18.0",
+    "bootstrap": "^4.3.1",
+    "eslint-config-baltimorecounty": "^1.0.13",
+    "font-awesome": "^4.7.0",
+    "formik": "^1.5.4",
+    "joi-browser": "^13.4.0",
+    "jquery": "^3.4.1",
+    "moment": "^2.24.0",
+    "node": "^12.4.0",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-google-maps": "^9.4.5",
+    "react-moment": "^0.9.2",
+    "react-router-dom": "^5.0.0",
+    "react-scripts": "2.1.8",
+    "react-toastify": "^5.2.1",
+    "yup": "^0.27.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "baltimorecounty"
     ]
-  }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}

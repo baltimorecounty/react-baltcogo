@@ -15,7 +15,7 @@ const SignIn = props => {
 
 		console.log('--inside signnup');
 		console.log(values);
-		await login(values.email, values.Password);
+		await login(values.Email, values.Password);
 	}
 	return (
 		<FormContainer title="Sign In">
@@ -42,7 +42,7 @@ const SignIn = props => {
 			>
 				{
 					(props) => {
-						const { values, isSubmitting, errors, touched } = props;
+						const { isSubmitting, errors, touched } = props;
 						return (
 							<Form >
 								<label htmlFor="Email"

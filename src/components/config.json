@@ -1,4 +1,4 @@
 {
-    "apiUrl": "https://testservices.baltimorecountymd.gov/platform.citysourced.net"
+    "apiUrl": "http://localhost:54727/platform.citysourced.net"
   }
   
