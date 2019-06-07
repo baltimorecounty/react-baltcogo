@@ -9,7 +9,6 @@ import RequestPetTypeField from "./RequestPetTypeField";
 //import PetTypes from "./pettypes.json";
 //import AnimalBreeds from "./animalbreeds.json";
 //import AnimalColors from "./animalcolors.json"
-//import OtherAnimalTypes from "./animaltypes.json"
 
 
 const getSubCategories = (categories, categoryId) => {
