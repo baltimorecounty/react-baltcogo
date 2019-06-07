@@ -251,7 +251,7 @@ To report animal cruelty when immediate police intervention is not required, cal
 											<Field
 												component="select"
 												name="otherAnimalTypes"
-												onChange={handleServicePetChange(props.setFieldValue)}
+											//S	onChange={handleServicePetChange(props.setFieldValue)}
 
 												className={errors.otherAnimalTypes && touched.otherAnimalTypes ? "text-select error" : null}       
 											>
