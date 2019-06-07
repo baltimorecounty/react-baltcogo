@@ -213,7 +213,7 @@ To report animal cruelty when immediate police intervention is not required, cal
 												className={errors.petType && touched.petType ? "text-select error" : null}       
 											>
 
-												<option key='default' value=''>--Please select a Pet Type--</option>
+												<option key='default' value=''>--Please select a pet type--</option>
 
 												{PetTypes.map(petType => (
 
@@ -288,7 +288,7 @@ To report animal cruelty when immediate police intervention is not required, cal
 											<label htmlFor="sexType"
 												className={
 													errors.sexType && touched.sexType ? "input-feedback" : "text-label"}
-											>Pet Sex (optioal)
+											>Pet Sex (optional)
 	   
 		
 											</label>
@@ -301,7 +301,7 @@ To report animal cruelty when immediate police intervention is not required, cal
 												className={errors.sexType && touched.sexType ? "text-select error" : null}       
 											>
 
-												<option key='default' value=''>--Please select a Pet sex--</option>
+												<option key='default' value=''>--Please select a pet sex--</option>
 
 												{animalSex.map(petSex => (
 
@@ -343,7 +343,7 @@ To report animal cruelty when immediate police intervention is not required, cal
 												className={errors.animalColorType && touched.animalColorType ? "text-select error" : null}       
 											>
 
-												<option key='default' value=''>--Please select an animal color--</option>
+												<option key='default' value=''>--Please select the primary color of the animal--</option>
 
 												{AnimalColors.map(animalColorType => (
 
@@ -383,12 +383,12 @@ To report animal cruelty when immediate police intervention is not required, cal
 											<Field
 												component="select"
 												name="animalBreed"
-												onChange={handleServicePetChange(props.setFieldValue)}
+												//onChange={handleServicePetChange(props.setFieldValue)}
 		
 												className={errors.animalBreed && touched.animalBreed ? "text-select error" : null}       
 											>
 
-												<option key='default' value=''>--Please select an animal breed--</option>
+												<option key='default' value=''>--Please select the primary breed of the animal--</option>
 
 												{animalSubCategories.map(animalBreed => (
 
