@@ -1,15 +1,12 @@
 import React, { Component } from 'react';
 import './App.css';
-
-import Form from './components/ServiceRequestForm';
+import SignUpForm from './components/SignUpForm';
 
 class App extends Component {
 	render() {
-
 		return (
 			<main className="container">
-
-				<Form />
+				<SignUpForm />
 			</main>
 
 		);

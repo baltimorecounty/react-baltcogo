@@ -1,6 +1,6 @@
+
 import React from "react";
 import { Field } from "formik";
-
 const RequestTypeField = props => {
 	const { component, name, formikProps, onChange, className } = props;
 	const handleChange = changeEvent => {
