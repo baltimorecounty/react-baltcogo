@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Formik, Form, Field } from "formik";
+import { Formik, Form, Field, connect } from "formik";
 import axios from "axios"
 import * as Yup from "yup";
 import ErrorMsg from "./ErrorMessage";
@@ -374,5 +374,5 @@ const ServiceRequestForm = props => {
 
 }
 
-export default ServiceRequestForm;
+export default connect(ServiceRequestForm);
 
