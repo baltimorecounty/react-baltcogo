@@ -1,4 +1,6 @@
 {
-    "apiUrl": "http://localhost:54727/platform.citysourced.net"
-  }
-  
+  "apiLoginUrl": "http://localhost:54727/platform.citysourced.net",
+  "apiSignInUrl": "http://localhost:54727/platform.citysourced.net",
+  "apiPasswordResetUrl": "http://localhost:54727/platform.citysourced.net",
+  "apiCreateReportUrl": "http://localhost:54727/platform.citysourced.net"
+}

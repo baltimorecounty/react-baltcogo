@@ -1,7 +1,24 @@
 import http from "./httpService";
-import { apiUrl } from "./config.json";
-const apiEndpoint = apiUrl + "/login";
+import { apiLoginUrl, apiSignInUrl, apiPasswordResetUrl, apiCreateReportUrl } from "./config.json";
+const apiEndpointLogin = apiLoginUrl + "/login";
+const apiEndpointSignUp = apiSignInUrl + "/SignUp";
+const apiEndpointPasswordReset = apiPasswordResetUrl + "/PasswordReset";
+const apiEndpointCreateReport = apiCreateReportUrl + "/CreateReport";
+//const proxyurl = "https://cors-anywhere.herokuapp.com/";  // thhis does not work 
 export function login(email, password) {
+	return http.post( apiEndpointLogin, { email, password });
 
-	return http.post(apiEndpoint, { email, password });
+}
+export function SignUp(NameFirst, NameLast, Email, Password, Telephone, UniqueId, SuppressNotifications) {
+	return http.post(apiEndpointSignUp, { NameFirst, NameLast, Email, Password, Telephone, UniqueId, SuppressNotifications });
+
+	// TODO : use end point 
+}
+export function PasswordReset() {
+
+	//TODO:use end point
+}
+
+export function CreateReport() {
+	//TODO: use end point
 }

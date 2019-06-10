@@ -3,7 +3,7 @@ import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import ErrorMsg from "./ErrorMessage";
 import FormContainer from './FormContainer';
-import {login} from './authService';
+import { login } from './authService';
 
 const SignIn = props => {
 	const [fieldType, setFieldType] = useState('Password');
@@ -11,11 +11,21 @@ const SignIn = props => {
 		setFieldType(fieldType === 'Password' ? 'text' : 'Password');
 	};
 
-	const signup= async(values)=>{
+	const signup = async (values) => {
 
 		console.log('--inside signnup');
 		console.log(values);
-		await login(values.Email, values.Password);
+		try {
+			//await login(values.Email, values.Password);
+			//const {data:fwt}= await login(values.Email, values.Password);
+			props.history.push('/AdditionalInformationForm');
+		}
+		catch (ex) {
+			if (ex.response && ex.response === 400) {
+				props.errors.email = ex.response.data
+			}
+		}
+
 	}
 	return (
 		<FormContainer title="Sign In">

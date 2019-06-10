@@ -41,23 +41,23 @@ const ServiceRequestForm = props => {
 			const result = await axios(
 				'//dev.baltimorecountymd.gov/sebin/q/m/categories.json',
 			);
-			const resultPetTypes = await axios(
-				'//dev.baltimorecountymd.gov/sebin/m/a/pet-types.json',
-			);
-			const resultAnimalBreeds = await axios(
-				'//dev.baltimorecountymd.gov/sebin/y/a/animal-breeds.json',
-			);
-			const resultAnimalColors = await axios(
-				'//dev.baltimorecountymd.gov/sebin/u/u/animal-colors.json',
-			);
-			const resultAnimalTypes = await axios(
-				'//dev.baltimorecountymd.gov/sebin/a/e/animal-types.json',
-			);
+			// const resultPetTypes = await axios(
+			// 	'//dev.baltimorecountymd.gov/sebin/m/a/pet-types.json',
+			// );
+			// const resultAnimalBreeds = await axios(
+			// 	'//dev.baltimorecountymd.gov/sebin/y/a/animal-breeds.json',
+			// );
+			// const resultAnimalColors = await axios(
+			// 	'//dev.baltimorecountymd.gov/sebin/u/u/animal-colors.json',
+			// );
+			// const resultAnimalTypes = await axios(
+			// 	'//dev.baltimorecountymd.gov/sebin/a/e/animal-types.json',
+			// );
 			setData(result.data);
-			setPetTypes(resultPetTypes.data);
-			setAnimalBreeds(resultAnimalBreeds.data);
-			setAnimalColors(resultAnimalColors.data);
-			setOtherAnimalTypes(resultAnimalTypes.data);
+			// setPetTypes(resultPetTypes.data);
+			// setAnimalBreeds(resultAnimalBreeds.data);
+			// setAnimalColors(resultAnimalColors.data);
+			// setOtherAnimalTypes(resultAnimalTypes.data);
 		};
 
 		fetchData();
@@ -68,8 +68,8 @@ const ServiceRequestForm = props => {
 		console.log('++++++++++++++handleServiceRequestChange+++++++++++++');
 		const { value } = changeEvent.currentTarget;
 		console.log('RequestChange value:' + value);
-		const subCategories = getSubCategories(Categories, parseInt(value));
-		setSubCategories(subCategories);
+	//	const subCategories = getSubCategories(Categories, parseInt(value));
+	//	setSubCategories(subCategories);
 	};
 	const handleServicePetChange = (changeEvent) => {
 		console.log('===============handleServicePetChange===============');
@@ -95,10 +95,7 @@ const ServiceRequestForm = props => {
 
 
 	}
-	const callRegisterForm = () => {
-		console.log('---callregisterForm---');
-		props.history.push("/SignInForm");
-	}
+
 
 	return (
 
@@ -131,8 +128,8 @@ const ServiceRequestForm = props => {
 					(props) => {
 						const { values, isSubmitting, errors, touched, ...rest } = props;
 						console.log('requestType:' + values['requestType']); //1010188
-						//	console.log('subRequestType:' + values['subRequestType']); //1010188
-						//	console.log('petType:' + values['petType']); //1010188
+					//	console.log('subRequestType:' + values['subRequestType']); //1010188
+					//	console.log('petType:' + values['petType']); //1010188
 						return (
 
 							<Form >
@@ -360,7 +357,6 @@ const ServiceRequestForm = props => {
 								<button type="submit" disabled={isSubmitting}>
 									Submit
 								</button>
-								<button type="button" onClick={callRegisterForm}>Register</button>
 							</Form>
 
 						)
@@ -375,4 +371,3 @@ const ServiceRequestForm = props => {
 }
 
 export default ServiceRequestForm;
-
