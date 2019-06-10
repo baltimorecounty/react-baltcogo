@@ -4,9 +4,9 @@ const apiEndpointLogin = apiLoginUrl + "/login";
 const apiEndpointSignUp = apiSignInUrl + "/SignUp";
 const apiEndpointPasswordReset = apiPasswordResetUrl + "/PasswordReset";
 const apiEndpointCreateReport = apiCreateReportUrl + "/CreateReport";
-
+const proxyurl = "https://cors-anywhere.herokuapp.com/";  // thhis does not work 
 export function login(email, password) {
-	return http.post(apiEndpointLogin, { email, password });
+	return http.post(proxyurl + apiEndpointLogin, { email, password });
 
 }
 export function SignUp(NameFirst, NameLast, Email, Password, Telephone, UniqueId, SuppressNotifications) {
