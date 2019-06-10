@@ -5,7 +5,7 @@ import * as Yup from "yup";
 import ErrorMsg from "./ErrorMessage";
 import FormContainer from './FormContainer';
 
-function formatPhoneNumber(value, format) {
+/*function formatPhoneNumber(value, format) {
 	let error;
 	console.log('--test--');
 
@@ -16,28 +16,28 @@ function formatPhoneNumber(value, format) {
 	}
 	else {
 		error = 'Required too';
-/* 		if (typeof value === 'number') {
-			value = value.toString();
-		}
-		var exp = /\d+/g;
-		var numbersOnly = value.match(exp).join('').split('');
-		var numberOfXs = format.split('').filter(function (char) {
-			return char === 'x';
-		}).length;
-		var hasOneAsPrefix = numberOfXs + 1 === numbersOnly.length;
-		// 1 has been included in the str, but is not in the desired format
-		if (hasOneAsPrefix) {
-			numbersOnly.shift();
-		}
-		if (numberOfXs === numbersOnly.length || hasOneAsPrefix) {
-			numbersOnly.forEach(function (number) {
-				format = format.replace('x', number);
-			});
-		}
-		else {
-			console.error("Incorrect Format. Double Check your values.");
-			return null;
-		} */
+				if (typeof value === 'number') {
+					value = value.toString();
+				}
+				var exp = /\d+/g;
+				var numbersOnly = value.match(exp).join('').split('');
+				var numberOfXs = format.split('').filter(function (char) {
+					return char === 'x';
+				}).length;
+				var hasOneAsPrefix = numberOfXs + 1 === numbersOnly.length;
+				// 1 has been included in the str, but is not in the desired format
+				if (hasOneAsPrefix) {
+					numbersOnly.shift();
+				}
+				if (numberOfXs === numbersOnly.length || hasOneAsPrefix) {
+					numbersOnly.forEach(function (number) {
+						format = format.replace('x', number);
+					});
+				}
+				else {
+					console.error("Incorrect Format. Double Check your values.");
+					return null;
+				} 
 	}
 	return error;
 
@@ -49,7 +49,7 @@ function format(key, val, strFormat) {
 
 	return _formatters[key](val, strFormat);
 
-};
+};*/
 
 const SignUp = props => {
 
@@ -87,7 +87,7 @@ const SignUp = props => {
 
 				})}
 				onSubmit={(values, { setSubmitting }) => {
-	
+
 					alert(JSON.stringify(values, null, 2));
 					setSubmitting(false);
 				}}
@@ -128,7 +128,7 @@ const SignUp = props => {
 								</div>
 								<label htmlFor="Telephone"
 									value={values.Telephone}
-									validate={formatPhoneNumber(values.Telephone)}
+									//validate={formatPhoneNumber(values.Telephone)}
 									className={
 										errors.Telephone && touched.Telephone ? "input-feedback" : "text-label"}
 								>Phone</label>
@@ -190,9 +190,5 @@ const SignUp = props => {
 	);
 }
 export default SignUp;
-{/* Telephone: Yup.string()
-						 .required('Please enter your phone number.')
-						.matches(
-							/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/,
-							"Please enter your phone number in the correct format (e.g. 410-555-1212)."),    */}
+
 
