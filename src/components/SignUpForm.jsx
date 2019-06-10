@@ -1,9 +1,10 @@
-
 import React, { useState } from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import ErrorMsg from "./ErrorMessage";
+import { ErrorCheck } from "./CustomErrorHandling";
 import FormContainer from './FormContainer';
+import { SignUp } from './authService';
 
 /*function formatPhoneNumber(value, format) {
 	let error;
@@ -51,12 +52,30 @@ function format(key, val, strFormat) {
 
 };*/
 
-const SignUp = props => {
-
+const CreateAccount = props => {
 	const [fieldType, setFieldType] = useState('Password');
 	const handlePasswordToggleChange = () => {
 		setFieldType(fieldType === 'Password' ? 'text' : 'Password');
 	};
+	const userCreateAccount = async (values) => {
+
+		console.log('--inside signnup');
+		console.log(values);
+		try {
+			const response = await SignUp(values.NameFirst, values.NameLast, values.Email, values.Password, values.Telephone, values.UniqueId, values.SuppressNotifications);
+			if(response.data.ErrorsCount > 0){
+				console.log(ErrorCheck(response));
+			}
+			else{
+				props.history.push('/AdditionalInformationForm');
+			}	
+		}
+		catch (ex) {
+			if (ex.response && ex.response.StatusCode === 400) {
+				props.errors.email = ex.response.data
+			}
+		}
+	}
 
 
 	return (
@@ -68,10 +87,7 @@ const SignUp = props => {
 					NameLast: '',
 					Telephone: '',
 					Email: '',
-					Password: '',
-					type: fieldType,
-
-
+					Password: ''
 				}}
 
 				validationSchema={Yup.object().shape({
@@ -89,6 +105,7 @@ const SignUp = props => {
 				onSubmit={(values, { setSubmitting }) => {
 
 					alert(JSON.stringify(values, null, 2));
+					userCreateAccount(values);
 					setSubmitting(false);
 				}}
 			>
@@ -189,6 +206,6 @@ const SignUp = props => {
 		</FormContainer >
 	);
 }
-export default SignUp;
+export default CreateAccount;
 
 

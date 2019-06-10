@@ -7,7 +7,7 @@ import FormContainer from './FormContainer';
 import { PasswordReset } from './authService';
 
 const SignIn = props => {
-	const userLogin = async (values) => {
+	const userPasswordReset = async (values) => {
 
 		console.log('--inside signnup');
 		console.log(values);
@@ -25,7 +25,6 @@ const SignIn = props => {
 				props.errors.email = ex.response.data
 			}
 		}
-
 	}
 	return (
 		<FormContainer title="Reset Password">
@@ -39,7 +38,7 @@ const SignIn = props => {
 
 				onSubmit={(values, { setSubmitting }) => {
 					alert(JSON.stringify(values, null, 2));
-					userLogin(values);
+					userPasswordReset(values);
 					setSubmitting(false);
 				}}
 			>
