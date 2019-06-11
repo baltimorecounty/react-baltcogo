@@ -64,7 +64,9 @@ const CreateAccount = props => {
 		try {
 			const response = await SignUp(values.NameFirst, values.NameLast, values.Email, values.Password, values.Telephone, values.UniqueId, values.SuppressNotifications);
 			if(response.data.ErrorsCount > 0){
-				console.log(ErrorCheck(response));
+				const errorsReturned = ErrorCheck(response);
+				console.log(errorsReturned);
+				props.Field.ErrorMsg = errorsReturned;
 			}
 			else{
 				props.history.push('/AdditionalInformationForm');
@@ -103,8 +105,7 @@ const CreateAccount = props => {
 
 				})}
 				onSubmit={(values, { setSubmitting }) => {
-
-					alert(JSON.stringify(values, null, 2));
+					//alert(JSON.stringify(values, null, 2));
 					userCreateAccount(values);
 					setSubmitting(false);
 				}}
@@ -194,7 +195,7 @@ const CreateAccount = props => {
 									</div>
 								</div>
 								<label htmlFor="signup"
-								>Already have an account? <a href="SignInForm" >SignIn</a> </label><br />
+								>Already have an account? <a href="SignInForm" >Sign In</a> </label><br />
 								<button type="submit" disabled={isSubmitting}>
 									Sign Up and Continue
 								</button>

@@ -33,7 +33,7 @@ const AdditionalInformation = props => {
 			>
 				{
 					(props) => {
-						const { values, errors, touched } = props;
+						const { errors, touched } = props;
 						return (
 							<Form >
 								<label htmlFor="streeAddress"

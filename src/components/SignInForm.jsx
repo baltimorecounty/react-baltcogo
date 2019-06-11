@@ -21,7 +21,7 @@ const SignIn = props => {
 			if(response.data.ErrorsCount > 0){
 				const errorsReturned = ErrorCheck(response);
 				console.log(errorsReturned);
-				props.Form.Field.email.errors = errorsReturned;
+				Field.email.errormessage = errorsReturned;
 			}
 			else{
 				props.history.push('/AdditionalInformationForm');
@@ -52,7 +52,7 @@ const SignIn = props => {
 				})}
 
 				onSubmit={(values, { setSubmitting }) => {
-					alert(JSON.stringify(values, null, 2));
+					//alert(JSON.stringify(values, null, 2));
 					userLogin(values);
 					setSubmitting(false);
 				}}

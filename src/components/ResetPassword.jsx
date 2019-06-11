@@ -17,7 +17,7 @@ const PasswordReset = props => {
 			if(response.data.ErrorsCount > 0){	
 				const errorsReturned = ErrorCheck(response);
 				console.log(errorsReturned);
-				props.Form.Field.email.errors = errorsReturned;
+				props.Field.ErrorMsg = errorsReturned;
 			}
 			else{
 				props.history.push('/AdditionalInformationForm');
@@ -40,7 +40,7 @@ const PasswordReset = props => {
 				})}
 
 				onSubmit={(values, { setSubmitting }) => {
-					alert(JSON.stringify(values, null, 2));
+					//alert(JSON.stringify(values, null, 2));
 					userPasswordReset(values);
 					setSubmitting(false);
 				}}
