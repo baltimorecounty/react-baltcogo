@@ -2,19 +2,19 @@ import React from "react";
 import { Field } from "formik";
 
 const RequestTypeField = props => {
-    console.log('inside RequestTypeField');
+	console.log('inside RequestTypeField');
 	const { component, name, formikProps, onChange, className } = props;
 	const handleChange = changeEvent => {
-        console.log('==========handleChange============');
+		console.log('==========handleChange=====inside====RequestTypeField===');
 		const { name, value } = changeEvent.target;
-		formikProps.setFieldValue(name, value);
+		//formikProps.setFieldValue(name, value);
 		//formikProps.setFieldValue('subRequestType', '');
 		//formikProps.setFieldValue('petType', '');
 		formikProps.setFieldValue('otherAnimalTypes', '');
 		formikProps.setFieldValue('sexType', '');
 		formikProps.setFieldValue('animalColorType', '');
 		formikProps.setFieldValue('animalBreed', '');
-		onChange(changeEvent);
+		//onChange(changeEvent);
 	};
 	return (
 		<Field component={component}
