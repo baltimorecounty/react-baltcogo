@@ -28,7 +28,7 @@ const SignIn = props => {
 			}	
 		}
 		catch (ex) {
-			if (ex.response && ex.response.StatusCode === 400) {
+			if (ex.response && ex.response.status === 400) {
 				props.errors.email = ex.response.data
 			}
 		}

@@ -24,7 +24,7 @@ const PasswordReset = props => {
 			}	
 		}
 		catch (ex) {
-			if (ex.response && ex.response.StatusCode === 400) {
+			if (ex.response && ex.response.status === 400) {
 				props.Form.Field.email.errors = ex.response.data
 			}
 		}
