@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import ErrorMsg from "./ErrorMessage";
+import { ErrorCheck } from "./CustomErrorHandling";
 import FormContainer from './FormContainer';
-import { login } from './authService';
+import { Login } from './authService';
 
 const SignIn = props => {
 	const [fieldType, setFieldType] = useState('Password');
@@ -11,17 +12,23 @@ const SignIn = props => {
 		setFieldType(fieldType === 'Password' ? 'text' : 'Password');
 	};
 
-	const signup = async (values) => {
+	const userLogin = async (values) => {
 
 		console.log('--inside signnup');
 		console.log(values);
 		try {
-			//await login(values.Email, values.Password);
-			//const {data:fwt}= await login(values.Email, values.Password);
-			props.history.push('/AdditionalInformationForm');
+			const response = await Login(values.Email, values.Password);
+			if(response.data.ErrorsCount > 0){
+				const errorsReturned = ErrorCheck(response);
+				console.log(errorsReturned);
+				Field.email.errormessage = errorsReturned;
+			}
+			else{
+				props.history.push('/AdditionalInformationForm');
+			}	
 		}
 		catch (ex) {
-			if (ex.response && ex.response === 400) {
+			if (ex.response && ex.response.status === 400) {
 				props.errors.email = ex.response.data
 			}
 		}
@@ -45,8 +52,8 @@ const SignIn = props => {
 				})}
 
 				onSubmit={(values, { setSubmitting }) => {
-					alert(JSON.stringify(values, null, 2));
-					signup(values);
+					//alert(JSON.stringify(values, null, 2));
+					userLogin(values);
 					setSubmitting(false);
 				}}
 			>
@@ -88,9 +95,9 @@ const SignIn = props => {
 											touched={touched.Password} />
 									</div>
 								</div>
-								<label htmlFor="forgetpassword">Forgot password?</label><br />
+								<label htmlFor="forgetpassword"> <a href="ResetPassword" >Forgot password?</a></label><br />
 								<label htmlFor="signup"
-								>Don't have an account? Sign up</label><br />
+								>Don't have an account? <a href="SignUpForm" >Sign up</a></label><br />
 								<button type="submit" disabled={isSubmitting}>
 									Sign In and Continue
 								</button>
