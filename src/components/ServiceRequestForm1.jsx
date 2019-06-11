@@ -107,7 +107,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 	}
 	const { values, isSubmitting, ...rest } = props;
 
-	//console.log(props);
+	console.log(props);
 	console.log('Request Type:' + rest.formik.values['requestType']);
 	console.log('SubRequest Type:' + rest.formik.values['subRequestType']);
 	return (
