@@ -2,10 +2,10 @@ import React from "react";
 import { Field } from "formik";
 
 const RequestTypeField = props => {
-    console.log('inside RequestTypeField');
+	console.log('inside RequestTypeField');
 	const { component, name, formikProps, onChange, className } = props;
 	const handleChange = changeEvent => {
-        console.log('==========handleChange============');
+		console.log('==========handleChange============');
 		const { name, value } = changeEvent.target;
 		formikProps.setFieldValue(name, value);
 		//formikProps.setFieldValue('subRequestType', '');

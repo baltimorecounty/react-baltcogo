@@ -5,6 +5,7 @@ import ErrorMsg from "./ErrorMessage";
 import { ErrorCheck } from "./CustomErrorHandling";
 import FormContainer from './FormContainer';
 import { SignUp } from './authService';
+import { Link }  from 'react-router-dom';
 
 /*function formatPhoneNumber(value, format) {
 	let error;
@@ -195,7 +196,7 @@ const CreateAccount = props => {
 									</div>
 								</div>
 								<label htmlFor="signup"
-								>Already have an account? <a href="SignInForm" >Sign In</a> </label><br />
+								>Already have an account? <Link to="SignInForm" >Sign In</Link> </label><br />
 								<button type="submit" disabled={isSubmitting}>
 									Sign Up and Continue
 								</button>

@@ -3,6 +3,7 @@ import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import ErrorMsg from "./ErrorMessage";
 import { ErrorCheck } from "./CustomErrorHandling";
+import { Link }  from 'react-router-dom';
 import FormContainer from './FormContainer';
 import { Login } from './authService';
 
@@ -50,7 +51,6 @@ const SignIn = props => {
 					//		/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9!@#$%^&*(),.?":{}|<>]{8}/,
 					//		"Your password must be 8 to 30 characters and contain at least one uppercase letter, one lowercase letter and one number.")
 				})}
-
 				onSubmit={(values, { setSubmitting }) => {
 					//alert(JSON.stringify(values, null, 2));
 					userLogin(values);
@@ -95,9 +95,9 @@ const SignIn = props => {
 											touched={touched.Password} />
 									</div>
 								</div>
-								<label htmlFor="forgetpassword"> <a href="ResetPassword" >Forgot password?</a></label><br />
+								<label htmlFor="forgetpassword"> <Link to="ResetPassword" >Forgot password?</Link></label><br />
 								<label htmlFor="signup"
-								>Don't have an account? <a href="SignUpForm" >Sign up</a></label><br />
+								>Don't have an account? <Link to="SignUpForm" >Sign up</Link></label><br />
 								<button type="submit" disabled={isSubmitting}>
 									Sign In and Continue
 								</button>
