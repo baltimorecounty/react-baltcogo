@@ -19,7 +19,9 @@ const SignIn = props => {
 		try {
 			const response = await Login(values.Email, values.Password);
 			if(response.data.ErrorsCount > 0){
-				console.log(ErrorCheck(response));
+				const errorsReturned = ErrorCheck(response);
+				console.log(errorsReturned);
+				props.Form.Field.email.errors = errorsReturned;
 			}
 			else{
 				props.history.push('/AdditionalInformationForm');

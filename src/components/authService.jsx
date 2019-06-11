@@ -1,16 +1,12 @@
 import http from "./httpService";
 import { apiLoginUrl, apiSignInUrl, apiPasswordResetUrl, apiCreateReportUrl } from "./config.json";
-const apiEndpointLogin = apiLoginUrl + "/login";
-const apiEndpointSignUp = apiSignInUrl + "/SignUp";
-const apiEndpointPasswordReset = apiPasswordResetUrl + "/password/";
-const apiEndpointCreateReport = apiCreateReportUrl + "/CreateReport";
 
 export function Login(email, password) {
-	return http.post( apiEndpointLogin, { email, password });
+	return http.post(apiLoginUrl, { email, password });
 
 }
 export function SignUp(NameFirst, NameLast, Email, Password, Telephone, UniqueId, SuppressNotifications) {
-	return http.post(apiEndpointSignUp, { 
+	return http.post(apiSignInUrl, { 
 		NameFirst, 
 		NameLast, 
 		Email, 
@@ -19,9 +15,9 @@ export function SignUp(NameFirst, NameLast, Email, Password, Telephone, UniqueId
 		UniqueId, 
 		SuppressNotifications });
 }
-export function PasswordReset(email) {
+export function ResetPassword(Email) {
 
-	return http.post( apiEndpointPasswordReset, { email });
+	return http.post(apiPasswordResetUrl, { Email });
 }
 
 export function CreateReport() {

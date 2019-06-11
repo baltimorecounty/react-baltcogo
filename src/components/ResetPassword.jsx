@@ -4,17 +4,20 @@ import * as Yup from "yup";
 import ErrorMsg from "./ErrorMessage";
 import { ErrorCheck } from "./CustomErrorHandling";
 import FormContainer from './FormContainer';
-import { PasswordReset } from './authService';
+import { ResetPassword } from './authService';
 
-const SignIn = props => {
+const PasswordReset = props => {
 	const userPasswordReset = async (values) => {
 
 		console.log('--inside signnup');
 		console.log(values);
+		console.log(values.Email);
 		try {
-			const response = await PasswordReset(values.Email);
-			if(response.data.ErrorsCount > 0){
-				console.log(ErrorCheck(response));
+			const response = await ResetPassword(values.Email);
+			if(response.data.ErrorsCount > 0){	
+				const errorsReturned = ErrorCheck(response);
+				console.log(errorsReturned);
+				props.Form.Field.email.errors = errorsReturned;
 			}
 			else{
 				props.history.push('/AdditionalInformationForm');
@@ -22,7 +25,7 @@ const SignIn = props => {
 		}
 		catch (ex) {
 			if (ex.response && ex.response.StatusCode === 400) {
-				props.errors.email = ex.response.data
+				props.Form.Field.email.errors = ex.response.data
 			}
 		}
 	}
@@ -74,4 +77,4 @@ const SignIn = props => {
 	);
 }
 
-export default SignIn;
+export default PasswordReset;
