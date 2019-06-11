@@ -7,14 +7,14 @@ const RequestTypeField = props => {
 	const handleChange = changeEvent => {
 		console.log('==========handleChange=====inside====RequestTypeField===');
 		const { name, value } = changeEvent.target;
-		//formikProps.setFieldValue(name, value);
+		formikProps.formik.setFieldValue(name, value);
 		//formikProps.setFieldValue('subRequestType', '');
 		//formikProps.setFieldValue('petType', '');
-		formikProps.setFieldValue('otherAnimalTypes', '');
-		formikProps.setFieldValue('sexType', '');
-		formikProps.setFieldValue('animalColorType', '');
-		formikProps.setFieldValue('animalBreed', '');
-		//onChange(changeEvent);
+		formikProps.formik.setFieldValue('otherAnimalTypes', '');
+		formikProps.formik.setFieldValue('sexType', '');
+		formikProps.formik.setFieldValue('animalColorType', '');
+		formikProps.formik.setFieldValue('animalBreed', '');
+		onChange(changeEvent);
 	};
 	return (
 		<Field component={component}
