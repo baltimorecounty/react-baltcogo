@@ -97,6 +97,11 @@ const ServiceRequestForm = props => {
 	}
 	const callRegisterForm = () => {
 		console.log('---callregisterForm---');
+		props.history.push("/SignUpForm");
+	}
+
+	const callSignInForm = () => {
+		console.log('---callregisterForm---');
 		props.history.push("/SignInForm");
 	}
 
@@ -354,12 +359,8 @@ const ServiceRequestForm = props => {
 											</div>
 										</div>
 										: null
-
 								}
-
-								<button type="submit" disabled={isSubmitting}>
-									Submit
-								</button>
+								<button type="button" onClick={callSignInForm}>Sign In</button>
 								<button type="button" onClick={callRegisterForm}>Register</button>
 							</Form>
 
