@@ -14,4 +14,5 @@ export const DisplayFormikState = props =>
 			<strong>props</strong> ={' '}
 			{JSON.stringify(props, null, 2)}
 		</pre>
-	</div>; 
+	</div>;
+export default DisplayFormikState

@@ -24,7 +24,7 @@ const getAnimalSubCategories = (AnimalBreeds, animalId) => {
 };
 
 
-const ServiceRequestForm = props => {
+const ServiceRequestForm = (props, errors, touched) => {
 	const [Categories, setData] = useState([]);
 	const [PetTypes, setPetTypes] = useState([]);
 	const [AnimalBreeds, setAnimalBreeds] = useState([]);
@@ -99,22 +99,26 @@ const ServiceRequestForm = props => {
 		console.log('---callregisterForm---');
 		props.history.push("/SignInForm");
 	}
-    const { values, isSubmitting, errors, touched, ...rest } = props;
-    const testRest = {...rest};
-	console.log(testRest);
+	const { values, isSubmitting, ...rest } = props;
+
+	console.log(errors);
 	return (
 
 
 		<FormContainer title="How Can We Help?">
 
-            return (
+			return (
 
 			<Form>
-				<label htmlFor="requestType">Request Category</label>
+				<label htmlFor="requestType"
+					className={
+						typeof errors.requestType && touched.requestType ? "input-feedback" : "text-label"}
+				>Request Category</label>
+
 				<RequestTypeField
 					component="select"
 					name="requestType"
-					formikProps={testRest}
+					formikProps={rest}
 					onChange={handleServiceRequestChange}
 
 				>
@@ -129,12 +133,12 @@ const ServiceRequestForm = props => {
 
 				/>
 				<button type="submit" disabled={isSubmitting}>
-                    Submit
+					Submit
 				</button>
 				<button type="button" onClick={callRegisterForm}>Register</button>
 			</Form>
 
-            )
+			)
         }
     }
 

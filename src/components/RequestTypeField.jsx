@@ -5,12 +5,8 @@ const RequestTypeField = props => {
 	const { component, name, formikProps, onChange, className } = props;
 	const handleChange = changeEvent => {
 		const { name, value } = changeEvent.target;
-		console.log('==========================');
-		console.log( 'name:' + name);
-		console.log( formikProps);
-		console.log('==========================');
 		formikProps.formik.setFieldValue(name, value);
-		
+
 		formikProps.formik.setFieldValue('subRequestType', '');
 		formikProps.formik.setFieldValue('petType', '');
 		formikProps.formik.setFieldValue('otherAnimalTypes', '');

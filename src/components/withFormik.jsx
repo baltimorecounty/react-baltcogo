@@ -15,18 +15,19 @@ export default withFormik({
 		animalColorType: '',
 		otherAnimalTypes: ''
 	}),
-	validationSchema:()=>
+	validationSchema: () =>
+
 		Yup.object().shape({
 			requestType: Yup.string().required('Request Category is required'),
 			subRequestType: Yup.string().required('Sub Category is required'),
 			petType: Yup.string().required('Pet Type is required'),
 			animalColorType: Yup.string().required('Primary Animal Color is required'),
-		})
-	},
+		}),
+
 
 
 	handleSubmit: values => {
 		console.log(values);
 
-	},
+	 },
 }); 
