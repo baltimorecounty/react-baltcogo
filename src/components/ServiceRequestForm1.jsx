@@ -67,25 +67,23 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 
 	const handleServiceRequestChange = (changeEvent) => {
-		console.log('++++++++++++++handleServiceRequestChange+++++++++++++');
+	
 		const { value } = changeEvent.currentTarget;
-		console.log('RequestChange value:' + value);
+
 		const subCategories = getSubCategories(Categories, parseInt(value));
 		setSubCategories(subCategories);
 	};
 	const handleServicePetChange = (changeEvent) => {
-		console.log('===============handleServicePetChange===============');
+	
 		const { value } = changeEvent.currentTarget;
-		console.log('pet value:' + value);
 		const subBreeds = getAnimalSubCategories(AnimalBreeds, parseInt(value));
 		setAnimalSubCategories(subBreeds.breeds);
-		console.log(subBreeds.sex);
 		setAnimalSex(subBreeds.sex)
 
 	};
 
 	const getAnimalSex = (animalId) => {
-		console.log('getAnimalSex');
+	
 		var animalCats = AnimalBreeds.find(animal => animal.id === parseInt(animalId));
 		if (animalCats !== undefined) {
 			//setAnimalSex(animalCats.sex);
@@ -102,14 +100,11 @@ const ServiceRequestForm = (props, errors, touched) => {
 		props.history.push("/SignInForm");
 	}
 	const callRegisterForm = () => {
-		console.log('---callregisterForm---');
+	
 		props.history.push("/SignUpForm");
 	}
 	const { values, isSubmitting, ...rest } = props;
 
-	console.log(props);
-	console.log('Request Type:' + rest.formik.values['requestType']);
-	console.log('SubRequest Type:' + rest.formik.values['subRequestType']);
 	return (
 
 

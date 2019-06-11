@@ -7,10 +7,19 @@ import FormContainer from './FormContainer';
 
 const AdditionalInformation = props => {
 
-	const { errors, touched, ...rest } = props;
+	const { errors, touched, handleSubmit, ...rest } = props;
+
+	console.log(props.formik.values);
+	const SubmitTheForm = () => {
+
+		console.log('--inside SubmitTheForm---');
+		console.log(props.formik.values);
+
+
+	}
 	return (
 		<FormContainer title="Additional Information">
-			<Form >
+			<form onSubmit={handleSubmit}>
 				<label htmlFor="streeAddress"
 					className={
 						rest.formik.errors.streeAddress && rest.formik.touched.streeAddress ? "input-feedback" : "text-label"}
@@ -44,7 +53,7 @@ const AdditionalInformation = props => {
 						className={
 							rest.formik.errors.zipCode && rest.formik.touched.zipCode ? "input-feedback" : "text-label"}
 					>
-                        Your ZIP Code
+						Your ZIP Code
 					</label>
 					<Field type='text'
 						name="zipCode"
@@ -56,8 +65,10 @@ const AdditionalInformation = props => {
 							touched={rest.formik.touched.zipCode} />
 					</div>
 				</div>
-
-			</Form>
+				<button type="button" onClick={SubmitTheForm}>
+					Submit
+				</button>
+			</form>
 
 		</FormContainer>
 	);

@@ -5,8 +5,10 @@ import ErrorMsg from "./ErrorMessage";
 import { ErrorCheck } from "./CustomErrorHandling";
 import FormContainer from './FormContainer';
 import { Login } from './authService';
+import Model from './Model'
 
 const SignIn = (props, errors, touched) => {
+
 	const [fieldType, setFieldType] = useState('Password');
 	const handlePasswordToggleChange = () => {
 		setFieldType(fieldType === 'Password' ? 'text' : 'Password');
@@ -76,6 +78,7 @@ const SignIn = (props, errors, touched) => {
 				<label htmlFor="forgetpassword"> <a href="ResetPassword" >Forgot password?</a></label><br />
 				<label htmlFor="signup"
 				>Don't have an account? <a href="SignUpForm" >Sign up</a></label><br />
+				<Model />
 				<button type="button" onClick={userLogin}>Sign In and Continue</button>
 				{/* <button type="submit" disabled={isSubmitting}>
 					Sign In and Continue

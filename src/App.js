@@ -8,30 +8,32 @@ import SignInForm from './components/SignInForm1';
 import ResetPassword from './components/ResetPassword';
 import withFormik from './components/withFormik';
 import DisplayFormikState from './components/helper';
-import ProviderDetails from './components/ProviderDetails'
+import ProviderDetails from './components/ProviderDetails';
+import SubmitButton from './components/SubmitButton'
+
 
 //class App extends Component {
 function App(props) {
 
-	console.log('----In App-----');
 	//console.log(this.props.requestType);
 	// const FormContext = React.createContext();
 	return (
 
 		<main className="container" >
-			{/* <FormContext.Provider value={{}}>
-				<form > */}
+		
+
 			<Switch>
+
 				<Route path='/SignInForm' component={SignInForm} />
 				<Route path='/SignUpForm' component={SignUpForm} />
 				<Route path='/AdditionalInformationForm' component={AdditionalInformationForm} />
 				<Route path='/ResetPassword' component={ResetPassword} />
 				<Route path='/ProviderDetails' component={ProviderDetails} />
 				<Route path='/' component={ServiceRequestForm} />
+
+
 			</Switch>
-			<button type='submit'>Submit</button>
-			{/* </form>
-			</FormContext.Provider> */}
+
 			<DisplayFormikState {...props} />
 		</main>
 
