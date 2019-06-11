@@ -12,29 +12,29 @@ const CreateAccount = props => {
 	const handlePasswordToggleChange = () => {
 		setFieldType(fieldType === 'Password' ? 'text' : 'Password');
 	};
-	const userCreateAccount = async (values) => {
 
-		console.log('--inside signnup');
-		console.log(values);
-		try {
-			const response = await SignUp(values.NameFirst, values.NameLast, values.Email, values.Password, values.Telephone, values.UniqueId, values.SuppressNotifications);
-			if (response.data.ErrorsCount > 0) {
-				const errorsReturned = ErrorCheck(response);
-				console.log(errorsReturned);
-				props.Field.ErrorMsg = errorsReturned;
+	const userCreateAccount = async (values) => {
+		props.history.push('/ProviderDetails');
+		/* 	try {
+				const response = await SignUp(values.NameFirst, values.NameLast, values.Email, values.Password, values.Telephone, values.UniqueId, values.SuppressNotifications);
+				if (response.data.ErrorsCount > 0) {
+					const errorsReturned = ErrorCheck(response);
+					console.log(errorsReturned);
+					props.Field.ErrorMsg = errorsReturned;
+				}
+				else {
+					props.history.push('/ProviderDetails');
+				}
 			}
-			else {
-				props.history.push('/AdditionalInformationForm');
-			}
-		}
-		catch (ex) {
-			if (ex.response && ex.response.status === 400) {
-				props.errors.email = ex.response.data
-			}
-		}
+			catch (ex) {
+				if (ex.response && ex.response.status === 400) {
+					props.errors.email = ex.response.data
+				}
+			} */
 	}
 
-	const { values, isSubmitting, ...rest } = props;
+	const { isSubmitting, ...rest } = props;
+	console.log(props);
 	return (
 		<FormContainer title="Register for an Account">
 			<Form >
@@ -101,7 +101,7 @@ const CreateAccount = props => {
 						className={
 							rest.formik.errors.Password && rest.formik.touched.Password ? "input-feedback" : "text-label"}
 					>
-                        Password
+						Password
 					</label>
 					<Field type={fieldType === 'Password' ? 'Password' : 'text'}
 						name="Password"
@@ -118,16 +118,16 @@ const CreateAccount = props => {
 				</div>
 				<label htmlFor="signup"
 				>Already have an account? <a href="SignInForm" >Sign In</a> </label><br />
-				<button type="submit" disabled={isSubmitting}>
-                    Sign Up and Continue
+				<button type="button" onClick={userCreateAccount}>
+					Sign Up and Continue
 				</button>
+				{/* <button type="submit" disabled={isSubmitting}>
+                    Sign Up and Continue
+				</button> */}
 			</Form>
-
-
-		</FormContainer >
+		</FormContainer>
 	);
 }
-
 export default connect(CreateAccount);
 
 

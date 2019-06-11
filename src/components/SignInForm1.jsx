@@ -17,15 +17,16 @@ const SignIn = (props, errors, touched) => {
 		console.log('--inside signnup');
 		console.log(values);
 		try {
-			const response = await Login(values.Email, values.Password);
-			if (response.data.ErrorsCount > 0) {
-				const errorsReturned = ErrorCheck(response);
-				console.log(errorsReturned);
-				Field.email.errormessage = errorsReturned;
-			}
-			else {
-				props.history.push('/AdditionalInformationForm');
-			}
+			//const response = await Login(values.Email, values.Password);
+			props.history.push('/ProviderDetails');
+			// if (response.data.ErrorsCount > 0) {
+			// 	const errorsReturned = ErrorCheck(response);
+			// 	console.log(errorsReturned);
+			// 	Field.email.errormessage = errorsReturned;
+			// }
+			// else {
+			// 	props.history.push('/AdditionalInformationForm');
+			// }
 		}
 		catch (ex) {
 			if (ex.response && ex.response.status === 400) {
@@ -75,9 +76,10 @@ const SignIn = (props, errors, touched) => {
 				<label htmlFor="forgetpassword"> <a href="ResetPassword" >Forgot password?</a></label><br />
 				<label htmlFor="signup"
 				>Don't have an account? <a href="SignUpForm" >Sign up</a></label><br />
-				<button type="submit" disabled={isSubmitting}>
-                    Sign In and Continue
-				</button>
+				<button type="button" onClick={userLogin}>Sign In and Continue</button>
+				{/* <button type="submit" disabled={isSubmitting}>
+					Sign In and Continue
+				</button> */}
 			</Form>
 
 		</FormContainer>
