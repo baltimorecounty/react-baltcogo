@@ -15,10 +15,20 @@ const SignIn = (props) => {
 	};
 	const userLogin = async () => {
 
+
+
 		console.log('--inside signnup');
 		const { Email, Password } = props.formik.values;
 
+
 		try {
+
+			/* 	if (!Email) {
+					console.log(' empty email');
+				}
+				else {
+					console.log(' has email');
+				} */
 			const response = await Login(Email, Password);
 			//props.history.push('/ProviderDetails');
 			if (response.data.ErrorsCount > 0) {
@@ -46,7 +56,7 @@ const SignIn = (props) => {
 	console.log('---SingnInForm1----')
 	return (
 		<FormContainer title="Sign In">
-			<Form >
+			<Form>
 				<label htmlFor="Email"
 					className={rest.formik.errors.Email && rest.formik.touched.Email ? "input-feedback" : "text-label"}
 				>Email Address
@@ -85,9 +95,7 @@ const SignIn = (props) => {
 				>Don't have an account? <Link to="SignUpForm" >Sign up</Link></label><br />
 
 				<button type="button" onClick={userLogin}>Sign In and Continue</button>
-				{/* <button type="submit" disabled={isSubmitting}>
-					Sign In and Continue
-				</button> */}
+
 			</Form>
 
 		</FormContainer>
@@ -96,3 +104,6 @@ const SignIn = (props) => {
 }
 
 export default connect(SignIn);
+/* 
+	<button type="submit" disabled={isSubmitting}>Sign In and Continue</button>
+*/

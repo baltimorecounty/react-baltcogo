@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom'
 import './App.css';
-import SignUpForm from './components/SignUpForm1';
+import SignUpForm from './components/SignUpForm';
 import ServiceRequestForm from './components/ServiceRequestForm1';
 import AdditionalInformationForm from './components/AdditionalInformation1';
 import SignInForm from './components/SignInForm1';
@@ -20,9 +20,9 @@ function App(props) {
 	return (
 
 		<main className="container" >
-			
 
-			 <Switch>
+
+			<Switch>
 
 				<Route path='/SignInForm' component={SignInForm} />
 				<Route path='/SignUpForm' component={SignUpForm} />
@@ -33,7 +33,7 @@ function App(props) {
 				<Route path='/' component={ServiceRequestForm} />
 
 
-			</Switch> 
+			</Switch>
 
 			<DisplayFormikState {...props} />
 		</main>
@@ -41,4 +41,4 @@ function App(props) {
 	);
 }
 //export default App;
- export default withFormik(App)
+export default withFormik(App)
