@@ -23,12 +23,12 @@ const SignIn = (props) => {
 
 		try {
 
-			/* 	if (!Email) {
-					console.log(' empty email');
-				}
-				else {
-					console.log(' has email');
-				} */
+			if (!Email) {
+				console.log(' empty email');
+			}
+			else {
+				console.log(' has email');
+			}
 			const response = await Login(Email, Password);
 			//props.history.push('/ProviderDetails');
 			if (response.data.ErrorsCount > 0) {
@@ -93,8 +93,8 @@ const SignIn = (props) => {
 				<label htmlFor="forgetpassword"> <Link to="ResetPassword" >Forgot password?</Link></label><br />
 				<label htmlFor="signup"
 				>Don't have an account? <Link to="SignUpForm" >Sign up</Link></label><br />
-
 				<button type="button" onClick={userLogin}>Sign In and Continue</button>
+
 
 			</Form>
 
@@ -105,5 +105,6 @@ const SignIn = (props) => {
 
 export default connect(SignIn);
 /* 
+<button type="button" onClick={userLogin}>Sign In and Continue</button>
 	<button type="submit" disabled={isSubmitting}>Sign In and Continue</button>
 */

@@ -28,6 +28,8 @@ const ServiceRequestForm = (props, errors, touched) => {
 	const requestType_WebSiteIssue = '1011097';
 	const requestType_RoadSidewalkIssue = '1011065';
 	const requestType_TrashRecycleIssue = '1011080';
+	const requestType_WaterandSewerIssues = 'D000001';
+
 
 	const subCategory_OtherWebsiteProblem = '1011103';
 
@@ -38,6 +40,10 @@ const ServiceRequestForm = (props, errors, touched) => {
 	const subCategory_TrashNotCollected = '1011087';
 	const subCategory_YardWasteNotCollected = '1011088';
 	const subCategory_IcyConditions = '1011069';
+
+	const subCategory_SewerIssues = 'D000002';
+	const subCategory_StormWaterIssues = 'D000004';
+	const subCategory_WaterSupplyIssues = 'D000005';
 
 	const petAndAnimalIssueID_OtherAnimalComplaint = '1010186';
 	const petTypeCat = '1010188';
@@ -85,9 +91,10 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 	const handleServiceRequestChange = (changeEvent) => {
 
+
 		const { value } = changeEvent.currentTarget;
 
-		const subCategories = getSubCategories(Categories, parseInt(value));
+		const subCategories = getSubCategories(Categories, parseInt(value) ? parseInt(value) : value);
 		setSubCategories(subCategories);
 	};
 	const handleServicePetChange = (changeEvent) => {
@@ -121,7 +128,8 @@ const ServiceRequestForm = (props, errors, touched) => {
 	}
 	const { values, isSubmitting, ...rest } = props;
 
-
+	console.log('requestType:' + rest.formik.values.requestType);
+	console.log('subrequestType:' + rest.formik.values.subRequestType);
 	return (
 
 
@@ -175,6 +183,54 @@ const ServiceRequestForm = (props, errors, touched) => {
 									errormessage={rest.formik.errors.subRequestType}
 									touched={rest.formik.touched.subRequestType} />
 							</div>
+						</div>
+						: null
+				}
+
+				{ /* water and Sewer Issues --- Sewer Issues */
+
+					(rest.formik.values['requestType'] === requestType_WaterandSewerIssues
+						&& rest.formik.values['subRequestType'] === subCategory_SewerIssues) ?
+						<div>
+							<p>
+								Issues such as missing manhole covers, sewer backups, overflows or odors require immediate attention, and therefore cannot be reported online.
+						
+							</p>
+							<p>
+								Please call the Department of Public Works at 410-887-7415 to ensure we obtain the necessary information to address the issue as soon as possible.
+							</p>
+
+						</div>
+						: null
+				}
+
+				{ /* water and Sewer Issues --- Sewer Issues */
+
+					(rest.formik.values['requestType'] === requestType_WaterandSewerIssues
+						&& rest.formik.values['subRequestType'] === subCategory_StormWaterIssues) ?
+						<div>
+						<p>
+						Stormwater issues such as sinkholes and missing or damaged storm grates require immediate attention due to the risk of harm to persons or property, and therefore cannot be reported online.
+						
+							</p>
+							<p>
+							Please call the Department of Public Works at 410-887-7415 to ensure we obtain the necessary information to address the issue as soon as possible.
+							</p>
+						</div>
+						: null
+				}
+
+				{ /* water and Sewer Issues --- Sewer Issues*/
+
+					(rest.formik.values['requestType'] === requestType_WaterandSewerIssues
+						&& rest.formik.values['subRequestType'] === subCategory_WaterSupplyIssues) ?
+						<div>
+							<p>
+
+								Baltimore City (not Baltimore County) owns, maintains and repairs all water mains and hydrants. However, service requests for broken water mains, leaking hydrants and drinking water concerns can be reported directly to Baltimore County by calling 410-887-7415 anytime.
+								
+							</p>
+
 						</div>
 						: null
 				}
