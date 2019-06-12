@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import { Formik, Form, Field, connect } from "formik";
-import * as Yup from "yup";
-import ErrorMsg from "./ErrorMessage";
-import { ErrorCheck } from "./CustomErrorHandling";
+import { Form, Field, connect } from "formik";
+import * as Yup from "yup";import ErrorMsg from "./ErrorMessage";
+
 import FormContainer from './FormContainer';
 import { SignUp } from './authService';
-
+import { Link } from 'react-router-dom';
 
 const CreateAccount = props => {
 	const [fieldType, setFieldType] = useState('Password');
@@ -14,7 +13,7 @@ const CreateAccount = props => {
 	};
 
 	const userCreateAccount = async () => {
-		const { NameFirst, NameLast,Email,Password,Telephone,UniqueId,SuppressNotifications } = props.formik.values;
+		const { NameFirst, NameLast, Email, Password, Telephone, UniqueId, SuppressNotifications } = props.formik.values;
 		props.history.push('/ProviderDetails');
 		/* 	try {
 				const response = await SignUp(NameFirst,NameLast, Email, Password, Telephone, UniqueId, SuppressNotifications);
@@ -35,7 +34,7 @@ const CreateAccount = props => {
 	}
 
 	const { isSubmitting, ...rest } = props;
-	console.log(props);
+	//console.log(props);
 	return (
 		<FormContainer title="Register for an Account">
 			<Form >
@@ -118,7 +117,7 @@ const CreateAccount = props => {
 					</div>
 				</div>
 				<label htmlFor="signup"
-				>Already have an account? <a href="SignInForm" >Sign In</a> </label><br />
+				>Already have an account? <Link to="SignInForm" >Sign In</Link> </label><br />
 				<button type="button" onClick={userCreateAccount}>
 					Sign Up and Continue
 				</button>

@@ -1,19 +1,18 @@
 import React, { useState } from "react";
-import { Formik, Form, Field, connect } from "formik";
-import * as Yup from "yup";
+import { Form, Field, connect } from "formik";
 import ErrorMsg from "./ErrorMessage";
 import { ErrorCheck } from "./CustomErrorHandling";
 import FormContainer from './FormContainer';
 import { Login } from './authService';
+import { Link } from 'react-router-dom';
 
 
-const SignIn = (props, errors, touched) => {
+const SignIn = (props) => {
 
 	const [fieldType, setFieldType] = useState('Password');
 	const handlePasswordToggleChange = () => {
 		setFieldType(fieldType === 'Password' ? 'text' : 'Password');
 	};
-
 	const userLogin = async () => {
 
 		console.log('--inside signnup');
@@ -27,8 +26,8 @@ const SignIn = (props, errors, touched) => {
 				console.log(errorsReturned);
 				console.log(response.data);
 				console.log(props.formik.errors);
-				props.formik.errors.Email = response.data;
-			
+				props.formik.errors.Email = errorsReturned;
+
 			}
 			else {
 				props.history.push('/ProviderDetails');
@@ -36,15 +35,15 @@ const SignIn = (props, errors, touched) => {
 		}
 		catch (ex) {
 			if (ex.response && ex.response.status === 400) {
-			
+
 				props.formik.errors.Email = ex.response.data
 			}
-	
+
 		}
 
 	}
 	const { isSubmitting, ...rest } = props;
-	console.log('render in SignInForm1');
+	console.log('---SingnInForm1----')
 	return (
 		<FormContainer title="Sign In">
 			<Form >
@@ -81,9 +80,9 @@ const SignIn = (props, errors, touched) => {
 							touched={rest.formik.touched.Password} />
 					</div>
 				</div>
-				<label htmlFor="forgetpassword"> <a href="ResetPassword" >Forgot password?</a></label><br />
+				<label htmlFor="forgetpassword"> <Link to="ResetPassword" >Forgot password?</Link></label><br />
 				<label htmlFor="signup"
-				>Don't have an account? <a href="SignUpForm" >Sign up</a></label><br />
+				>Don't have an account? <Link to="SignUpForm" >Sign up</Link></label><br />
 
 				<button type="button" onClick={userLogin}>Sign In and Continue</button>
 				{/* <button type="submit" disabled={isSubmitting}>

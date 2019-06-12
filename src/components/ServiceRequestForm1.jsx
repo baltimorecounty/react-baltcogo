@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Formik, Form, Field, connect } from "formik";
+import { Form, Field, connect } from "formik";
 import axios from "axios"
-import * as Yup from "yup";
 import ErrorMsg from "./ErrorMessage";
 import FormContainer from './FormContainer';
 import RequestTypeField from "./RequestTypeField";
+import RequestSubTypeField from "./RequestSubTypeField";
 import RequestPetTypeField from "./RequestPetTypeField";
 //import PetTypes from "./pettypes.json";
 //import AnimalBreeds from "./animalbreeds.json";
@@ -23,8 +23,26 @@ const getAnimalSubCategories = (AnimalBreeds, animalId) => {
 
 };
 
-
 const ServiceRequestForm = (props, errors, touched) => {
+	const requestType_petAndAnimalIssueID = '1010169';
+	const requestType_WebSiteIssue = '1011097';
+	const requestType_RoadSidewalkIssue = '1011065';
+	const requestType_TrashRecycleIssue = '1011080';
+
+	const subCategory_OtherWebsiteProblem = '1011103';
+
+	const subCategory_CanOrLidLostDamaged = '1011083';
+	const subCategory_PropertyDamangeDuringCollecttion = '1011084';
+	const subCategory_RecyclingNotCollected = '1011085';
+	const subCategory_RequestToStartNewCollection = '1011086';
+	const subCategory_TrashNotCollected = '1011087';
+	const subCategory_YardWasteNotCollected = '1011088';
+	const subCategory_IcyConditions = '1011069';
+
+	const petAndAnimalIssueID_OtherAnimalComplaint = '1010186';
+	const petTypeCat = '1010188';
+	const petTypeDog = '1010189';
+	const petType_Others = '1010191';
 	const [Categories, setData] = useState([]);
 	const [PetTypes, setPetTypes] = useState([]);
 	const [AnimalBreeds, setAnimalBreeds] = useState([]);
@@ -58,8 +76,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 			setAnimalBreeds(resultAnimalBreeds.data);
 			setAnimalColors(resultAnimalColors.data);
 			setOtherAnimalTypes(resultAnimalTypes.data);
-			console.log('animal breed:' + resultAnimalBreeds.data);
-			console.log(resultAnimalBreeds.data);
+
 		};
 
 		fetchData();
@@ -67,14 +84,14 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 
 	const handleServiceRequestChange = (changeEvent) => {
-	
+
 		const { value } = changeEvent.currentTarget;
 
 		const subCategories = getSubCategories(Categories, parseInt(value));
 		setSubCategories(subCategories);
 	};
 	const handleServicePetChange = (changeEvent) => {
-	
+
 		const { value } = changeEvent.currentTarget;
 		const subBreeds = getAnimalSubCategories(AnimalBreeds, parseInt(value));
 		setAnimalSubCategories(subBreeds.breeds);
@@ -82,11 +99,10 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 	};
 
-	const getAnimalSex = (animalId) => {
-	
+	const checkPetType = (animalId) => {
+
 		var animalCats = AnimalBreeds.find(animal => animal.id === parseInt(animalId));
 		if (animalCats !== undefined) {
-			//setAnimalSex(animalCats.sex);
 			return true;
 		}
 		else {
@@ -96,14 +112,15 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 	}
 	const callSignInForm = () => {
-		
+
 		props.history.push("/SignInForm");
 	}
 	const callRegisterForm = () => {
-	
+
 		props.history.push("/SignUpForm");
 	}
 	const { values, isSubmitting, ...rest } = props;
+
 
 	return (
 
@@ -123,7 +140,6 @@ const ServiceRequestForm = (props, errors, touched) => {
 					name="requestType"
 					formikProps={rest}
 					onChange={handleServiceRequestChange}
-
 				>
 					<option key='default' value=''>--Please select a category--</option>
 					{Categories.map(category => (
@@ -144,15 +160,16 @@ const ServiceRequestForm = (props, errors, touched) => {
 							>
 								Request Sub-Category
 							</label>
-							<Field component="select"
+							<RequestSubTypeField
+								component="select"
 								name="subRequestType"
-								className={`text-select ${rest.formik.errors.subRequestType && rest.formik.touched.subRequestType ? "error" : ""}`}
+								formikProps={rest}
 							>
-								<option key='default' value=''>--Please Select a sub-category--</option>
+								<option key='default' value=''>--Please select a sub-category--</option>
 								{subCategories.map(category => (
 									<option key={category.id} value={category.id}>{category.name}</option>
 								))}
-							</Field>
+							</RequestSubTypeField>
 							<div className="input-feedback">
 								<ErrorMsg
 									errormessage={rest.formik.errors.subRequestType}
@@ -162,32 +179,112 @@ const ServiceRequestForm = (props, errors, touched) => {
 						: null
 				}
 
+
 				{ /* Can or lid lost or damaged*/
-					rest.formik.values['subRequestType'] === '1011083' ?
+
+					(rest.formik.values['requestType'] === requestType_TrashRecycleIssue
+						&& rest.formik.values['subRequestType'] === subCategory_CanOrLidLostDamaged) ?
 						<div>
-							The County will only replace damaged cans or lids with evidence of hauler negligence. After submitting your report, please email any evidence to solidwaste@baltimorecountymd.gov and reference your request ID number.
+							The County will only replace damaged cans or lids with evidence of hauler negligence. After submitting your report, please email any evidence to  <a href="mailto:solidwaste@baltimorecountymd.gov">solidwaste@baltimorecountymd.gov</a> and reference your request ID number.
 						</div>
 						: null
 				}
-				{ /* icy condition*/
-					rest.formik.values['subRequestType'] === '1011069' ?
+
+				{ /* Property damage during collection */
+
+					(rest.formik.values['requestType'] === requestType_TrashRecycleIssue
+						&& rest.formik.values['subRequestType'] === subCategory_PropertyDamangeDuringCollecttion) ?
+						<div>
+							If your property was damaged, please also file a police report. Email the police report number along with any photos or videos to <a href="mailto:solidwaste@baltimorecountymd.gov">solidwaste@baltimorecountymd.gov</a> and reference your request ID number.
+						</div>
+						: null
+				}
+
+
+				{ /* Recycling not collected */
+
+					(rest.formik.values['requestType'] === requestType_TrashRecycleIssue
+						&& rest.formik.values['subRequestType'] === subCategory_RecyclingNotCollected) ?
+						<div>
+
+							Please review the reasons why your recycling may not have been collected before submitting a report.
+						</div>
+						: null
+				}
+
+				{ /* Request to start new collection */
+
+					(rest.formik.values['requestType'] === requestType_TrashRecycleIssue
+						&& rest.formik.values['subRequestType'] === subCategory_RequestToStartNewCollection) ?
+						<div>
+							Your address may already have collection service. Please check for an existing collection schedule and learn how to properly set out your materials before requesting new service.
+						</div>
+						: null
+				}
+
+				{ /* Trash not collected */
+
+					(rest.formik.values['requestType'] === requestType_TrashRecycleIssue
+						&& rest.formik.values['subRequestType'] === subCategory_TrashNotCollected) ?
+						<div>
+
+							Please review the reasons why your trash may not have been collected before submitting a report
+						</div>
+						: null
+				}
+				{ /* Yard waste not collected*/
+
+					(rest.formik.values['requestType'] === requestType_TrashRecycleIssue
+						&& rest.formik.values['subRequestType'] === subCategory_YardWasteNotCollected) ?
+						<div>
+
+							Please review the reasons why your yard waste may not have been collected before submitting a report.
+						</div>
+						: null
+				}
+
+
+
+				{/* 	
+			
+			
+				{ /* Roads and Sidewalks Issue -- icy condition*/
+					(rest.formik.values['requestType'] === requestType_RoadSidewalkIssue
+						&& rest.formik.values['subRequestType'] === subCategory_IcyConditions) ?
 						<div>
 							Due to the safety risk posed by ice in the roadway, we cannot take your report online.
 							Please call the Department of Public Works immediately at 410-887-0000 to ensure we obtain the necessary information to address the issue as soon as possible.
 						</div>
 						: null
 				}
-				{
-					rest.formik.values['subRequestType'] === '1010186' ?
-						<div>
+				{/* Pets and Anial Issue - Other animal complaint */
 
-							The Police Department is responsible for investigating all animal cruelty incidents. If you witness a person inflicting harm on an animal, call 911 immediately.
-							To report animal cruelty when immediate police intervention is not required, call the police non-emergency line at 410-887-2222. Please don't use this form to report animal cruelty.
+					(rest.formik.values['requestType'] === requestType_petAndAnimalIssueID
+						&& rest.formik.values['subRequestType'] === petAndAnimalIssueID_OtherAnimalComplaint) ?
+						<div>
+							<p>
+								The Police Department is responsible for investigating all animal cruelty incidents.
+								<b>If you witness a person inflicting harm on an animal, call 911 immediately.</b>
+							</p>
+							<p>
+								To report animal cruelty when immediate police intervention is not required, call the police non-emergency line at 410-887-2222. Please don't use this form to report animal cruelty.
+							</p>
+						</div>
+						: null
+				}
+				{/* Website Issue - Other website problem */
+
+					(rest.formik.values['requestType'] === requestType_WebSiteIssue
+						&& rest.formik.values['subRequestType'] === subCategory_OtherWebsiteProblem) ?
+						<div>
+							<p>
+								In the description below, please include the URL of the page where you encountered the problem.
+							</p>
 						</div>
 						: null
 				}
 				{
-					rest.formik.values['requestType'] === '1010169' && rest.formik.values['subRequestType'] !== '' ?
+					rest.formik.values['requestType'] === requestType_petAndAnimalIssueID && rest.formik.values['subRequestType'] !== '' ?
 						<div>
 							<label htmlFor="petType"
 								className={
@@ -215,7 +312,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 				}
 				{
 
-					(rest.formik.values['petType'] === '1010191' && rest.formik.values['subRequestType'] !== '') ?
+					(rest.formik.values['subRequestType'] !== '') && rest.formik.values['petType'] === petType_Others ?
 						<div>
 							<label htmlFor="otherAnimalTypes"
 								className={
@@ -243,8 +340,9 @@ const ServiceRequestForm = (props, errors, touched) => {
 						: null
 				}
 				{
-					((rest.formik.values['requestType'] === '1010169') && rest.formik.values['subRequestType'] === '1010175')
-						&& getAnimalSex(rest.formik.values['petType']) ?
+					((rest.formik.values['requestType'] === requestType_petAndAnimalIssueID)
+						&& rest.formik.values['subRequestType'] !== '')
+						&& checkPetType(rest.formik.values['petType']) ?
 						<div>
 							<label htmlFor="sexType"
 								className={
@@ -274,8 +372,9 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 				{
 
-					(rest.formik.values['requestType'] === '1010169' && rest.formik.values['subRequestType'] === '1010175')
-						&& (rest.formik.values['petType'] === '1010188' || rest.formik.values['petType'] === '1010189') ?
+					(rest.formik.values['requestType'] === requestType_petAndAnimalIssueID
+						&& rest.formik.values['subRequestType'] !== '')
+						&& (rest.formik.values['petType'] === petTypeCat || rest.formik.values['petType'] === petTypeDog) ?
 						<div>
 							<label htmlFor="animalColorType"
 								className={
@@ -307,8 +406,8 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 				<br />
 				{
-					((rest.formik.values['requestType'] === '1010169' && rest.formik.values['subRequestType'] === '1010175') &&
-						animalSubCategories !== undefined) && (rest.formik.values['petType'] === '1010188' || rest.formik.values['petType'] === '1010189') ?
+					(rest.formik.values['requestType'] === requestType_petAndAnimalIssueID && rest.formik.values['subRequestType'] !== '')
+						&& (rest.formik.values['petType'] === petTypeCat || rest.formik.values['petType'] === petTypeDog) ?
 						<div>
 							<label htmlFor="animalBreed"
 								className={
@@ -336,8 +435,8 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 				}
 
-				<button type="button"   onClick={callSignInForm}>
-					Sign In 
+				<button type="button" onClick={callSignInForm}>
+					Sign In
 				</button>
 				<button type="button" onClick={callRegisterForm}>Register</button>
 				<Model />

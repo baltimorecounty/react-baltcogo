@@ -7,22 +7,20 @@ import AdditionalInformationForm from './components/AdditionalInformation1';
 import SignInForm from './components/SignInForm1';
 import ResetPassword from './components/ResetPassword';
 import withFormik from './components/withFormik';
-import DisplayFormikState from './components/helper';
+
 import ProviderDetails from './components/ProviderDetails';
-import SubmitButton from './components/SubmitButton'
+import DisplayFormikState from './components/helper';
 
-
+//import FieldLevelValidation from './components/FieldValidation';
 //class App extends Component {
 function App(props) {
 
-	//console.log(this.props.requestType);
-	// const FormContext = React.createContext();
 	return (
 
 		<main className="container" >
+			
 
-
-			<Switch>
+			 <Switch>
 
 				<Route path='/SignInForm' component={SignInForm} />
 				<Route path='/SignUpForm' component={SignUpForm} />
@@ -32,11 +30,12 @@ function App(props) {
 				<Route path='/' component={ServiceRequestForm} />
 
 
-			</Switch>
+			</Switch> 
 
 			<DisplayFormikState {...props} />
 		</main>
 
 	);
 }
-export default withFormik(App)
+//export default App;
+ export default withFormik(App)
