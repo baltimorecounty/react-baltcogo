@@ -30,3 +30,6 @@ export function CreateReport(data) {
 	}).catch(err => err);
 }
 
+export function GetReportByID(ID) {
+	return http.get(apiPasswordResetUrl + ID);
+}
