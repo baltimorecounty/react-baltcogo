@@ -13,14 +13,15 @@ const CreateAccount = props => {
 		setFieldType(fieldType === 'Password' ? 'text' : 'Password');
 	};
 
-	const userCreateAccount = async (values) => {
+	const userCreateAccount = async () => {
+		const { NameFirst, NameLast,Email,Password,Telephone,UniqueId,SuppressNotifications } = props.formik.values;
 		props.history.push('/ProviderDetails');
 		/* 	try {
-				const response = await SignUp(values.NameFirst, values.NameLast, values.Email, values.Password, values.Telephone, values.UniqueId, values.SuppressNotifications);
+				const response = await SignUp(NameFirst,NameLast, Email, Password, Telephone, UniqueId, SuppressNotifications);
 				if (response.data.ErrorsCount > 0) {
 					const errorsReturned = ErrorCheck(response);
 					console.log(errorsReturned);
-					props.Field.ErrorMsg = errorsReturned;
+					props.formik.errors.ErrorMsg = errorsReturned;
 				}
 				else {
 					props.history.push('/ProviderDetails');
@@ -28,7 +29,7 @@ const CreateAccount = props => {
 			}
 			catch (ex) {
 				if (ex.response && ex.response.status === 400) {
-					props.errors.email = ex.response.data
+					props.formik.errors.email = ex.response.data
 				}
 			} */
 	}
