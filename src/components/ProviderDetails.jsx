@@ -1,7 +1,6 @@
 
 import React, { useState, useEffect } from "react";
-import { Formik, Form, Field, connect } from "formik";
-import * as Yup from "yup";
+import { Form, Field, connect } from "formik";
 import ErrorMsg from "./ErrorMessage";
 import FormContainer from './FormContainer';
 import Geocode from "react-geocode";
@@ -9,7 +8,6 @@ import Collaspe from './Collaspe'
 import axios from "axios"
 import Autocomplete from 'react-autocomplete';
 import _ from 'lodash'
-import { MoreResources, DisplayFormikState } from './helper';
 Geocode.setApiKey('AIzaSyAqazsw3wPSSxOFVmij32C_LIhBSuyUNi8');
 
 
@@ -67,9 +65,9 @@ const providerDetails = props => {
 		setLatitude(Latitude);
 		setLongitude(Longitude);
 		setMarkerLatitude(MarkerLatitude);
-        setMarkerLongitude(MarkerLongitude);
-        rest.formik.setFieldValue('Latitude', Latitude);
-        rest.formik.setFieldValue('Longitude', Longitude);
+		setMarkerLongitude(MarkerLongitude);
+		rest.formik.setFieldValue('Latitude', Latitude);
+		rest.formik.setFieldValue('Longitude', Longitude);
 	};
 	const onMarkerDragEnd = (event, setFieldValue) => {
 

@@ -1,6 +1,5 @@
 import React from "react";
-import { Formik, Form, Field, connect } from "formik";
-import * as Yup from "yup";
+import { Field, connect } from "formik";
 import ErrorMsg from "./ErrorMessage";
 import FormContainer from './FormContainer';
 
@@ -14,8 +13,10 @@ const AdditionalInformation = props => {
 
 		console.log('--inside SubmitTheForm---');
 		console.log(props.formik.values);
-
-
+	}
+	const callProviderDetailForm = () => {
+		console.log('---callregisterForm---');
+		props.history.push("/ProviderDetails");
 	}
 	return (
 		<FormContainer title="Additional Information">
@@ -65,6 +66,7 @@ const AdditionalInformation = props => {
 							touched={rest.formik.touched.zipCode} />
 					</div>
 				</div>
+				<button type="button" onClick={callProviderDetailForm}>Previous</button>
 				<button type="button" onClick={SubmitTheForm}>
 					Submit
 				</button>

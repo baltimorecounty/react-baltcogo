@@ -7,7 +7,10 @@ import FormContainer from './FormContainer';
 
 const AdditionalInformation = props => {
 
-
+	const callProviderDetailForm = () => {
+		console.log('---callregisterForm---');
+		props.history.push("/ProviderDetailForm");
+	}
 	return (
 		<FormContainer title="Additional Information">
 			<Formik
@@ -81,7 +84,7 @@ const AdditionalInformation = props => {
 											touched={touched.zipCode} />
 									</div>
 								</div>
-
+								<button type="button" onClick={callProviderDetailForm}>Previous</button>
 							</Form>
 						)
 					}
