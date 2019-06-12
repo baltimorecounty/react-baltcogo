@@ -5,7 +5,11 @@ const RequestTypeField = props => {
 	console.log('inside RequestTypeField');
 	const { component, name, formikProps, onChange, className } = props;
 	const handleChange = changeEvent => {
+<<<<<<< HEAD
 		console.log('==========handleChange=====inside====RequestTypeField===');
+=======
+		console.log('==========handleChange============');
+>>>>>>> addtabs
 		const { name, value } = changeEvent.target;
 		formikProps.formik.setFieldValue(name, value);
 		//formikProps.setFieldValue('subRequestType', '');

@@ -20,6 +20,13 @@ export function ResetPassword(Email) {
 	return http.post(apiPasswordResetUrl, { Email });
 }
 
-export function CreateReport() {
-	//TODO: use end point
+export function CreateReport(data) {
+	return fetch(apiCreateReportUrl, {
+		method: 'POST',
+		mode: 'CORS',
+		body: JSON.stringify(data), 
+	}).then(res => {
+		return res;
+	}).catch(err => err);
 }
+
