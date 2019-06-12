@@ -25,7 +25,10 @@ const SignIn = (props, errors, touched) => {
 			if (response.data.ErrorsCount > 0) {
 				const errorsReturned = ErrorCheck(response);
 				console.log(errorsReturned);
-				Field.email.errormessage = errorsReturned;
+				console.log(response.data);
+				console.log(props.formik.errors);
+				props.formik.errors.Email = response.data;
+			
 			}
 			else {
 				props.history.push('/ProviderDetails');
@@ -33,8 +36,10 @@ const SignIn = (props, errors, touched) => {
 		}
 		catch (ex) {
 			if (ex.response && ex.response.status === 400) {
-				props.formik.errors.email = ex.response.data
+			
+				props.formik.errors.Email = ex.response.data
 			}
+	
 		}
 
 	}
