@@ -1,12 +1,33 @@
 import http from "./httpService";
-import { apiLoginUrl, apiSignInUrl, apiPasswordResetUrl, apiCreateReportUrl } from "./config.json";
+import { endPoints } from "./config.js";
+
+const environment = window.location.href;
+var urlParts = environment.replace('http://','').replace('https://','').split(/[/?#]/);
+var domain =  urlParts[0];
+
+var endpointLogin = endPoints.apiLoginUrl;
+var endpointSignUp = endPoints.apiSignInUrl;
+var endpointResetPassword = endPoints.apiPasswordResetUrl;
+var endpointReport = endPoints.apiReportUrl;
+ 
+if (domain === "dev.baltimorecountymd.gov"){
+	endpointLogin = endPoints.apiTestLoginUrl
+	endpointSignUp = endPoints.apiTestSignInUrl
+ 	endpointResetPassword = endPoints.apiTestPasswordResetUrl
+	endpointReport = endPoints.apiTestReportUrl
+}else if(domain === "baltimorecountymd.gov"){
+	endpointLogin = endPoints.apiProdLoginUrl
+	endpointSignUp = endPoints.apiProdSignInUrl
+ 	endpointResetPassword = endPoints.apiProdPasswordResetUrl
+	endpointReport = endPoints.apiProdReportUrl
+};
 
 export function Login(email, password) {
-	return http.post(apiLoginUrl, { email, password });
+	return http.post(endpointLogin, { email, password });
 
 }
 export function SignUp(NameFirst, NameLast, Email, Password, Telephone, UniqueId, SuppressNotifications) {
-	return http.post(apiSignInUrl, { 
+	return http.post(endpointSignUp, { 
 		NameFirst, 
 		NameLast, 
 		Email, 
@@ -17,11 +38,11 @@ export function SignUp(NameFirst, NameLast, Email, Password, Telephone, UniqueId
 }
 export function ResetPassword(Email) {
 
-	return http.post(apiPasswordResetUrl, { Email });
+	return http.post(endpointResetPassword, { Email });
 }
 
 export function CreateReport(data) {
-	return fetch(apiCreateReportUrl, {
+	return fetch(endpointReport, {
 		method: 'POST',
 		mode: 'CORS',
 		body: JSON.stringify(data), 
@@ -31,5 +52,5 @@ export function CreateReport(data) {
 }
 
 export function GetReportByID(ID) {
-	return http.get(apiPasswordResetUrl + ID);
+	return http.get(endpointReport + ID);
 }
