@@ -9,7 +9,7 @@ import RequestPetTypeField from "./RequestPetTypeField";
 //import PetTypes from "./pettypes.json";
 //import AnimalBreeds from "./animalbreeds.json";
 //import AnimalColors from "./animalcolors.json"
-
+import Model from './Model'
 
 const getSubCategories = (categories, categoryId) => {
 	var category = categories.find(category => category.id === categoryId);
@@ -340,6 +340,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 					Sign In 
 				</button>
 				<button type="button" onClick={callRegisterForm}>Register</button>
+				<Model />
 			</Form>
 
 

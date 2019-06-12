@@ -5,7 +5,7 @@ import ErrorMsg from "./ErrorMessage";
 import { ErrorCheck } from "./CustomErrorHandling";
 import FormContainer from './FormContainer';
 import { Login } from './authService';
-import Model from './Model'
+
 
 const SignIn = (props, errors, touched) => {
 
@@ -14,31 +14,32 @@ const SignIn = (props, errors, touched) => {
 		setFieldType(fieldType === 'Password' ? 'text' : 'Password');
 	};
 
-	const userLogin = async (values) => {
+	const userLogin = async () => {
 
 		console.log('--inside signnup');
-		console.log(values);
+		const { Email, Password } = props.formik.values;
+
 		try {
-			//const response = await Login(values.Email, values.Password);
-			props.history.push('/ProviderDetails');
-			// if (response.data.ErrorsCount > 0) {
-			// 	const errorsReturned = ErrorCheck(response);
-			// 	console.log(errorsReturned);
-			// 	Field.email.errormessage = errorsReturned;
-			// }
-			// else {
-			// 	props.history.push('/AdditionalInformationForm');
-			// }
+			const response = await Login(Email, Password);
+			//props.history.push('/ProviderDetails');
+			if (response.data.ErrorsCount > 0) {
+				const errorsReturned = ErrorCheck(response);
+				console.log(errorsReturned);
+				Field.email.errormessage = errorsReturned;
+			}
+			else {
+				props.history.push('/ProviderDetails');
+			}
 		}
 		catch (ex) {
 			if (ex.response && ex.response.status === 400) {
-				props.errors.email = ex.response.data
+				props.formik.errors.email = ex.response.data
 			}
 		}
 
 	}
 	const { isSubmitting, ...rest } = props;
-	console.log(props);
+	console.log('render in SignInForm1');
 	return (
 		<FormContainer title="Sign In">
 			<Form >
@@ -78,7 +79,7 @@ const SignIn = (props, errors, touched) => {
 				<label htmlFor="forgetpassword"> <a href="ResetPassword" >Forgot password?</a></label><br />
 				<label htmlFor="signup"
 				>Don't have an account? <a href="SignUpForm" >Sign up</a></label><br />
-				<Model />
+
 				<button type="button" onClick={userLogin}>Sign In and Continue</button>
 				{/* <button type="submit" disabled={isSubmitting}>
 					Sign In and Continue
