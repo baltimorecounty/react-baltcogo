@@ -9,6 +9,7 @@ import ResetPassword from './components/ResetPassword';
 import withFormik from './components/withFormik';
 import DisplayFormikState from './components/helper';
 import ProviderDetails from './components/ProviderDetails';
+import GetReport from './components/GetReport';
 import SubmitButton from './components/SubmitButton'
 
 
@@ -29,6 +30,7 @@ function App(props) {
 				<Route path='/AdditionalInformationForm' component={AdditionalInformationForm} />
 				<Route path='/ResetPassword' component={ResetPassword} />
 				<Route path='/ProviderDetails' component={ProviderDetails} />
+				<Route path='/GetReport' component={GetReport} />
 				<Route path='/' component={ServiceRequestForm} />
 
 
