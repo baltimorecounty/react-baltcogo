@@ -7,9 +7,11 @@ import AdditionalInformationForm from './components/AdditionalInformation1';
 import SignInForm from './components/SignInForm1';
 import ResetPassword from './components/ResetPassword';
 import withFormik from './components/withFormik';
-
-import ProviderDetails from './components/ProviderDetails';
 import DisplayFormikState from './components/helper';
+import ProviderDetails from './components/ProviderDetails';
+import GetReport from './components/GetReport';
+
+
 
 //import FieldLevelValidation from './components/FieldValidation';
 //class App extends Component {
@@ -27,6 +29,7 @@ function App(props) {
 				<Route path='/AdditionalInformationForm' component={AdditionalInformationForm} />
 				<Route path='/ResetPassword' component={ResetPassword} />
 				<Route path='/ProviderDetails' component={ProviderDetails} />
+				<Route path='/GetReport' component={GetReport} />
 				<Route path='/' component={ServiceRequestForm} />
 
 

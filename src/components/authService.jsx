@@ -51,6 +51,14 @@ export function CreateReport(data) {
 	}).catch(err => err);
 }
 
-export function GetReportByID(ID) {
-	return http.get(endpointReport + ID);
+export function GetReportByID(ReportID) {
+	return http.get(endpointReport + ReportID);
+}
+
+export function GetReportByLatLong(X, Y) {
+	return http.get(endpointReport + X + Y);
+}
+
+export function GetReportByLatLongRadius(X, Y, Radius) {
+	return http.get(endpointReport + X + Y + Radius);
 }

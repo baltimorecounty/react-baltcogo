@@ -3,15 +3,15 @@ export const endPoints = {
 	"apiLoginUrl": "http://localhost:54727/platform.citysourced.net/login/",
 	"apiSignInUrl": "http://localhost:54727/platform.citysourced.net/SignUp/",
 	"apiPasswordResetUrl": "http://localhost:54727/platform.citysourced.net/password/",
-	"apiReportUrl": "http://localhost:54727/platform.citysourced.net/servicerequest/",
+	"apiReportUrl": "http://localhost:54727/platform.citysourced.net/servicerequests/",
 	"apiTestLoginUrl": "https://testservices.baltimorecountymd.gov/platform.citysourced.net/login/",
 	"apiTestSignInUrl": "https://testservices.baltimorecountymd.gov/platform.citysourced.net/SignUp/",
 	"apiTestPasswordResetUrl": "https://testservices.baltimorecountymd.gov/platform.citysourced.net/password/",
-	"apiTestReportUrl": "https://testservices.baltimorecountymd.gov/platform.citysourced.net/servicerequest/",
+	"apiTestReportUrl": "https://testservices.baltimorecountymd.gov/platform.citysourced.net/servicerequests/",
 	"apiProdLoginUrl": "https://services.baltimorecountymd.gov/platform.citysourced.net/login/",
 	"apiProdSignInUrl": "https://services.baltimorecountymd.gov/platform.citysourced.net/SignUp/",
 	"apiProdPasswordResetUrl": "https://services.baltimorecountymd.gov/platform.citysourced.net/password/",
-	"apiProdReportUrl": "https://services.baltimorecountymd.gov/platform.citysourced.net/servicerequest/"
+	"apiProdReportUrl": "https://services.baltimorecountymd.gov/platform.citysourced.net/servicerequests/"
   
 };
 
