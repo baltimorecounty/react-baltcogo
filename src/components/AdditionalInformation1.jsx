@@ -15,7 +15,6 @@ const AdditionalInformation = props => {
 		console.log(props.formik.values);
 	}
 	const callProviderDetailForm = () => {
-		console.log('---callregisterForm---');
 		props.history.push("/ProviderDetails");
 	}
 	return (
@@ -68,7 +67,7 @@ const AdditionalInformation = props => {
 				</div>
 				<button type="button" onClick={callProviderDetailForm}>Previous</button>
 				<button type="button" onClick={SubmitTheForm}>
-					Submit
+					File Your Report
 				</button>
 			</form>
 

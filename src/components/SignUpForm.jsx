@@ -70,7 +70,7 @@ const CreateAccount = props => {
 				props.Field.ErrorMsg = errorsReturned;
 			}
 			else{
-				props.history.push('/AdditionalInformationForm');
+				props.history.push('/ProviderDetails');
 			}	
 		}
 		catch (ex) {

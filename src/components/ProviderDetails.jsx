@@ -91,27 +91,10 @@ const providerDetails = props => {
 	};
 
 	const goToAdditionalPage = async (values) => {
-
-		console.log('--inside signnup');
-		console.log(values);
-		try {
-			//const response = await Login(values.Email, values.Password);
-			props.history.push('/AdditionalInformationForm');
-			// if (response.data.ErrorsCount > 0) {
-			// 	const errorsReturned = ErrorCheck(response);
-			// 	console.log(errorsReturned);
-			// 	Field.email.errormessage = errorsReturned;
-			// }
-			// else {
-			// 	props.history.push('/AdditionalInformationForm');
-			// }
-		}
-		catch (ex) {
-			if (ex.response && ex.response.status === 400) {
-				props.errors.email = ex.response.data
-			}
-		}
-
+		props.history.push('/AdditionalInformationForm');
+	}
+	const goServiceRequestForm = async (values) => {
+		props.history.push('/ServiceRequestForm');
 	}
 	const { values, isSubmitting, errors, touched, setFieldValue, ...rest } = props;
 	const items = Address.map((item, index) => ({
@@ -185,6 +168,7 @@ const providerDetails = props => {
 						errormessage={rest.formik.errors.describeTheProblem}
 						touched={rest.formik.touched.describeTheProblem} />
 				</div>
+				<button type="button" onClick={goServiceRequestForm}>Previous</button>
 				<button type="button" onClick={goToAdditionalPage}>Next</button>
 
 			</Form>
