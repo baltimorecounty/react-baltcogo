@@ -42,13 +42,8 @@ export function ResetPassword(Email) {
 }
 
 export function CreateReport(data) {
-	return fetch(endpointReport, {
-		method: 'POST',
-		mode: 'CORS',
-		body: JSON.stringify(data), 
-	}).then(res => {
-		return res;
-	}).catch(err => err);
+
+	return http.post(endpointReport, { data });
 }
 
 export function GetReportByID(ReportID) {

@@ -2,21 +2,77 @@ import React from "react";
 import { Field, connect } from "formik";
 import ErrorMsg from "./ErrorMessage";
 import FormContainer from './FormContainer';
-
+import { ErrorCheck } from "./CustomErrorHandling";
+import { CreateReport } from './authService';
 
 const AdditionalInformation = props => {
 
 	const { errors, touched, handleSubmit, ...rest } = props;
 
 	console.log(props.formik.values);
-	const SubmitTheForm = () => {
-
-		console.log('--inside SubmitTheForm---');
-		console.log(props.formik.values);
+	const SubmitTheForm = async values => {
+		const Selections = {
+			AppVersion : 308,
+			Location : {  
+				X:props.formik.values.Longitude,
+				Y:props.formik.values.Latitude
+			},
+   			AuthorId: "{{CONTACT_ID}}",
+   			IsPrivate: false,
+   			Locale:"en",
+			ReportItems:[  
+				{  
+					Id: props.formik.values.requestType.split(',')[0].toString(),
+					Value: props.formik.values.requestType.split(',')[1].toString()
+				},
+				{  
+					Id: props.formik.values.subRequestType.split(',')[0].toString(),
+					Value: props.formik.values.subRequestType.split(',')[0].toString()
+				},
+				{  
+					Id: props.formik.values.petType.split(',')[0].toString(),
+					Value: props.formik.values.petType.split(',')[0].toString()
+				},
+				{  
+					Id: props.formik.values.sexType.split(',')[0].toString(),
+					Value: props.formik.values.sexType.split(',')[0].toString()
+				},
+				{  
+					Id: props.formik.values.animalColorType.split(',')[0].toString(),
+					Value: props.formik.values.animalColorType.split(',')[0].toString()
+				},
+				{  
+					Id: props.formik.values.otherAnimalTypes.split(',')[0].toString(),
+					Value: props.formik.values.otherAnimalTypes.split(',')[0].toString()
+				}
+			],
+   			SuppressWorkflows: false
+		};	
+		console.log('--inside signnup');
+		console.log(values);
+		try {
+			alert(JSON.stringify(Selections, null, 2));
+			const response = await CreateReport(Selections);
+			if(response.data.ErrorsCount > 0){
+				const errorsReturned = ErrorCheck(response);
+				console.log(errorsReturned);
+				props.Field.ErrorMsg = errorsReturned;
+			}
+			else{
+				props.history.push('/ProviderDetails');
+			}	
+		}
+		catch (ex) {
+			if (ex.response && ex.response.status === 400) {
+				props.errors.email = ex.response.data
+			}
+		}
 	}
 	const callProviderDetailForm = () => {
 		props.history.push("/ProviderDetails");
 	}
+
+	
 	return (
 		<FormContainer title="Additional Information">
 			<form onSubmit={handleSubmit}>
