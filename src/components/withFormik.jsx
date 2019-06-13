@@ -50,8 +50,8 @@ export default withFormik({
 			location: Yup.string().required('Add a Location is required'),
 			describeTheProblem: Yup.string().required('Describe the problem is required'),
 			Email: Yup.string().email('Invalid email address.').required('Please enter a valid email address.'),
-			//Password: Yup.string()
-			//	.required('Please enter your password.')
+			Password: Yup.string()
+				.required('Please enter your password.'),
 			//	.max(30, "Maximum 30 characters allowed.")
 			//	.matches(
 			//		/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9!@#$%^&*(),.?":{}|<>]{8}/,

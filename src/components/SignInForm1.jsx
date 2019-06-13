@@ -25,23 +25,24 @@ const SignIn = (props) => {
 
 			if (!Email) {
 				console.log(' empty email');
+				rest.formik.errors.Password = "error messge";
 			}
 			else {
 				console.log(' has email');
 			}
-			const response = await Login(Email, Password);
+			//const response = await Login(Email, Password);
 			//props.history.push('/ProviderDetails');
-			if (response.data.ErrorsCount > 0) {
-				const errorsReturned = ErrorCheck(response);
-				console.log(errorsReturned);
-				console.log(response.data);
-				console.log(props.formik.errors);
-				props.formik.errors.Email = errorsReturned;
+			//if (response.data.ErrorsCount > 0) {
+			//	const errorsReturned = ErrorCheck(response);
+			//	console.log(errorsReturned);
+			//	console.log(response.data);
+			//	console.log(props.formik.errors);
+			//	props.formik.errors.Email = errorsReturned;
 
-			}
-			else {
-				props.history.push('/ProviderDetails');
-			}
+		//	}
+		//	else {
+		//		props.history.push('/ProviderDetails');
+		//	}
 		}
 		catch (ex) {
 			if (ex.response && ex.response.status === 400) {
