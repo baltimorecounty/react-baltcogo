@@ -67,19 +67,25 @@ const CreateAccount = props => {
 			var ContactID = response.data.Results.Id;
 			var fullAddress = values.Address + ' ' + values.City + ',MD ' + values.ZipCode; 
 
-			const addressResponse = await VerifyAddress(fullAddress);
-			var VerificationId = addressResponse.data.Results.VerificationId;
+			try{
+				const addressResponse = await VerifyAddress(fullAddress);
+				var VerificationId = addressResponse.data.Results.VerificationId;
 
-			if(addressResponse.data.HasErrors === false){
-				const contactAddressResponse = await CreateContactAddress(ContactID, VerificationId , "Default");
-				props.formik.setFieldValue('addressID', contactAddressResponse.data.Results.Id);
+				if(addressResponse.data.HasErrors === false){
+					const contactAddressResponse = await CreateContactAddress(ContactID, VerificationId , "Default");
+					props.formik.setFieldValue('addressID', contactAddressResponse.data.Results.Id);
+				}
+				else{
+					const errorsReturned = ErrorCheck(response);
+					console.log(errorsReturned);
+					props.Field.ErrorMsg = errorsReturned;
+				}
 			}
-			else{
-				const errorsReturned = ErrorCheck(response);
-				console.log(errorsReturned);
-				props.Field.ErrorMsg = errorsReturned;
+			catch(ex){
+				if (ex.response && ex.response.status === 400) {
+					props.errors.email = ex.response.data
+				}
 			}
-			
 
 			if(response.data.HasErrors === false){
 				const errorsReturned = ErrorCheck(response);
@@ -117,9 +123,9 @@ const CreateAccount = props => {
 					NameFirst: Yup.string().required('Please enter your first name.'),
 					NameLast: Yup.string().required('Please enter your last name.'),
 					Email: Yup.string().email('Invalid email.').required('Please enter a valid email address.'),
-					Address: Yup.string().email('Invalid email.').required('Please enter a valid address.'),
-					City: Yup.string().email('Invalid email.').required('Please enter a valid city.'),
-					ZipCode: Yup.string().email('Invalid email.').required('Please enter a valid zip code.'),
+					Address: Yup.string().required('Invalid address.').required('Please enter a valid address.'),
+					City: Yup.string().required('Invalid city.').required('Please enter a valid city.'),
+					ZipCode: Yup.string().required('Invalid zip code.').required('Please enter a valid zip code.'),
 					Password: Yup.string()
 						.required('Please enter your password.')
 						.max(30, "Maximum 30 characters allowed.")
