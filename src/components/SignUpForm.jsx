@@ -4,7 +4,7 @@ import * as Yup from "yup";
 import ErrorMsg from "./ErrorMessage";
 import { ErrorCheck } from "./CustomErrorHandling";
 import FormContainer from './FormContainer';
-import { SignUp } from './authService';
+import { SignUp, VerifyAddress, CreateContactAddress } from './authService';
 import { Link }  from 'react-router-dom';
 
 /*function formatPhoneNumber(value, format) {
@@ -64,7 +64,24 @@ const CreateAccount = props => {
 		console.log(values);
 		try {
 			const response = await SignUp(values.NameFirst, values.NameLast, values.Email, values.Password, values.Telephone, values.UniqueId, values.SuppressNotifications);
-			if(response.data.ErrorsCount > 0){
+			var ContactID = response.data.Results.Id;
+			var fullAddress = values.Address + ' ' + values.City + ',MD ' + values.ZipCode; 
+
+			const addressResponse = await VerifyAddress(fullAddress);
+			var VerificationId = addressResponse.data.Results.VerificationId;
+
+			if(addressResponse.data.HasErrors === false){
+				const contactAddressResponse = await CreateContactAddress(ContactID, VerificationId , "Default");
+				props.formik.setFieldValue('addressID', contactAddressResponse.data.Results.Id);
+			}
+			else{
+				const errorsReturned = ErrorCheck(response);
+				console.log(errorsReturned);
+				props.Field.ErrorMsg = errorsReturned;
+			}
+			
+
+			if(response.data.HasErrors === false){
 				const errorsReturned = ErrorCheck(response);
 				console.log(errorsReturned);
 				props.Field.ErrorMsg = errorsReturned;
@@ -90,7 +107,10 @@ const CreateAccount = props => {
 					NameLast: '',
 					Telephone: '',
 					Email: '',
-					Password: ''
+					Password: '',
+					Address: '',
+					City: '',
+					ZipCode: ''
 				}}
 
 				validationSchema={Yup.object().shape({
@@ -197,11 +217,9 @@ const CreateAccount = props => {
 											errormessage={errors.Password}
 											touched={touched.Password} />
 									</div>
-								</div>
-								<div id="ContactAddress">
 									<label htmlFor="Address"
 										className={errors.Address && touched.Address ? "input-feedback" : "text-label"}
-									>Your Street Address</label>
+									>Street Address</label>
 									<Field
 										type="text"
 										name="Address"
@@ -214,7 +232,7 @@ const CreateAccount = props => {
 									</div>
 									<label htmlFor="City"
 										className={errors.City && touched.City ? "input-feedback" : "text-label"}
-									>Your City</label>
+									>City</label>
 									<Field
 										type="text"
 										name="City"
@@ -228,7 +246,7 @@ const CreateAccount = props => {
 									<div>
 										<label htmlFor="ZipCode"
 											className={errors.zipCode && touched.ZipCode ? "input-feedback" : "text-label"}
-										>Your ZIP Code</label>
+										>ZIP Code</label>
 										<Field type='text'
 											name="ZipCode"
 											className={`text-input ${errors.ZipCode && touched.ZipCode ? "error" : ""}`}
@@ -239,6 +257,11 @@ const CreateAccount = props => {
 												touched={touched.ZipCode} />
 										</div>
 									</div>
+									<Field
+										type="hidden"
+										name="addressID"
+
+									/>
 								</div>
 								<label htmlFor="signup"
 								>Already have an account? <Link to="SignInForm" >Sign In</Link> </label><br />
