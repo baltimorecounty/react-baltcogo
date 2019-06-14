@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Formik, Form, Field } from "formik";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import ErrorMsg from "./ErrorMessage";
 import { ErrorCheck } from "./CustomErrorHandling";
@@ -61,22 +61,31 @@ const SignIn = props => {
 					//		/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9!@#$%^&*(),.?":{}|<>]{8}/,
 					//		"Your password must be 8 to 30 characters and contain at least one uppercase letter, one lowercase letter and one number.")
 				})}
-				onSubmit={(values, { setSubmitting, props, setErrors }) => {
+				onSubmit={async (values, actions) => {
 					//alert(JSON.stringify(values, null, 2));
 					//alert(JSON.stringify(props, null, 2));
 					//alert(JSON.stringify(setErrors, null, 2));
-					userLogin(values, props);
-					//alert(JSON.stringify(errors, null, 2));
-					{/* const errormsg = 'this is a test';
-					errors = { errormsg };
-					alert(JSON.stringify(errors, null, 2)); */}
-					//alert(JSON.stringify(errormsg, null, 2));
+					//	userLogin(values, props);
+					//setSubmitting(false)
+					const response = await Login(values.Email, values.Password);
+					console.log(response);
+					console.log(actions);
+					if (response.status === 200) {
+						actions.setStatus({
+							success: 'Something went wrong, email not sent !',
+							css: 'error'
+							//success: 'Email sent !',
+							//css: 'success'
+						})
+						actions.setSubmitting(true);
+					} else {
+						actions.setStatus({
+							success: 'Something went wrong, email not sent !',
+							css: 'error'
+						})
+					}
 
-					{/* props.errors.map(error => (
-						<p key={error}>Error: {error}</p>
-					)) */}
-
-					setSubmitting(false);
+					//setSubmitting(false);
 					//	return (<div className="input-feedback"><ErrorMsg errormessage={errormsg} touched={true} /></div>);
 				}}
 			>
@@ -96,6 +105,11 @@ const SignIn = props => {
 									name="Email"
 									className={`text-input ${errors.Email && touched.Email ? "error" : ""}`}
 								/>
+
+								<ErrorMessage name='msg' className='input-feedback' component='div' />
+								<div className={`form-sending ${props.status ? props.status.css : ''}`}>
+									{props.status ? props.status.success : ''}
+								</div>
 								<div className="input-feedback">
 									<ErrorMsg
 										errormessage={errors.Email}
@@ -123,7 +137,7 @@ const SignIn = props => {
 								<label htmlFor="forgetpassword"> <Link to="ResetPassword" >Forgot password?</Link></label><br />
 								<label htmlFor="signup"
 								>Don't have an account? <Link to="SignUpForm" >Sign up</Link></label><br />
-								<button type="submit" disabled={isSubmitting}>
+								<button type="submit" disabled={props.isSubmitting}>
 									Sign In and Continue
 								</button>
 								<DisplayFormikState {...props} />

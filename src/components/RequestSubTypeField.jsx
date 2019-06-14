@@ -2,7 +2,7 @@ import React from "react";
 import { Field } from "formik";
 
 const RequestSubTypeField = props => {
-	const { component, name, formikProps,  className } = props;
+	const { component, name, formikProps,onChange,  className } = props;
 	const handleChange = changeEvent => {
 
 		const { name, value } = changeEvent.target;
@@ -12,7 +12,7 @@ const RequestSubTypeField = props => {
 		formikProps.formik.setFieldValue('sexType', '');
 		formikProps.formik.setFieldValue('animalColorType', '');
 		formikProps.formik.setFieldValue('animalBreed', '');
-	//	onChange(changeEvent);
+		onChange(changeEvent);
 	};
 	return (
 		<Field component={component}

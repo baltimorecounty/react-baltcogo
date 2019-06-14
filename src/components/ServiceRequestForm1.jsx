@@ -12,50 +12,78 @@ import _ from 'lodash'
 //import AnimalColors from "./animalcolors.json"
 import Model from './Model'
 
-const getSubCategories = (categories, categoryId) => {
+const getSubCategories1 = (categories, categoryId) => {
 	var category = categories.find(category => category.id === categoryId);
 	return category ? category.types : [];
 };
-const getAnimalSubCategories = (AnimalBreeds, animalId) => {
+const getSubCategories = (categories, categoryName) => {
+	var category = categories.find(category => category.name.toLowerCase() === categoryName);
+	return category ? category.types : [];
+};
+const getNote = (subCategories, name) => {
+	var type = subCategories.find(subcategoryname => subcategoryname.name.toLowerCase() === name);
+	return type ? type.note : [];
+};
+const getAnimalSubCategories = (AnimalBreeds, animalName) => {
 	//console.log('--inside getAnimalSubCategories--');
 
-	var animalCats = AnimalBreeds.find(animal => animal.id === animalId);
+	var animalCats = AnimalBreeds.find(animal => animal.animal.toLowerCase() === animalName);
 	return animalCats ? animalCats : [];
 
 };
+const getID = (categories, categoryName) => {
+
+
+	var category = categories.find(category => category.name.toLowerCase() === categoryName);
+	return category ? category.id : [];
+};
+
+// const getSubTypeID = (categories, categoryName) => {
+// 	var category = categories.find(category => category.name=== categoryName);
+// 	return category ? category.id : [];
+// };
+
 
 const ServiceRequestForm = (props, errors, touched) => {
-	const requestType_petAndAnimalIssueID = '1010169';
-	const requestType_WebSiteIssue = '1011097';
-	const requestType_RoadSidewalkIssue = '1011065';
-	const requestType_TrashRecycleIssue = '1011080';
-	const requestType_WaterandSewerIssues = 'D000001';
+	const requestType_petAndAnimalIssue = 'Pets and Animals Issue';
+	const petAndAnimalIssueID_OtherAnimalComplaint = 'Other animal complaint';
+
+	const requestType_WebSiteIssue = 'Website Issue';
+	const subCategory_OtherWebsiteProblem = 'Other website problem';
+
+	const requestType_TrashRecycleIssue = 'Trash and Recycling Issue';
 
 
-	const subCategory_OtherWebsiteProblem = '1011103';
+	const requestType_WaterandSewerIssues = 'Water and Sewer Issues';
+	const subCategory_CanOrLidLostDamaged = 'Can or lid lost or damaged';
+	const subCategory_PropertyDamangeDuringCollecttion = 'Property damage during collection';
+	const subCategory_RecyclingNotCollected = 'Recycling not collected';
+	const subCategory_RequestToStartNewCollection = 'Request to start new collection';
+	const subCategory_TrashNotCollected = 'Trash not collected';
+	const subCategory_YardWasteNotCollected = 'Yard waste not collected';
 
-	const subCategory_CanOrLidLostDamaged = '1011083';
-	const subCategory_PropertyDamangeDuringCollecttion = '1011084';
-	const subCategory_RecyclingNotCollected = '1011085';
-	const subCategory_RequestToStartNewCollection = '1011086';
-	const subCategory_TrashNotCollected = '1011087';
-	const subCategory_YardWasteNotCollected = '1011088';
-	const subCategory_IcyConditions = '1011069';
 
-	const subCategory_SewerIssues = 'D000002';
-	const subCategory_StormWaterIssues = 'D000004';
-	const subCategory_WaterSupplyIssues = 'D000005';
 
-	const petAndAnimalIssueID_OtherAnimalComplaint = '1010186';
-	const petTypeCat = '1010188';
-	const petTypeDog = '1010189';
-	const petType_Others = '1010191';
+
+	const requestType_RoadSidewalkIssue = 'Roads and Sidewalks Issue';
+	const subCategory_IcyConditions = 'Icy conditions';
+
+	const subCategory_SewerIssues = 'Sewer issues';
+	const subCategory_StormWaterIssues = 'Stormwater issues';
+	const subCategory_WaterSupplyIssues = 'Water supply issues';
+
+
+	const petTypeCat = 'cat';
+	const petTypeDog = 'dog';
+	const petType_Others = 'other';
 	const [Categories, setData] = useState([]);
+	const [CategoryName, setCategoryName] = useState();
 	const [PetTypes, setPetTypes] = useState([]);
 	const [AnimalBreeds, setAnimalBreeds] = useState([]);
 	const [AnimalColors, setAnimalColors] = useState([]);
 	const [OtherAnimalTypes, setOtherAnimalTypes] = useState([]);
 	const [subCategories, setSubCategories] = useState([]);
+	const [notes, setNotes] = useState();
 	//const [breeds] = useState(AnimalBreeds);
 	const [animalSubCategories, setAnimalSubCategories] = useState([]);
 	const [animalSex, setAnimalSex] = useState([]);
@@ -93,37 +121,87 @@ const ServiceRequestForm = (props, errors, touched) => {
 	const handleServiceRequestChange = (changeEvent) => {
 
 
-		const { value } = changeEvent.currentTarget;
-		let  categoryID  = _.split(value, ',', 1).toString(); 
-		console.log('===========+handleServiceRequestChange==============');
-		console.log(categoryID);
-		console.log('==========++++++==============');
-		const subCategories = getSubCategories(Categories, parseInt(categoryID) ? parseInt(categoryID) : categoryID);
+		const value = changeEvent.currentTarget.value.toLowerCase();
+		let ID = getID(Categories, value)
+
+		props.formik.setFieldValue('requestTypeID', ID);
+		const subCategories = getSubCategories(Categories, value ? value : value);
+		//const subCategories = getSubCategories(Categories, parseInt(categoryID) ? parseInt(categoryID) : categoryID);
 		setSubCategories(subCategories);
 	};
-	const handleServicePetChange = (changeEvent) => {
-		let  {value}  = changeEvent.currentTarget; 
-		console.log('===========++++==============');
-		console.log(value);
-		console.log('==========++++++==============');
-		let  animalBreedId  = _.split(value, ',', 1).toString(); 
-		console.log('========================');
-		console.log(animalBreedId);
-		console.log('========================');
-		const subBreeds = getAnimalSubCategories(AnimalBreeds, parseInt(animalBreedId));
-		setAnimalSubCategories(subBreeds.breeds);
-		setAnimalSex(subBreeds.sex)
+	const handleServiceSubRequestChange = (changeEvent) => {
+
+		const value = changeEvent.currentTarget.value.toLowerCase();
+		let ID = getID(subCategories, value)
+		const notes = getNote(subCategories, value);
+		console.log('-----------notes------------')
+		console.log(notes);
+		console.log('-----------notes------------')
+		setNotes(<div><p>{notes}</p></div>);
+
+		props.formik.setFieldValue('subRequestTypeID', ID);
 
 	};
+	const handleServicePetChange = (changeEvent) => {
 
-	const checkPetType = (animalId) => {
-		
-		 animalId = _.split(animalId, ',', 2);
-     	console.log('==========++++++=checkPetType=============');
-		  console.log(animalId);
-		  console.log('==========++++++==============');
-		var animalCats = AnimalBreeds.find(animal => animal.id === parseInt(animalId[0].toString()));
+		let value = changeEvent.currentTarget.value.toLowerCase();
+		let ID = getID(PetTypes, value)
+
+
+		const subBreeds = getAnimalSubCategories(AnimalBreeds, value);
+
+		setAnimalSubCategories(subBreeds.breeds);
+		setAnimalSex(subBreeds.sex);
+		console.log('=========subBreeds=============')
+		console.log(subBreeds);
+		console.log('--------------end --subBreeds--------------');
+		//	props.formik.setFieldValue('petTypeID', ID);
+
+		//props.formik.setFieldValue('sexType', '');
+		//	props.formik.setFieldValue('sexTypeID', '');
+	};
+	const handleAnimalColorChange = (changeEvent) => {
+
+		let value = changeEvent.currentTarget.value.toLowerCase();
+		let ID = getID(AnimalColors, value);
+		props.formik.setFieldValue('animalColorTypeID', ID);
+		props.formik.setFieldValue('animalColorType', value);
+	}
+
+	const handleOtherPetTypeChange = (changeEvent) => {
+
+		let value = changeEvent.currentTarget.value.toLowerCase();
+		let ID = getID(OtherAnimalTypes, value);
+		props.formik.setFieldValue('otherAnimalTypesID', ID);
+		props.formik.setFieldValue('otherAnimalTypes', value);
+	}
+	const handlePetSexChange = (changeEvent) => {
+		let value = changeEvent.currentTarget.value.toLowerCase();
+		let ID = getID(animalSex, value);
+		//	props.formik.setFieldValue('sexTypeID', ID);
+		props.formik.setFieldValue('sexType', value);
+	}
+
+
+
+	const handleAnimalBreedChange = (changeEvent) => {
+
+		let value = changeEvent.currentTarget.value.toLowerCase();
+		let ID = getID(animalSubCategories, value);
+
+		props.formik.setFieldValue('animalBreedID', ID);
+		props.formik.setFieldValue('animalBreed', value);
+	}
+
+	const checkPetType = (value) => {
+		value = value.toLowerCase();
+
+		var animalCats = AnimalBreeds.find(animal => animal.animal === value);
+		//	console.log(animalCats);
 		if (animalCats !== undefined) {
+			//let ID =	getID(animalSex, value) 
+			//console.log('ID:' + ID);
+			//props.formik.setFieldValue('sexTypeID', ID); 
 			return true;
 		}
 		else {
@@ -142,9 +220,10 @@ const ServiceRequestForm = (props, errors, touched) => {
 	}
 	const { values, isSubmitting, ...rest } = props;
 
-	console.log('requestType:' + rest.formik.values.requestType);
-	console.log('subrequestType:' + rest.formik.values.subRequestType);
-	console.log(_.split(rest.formik.values['requestType'], ',', 1))
+	//console.log('************************************************');
+	//console.log('requestType:' + rest.formik.values.requestType);
+	console.log('sexType:' + rest.formik.values.sexType);
+	//console.log('************************************************');
 	return (
 
 
@@ -164,7 +243,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 				>
 					<option key='default' value=''>--Please select a category--</option>
 					{Categories.map(category => (
-						<option key={category.id} value={`${category.id}${`,`}${category.name}`}>{category.name}</option>
+						<option key={category.id} value={category.name}>{category.name}</option>
 					))}
 				</RequestTypeField>
 				<div className="input-feedback">
@@ -185,11 +264,14 @@ const ServiceRequestForm = (props, errors, touched) => {
 								component="select"
 								name="subRequestType"
 								formikProps={rest}
+								onChange={handleServiceSubRequestChange}
 							>
 								<option key='default' value=''>--Please select a sub-category--</option>
 								{subCategories.map(category => (
-									<option key={category.id} value={`${category.id}${`,`}${category.name}`}>{category.name}</option>
+									<option key={category.id} value={category.name}>{category.name}</option>
+
 								))}
+
 							</RequestSubTypeField>
 							<div className="input-feedback">
 								<ErrorMsg
@@ -199,159 +281,85 @@ const ServiceRequestForm = (props, errors, touched) => {
 						</div>
 						: null
 				}
-			
-				{ /* water and Sewer Issues --- Sewer Issues */
-						
-						
-					(_.split(rest.formik.values['requestType'], ',', 1).toString() === requestType_WaterandSewerIssues
-						&& _.split(rest.formik.values['subRequestType'],',',1).toString() === subCategory_SewerIssues) ?
-						<div>
-							<p>
-								Issues such as missing manhole covers, sewer backups, overflows or odors require immediate attention, and therefore cannot be reported online.
-						
-							</p>
-							<p>
-								Please call the Department of Public Works at 410-887-7415 to ensure we obtain the necessary information to address the issue as soon as possible.
-							</p>
 
-						</div>
-						: null
+
+				{ /* water and Sewer Issues --- Sewer Issues */
+					(rest.formik.values['requestType'].toLowerCase() === requestType_WaterandSewerIssues.toLowerCase()
+						&& rest.formik.values['subRequestType'].toLowerCase() === subCategory_SewerIssues.toLowerCase()) ? notes : null
 				}
-
 				{ /* water and Sewer Issues --- Sewer Issues */
-
-					(_.split(rest.formik.values['requestType'], ',', 1).toString() === requestType_WaterandSewerIssues
-						&& _.split(rest.formik.values['subRequestType'], ',', 1).toString() === subCategory_StormWaterIssues) ?
-						<div>
-						<p>
-						Stormwater issues such as sinkholes and missing or damaged storm grates require immediate attention due to the risk of harm to persons or property, and therefore cannot be reported online.
-						
-							</p>
-							<p>
-							Please call the Department of Public Works at 410-887-7415 to ensure we obtain the necessary information to address the issue as soon as possible.
-							</p>
-						</div>
-						: null
+					(rest.formik.values['requestType'].toLowerCase() === requestType_WaterandSewerIssues.toLowerCase()
+						&& rest.formik.values['subRequestType'].toLowerCase() === subCategory_StormWaterIssues.toLowerCase()) ? notes : null
 				}
 
 				{ /* water and Sewer Issues --- Sewer Issues*/
-
-					(_.split(rest.formik.values['requestType'], ',', 1).toString() === requestType_WaterandSewerIssues
-						&& _.split(rest.formik.values['subRequestType'], ',', 1).toString() === subCategory_WaterSupplyIssues) ?
-						<div>
-							<p>
-
-								Baltimore City (not Baltimore County) owns, maintains and repairs all water mains and hydrants. However, service requests for broken water mains, leaking hydrants and drinking water concerns can be reported directly to Baltimore County by calling 410-887-7415 anytime.
-								
-							</p>
-
-						</div>
-						: null
+					(rest.formik.values['requestType'].toLowerCase() === requestType_WaterandSewerIssues.toLowerCase()
+						&& rest.formik.values['subRequestType'].toLowerCase() === subCategory_WaterSupplyIssues.toLowerCase()) ? notes : null
 				}
 
 
 				{ /* Can or lid lost or damaged*/
 
-					(_.split(rest.formik.values['requestType'], ',', 1).toString() === requestType_TrashRecycleIssue
-						&& _.split(rest.formik.values['subRequestType'], ',', 1).toString()  === subCategory_CanOrLidLostDamaged) ?
-						<div>
-							The County will only replace damaged cans or lids with evidence of hauler negligence. After submitting your report, please email any evidence to  <a href="mailto:solidwaste@baltimorecountymd.gov">solidwaste@baltimorecountymd.gov</a> and reference your request ID number.
-						</div>
-						: null
+					(rest.formik.values['requestType'].toLowerCase() === requestType_TrashRecycleIssue.toLowerCase()
+						&& rest.formik.values['subRequestType'].toLowerCase() === subCategory_CanOrLidLostDamaged.toLowerCase()) ? notes : null
 				}
 
 				{ /* Property damage during collection */
 
-					(_.split(rest.formik.values['requestType'], ',', 1).toString() === requestType_TrashRecycleIssue
-						&& _.split(rest.formik.values['subRequestType'], ',', 1).toString() === subCategory_PropertyDamangeDuringCollecttion) ?
-						<div>
-							If your property was damaged, please also file a police report. Email the police report number along with any photos or videos to <a href="mailto:solidwaste@baltimorecountymd.gov">solidwaste@baltimorecountymd.gov</a> and reference your request ID number.
-						</div>
+					(rest.formik.values['requestType'].toLowerCase() === requestType_TrashRecycleIssue.toLowerCase()
+						&& rest.formik.values['subRequestType'].toLowerCase() === subCategory_PropertyDamangeDuringCollecttion.toLowerCase()) ? notes
 						: null
 				}
 
 
 				{ /* Recycling not collected */
 
-					(_.split(rest.formik.values['requestType'], ',', 1).toString() === requestType_TrashRecycleIssue
-						&& _.split(rest.formik.values['subRequestType'], ',', 1).toString() === subCategory_RecyclingNotCollected) ?
-						<div>
-
-							Please review the reasons why your recycling may not have been collected before submitting a report.
-						</div>
+					(rest.formik.values['requestType'].toLowerCase() === requestType_TrashRecycleIssue.toLowerCase()
+						&& rest.formik.values['subRequestType'].toLowerCase() === subCategory_RecyclingNotCollected.toLowerCase()) ? notes
 						: null
 				}
 
 				{ /* Request to start new collection */
 
-					(_.split(rest.formik.values['requestType'], ',', 1).toString() === requestType_TrashRecycleIssue
-						&& _.split(rest.formik.values['subRequestType'], ',', 1).toString() === subCategory_RequestToStartNewCollection) ?
-						<div>
-							Your address may already have collection service. Please check for an existing collection schedule and learn how to properly set out your materials before requesting new service.
-						</div>
+					(rest.formik.values['requestType'].toLowerCase() === requestType_TrashRecycleIssue.toLowerCase()
+						&& rest.formik.values['subRequestType'].toLowerCase() === subCategory_RequestToStartNewCollection.toLowerCase()) ? notes
 						: null
 				}
 
 				{ /* Trash not collected */
 
-					(_.split(rest.formik.values['requestType'], ',', 1).toString() === requestType_TrashRecycleIssue
-						&& _.split(rest.formik.values['subRequestType'], ',', 1).toString() === subCategory_TrashNotCollected) ?
-						<div>
-
-							Please review the reasons why your trash may not have been collected before submitting a report
-						</div>
+					(rest.formik.values['requestType'].toLowerCase() === requestType_TrashRecycleIssue.toLowerCase()
+						&& rest.formik.values['subRequestType'].toLowerCase() === subCategory_TrashNotCollected.toLowerCase()) ? notes
 						: null
 				}
 				{ /* Yard waste not collected*/
 
-					(_.split(rest.formik.values['requestType'], ',', 1).toString() === requestType_TrashRecycleIssue
-						&& _.split(rest.formik.values['subRequestType'], ',', 1).toString() === subCategory_YardWasteNotCollected) ?
-						<div>
-
-							Please review the reasons why your yard waste may not have been collected before submitting a report.
-						</div>
+					(rest.formik.values['requestType'].toLowerCase() === requestType_TrashRecycleIssue.toLowerCase()
+						&& rest.formik.values['subRequestType'].toLowerCase() === subCategory_YardWasteNotCollected.toLowerCase()) ? notes
 						: null
 				}
 
 
 
 				{ /* Roads and Sidewalks Issue -- icy condition*/
-					(_.split(rest.formik.values['requestType'], ',', 1).toString() === requestType_RoadSidewalkIssue
-						&& _.split(rest.formik.values['subRequestType'], ',', 1).toString() === subCategory_IcyConditions) ?
-						<div>
-							Due to the safety risk posed by ice in the roadway, we cannot take your report online.
-							Please call the Department of Public Works immediately at 410-887-0000 to ensure we obtain the necessary information to address the issue as soon as possible.
-						</div>
+					(rest.formik.values['requestType'].toLowerCase() === requestType_RoadSidewalkIssue.toLowerCase()
+						&& rest.formik.values['subRequestType'].toLowerCase() === subCategory_IcyConditions.toLowerCase()) ? notes
 						: null
 				}
-				{/* Pets and Anial Issue - Other animal complaint */
+				{/* Pets and Animal Issue - Other animal complaint */
 
-					(_.split(rest.formik.values['requestType'], ',', 1).toString() === requestType_petAndAnimalIssueID
-						&& _.split(rest.formik.values['subRequestType'], ',', 1).toString() === petAndAnimalIssueID_OtherAnimalComplaint) ?
-						<div>
-							<p>
-								The Police Department is responsible for investigating all animal cruelty incidents.
-								<b>If you witness a person inflicting harm on an animal, call 911 immediately.</b>
-							</p>
-							<p>
-								To report animal cruelty when immediate police intervention is not required, call the police non-emergency line at 410-887-2222. Please don't use this form to report animal cruelty.
-							</p>
-						</div>
+					(rest.formik.values['requestType'].toLowerCase() === requestType_petAndAnimalIssue.toLowerCase()
+						&& rest.formik.values['subRequestType'].toLowerCase() === petAndAnimalIssueID_OtherAnimalComplaint.toLowerCase()) ? notes
 						: null
 				}
 				{/* Website Issue - Other website problem */
 
-					(_.split(rest.formik.values['requestType'], ',', 1).toString() === requestType_WebSiteIssue
-						&& _.split(rest.formik.values['subRequestType'], ',', 1).toString() === subCategory_OtherWebsiteProblem) ?
-						<div>
-							<p>
-								In the description below, please include the URL of the page where you encountered the problem.
-							</p>
-						</div>
+					(rest.formik.values['requestType'].toLowerCase() === requestType_WebSiteIssue.toLowerCase()
+						&& rest.formik.values['subRequestType'].toLowerCase() === subCategory_OtherWebsiteProblem.toLowerCase()) ? notes
 						: null
 				}
 				{
-					_.split(rest.formik.values['requestType'], ',', 1).toString() === requestType_petAndAnimalIssueID && rest.formik.values['subRequestType'] !== '' ?
+					rest.formik.values['requestType'] === requestType_petAndAnimalIssue && rest.formik.values['subRequestType'] !== '' ?
 						<div>
 							<label htmlFor="petType"
 								className={
@@ -362,11 +370,12 @@ const ServiceRequestForm = (props, errors, touched) => {
 								name="petType"
 								formikProps={rest}
 								onChange={handleServicePetChange}
+								value={props.formik.values.name}
 								className={rest.formik.errors.petType && rest.formik.touched.petType ? "text-select error" : null}
 							>
 								<option key='default' value=''>--Please select a pet type--</option>
 								{PetTypes.map(petType => (
-									<option key={petType.id} value={`${petType.id}${`,`}${petType.name}`}>{petType.name}</option>
+									<option key={petType.id} value={petType.name}>{petType.name}</option>
 								))}
 							</RequestPetTypeField>
 							<div className="input-feedback">
@@ -379,7 +388,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 				}
 				{
 
-					(rest.formik.values['subRequestType'] !== '') && _.split(rest.formik.values['petType'], ',', 1).toString()  === petType_Others ?
+					(rest.formik.values['subRequestType'] !== '' && rest.formik.values['petType'].toLowerCase() === petType_Others) ?
 						<div>
 							<label htmlFor="otherAnimalTypes"
 								className={
@@ -389,11 +398,13 @@ const ServiceRequestForm = (props, errors, touched) => {
 							<Field
 								component="select"
 								name="otherAnimalTypes"
+								onChange={handleOtherPetTypeChange}
+								value={props.formik.values.name}
 								className={rest.formik.errors.otherAnimalTypes && rest.formik.touched.otherAnimalTypes ? "text-select error" : null}
 							>
 								<option key='default' value=''>--Please select an "other" pet type--</option>
 								{OtherAnimalTypes.map(OtherAnimalType => (
-									<option key={OtherAnimalType.id} value={`${OtherAnimalType.id}${`,`}${OtherAnimalType.name}`}>{OtherAnimalType.name}</option>
+									<option key={OtherAnimalType.id} value={OtherAnimalType.name}>{OtherAnimalType.name}</option>
 								))}
 
 							</Field>
@@ -407,7 +418,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 						: null
 				}
 				{
-					((_.split(rest.formik.values['requestType'], ',', 1).toString() === requestType_petAndAnimalIssueID)
+					((rest.formik.values['requestType'] === requestType_petAndAnimalIssue)
 						&& rest.formik.values['subRequestType'] !== '')
 						&& checkPetType(rest.formik.values['petType']) ?
 						<div>
@@ -419,11 +430,13 @@ const ServiceRequestForm = (props, errors, touched) => {
 							<Field
 								component="select"
 								name="sexType"
+								onChange={handlePetSexChange}
+								value={props.formik.values.name}
 								className={rest.formik.errors.sexType && rest.formik.touched.sexType ? "text-select error" : null}
 							>
 								<option key='default' value=''>--Please select a pet sex--</option>
 								{animalSex.map(petSex => (
-									<option key={petSex.id} value={`${petSex.id}${`,`}${petSex.name}`}>{petSex.name}</option>
+									<option key={petSex.id} value={petSex.name}>{petSex.name}</option>
 								))}
 
 							</Field>
@@ -439,9 +452,9 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 				{
 
-					(_.split(rest.formik.values['requestType'], ',', 1).toString() === requestType_petAndAnimalIssueID
+					(rest.formik.values['requestType'] === requestType_petAndAnimalIssue
 						&& rest.formik.values['subRequestType'] !== '')
-						&& (_.split(rest.formik.values['petType'], ',', 1).toString() === petTypeCat || _.split(rest.formik.values['petType'], ',', 1).toString() === petTypeDog) ?
+						&& (rest.formik.values['petType'].toLowerCase() === petTypeCat || rest.formik.values['petType'].toLowerCase() === petTypeDog) ?
 						<div>
 							<label htmlFor="animalColorType"
 								className={
@@ -452,12 +465,14 @@ const ServiceRequestForm = (props, errors, touched) => {
 							<Field
 								component="select"
 								name="animalColorType"
+								onChange={handleAnimalColorChange}
+								value={props.formik.values.name}
 								className={rest.formik.errors.animalColorType && rest.formik.touched.animalColorType ? "text-select error" : null}
 							>
 								<option key='default' value=''>--Please select the primary color of the animal--</option>
 
 								{AnimalColors.map(animalColorType => (
-									<option key={animalColorType.id} value={`${animalColorType.id}${`,`}${animalColorType.name}`}>{animalColorType.name}</option>
+									<option key={animalColorType.id} value={animalColorType.name}>{animalColorType.name}</option>
 								))}
 
 							</Field>
@@ -473,8 +488,8 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 				<br />
 				{
-					(_.split(rest.formik.values['requestType'], ',', 1).toString() === requestType_petAndAnimalIssueID && rest.formik.values['subRequestType'] !== '')
-						&& (_.split(rest.formik.values['petType'], ',', 1).toString() === petTypeCat || _.split(rest.formik.values['petType'], ',', 1).toString() === petTypeDog) ?
+					((rest.formik.values['requestType'] === requestType_petAndAnimalIssue && rest.formik.values['subRequestType'] !== '')
+						&& (rest.formik.values['petType'].toLowerCase() === petTypeCat || rest.formik.values['petType'].toLowerCase() === petTypeDog)) ?
 						<div>
 							<label htmlFor="animalBreed"
 								className={
@@ -483,24 +498,39 @@ const ServiceRequestForm = (props, errors, touched) => {
 							</label>
 							<Field
 								component="select"
-								name="animalBreed"
-								className={rest.formik.errors.animalBreed && rest.formik.touched.animalBreed ? "text-select error" : null}
+								name="animalBreedType"
+								onChange={handleAnimalBreedChange}
+								value={props.formik.values.name}
+								className={rest.formik.errors.animalBreedType && rest.formik.touched.animalBreedType ? "text-select error" : null}
 							>
 								<option key='default' value=''>--Please select the primary breed of the animal--</option>
-								{animalSubCategories.map(animalBreed => (
-									<option key={animalBreed.id} value={`${animalBreed.id}${`,`}${animalBreed.name}`}>{animalBreed.name}</option>
+								{animalSubCategories.map(animalBreedType => (
+									<option key={animalBreedType.id} value={animalBreedType.name}>{animalBreedType.name}</option>
 								))}
 							</Field>
 							<div className="input-feedback">
 								{<ErrorMsg
-									errormessage={rest.formik.errors.animalBreed}
-									touched={rest.formik.touched.animalBreed} />}
+									errormessage={rest.formik.errors.animalBreedType}
+									touched={rest.formik.touched.animalBreedType} />}
 
 							</div>
 						</div>
 						: null
 
 				}
+				<Field type="hidden" name="requestTypeID" />
+				<Field type="hidden" name="subRequestTypeID" />
+				<Field type="hidden" name="petTypeID" />
+				<Field type="hidden" name="animalBreedID" />
+				<Field type="hidden" name="sexTypeID" />
+				<Field type="hidden" name="animalColorTypeID" />
+				<Field type="hidden" name="otherAnimalTypesID" />
+				<Field type="hidden" name="descriptionID" />
+				<Field type="hidden" name="streeAddressID" />
+				<Field type="hidden" name="cityID" />
+				<Field type="hidden" name="zipCodeID" />
+
+
 
 				<button type="button" onClick={callSignInForm}>
 					Sign In
@@ -519,3 +549,21 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 export default connect(ServiceRequestForm);
 
+
+
+
+
+/* 	(rest.formik.values['requestType'].toLowerCase() === requestType_WaterandSewerIssues.toLowerCase()
+		&& rest.formik.values['subRequestType'].toLowerCase() === subCategory_SewerIssues.toLowerCase()) ?
+		<div>
+			<p>
+				Issues such as missing manhole covers, sewer backups, overflows or odors require immediate attention, and therefore cannot be reported online.
+		
+			</p>
+			<p>
+				Please call the Department of Public Works at 410-887-7415 to ensure we obtain the necessary information to address the issue as soon as possible.
+			</p>
+
+		</div>
+		: null
+ */

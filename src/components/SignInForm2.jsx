@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Formik, Form, Field } from "formik";
+import { Formik, Field, Form, ErrorMessage } from 'formik'
 import * as Yup from "yup";
 import ErrorMsg from "./ErrorMessage";
 import { ErrorCheck } from "./CustomErrorHandling";
@@ -7,135 +7,72 @@ import { Link } from 'react-router-dom';
 import FormContainer from './FormContainer';
 import { Login } from './authService';
 import DisplayFormikState from './helper';
-const SignIn = props => {
-
-
-	const [fieldType, setFieldType] = useState('Password');
-	const handlePasswordToggleChange = () => {
-		setFieldType(fieldType === 'Password' ? 'text' : 'Password');
-	};
-
-	const userLogin = async (values, props) => {
-
-		console.log('--inside signnup');
-		console.log(values);
-		console.log(props);
-		//return ('testing---');
-		try {
-			const response = await Login(values.Email, values.Password);
-			if (response.data.ErrorsCount > 0) {
-				const errorsReturned = ErrorCheck(response);
-				console.log(errorsReturned);
-				props.errors.Email = errorsReturned;
-				props.setFieldValue('Email', '');
-				return ({ Email: "where is it ?????" });
-
-			}
-			else {
-				props.history.push('/ProviderDetails');
-			}
-		}
-		catch (ex) {
-			if (ex.response && ex.response.status === 400) {
-				props.errors.email = ex.response.data
-			}
-		}
-
-	}
-
-	console.log('test');
-
-	return (
+const SignIn = () => (
+	<div>
 		<FormContainer title="Sign In">
 			<Formik
 				initialValues={{
 					Email: '',
 					Password: ''
 				}}
-				validationSchema={Yup.object().shape({
-					Email: Yup.string().email('Invalid email address.').required('Please enter a valid email address.'),
-					Password: Yup.string()
-						.required('Please enter your password.')
-					//	.max(30, "Maximum 30 characters allowed.")
-					//	.matches(
-					//		/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9!@#$%^&*(),.?":{}|<>]{8}/,
-					//		"Your password must be 8 to 30 characters and contain at least one uppercase letter, one lowercase letter and one number.")
-				})}
-				onSubmit={(values, { setSubmitting, props, setErrors }) => {
-					//alert(JSON.stringify(values, null, 2));
-					//alert(JSON.stringify(props, null, 2));
-					//alert(JSON.stringify(setErrors, null, 2));
-					userLogin(values, props);
-					//alert(JSON.stringify(errors, null, 2));
-					{/* const errormsg = 'this is a test';
-					errors = { errormsg };
-					alert(JSON.stringify(errors, null, 2)); */}
-					//alert(JSON.stringify(errormsg, null, 2));
-
-					{/* props.errors.map(error => (
-						<p key={error}>Error: {error}</p>
-					)) */}
-
-					setSubmitting(false);
-					//	return (<div className="input-feedback"><ErrorMsg errormessage={errormsg} touched={true} /></div>);
-				}}
-			>
-				{
-					(props) => {
-						const { isSubmitting, errors, touched } = props;
-						console.log('hello- errors');
-						console.log(errors);
-						return (
-							<Form >
-								<label htmlFor="Email"
-									className={
-										errors.Email && touched.Email ? "input-feedback" : "text-label"}
-								>Email Address</label>
-								<Field
-									type="email"
-									name="Email"
-									className={`text-input ${errors.Email && touched.Email ? "error" : ""}`}
-								/>
-								<div className="input-feedback">
-									<ErrorMsg
-										errormessage={errors.Email}
-										touched={touched.Email} />
-								</div>
-								<div>
-									<label name="Password" htmlFor="password"
-										className={
-											errors.Password && touched.Password ? "input-feedback" : "text-label"}
-									>Password</label>
-									<Field
-										type={fieldType === 'Password' ? 'Password' : 'text'}
-										name="Password"
-										className={`text-input ${errors.Password && touched.Password ? "error" : ""}`}
-									/>
-									<span onClick={handlePasswordToggleChange}
-										className={`fa fa-fw fa-eye field-icon ${fieldType === 'text' ? "fa-eye-slash" : ""}`}></span>
-
-									<div className="input-feedback">
-										<ErrorMsg
-											errormessage={errors.Password}
-											touched={touched.Password} />
-									</div>
-								</div>
-								<label htmlFor="forgetpassword"> <Link to="ResetPassword" >Forgot password?</Link></label><br />
-								<label htmlFor="signup"
-								>Don't have an account? <Link to="SignUpForm" >Sign up</Link></label><br />
-								<button type="submit" disabled={isSubmitting}>
-									Sign In and Continue
-								</button>
-								<DisplayFormikState {...props} />
-							</Form>
-
-						)
+				validate={values => {
+					let errors = {}
+					if (!values.Email) {
+						errors.Email = 'Please enter a valid email address'
+					} else if (!values.Password) {
+						errors.Password = 'Password required'
 					}
-				}
-			</Formik>
-		</FormContainer>
+					return errors
+				}}
+				onSubmit={async (values, actions) => {
+					actions.setStatus({
+						success: 'Sending email...',
+						css: 'sending'
+					})
+					actions.setSubmitting(false)
+					const response = await Login(values.Email, values.Password);
+					console.log(response);
+					if (response.status === 200) {
+						actions.setStatus({
+							success: 'Something went wrong, email not sent !',
+							css: 'error'
+							//success: 'Email sent !',
+							//css: 'success'
+						})
+					} else {
+						actions.setStatus({
+							success: 'Something went wrong, email not sent !',
+							css: 'error'
+						})
+					}
+				}}
 
-	);
-}
+				render={props => (
+					<Form>
+						<label htmlFor="Email">Email Address</label>
+						<Field type="email" name="Email" />
+						<ErrorMessage name='Email' className='field-validation' component='div' />
+						<label name="Password" htmlFor="password">Password</label>
+						<Field type={'text'} name="Password" />
+						<ErrorMessage name='Password' className='field-validation' component='div' />
+
+
+						<ErrorMessage name='msg' className='field-validation' component='div' />
+						<div className={`form-sending ${props.status ? props.status.css : ''}`}>
+							{props.status ? props.status.success : ''}
+						</div>
+						<label htmlFor="forgetpassword"> <Link to="ResetPassword" >Forgot password?</Link></label><br />
+						<label htmlFor="signup">Don't have an account? <Link to="SignUpForm" >Sign up</Link></label><br />
+						<button type="submit" disabled={props.isSubmitting}> Sign In and Continue</button>
+						<DisplayFormikState {...props} />
+					</Form>
+
+				)}
+
+			/>
+		</FormContainer>
+	</div>
+
+);
 
 export default SignIn;
