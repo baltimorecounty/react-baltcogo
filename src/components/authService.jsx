@@ -9,17 +9,23 @@ var endpointLogin = endPoints.apiLoginUrl;
 var endpointSignUp = endPoints.apiSignInUrl;
 var endpointResetPassword = endPoints.apiPasswordResetUrl;
 var endpointReport = endPoints.apiReportUrl;
+var endpointContacts = endPoints.apiContactsUrl;
+var endpointVerifyAddress = endPoints.apiVerifyAddressUrl
  
 if (domain === "dev.baltimorecountymd.gov"){
 	endpointLogin = endPoints.apiTestLoginUrl
 	endpointSignUp = endPoints.apiTestSignInUrl
  	endpointResetPassword = endPoints.apiTestPasswordResetUrl
 	endpointReport = endPoints.apiTestReportUrl
+	endpointContacts = endPoints.apiTestContactUrl
+	endpointVerifyAddress = endPoints.apiTestVerifyAddressUrl
 }else if(domain === "baltimorecountymd.gov"){
 	endpointLogin = endPoints.apiProdLoginUrl
 	endpointSignUp = endPoints.apiProdSignInUrl
  	endpointResetPassword = endPoints.apiProdPasswordResetUrl
 	endpointReport = endPoints.apiProdReportUrl
+	endpointContacts = endPoints.apiProdContactsUrl
+	endpointVerifyAddress = endPoints.apiProdVerifyAddressUrl
 };
 
 export function Login(email, password) {
@@ -42,13 +48,8 @@ export function ResetPassword(Email) {
 }
 
 export function CreateReport(data) {
-	return fetch(endpointReport, {
-		method: 'POST',
-		mode: 'CORS',
-		body: JSON.stringify(data), 
-	}).then(res => {
-		return res;
-	}).catch(err => err);
+
+	return http.post(endpointReport, { data });
 }
 
 export function GetReportByID(ReportID) {
@@ -61,4 +62,16 @@ export function GetReportByLatLong(X, Y) {
 
 export function GetReportByLatLongRadius(X, Y, Radius) {
 	return http.get(endpointReport + X + Y + Radius);
+}
+
+export function VerifyAddress(address) {
+	return http.get(endpointVerifyAddress + "address" + address);
+}
+
+export function GetContactAddress(id) {
+	return http.get(endpointContacts + id + "addresses");
+}
+
+export function CreateContactAddress(id, VerificationId, Name) {
+	return http.post(endpointContacts + id + "addresses", { VerificationId, Name });
 }

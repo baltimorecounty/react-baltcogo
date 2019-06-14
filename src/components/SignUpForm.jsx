@@ -4,7 +4,7 @@ import * as Yup from "yup";
 import ErrorMsg from "./ErrorMessage";
 import { ErrorCheck } from "./CustomErrorHandling";
 import FormContainer from './FormContainer';
-import { SignUp } from './authService';
+import { SignUp, VerifyAddress, CreateContactAddress } from './authService';
 import { Link }  from 'react-router-dom';
 
 /*function formatPhoneNumber(value, format) {
@@ -64,13 +64,36 @@ const CreateAccount = props => {
 		console.log(values);
 		try {
 			const response = await SignUp(values.NameFirst, values.NameLast, values.Email, values.Password, values.Telephone, values.UniqueId, values.SuppressNotifications);
-			if(response.data.ErrorsCount > 0){
+			var ContactID = response.data.Results.Id;
+			var fullAddress = values.Address + ' ' + values.City + ',MD ' + values.ZipCode; 
+
+			try{
+				const addressResponse = await VerifyAddress(fullAddress);
+				var VerificationId = addressResponse.data.Results.VerificationId;
+
+				if(addressResponse.data.HasErrors === false){
+					const contactAddressResponse = await CreateContactAddress(ContactID, VerificationId , "Default");
+					props.formik.setFieldValue('addressID', contactAddressResponse.data.Results.Id);
+				}
+				else{
+					const errorsReturned = ErrorCheck(response);
+					console.log(errorsReturned);
+					props.Field.ErrorMsg = errorsReturned;
+				}
+			}
+			catch(ex){
+				if (ex.response && ex.response.status === 400) {
+					props.errors.email = ex.response.data
+				}
+			}
+
+			if(response.data.HasErrors === false){
 				const errorsReturned = ErrorCheck(response);
 				console.log(errorsReturned);
 				props.Field.ErrorMsg = errorsReturned;
 			}
 			else{
-				props.history.push('/AdditionalInformationForm');
+				props.history.push('/ProviderDetails');
 			}	
 		}
 		catch (ex) {
@@ -90,13 +113,19 @@ const CreateAccount = props => {
 					NameLast: '',
 					Telephone: '',
 					Email: '',
-					Password: ''
+					Password: '',
+					Address: '',
+					City: '',
+					ZipCode: ''
 				}}
 
 				validationSchema={Yup.object().shape({
 					NameFirst: Yup.string().required('Please enter your first name.'),
 					NameLast: Yup.string().required('Please enter your last name.'),
 					Email: Yup.string().email('Invalid email.').required('Please enter a valid email address.'),
+					Address: Yup.string().required('Invalid address.').required('Please enter a valid address.'),
+					City: Yup.string().required('Invalid city.').required('Please enter a valid city.'),
+					ZipCode: Yup.string().required('Invalid zip code.').required('Please enter a valid zip code.'),
 					Password: Yup.string()
 						.required('Please enter your password.')
 						.max(30, "Maximum 30 characters allowed.")
@@ -194,6 +223,51 @@ const CreateAccount = props => {
 											errormessage={errors.Password}
 											touched={touched.Password} />
 									</div>
+									<label htmlFor="Address"
+										className={errors.Address && touched.Address ? "input-feedback" : "text-label"}
+									>Street Address</label>
+									<Field
+										type="text"
+										name="Address"
+										className={`text-input ${errors.Address && touched.Address ? "error" : ""}`}
+									/>
+									<div className="input-feedback">
+										<ErrorMsg
+											errormessage={errors.Address}
+											touched={touched.Address} />
+									</div>
+									<label htmlFor="City"
+										className={errors.City && touched.City ? "input-feedback" : "text-label"}
+									>City</label>
+									<Field
+										type="text"
+										name="City"
+										className={`text-input ${errors.City && touched.City ? "error" : ""}`}
+									/>
+									<div className="input-feedback">
+										<ErrorMsg
+											errormessage={errors.City}
+											touched={touched.City} />
+									</div>
+									<div>
+										<label htmlFor="ZipCode"
+											className={errors.zipCode && touched.ZipCode ? "input-feedback" : "text-label"}
+										>ZIP Code</label>
+										<Field type='text'
+											name="ZipCode"
+											className={`text-input ${errors.ZipCode && touched.ZipCode ? "error" : ""}`}
+										/>
+										<div className="input-feedback">
+											<ErrorMsg
+												errormessage={errors.ZipCode}
+												touched={touched.ZipCode} />
+										</div>
+									</div>
+									<Field
+										type="hidden"
+										name="addressID"
+
+									/>
 								</div>
 								<label htmlFor="signup"
 								>Already have an account? <Link to="SignInForm" >Sign In</Link> </label><br />
