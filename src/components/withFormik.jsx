@@ -25,6 +25,7 @@ export default withFormik({
 		describeTheProblem: '',
 		Latitude: '',
 		Longitude: '',
+		contactID: '',
 		// Latitude: 39.4001526,
 		// Longitude: -76.6074448,
 		//MarkerLatitude: 18.5204,

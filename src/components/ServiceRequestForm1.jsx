@@ -209,7 +209,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 					(rest.formik.values['requestType'] === requestType_WaterandSewerIssues
 						&& rest.formik.values['subRequestType'] === subCategory_StormWaterIssues) ?
 						<div>
-						<p>
+							<p>
 						Stormwater issues such as sinkholes and missing or damaged storm grates require immediate attention due to the risk of harm to persons or property, and therefore cannot be reported online.
 						
 							</p>

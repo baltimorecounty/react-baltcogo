@@ -97,6 +97,9 @@ const CreateAccount = props => {
 					NameFirst: Yup.string().required('Please enter your first name.'),
 					NameLast: Yup.string().required('Please enter your last name.'),
 					Email: Yup.string().email('Invalid email.').required('Please enter a valid email address.'),
+					Address: Yup.string().email('Invalid email.').required('Please enter a valid address.'),
+					City: Yup.string().email('Invalid email.').required('Please enter a valid city.'),
+					ZipCode: Yup.string().email('Invalid email.').required('Please enter a valid zip code.'),
 					Password: Yup.string()
 						.required('Please enter your password.')
 						.max(30, "Maximum 30 characters allowed.")
@@ -193,6 +196,48 @@ const CreateAccount = props => {
 										<ErrorMsg
 											errormessage={errors.Password}
 											touched={touched.Password} />
+									</div>
+								</div>
+								<div id="ContactAddress">
+									<label htmlFor="Address"
+										className={errors.Address && touched.Address ? "input-feedback" : "text-label"}
+									>Your Street Address</label>
+									<Field
+										type="text"
+										name="Address"
+										className={`text-input ${errors.Address && touched.Address ? "error" : ""}`}
+									/>
+									<div className="input-feedback">
+										<ErrorMsg
+											errormessage={errors.Address}
+											touched={touched.Address} />
+									</div>
+									<label htmlFor="City"
+										className={errors.City && touched.City ? "input-feedback" : "text-label"}
+									>Your City</label>
+									<Field
+										type="text"
+										name="City"
+										className={`text-input ${errors.City && touched.City ? "error" : ""}`}
+									/>
+									<div className="input-feedback">
+										<ErrorMsg
+											errormessage={errors.City}
+											touched={touched.City} />
+									</div>
+									<div>
+										<label htmlFor="ZipCode"
+											className={errors.zipCode && touched.ZipCode ? "input-feedback" : "text-label"}
+										>Your ZIP Code</label>
+										<Field type='text'
+											name="ZipCode"
+											className={`text-input ${errors.ZipCode && touched.ZipCode ? "error" : ""}`}
+										/>
+										<div className="input-feedback">
+											<ErrorMsg
+												errormessage={errors.ZipCode}
+												touched={touched.ZipCode} />
+										</div>
 									</div>
 								</div>
 								<label htmlFor="signup"
