@@ -62,44 +62,60 @@ const CreateAccount = props => {
 
 		console.log('--inside signnup');
 		console.log(values);
-		try {
-			const response = await SignUp(values.NameFirst, values.NameLast, values.Email, values.Password, values.Telephone, values.UniqueId, values.SuppressNotifications);
-			var ContactID = response.data.Results.Id;
+		try{
 			var fullAddress = values.Address + ' ' + values.City + ',MD ' + values.ZipCode; 
 
-			try{
-				const addressResponse = await VerifyAddress(fullAddress);
-				var VerificationId = addressResponse.data.Results.VerificationId;
+			const addressResponse = await VerifyAddress(fullAddress);
+			var VerificationId = "";
 
-				if(addressResponse.data.HasErrors === false){
-					const contactAddressResponse = await CreateContactAddress(ContactID, VerificationId , "Default");
-					props.formik.setFieldValue('addressID', contactAddressResponse.data.Results.Id);
-				}
-				else{
+			if(addressResponse.data.HasErrors === true){
+				const errorsReturned = ErrorCheck(addressResponse);
+				console.log(errorsReturned);
+				props.Field.ErrorMsg = errorsReturned;	
+				throw new Error(errorsReturned);
+			}
+			else{
+				VerificationId = addressResponse.data.Results.VerificationId;
+			}
+			
+			try{
+				const response = await SignUp(values.NameFirst, values.NameLast, values.Email, values.Password, values.Telephone, values.UniqueId, values.SuppressNotifications);
+				var ContactID = "";	
+
+				if(response.data.HasErrors === true){
 					const errorsReturned = ErrorCheck(response);
 					console.log(errorsReturned);
 					props.Field.ErrorMsg = errorsReturned;
+					throw new Error(errorsReturned);		
 				}
-			}
-			catch(ex){
-				if (ex.response && ex.response.status === 400) {
-					props.errors.email = ex.response.data
+				else{
+					ContactID = response.data.Results.Id;
 				}
-			}
 
-			if(response.data.HasErrors === false){
-				const errorsReturned = ErrorCheck(response);
-				console.log(errorsReturned);
-				props.Field.ErrorMsg = errorsReturned;
+				try {			
+					const contactAddressResponse = await CreateContactAddress(ContactID, VerificationId , "Default");
+					props.formik.setFieldValue('addressID', contactAddressResponse.data.Results.Id);
+	
+					if(contactAddressResponse.data.HasErrors === true){
+						const errorsReturned = ErrorCheck(contactAddressResponse);
+						console.log(errorsReturned);
+						props.Field.ErrorMsg = errorsReturned;
+						throw new Error(errorsReturned);
+					}
+					else{
+						props.history.push('/ProviderDetails');
+					}	
+				}
+				catch (ex) {
+					console.log(ex.message);
+				}
 			}
-			else{
-				props.history.push('/ProviderDetails');
-			}	
+			catch (ex) {
+				console.log(ex.message);
+			}
 		}
-		catch (ex) {
-			if (ex.response && ex.response.status === 400) {
-				props.errors.email = ex.response.data
-			}
+		catch(ex){
+			console.log(ex.message);
 		}
 	}
 

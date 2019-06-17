@@ -65,7 +65,7 @@ export function GetReportByLatLongRadius(X, Y, Radius) {
 }
 
 export function VerifyAddress(address) {
-	return http.get(endpointVerifyAddress + "address" + address);
+	return http.get(endpointVerifyAddress + "/" + address);
 }
 
 export function GetContactAddress(id) {
