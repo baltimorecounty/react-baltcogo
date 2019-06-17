@@ -78,50 +78,56 @@ const ServiceRequestForm = (props, errors, touched) => {
 	const petTypeDog = 'dog';
 	const petType_Others = 'other';
 	const [Categories, setData] = useState([]);
-	const [CategoryName, setCategoryName] = useState();
 	const [PetTypes, setPetTypes] = useState([]);
 	const [AnimalBreeds, setAnimalBreeds] = useState([]);
 	const [AnimalColors, setAnimalColors] = useState([]);
 	const [OtherAnimalTypes, setOtherAnimalTypes] = useState([]);
 	const [subCategories, setSubCategories] = useState([]);
 	const [notes, setNotes] = useState();
-	//const [breeds] = useState(AnimalBreeds);
 	const [animalSubCategories, setAnimalSubCategories] = useState([]);
 	const [animalSex, setAnimalSex] = useState([]);
 
+	try {
+		useEffect(() => {
+			console.log('test--');
 
-	useEffect(() => {
-		const fetchData = async () => {
-			const result = await axios(
-				'//dev.baltimorecountymd.gov/sebin/q/m/categories.json',
-			);
-			const resultPetTypes = await axios(
-				'//dev.baltimorecountymd.gov/sebin/m/a/pet-types.json',
-			);
-			const resultAnimalBreeds = await axios(
-				'//dev.baltimorecountymd.gov/sebin/y/a/animal-breeds.json',
-			);
-			const resultAnimalColors = await axios(
-				'//dev.baltimorecountymd.gov/sebin/u/u/animal-colors.json',
-			);
-			const resultAnimalTypes = await axios(
-				'//dev.baltimorecountymd.gov/sebin/a/e/animal-types.json',
-			);
-			setData(result.data);
-			setPetTypes(resultPetTypes.data);
-			setAnimalBreeds(resultAnimalBreeds.data);
-			setAnimalColors(resultAnimalColors.data);
-			setOtherAnimalTypes(resultAnimalTypes.data);
 
-		};
+			const fetchData = async () => {
+				const result = await axios(
+					'//dev.baltimorecountymd.gov/sebin/q/m/categories.json',
+				);
+				const resultPetTypes = await axios(
+					'//dev.baltimorecountymd.gov/sebin/m/a/pet-types.json',
+				);
+				const resultAnimalBreeds = await axios(
+					'//dev.baltimorecountymd.gov/sebin/y/a/animal-breeds.json',
+				);
+				const resultAnimalColors = await axios(
+					'//dev.baltimorecountymd.gov/sebin/u/u/animal-colors.json',
+				);
+				const resultAnimalTypes = await axios(
+					'//dev.baltimorecountymd.gov/sebin/a/e/animal-types.json',
+				);
+				setData(result.data);
+				setPetTypes(resultPetTypes.data);
+				setAnimalBreeds(resultAnimalBreeds.data);
+				setAnimalColors(resultAnimalColors.data);
+				setOtherAnimalTypes(resultAnimalTypes.data);
 
-		fetchData();
-	}, []);
+			};
+
+			fetchData();
+		}, []);
+	}
+	catch (ex) {
+
+		console.log(ex);
+	}
 
 
 	const handleServiceRequestChange = (changeEvent) => {
 
-
+		console.log('-------------handleServiceRequestChange-------------');
 		const value = changeEvent.currentTarget.value.toLowerCase();
 		let ID = getID(Categories, value)
 

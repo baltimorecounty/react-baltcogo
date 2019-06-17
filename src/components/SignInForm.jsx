@@ -43,6 +43,7 @@ const SignIn = (props, routeProps) => {
 
 	}
 
+
 	console.log('+++++++++++++++++++++');
 	console.log(routeProps);
 	console.log(props);
@@ -74,7 +75,7 @@ const SignIn = (props, routeProps) => {
 							css: 'error'
 						})
 						actions.setSubmitting(false);
-						isSubmitting(true)
+
 					}
 					else if (response.status === 200) {
 						props.setFieldValue('ID', 1);
@@ -83,16 +84,16 @@ const SignIn = (props, routeProps) => {
 							css: 'success'
 						})
 						actions.setSubmitting(false);
-						props.history.replace('/');
+						props.history.push('/');
 					}
 				}
 				}
 			>
 				{
 					(props) => {
-						const { isSubmitting, errors, touched } = props;
-						console.log('hello- errors');
-						console.log(errors);
+						const { errors, touched } = props;
+						console.log('props.isSubmitting');
+						console.log(props.isSubmitting);
 						return (
 							<Form >
 								<label htmlFor="Email"
@@ -102,6 +103,7 @@ const SignIn = (props, routeProps) => {
 								<Field
 									type="email"
 									name="Email"
+									//onChange={handleEmailChange}
 									className={`text-input ${errors.Email && touched.Email ? "error" : ""}`}
 								/>
 

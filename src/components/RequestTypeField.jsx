@@ -4,12 +4,10 @@ import { Field } from "formik";
 const RequestTypeField = props => {
 	const { component, name, formikProps, onChange, className } = props;
 	const handleChange = changeEvent => {
-
+       console.log('-------------hello -------RequestTypeField---');
 
 		const { name, value } = changeEvent.target;
 		formikProps.formik.setFieldValue(name, value);
-
-
 		formikProps.formik.setFieldValue('subRequestType', '');
 		formikProps.formik.setFieldValue('subRequestTypeID', '');
 		formikProps.formik.setFieldValue('petType', '');

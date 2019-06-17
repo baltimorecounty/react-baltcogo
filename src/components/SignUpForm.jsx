@@ -5,7 +5,7 @@ import ErrorMsg from "./ErrorMessage";
 import { ErrorCheck } from "./CustomErrorHandling";
 import FormContainer from './FormContainer';
 import { SignUp, VerifyAddress, CreateContactAddress } from './authService';
-import { Link }  from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 /*function formatPhoneNumber(value, format) {
 	let error;
@@ -62,49 +62,49 @@ const CreateAccount = props => {
 
 		console.log('--inside signnup');
 		console.log(values);
-		try{
-			var fullAddress = values.Address + ' ' + values.City + ',MD ' + values.ZipCode; 
+		try {
+			var fullAddress = values.Address + ' ' + values.City + ',MD ' + values.ZipCode;
 
 			const addressResponse = await VerifyAddress(fullAddress);
 			var VerificationId = "";
 
-			if(addressResponse.data.HasErrors === true){
+			if (addressResponse.data.HasErrors === true) {
 				const errorsReturned = ErrorCheck(addressResponse);
 				console.log(errorsReturned);
-				props.Field.ErrorMsg = errorsReturned;	
+				props.Field.ErrorMsg = errorsReturned;
 				throw new Error(errorsReturned);
 			}
-			else{
+			else {
 				VerificationId = addressResponse.data.Results.VerificationId;
 			}
-			
-			try{
-				const response = await SignUp(values.NameFirst, values.NameLast, values.Email, values.Password, values.Telephone, values.UniqueId, values.SuppressNotifications);
-				var ContactID = "";	
 
-				if(response.data.HasErrors === true){
+			try {
+				const response = await SignUp(values.NameFirst, values.NameLast, values.Email, values.Password, values.Telephone, values.UniqueId, values.SuppressNotifications);
+				var ContactID = "";
+
+				if (response.data.HasErrors === true) {
 					const errorsReturned = ErrorCheck(response);
 					console.log(errorsReturned);
 					props.Field.ErrorMsg = errorsReturned;
-					throw new Error(errorsReturned);		
+					throw new Error(errorsReturned);
 				}
-				else{
+				else {
 					ContactID = response.data.Results.Id;
 				}
 
-				try {			
-					const contactAddressResponse = await CreateContactAddress(ContactID, VerificationId , "Default");
+				try {
+					const contactAddressResponse = await CreateContactAddress(ContactID, VerificationId, "Default");
 					props.formik.setFieldValue('addressID', contactAddressResponse.data.Results.Id);
-	
-					if(contactAddressResponse.data.HasErrors === true){
+
+					if (contactAddressResponse.data.HasErrors === true) {
 						const errorsReturned = ErrorCheck(contactAddressResponse);
 						console.log(errorsReturned);
 						props.Field.ErrorMsg = errorsReturned;
 						throw new Error(errorsReturned);
 					}
-					else{
+					else {
 						props.history.push('/ProviderDetails');
-					}	
+					}
 				}
 				catch (ex) {
 					console.log(ex.message);
@@ -114,7 +114,7 @@ const CreateAccount = props => {
 				console.log(ex.message);
 			}
 		}
-		catch(ex){
+		catch (ex) {
 			console.log(ex.message);
 		}
 	}
@@ -150,10 +150,15 @@ const CreateAccount = props => {
 							"Your password must be 8 to 30 characters and contain at least one uppercase letter, one lowercase letter and one number.")
 
 				})}
-				onSubmit={(values, { setSubmitting }) => {
+				onSubmit={async (values, actions) => {
 					//alert(JSON.stringify(values, null, 2));
-					userCreateAccount(values);
-					setSubmitting(false);
+					const response = await userCreateAccount(values);
+					actions.setSubmitting(false);
+					console.log('++++++++++++++++++++');
+					console.log('response value');
+					console.log(response);
+
+					console.log('++++++++++++++++++++');
 				}}
 			>
 				{
