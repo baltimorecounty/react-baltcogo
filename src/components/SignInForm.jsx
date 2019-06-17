@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import FormContainer from './FormContainer';
 import { Login } from './authService';
 import DisplayFormikState from './helper';
-const SignIn = props => {
+const SignIn = (props, routeProps) => {
 
 
 	const [fieldType, setFieldType] = useState('Password');
@@ -43,14 +43,17 @@ const SignIn = props => {
 
 	}
 
-	console.log('test');
-
+	console.log('+++++++++++++++++++++');
+	console.log(routeProps);
+	console.log(props);
+	console.log('+++++++++++++++++++++');
 	return (
 		<FormContainer title="Sign In">
 			<Formik
 				initialValues={{
 					Email: '',
-					Password: ''
+					Password: '',
+
 				}}
 				validationSchema={Yup.object().shape({
 					Email: Yup.string().email('Invalid email address.').required('Please enter a valid email address.'),
@@ -61,33 +64,29 @@ const SignIn = props => {
 					//		/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9!@#$%^&*(),.?":{}|<>]{8}/,
 					//		"Your password must be 8 to 30 characters and contain at least one uppercase letter, one lowercase letter and one number.")
 				})}
-				onSubmit={async (values, actions) => {
-					//alert(JSON.stringify(values, null, 2));
-					//alert(JSON.stringify(props, null, 2));
-					//alert(JSON.stringify(setErrors, null, 2));
-					//	userLogin(values, props);
-					//setSubmitting(false)
+				onSubmit={async (values, actions, setSubmitting) => {
 					const response = await Login(values.Email, values.Password);
-					console.log(response);
-					console.log(actions);
-					if (response.status === 200) {
+					//actions.setSubmitting(false);
+					if (response.data.ErrorsCount > 0) {
+						const errorsReturned = ErrorCheck(response);
 						actions.setStatus({
-							success: 'Something went wrong, email not sent !',
+							success: errorsReturned,
 							css: 'error'
-							//success: 'Email sent !',
-							//css: 'success'
 						})
 						actions.setSubmitting(true);
-					} else {
-						actions.setStatus({
-							success: 'Something went wrong, email not sent !',
-							css: 'error'
-						})
+						//isSubmitting(true)
 					}
-
-					//setSubmitting(false);
-					//	return (<div className="input-feedback"><ErrorMsg errormessage={errormsg} touched={true} /></div>);
-				}}
+					else if (response.status === 200) {
+						props.setFieldValue('ID', 1);
+						actions.setStatus({
+							success: 'OK',
+							css: 'success'
+						})
+						actions.setSubmitting(true);
+						props.history.replace('/');
+					}
+				}
+				}
 			>
 				{
 					(props) => {
@@ -107,7 +106,7 @@ const SignIn = props => {
 								/>
 
 								<ErrorMessage name='msg' className='input-feedback' component='div' />
-								<div className={`form-sending ${props.status ? props.status.css : ''}`}>
+								<div className={`input-feedback ${props.status ? props.status.css : ''}`}>
 									{props.status ? props.status.success : ''}
 								</div>
 								<div className="input-feedback">
@@ -141,6 +140,8 @@ const SignIn = props => {
 									Sign In and Continue
 								</button>
 								<DisplayFormikState {...props} />
+
+
 							</Form>
 
 						)

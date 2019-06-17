@@ -24,7 +24,8 @@ function App(props) {
 
 			<Switch>
 
-				<Route path='/SignInForm' component={SignInForm} />
+				<Route path='/SignInForm'
+					render={(routeProps) => <SignInForm {...routeProps}{...props} />} />
 				<Route path='/SignUpForm' component={SignUpForm} />
 				<Route path='/AdditionalInformationForm' component={AdditionalInformationForm} />
 				<Route path='/ResetPassword' component={ResetPassword} />
