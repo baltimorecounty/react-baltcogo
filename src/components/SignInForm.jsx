@@ -66,15 +66,15 @@ const SignIn = (props, routeProps) => {
 				})}
 				onSubmit={async (values, actions, setSubmitting) => {
 					const response = await Login(values.Email, values.Password);
-					//actions.setSubmitting(false);
+					actions.setSubmitting(false);
 					if (response.data.ErrorsCount > 0) {
 						const errorsReturned = ErrorCheck(response);
 						actions.setStatus({
 							success: errorsReturned,
 							css: 'error'
 						})
-						actions.setSubmitting(true);
-						//isSubmitting(true)
+						actions.setSubmitting(false);
+						isSubmitting(true)
 					}
 					else if (response.status === 200) {
 						props.setFieldValue('ID', 1);
@@ -82,7 +82,7 @@ const SignIn = (props, routeProps) => {
 							success: 'OK',
 							css: 'success'
 						})
-						actions.setSubmitting(true);
+						actions.setSubmitting(false);
 						props.history.replace('/');
 					}
 				}
