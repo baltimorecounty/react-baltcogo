@@ -257,11 +257,11 @@ const ServiceRequestForm = (props, errors, touched) => {
 								name="subRequestType"
 								formikProps={rest}
 								onChange={handleServiceSubRequestChange}
+								value={props.formik.values.name}
 							>
 								<option key='default' value=''>--Please select a sub-category--</option>
 								{subCategories.map(category => (
 									<option key={category.id} value={category.name}>{category.name}</option>
-
 								))}
 
 							</RequestSubTypeField>
