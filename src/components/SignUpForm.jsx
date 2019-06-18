@@ -103,6 +103,7 @@ const CreateAccount = (props, routeProps) => {
 				else {
 					ContactID = response.data.Results.Id;
 					props.setFieldValue('ContactID', ContactID);
+					localStorage.setItem('UserLoginID', ContactID);
 				}
 
 				try {

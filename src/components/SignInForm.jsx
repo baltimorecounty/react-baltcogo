@@ -70,6 +70,10 @@ const SignIn = (props, routeProps) => {
 					actions.setSubmitting(false);
 					if (response.data.ErrorsCount > 0) {
 						const errorsReturned = ErrorCheck(response);
+					console.log(response);
+					console.log(actions);
+					localStorage.setItem('UserLoginID', response.data.Results.Id);
+					if (response.status === 200) {
 						actions.setStatus({
 							success: errorsReturned,
 							css: 'error'
