@@ -66,21 +66,29 @@ const AdditionalInformation = props => {
 		};	
 
 		try {
-			alert(JSON.stringify(Selections, null, 2));
-			const response = await CreateReport(Selections);
-			if(response.data.ErrorsCount > 0){
-				const errorsReturned = ErrorCheck(response);
-				console.log(errorsReturned);
-				props.Field.ErrorMsg = errorsReturned;
+			if(!localStorage.getItem('UserLoginID'))
+			{
+				throw new Error("You are not logged in and cannot submit a request");
 			}
-			else{
-				props.history.push('/ProviderDetails');
-			}	
+			try {
+				const response = await CreateReport(Selections);
+				if(response.data.ErrorsCount > 0){
+					const errorsReturned = ErrorCheck(response);
+					console.log(errorsReturned);
+					props.Field.ErrorMsg = errorsReturned;
+				}
+				else{
+					props.history.push('/ProviderDetails');
+				}	
+			}
+			catch (ex) {
+				if (ex.response && ex.response.status === 400) {
+					console.log(ex.message);
+				}
+			}
 		}
 		catch (ex) {
-			if (ex.response && ex.response.status === 400) {
-				props.errors.email = ex.response.data
-			}
+			console.log(ex.message);
 		}
 	}
 	const callProviderDetailForm = () => {
