@@ -6,7 +6,7 @@ import { ErrorCheck } from "./CustomErrorHandling";
 import { Link } from 'react-router-dom';
 import FormContainer from './FormContainer';
 import { Login } from './authService';
-import DisplayFormikState from './helper';
+// import DisplayFormikState from './helper';
 const SignIn = (props, routeProps) => {
 
 
@@ -144,7 +144,7 @@ const SignIn = (props, routeProps) => {
 								<button type="submit" disabled={props.isSubmitting}>
 									Sign In and Continue
 								</button>
-								<DisplayFormikState {...props} />
+								{/* <DisplayFormikState {...props} /> */}
 
 
 							</Form>
