@@ -70,25 +70,24 @@ const SignIn = (props, routeProps) => {
 					actions.setSubmitting(false);
 					if (response.data.ErrorsCount > 0) {
 						const errorsReturned = ErrorCheck(response);
-					console.log(response);
-					console.log(actions);
-					localStorage.setItem('UserLoginID', response.data.Results.Id);
-					if (response.status === 200) {
-						actions.setStatus({
-							success: errorsReturned,
-							css: 'error'
-						})
-						actions.setSubmitting(false);
+						localStorage.setItem('UserLoginID', response.data.Results.Id);
+						if (response.status === 200) {
+							actions.setStatus({
+								success: errorsReturned,
+								css: 'error'
+							})
+							actions.setSubmitting(false);
 
-					}
-					else if (response.status === 200) {
-						props.setFieldValue('ID', 1);
-						actions.setStatus({
-							success: 'OK',
-							css: 'success'
-						})
-						actions.setSubmitting(false);
-						props.history.push('/ProviderDetails');
+						}
+						else if (response.status === 200) {
+							props.setFieldValue('ID', 1);
+							actions.setStatus({
+								success: 'OK',
+								css: 'success'
+							})
+							actions.setSubmitting(false);
+							props.history.push('/ProviderDetails');
+						}
 					}
 				}
 				}
