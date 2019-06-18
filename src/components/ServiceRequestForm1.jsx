@@ -6,12 +6,16 @@ import FormContainer from './FormContainer';
 import RequestTypeField from "./RequestTypeField";
 import RequestSubTypeField from "./RequestSubTypeField";
 import RequestPetTypeField from "./RequestPetTypeField";
+import QueryString from 'query-string';
+
 import _ from 'lodash'
 import GenericTypeField from "./genericTypeField";
 //import PetTypes from "./pettypes.json";
 //import AnimalBreeds from "./animalbreeds.json";
 //import AnimalColors from "./animalcolors.json"
 import Model from './Model'
+
+const {categoryId} = QueryString.parse(window.location.href);
 
 const getSubCategories1 = (categories, categoryId) => {
 	var category = categories.find(category => category.id === categoryId);
@@ -284,6 +288,11 @@ const ServiceRequestForm = (props, errors, touched) => {
 	}
 	const { values, isSubmitting, ...rest } = props;
 
+	const routURLID = () => {
+		var urlParts =  window.location.href.split('categoryId=');
+		return urlParts[1];
+	}
+
 	//console.log('************************************************');
 	//console.log('requestType:' + rest.formik.values.requestType);
 	console.log('sexType:' + rest.formik.values.sexType);
@@ -305,6 +314,8 @@ const ServiceRequestForm = (props, errors, touched) => {
 					name="requestType"
 					formikProps={rest}
 					onChange={handleServiceRequestChange}
+					onLoad={routURLID}
+					value ={categoryId}
 				>
 					<option key='default' value=''>--Please select a category--</option>
 					{Categories.map(category => (
