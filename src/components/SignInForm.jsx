@@ -70,6 +70,7 @@ const SignIn = props => {
 					const response = await Login(values.Email, values.Password);
 					console.log(response);
 					console.log(actions);
+					localStorage.setItem('UserLoginID', response.data.Results.Id);
 					if (response.status === 200) {
 						actions.setStatus({
 							success: 'Something went wrong, email not sent !',
