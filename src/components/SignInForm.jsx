@@ -17,10 +17,7 @@ const SignIn = (props, routeProps) => {
 
 	const userLogin = async (values, props) => {
 
-		console.log('--inside signnup');
-		console.log(values);
-		console.log(props);
-		//return ('testing---');
+
 		try {
 			const response = await Login(values.Email, values.Password);
 			if (response.data.ErrorsCount > 0) {
@@ -44,10 +41,7 @@ const SignIn = (props, routeProps) => {
 	}
 
 
-	console.log('+++++++++++++++++++++');
-	console.log(routeProps);
-	console.log(props);
-	console.log('+++++++++++++++++++++');
+
 	return (
 		<FormContainer title="Sign In">
 			<Formik
@@ -95,8 +89,7 @@ const SignIn = (props, routeProps) => {
 				{
 					(props) => {
 						const { errors, touched } = props;
-						console.log('props.isSubmitting');
-						console.log(props.isSubmitting);
+		
 						return (
 							<Form >
 								<label htmlFor="Email"
