@@ -7,14 +7,10 @@ import AdditionalInformationForm from './components/AdditionalInformation';
 import SignInForm from './components/SignInForm';
 import ResetPassword from './components/ResetPassword';
 import withFormik from './components/withFormik';
-import DisplayFormikState from './components/helper';
+// import DisplayFormikState from './components/helper';
 import ProviderDetails from './components/ProviderDetails';
 import GetReport from './components/GetReport';
 
-
-
-//import FieldLevelValidation from './components/FieldValidation';
-//class App extends Component {
 function App(props) {
 
 	return (
@@ -38,7 +34,7 @@ function App(props) {
 
 			</Switch>
 
-			<DisplayFormikState {...props} />
+			{/* <DisplayFormikState {...props} /> */}
 		</main>
 
 	);

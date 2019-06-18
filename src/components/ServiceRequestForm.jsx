@@ -17,10 +17,7 @@ import Model from './Model'
 
 const {categoryId} = QueryString.parse(window.location.search);
 
-const getSubCategories1 = (categories, categoryId) => {
-	var category = categories.find(category => category.id === categoryId);
-	return category ? category.types : [];
-};
+
 const getSubCategories = (categories, categoryName) => {
 	var category = categories.find(category => category.name.toLowerCase() === categoryName);
 	return category ? category.types : [];
@@ -30,7 +27,7 @@ const getNote = (subCategories, name) => {
 	return type ? type.note : [];
 };
 const getAnimalSubCategories = (AnimalBreeds, animalName) => {
-	//console.log('--inside getAnimalSubCategories--');
+
 
 	var animalCats = AnimalBreeds.find(animal => animal.animal.toLowerCase() === animalName);
 	return animalCats ? animalCats : [];
@@ -43,10 +40,6 @@ const getID = (categories, categoryName) => {
 	return category ? category.id : [];
 };
 
-// const getSubTypeID = (categories, categoryName) => {
-// 	var category = categories.find(category => category.name=== categoryName);
-// 	return category ? category.id : [];
-// };
 
 
 const ServiceRequestForm = (props, errors, touched) => {
@@ -95,7 +88,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 	try {
 		useEffect(() => {
-			console.log('test--');
+	
 
 
 			const fetchData = async () => {
@@ -139,7 +132,6 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 		props.formik.setFieldValue('requestTypeID', ID);
 		const subCategories = getSubCategories(Categories, value ? value : value);
-		//const subCategories = getSubCategories(Categories, parseInt(categoryID) ? parseInt(categoryID) : categoryID);
 		setSubCategories(subCategories);
 	};
 	const handleServiceSubRequestChange = (changeEvent) => {
@@ -212,8 +204,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 	const buttonShowHideValidation = () => {
 
-		console.log('iniside buttonShowHideValidation');
-		//console.log(props.formik.values.Id);
+
 		if (props.formik.values.requestType !== '' && props.formik.values.subRequestType !== '') {
 			if (props.formik.values.requestType.toLowerCase() === requestType_RoadSidewalkIssue.toLowerCase()
 				&& props.formik.values.subRequestType.toLowerCase() === subCategory_IcyConditions.toLowerCase()) {
@@ -293,10 +284,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 		return urlParts[1];
 	}
 
-	//console.log('************************************************');
-	//console.log('requestType:' + rest.formik.values.requestType);
-	console.log('sexType:' + rest.formik.values.sexType);
-	//console.log('************************************************');
+
 	let displayButton = buttonShowHideValidation(props);
 	return (
 
@@ -614,17 +602,3 @@ export default connect(ServiceRequestForm);
 
 
 
-/* 	(rest.formik.values['requestType'].toLowerCase() === requestType_WaterandSewerIssues.toLowerCase()
-		&& rest.formik.values['subRequestType'].toLowerCase() === subCategory_SewerIssues.toLowerCase()) ?
-		<div>
-			<p>
-				Issues such as missing manhole covers, sewer backups, overflows or odors require immediate attention, and therefore cannot be reported online.
-		
-			</p>
-			<p>
-				Please call the Department of Public Works at 410-887-7415 to ensure we obtain the necessary information to address the issue as soon as possible.
-			</p>
-
-		</div>
-		: null
- */
