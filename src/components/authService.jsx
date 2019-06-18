@@ -9,7 +9,7 @@ var endpointLogin = endPoints.apiLoginUrl;
 var endpointSignUp = endPoints.apiSignInUrl;
 var endpointResetPassword = endPoints.apiPasswordResetUrl;
 var endpointReport = endPoints.apiReportUrl;
-var endpointContacts = endPoints.apiContactsUrl;
+var endpointContacts = endPoints.apiContactUrl;
 var endpointVerifyAddress = endPoints.apiVerifyAddressUrl
  
 if (domain === "dev.baltimorecountymd.gov"){
@@ -24,7 +24,7 @@ if (domain === "dev.baltimorecountymd.gov"){
 	endpointSignUp = endPoints.apiProdSignInUrl
  	endpointResetPassword = endPoints.apiProdPasswordResetUrl
 	endpointReport = endPoints.apiProdReportUrl
-	endpointContacts = endPoints.apiProdContactsUrl
+	endpointContacts = endPoints.apiProdContactUrl
 	endpointVerifyAddress = endPoints.apiProdVerifyAddressUrl
 };
 
@@ -73,5 +73,7 @@ export function GetContactAddress(id) {
 }
 
 export function CreateContactAddress(id, VerificationId, Name) {
-	return http.post(endpointContacts + id + "addresses", { VerificationId, Name });
+
+	const response = http.post(endpointContacts + id + "/", { VerificationId, Name });
+	return response;
 }

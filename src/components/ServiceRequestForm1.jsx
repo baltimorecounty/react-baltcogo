@@ -46,6 +46,7 @@ const getID = (categories, categoryName) => {
 
 
 const ServiceRequestForm = (props, errors, touched) => {
+	let displayButton = true;
 	const requestType_petAndAnimalIssue = 'Pets and Animals Issue';
 	const petAndAnimalIssueID_OtherAnimalComplaint = 'Other animal complaint';
 
@@ -76,6 +77,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 	const petTypeCat = 'cat';
 	const petTypeDog = 'dog';
+	const petTypeHorse = 'horse';
 	const petType_Others = 'other';
 	const [Categories, setData] = useState([]);
 	const [PetTypes, setPetTypes] = useState([]);
@@ -311,8 +313,8 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 				{ /* Roads and Sidewalks Issue -- icy condition*/
 					(rest.formik.values['requestType'].toLowerCase() === requestType_RoadSidewalkIssue.toLowerCase()
-						&& rest.formik.values['subRequestType'].toLowerCase() === subCategory_IcyConditions.toLowerCase()) ? notes
-						: null
+						&& rest.formik.values['subRequestType'].toLowerCase() === subCategory_IcyConditions.toLowerCase()) ? notes : null
+
 				}
 				{/* Pets and Animal Issue - Other animal complaint */
 
@@ -511,10 +513,30 @@ const ServiceRequestForm = (props, errors, touched) => {
 					</div> : 'Welcome back ,[first Name], Not [first Name]? Log in to a different account'
 
 
+				}
+
+				{
+					rest.formik.values['requestType'] !== '' && rest.formik.values['subRequestType'] !== '' ?
+
+						{ displayButton } = 'false' : null
+
+
+
+				}
+
+				{
+
+					rest.formik.values['requestType'].toLowerCase() !== requestType_petAndAnimalIssue.toLowerCase()
+						&& rest.formik.values['subRequestType'] !== '' ?
+						{ displayButton } = 'false' : null
 
 				}
 
 
+
+
+				{console.log('button disabled:' + displayButton)}
+				<button type="submit" disabled={displayButton}>Next ---text</button>
 			</Form>
 
 

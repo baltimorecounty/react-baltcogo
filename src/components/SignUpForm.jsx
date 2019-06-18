@@ -74,8 +74,8 @@ const CreateAccount = props => {
 				props.Field.ErrorMsg = errorsReturned;
 				throw new Error(errorsReturned);
 			}
-			else {
-				VerificationId = addressResponse.data.Results.VerificationId;
+			else{
+				VerificationId = addressResponse.data.Results.VerificationID;
 			}
 
 			try {
@@ -92,11 +92,11 @@ const CreateAccount = props => {
 					ContactID = response.data.Results.Id;
 				}
 
-				try {
-					const contactAddressResponse = await CreateContactAddress(ContactID, VerificationId, "Default");
-					props.formik.setFieldValue('addressID', contactAddressResponse.data.Results.Id);
-
-					if (contactAddressResponse.data.HasErrors === true) {
+				try {		
+					const contactAddressResponse = await CreateContactAddress(ContactID,VerificationId,"Default" );
+					//props.formik.setFieldValue('addressID', contactAddressResponse.data.Results.Id);
+	
+					if(contactAddressResponse.data.HasErrors === true){
 						const errorsReturned = ErrorCheck(contactAddressResponse);
 						console.log(errorsReturned);
 						props.Field.ErrorMsg = errorsReturned;
@@ -150,15 +150,9 @@ const CreateAccount = props => {
 							"Your password must be 8 to 30 characters and contain at least one uppercase letter, one lowercase letter and one number.")
 
 				})}
-				onSubmit={async (values, actions) => {
-					//alert(JSON.stringify(values, null, 2));
-					const response = await userCreateAccount(values);
-					actions.setSubmitting(false);
-					console.log('++++++++++++++++++++');
-					console.log('response value');
-					console.log(response);
-
-					console.log('++++++++++++++++++++');
+				onSubmit={(values, { setSubmitting }) => {
+					userCreateAccount(values);
+					setSubmitting(false);
 				}}
 			>
 				{
