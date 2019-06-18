@@ -2,7 +2,7 @@
 import React from "react";
 import { Field } from "formik";
 const RequestTypeField = props => {
-	const { component, name, formikProps, onChange, className } = props;
+	const { component, name, formikProps, onChange, className, value } = props;
 	const handleChange = changeEvent => {
 	
 
@@ -22,6 +22,7 @@ const RequestTypeField = props => {
 			name={name}
 			onChange={handleChange}
 			className={className}
+			value={value}
 		>
 			{props.children}
 		</Field>
