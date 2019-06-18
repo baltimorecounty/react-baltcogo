@@ -84,7 +84,7 @@ const SignIn = (props, routeProps) => {
 							css: 'success'
 						})
 						actions.setSubmitting(false);
-						props.history.push('/');
+						props.history.push('/ProviderDetails');
 					}
 				}
 				}

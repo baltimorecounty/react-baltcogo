@@ -46,7 +46,7 @@ const getID = (categories, categoryName) => {
 
 
 const ServiceRequestForm = (props, errors, touched) => {
-	let displayButton = true;
+
 	const requestType_petAndAnimalIssue = 'Pets and Animals Issue';
 	const petAndAnimalIssueID_OtherAnimalComplaint = 'Other animal complaint';
 
@@ -204,6 +204,73 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 
 	}
+
+
+	const buttonShowHideValidation = () => {
+
+		console.log('iniside buttonShowHideValidation');
+		//console.log(props.formik.values.Id);
+		if (props.formik.values.requestType !== '' && props.formik.values.subRequestType !== '') {
+			if (props.formik.values.requestType.toLowerCase() === requestType_RoadSidewalkIssue.toLowerCase()
+				&& props.formik.values.subRequestType.toLowerCase() === subCategory_IcyConditions.toLowerCase()) {
+				return true;
+			}
+
+			else if ((rest.formik.values['requestType'].toLowerCase() === requestType_WaterandSewerIssues.toLowerCase())
+				&& (rest.formik.values['subRequestType'].toLowerCase() === subCategory_SewerIssues.toLowerCase() ||
+					rest.formik.values['subRequestType'].toLowerCase() === subCategory_StormWaterIssues.toLowerCase() ||
+					rest.formik.values['subRequestType'].toLowerCase() === subCategory_WaterSupplyIssues.toLowerCase()
+				)) {
+				return true;
+			}
+			else if ((rest.formik.values['requestType'].toLowerCase() === requestType_TrashRecycleIssue.toLowerCase())
+				&& (rest.formik.values['subRequestType'].toLowerCase() === subCategory_CanOrLidLostDamaged.toLowerCase() ||
+					rest.formik.values['subRequestType'].toLowerCase() === subCategory_PropertyDamangeDuringCollecttion.toLowerCase() ||
+					rest.formik.values['subRequestType'].toLowerCase() === subCategory_RecyclingNotCollected.toLowerCase() ||
+					rest.formik.values['subRequestType'].toLowerCase() === subCategory_RequestToStartNewCollection.toLowerCase() ||
+					rest.formik.values['subRequestType'].toLowerCase() === subCategory_TrashNotCollected.toLowerCase() ||
+					rest.formik.values['subRequestType'].toLowerCase() === subCategory_YardWasteNotCollected.toLowerCase()
+				)) {
+
+				return true;
+			}
+			else if ((rest.formik.values['requestType'].toLowerCase() === requestType_WebSiteIssue.toLowerCase()
+				&& rest.formik.values['subRequestType'].toLowerCase() === subCategory_OtherWebsiteProblem.toLowerCase())) {
+				return true;
+			}
+
+			else if (rest.formik.values['requestType'].toLowerCase() === requestType_petAndAnimalIssue.toLowerCase()
+				&& rest.formik.values['subRequestType'] !== ''
+				&& rest.formik.values['petType'] !== ''
+				&& (rest.formik.values['petType'].toLowerCase() !== petTypeHorse.toLowerCase()
+					&& rest.formik.values['petType'].toLowerCase() !== petType_Others.toLowerCase())
+
+				&& rest.formik.values['animalColorType'] === '') {
+
+				return true;
+			}
+			else if (rest.formik.values['requestType'].toLowerCase() === requestType_petAndAnimalIssue.toLowerCase()
+				&& rest.formik.values['subRequestType'] !== ''
+				&& (rest.formik.values['petType'] !== ''
+					&& (rest.formik.values['petType'].toLowerCase() === petType_Others.toLowerCase()
+						&& rest.formik.values['otherAnimalTypes'] === ''))) {
+
+				return true;
+			}
+			else {
+
+				return false;
+			}
+
+
+		}
+		else {
+
+			return true;
+		}
+
+
+	}
 	const callSignInForm = () => {
 
 		props.history.push("/SignInForm");
@@ -212,12 +279,16 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 		props.history.push("/SignUpForm");
 	}
+	const goToNextPage = () => {
+		props.history.push('/ProviderDetails');
+	}
 	const { values, isSubmitting, ...rest } = props;
 
 	//console.log('************************************************');
 	//console.log('requestType:' + rest.formik.values.requestType);
 	console.log('sexType:' + rest.formik.values.sexType);
 	//console.log('************************************************');
+	let displayButton = buttonShowHideValidation(props);
 	return (
 
 
@@ -504,39 +575,17 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 				{(rest.formik.values['ID'] === '') ?
 					<div>
-						<button type="button" onClick={callSignInForm}>
+						<button type="button" onClick={callSignInForm} disabled={displayButton}>
 							Sign In
 						</button>
-						<button type="button" onClick={callRegisterForm}>Register</button>
+						<button type="button" onClick={callRegisterForm} disabled={displayButton}>Register</button>
 						<Model />
 
-					</div> : 'Welcome back ,[first Name], Not [first Name]? Log in to a different account'
+					</div> : <button type="button" onClick={goToNextPage}>Next</button>
 
 
 				}
 
-				{
-					rest.formik.values['requestType'] !== '' && rest.formik.values['subRequestType'] !== '' ?
-
-						{ displayButton } = 'false' : null
-
-
-
-				}
-
-				{
-
-					rest.formik.values['requestType'].toLowerCase() !== requestType_petAndAnimalIssue.toLowerCase()
-						&& rest.formik.values['subRequestType'] !== '' ?
-						{ displayButton } = 'false' : null
-
-				}
-
-
-
-
-				{console.log('button disabled:' + displayButton)}
-				<button type="submit" disabled={displayButton}>Next ---text</button>
 			</Form>
 
 
