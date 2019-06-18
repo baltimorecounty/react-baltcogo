@@ -75,7 +75,7 @@ const CreateAccount = props => {
 				throw new Error(errorsReturned);
 			}
 			else{
-				VerificationId = addressResponse.data.Results.VerificationId;
+				VerificationId = addressResponse.data.Results.VerificationID;
 			}
 			
 			try{
@@ -92,9 +92,9 @@ const CreateAccount = props => {
 					ContactID = response.data.Results.Id;
 				}
 
-				try {			
-					const contactAddressResponse = await CreateContactAddress(ContactID, VerificationId , "Default");
-					props.formik.setFieldValue('addressID', contactAddressResponse.data.Results.Id);
+				try {		
+					const contactAddressResponse = await CreateContactAddress(ContactID,VerificationId,"Default" );
+					//props.formik.setFieldValue('addressID', contactAddressResponse.data.Results.Id);
 	
 					if(contactAddressResponse.data.HasErrors === true){
 						const errorsReturned = ErrorCheck(contactAddressResponse);
@@ -151,7 +151,6 @@ const CreateAccount = props => {
 
 				})}
 				onSubmit={(values, { setSubmitting }) => {
-					//alert(JSON.stringify(values, null, 2));
 					userCreateAccount(values);
 					setSubmitting(false);
 				}}
