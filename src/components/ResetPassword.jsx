@@ -9,9 +9,7 @@ import { ResetPassword } from './authService';
 const PasswordReset = props => {
 	const userPasswordReset = async (values) => {
 
-		console.log('--inside signnup');
-		console.log(values);
-		console.log(values.Email);
+
 		try {
 			const response = await ResetPassword(values.Email);
 			if(response.data.ErrorsCount > 0){	

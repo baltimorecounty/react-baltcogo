@@ -9,7 +9,7 @@ const AdditionalInformation = props => {
 
 	const { errors, touched, handleSubmit, ...rest } = props;
 
-	console.log(props.formik.values);
+
 	const SubmitTheForm = async values => {
 		const Selections = {
 			AppVersion : 308,
@@ -64,8 +64,7 @@ const AdditionalInformation = props => {
 			],
    			SuppressWorkflows: false
 		};	
-		console.log('--inside signnup');
-		console.log(values);
+
 		try {
 			alert(JSON.stringify(Selections, null, 2));
 			const response = await CreateReport(Selections);
