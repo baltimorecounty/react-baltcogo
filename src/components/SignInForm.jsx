@@ -68,26 +68,24 @@ const SignIn = (props, routeProps) => {
 				onSubmit={async (values, actions, setSubmitting) => {
 					const response = await Login(values.Email, values.Password);
 					actions.setSubmitting(false);
+					console.log(response);
 					if (response.data.ErrorsCount > 0) {
 						const errorsReturned = ErrorCheck(response);
+						actions.setStatus({
+							success: errorsReturned,
+							css: 'error'
+						})
+						actions.setSubmitting(false);
+					}
+					else if (response.status === 200) {
+						//props.setFieldValue('ID', 1);
 						localStorage.setItem('UserLoginID', response.data.Results.Id);
-						if (response.status === 200) {
-							actions.setStatus({
-								success: errorsReturned,
-								css: 'error'
-							})
-							actions.setSubmitting(false);
-
-						}
-						else if (response.status === 200) {
-							props.setFieldValue('ID', 1);
-							actions.setStatus({
-								success: 'OK',
-								css: 'success'
-							})
-							actions.setSubmitting(false);
-							props.history.push('/ProviderDetails');
-						}
+						actions.setStatus({
+							success: 'OK',
+							css: 'success'
+						})
+						actions.setSubmitting(false);
+						props.history.push('/ProviderDetails');
 					}
 				}
 				}
