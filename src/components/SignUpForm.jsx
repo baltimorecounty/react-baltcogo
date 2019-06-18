@@ -90,7 +90,7 @@ const CreateAccount = props => {
 				}
 				else{
 					ContactID = response.data.Results.Id;
-					localStorage.setItem('UserLoginID', response.data.Results.Id);
+					localStorage.setItem('UserLoginID', ContactID);
 				}
 
 				try {		
