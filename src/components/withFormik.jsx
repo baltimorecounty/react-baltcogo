@@ -6,7 +6,9 @@ export default withFormik({
 	displayName: 'WizardForm',
 	enableReinitialize: true,
 	mapPropsToValues: () => ({
-		ID:'',
+		ContactID:'',
+		fullAddress:'',
+		VerificationId:'',
 		requestType: '',
 		requestTypeID: '',
 		subRequestType: '',

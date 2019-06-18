@@ -26,7 +26,9 @@ function App(props) {
 
 				<Route path='/SignInForm'
 					render={(routeProps) => <SignInForm {...routeProps}{...props} />} />
-				<Route path='/SignUpForm' component={SignUpForm} />
+				<Route path='/SignUpForm'
+					render={(routeProps) => <SignUpForm {...routeProps}{...props} />} />
+
 				<Route path='/AdditionalInformationForm' component={AdditionalInformationForm} />
 				<Route path='/ResetPassword' component={ResetPassword} />
 				<Route path='/ProviderDetails' component={ProviderDetails} />

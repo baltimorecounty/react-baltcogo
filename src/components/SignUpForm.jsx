@@ -53,15 +53,16 @@ function format(key, val, strFormat) {
 
 };*/
 
-const CreateAccount = props => {
+const CreateAccount = (props, routeProps) => {
 	const [fieldType, setFieldType] = useState('Password');
 	const handlePasswordToggleChange = () => {
 		setFieldType(fieldType === 'Password' ? 'text' : 'Password');
 	};
-	const userCreateAccount = async (values) => {
+	const userCreateAccount = async (values, actions, props) => {
 
 		console.log('--inside signnup');
 		console.log(values);
+		console.log(props);
 		try {
 			var fullAddress = values.Address + ' ' + values.City + ',MD ' + values.ZipCode;
 
@@ -71,11 +72,18 @@ const CreateAccount = props => {
 			if (addressResponse.data.HasErrors === true) {
 				const errorsReturned = ErrorCheck(addressResponse);
 				console.log(errorsReturned);
+				actions.setStatus({
+					success1: errorsReturned,
+					css: 'address'
+				})
 				props.Field.ErrorMsg = errorsReturned;
 				throw new Error(errorsReturned);
+
 			}
-			else{
+			else {
 				VerificationId = addressResponse.data.Results.VerificationID;
+				props.setFieldValue('VerificationId', VerificationId);
+				props.setFieldValue('fullAddress', fullAddress);
 			}
 
 			try {
@@ -85,18 +93,23 @@ const CreateAccount = props => {
 				if (response.data.HasErrors === true) {
 					const errorsReturned = ErrorCheck(response);
 					console.log(errorsReturned);
+					actions.setStatus({
+						success2: errorsReturned,
+						css: 'email'
+					})
 					props.Field.ErrorMsg = errorsReturned;
 					throw new Error(errorsReturned);
 				}
 				else {
 					ContactID = response.data.Results.Id;
+					props.setFieldValue('ContactID', ContactID);
 				}
 
-				try {		
-					const contactAddressResponse = await CreateContactAddress(ContactID,VerificationId,"Default" );
+				try {
+					const contactAddressResponse = await CreateContactAddress(ContactID, VerificationId, "Default");
 					//props.formik.setFieldValue('addressID', contactAddressResponse.data.Results.Id);
-	
-					if(contactAddressResponse.data.HasErrors === true){
+
+					if (contactAddressResponse.data.HasErrors === true) {
 						const errorsReturned = ErrorCheck(contactAddressResponse);
 						console.log(errorsReturned);
 						props.Field.ErrorMsg = errorsReturned;
@@ -150,9 +163,11 @@ const CreateAccount = props => {
 							"Your password must be 8 to 30 characters and contain at least one uppercase letter, one lowercase letter and one number.")
 
 				})}
-				onSubmit={(values, { setSubmitting }) => {
-					userCreateAccount(values);
-					setSubmitting(false);
+				onSubmit={async (values, actions, setSubmitting) => {
+
+					await userCreateAccount(values, actions, props);
+
+					actions.setSubmitting(false);
 				}}
 			>
 				{
@@ -165,6 +180,7 @@ const CreateAccount = props => {
 									className={
 										errors.NameFirst && touched.NameFirst ? "input-feedback" : "text-label"}
 								>First Name</label>
+
 								<Field
 									type="text"
 									name="NameFirst"
@@ -214,6 +230,9 @@ const CreateAccount = props => {
 									name="Email"
 									className={`text-input ${errors.Email && touched.Email ? "error" : ""}`}
 								/>
+								<div className={`input-feedback ${props.status ? props.status.css : ''}`}>
+									{props.status ? props.status.success2 : ''}
+								</div>
 								<div className="input-feedback">
 									<ErrorMsg
 										errormessage={errors.Email}
@@ -246,6 +265,9 @@ const CreateAccount = props => {
 										name="Address"
 										className={`text-input ${errors.Address && touched.Address ? "error" : ""}`}
 									/>
+									<div className={`input-feedback ${props.status ? props.status.css : ''}`}>
+										{props.status ? props.status.success1 : ''}
+									</div>
 									<div className="input-feedback">
 										<ErrorMsg
 											errormessage={errors.Address}

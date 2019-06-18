@@ -2,7 +2,7 @@ import React from "react";
 import { Field } from "formik";
 
 const RequestSubTypeField = props => {
-	const { component, name, formikProps,onChange,  className } = props;
+	const { component, name, formikProps,onChange,  className ,value} = props;
 	const handleChange = changeEvent => {
 
 		const { name, value } = changeEvent.target;
@@ -19,6 +19,7 @@ const RequestSubTypeField = props => {
 			name={name}
 			onChange={handleChange}
 			className={className}
+			value={value}
 		>
 			{props.children}
 		</Field>

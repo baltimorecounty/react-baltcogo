@@ -15,7 +15,7 @@ import GenericTypeField from "./genericTypeField";
 //import AnimalColors from "./animalcolors.json"
 import Model from './Model'
 
-const {categoryId} = QueryString.parse(window.location.href);
+const {categoryId} = QueryString.parse(window.location.search);
 
 const getSubCategories1 = (categories, categoryId) => {
 	var category = categories.find(category => category.id === categoryId);
@@ -315,7 +315,8 @@ const ServiceRequestForm = (props, errors, touched) => {
 					formikProps={rest}
 					onChange={handleServiceRequestChange}
 					onLoad={routURLID}
-					value ={categoryId}
+					//value ={categoryId}
+					value={props.formik.values.name}
 				>
 					<option key='default' value=''>--Please select a category--</option>
 					{Categories.map(category => (
@@ -584,7 +585,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 				<Field type="hidden" name="cityID" />
 				<Field type="hidden" name="zipCodeID" />
 
-				{(rest.formik.values['ID'] === '') ?
+				{(rest.formik.values['ContactID'] === '') ?
 					<div>
 						<button type="button" onClick={callSignInForm} disabled={displayButton}>
 							Sign In
@@ -592,7 +593,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 						<button type="button" onClick={callRegisterForm} disabled={displayButton}>Register</button>
 						<Model />
 
-					</div> : <button type="button" onClick={goToNextPage}>Next</button>
+					</div> : <button type="button" disabled={displayButton} onClick={goToNextPage}>Next</button>
 
 
 				}

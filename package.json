@@ -15,6 +15,7 @@
     "jquery": "^3.4.1",
     "moment": "^2.24.0",
     "node": "^12.4.0",
+    "query-string": "^6.7.0",
     "react": "^16.8.6",
     "react-autocomplete": "^1.8.1",
     "react-awesome-modal": "^2.0.5",
