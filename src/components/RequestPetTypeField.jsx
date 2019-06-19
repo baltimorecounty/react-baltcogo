@@ -19,8 +19,7 @@ const RequestTypeField = props => {
 		onChange(changeEvent);
 
 
-		//"otherAnimalTypes": "chicken",
-		//"otherAnimalTypesID": 1010861,
+
 	};
 	return (
 		<Field component={component}

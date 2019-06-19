@@ -7,51 +7,6 @@ import FormContainer from './FormContainer';
 import { SignUp, VerifyAddress, CreateContactAddress } from './authService';
 import { Link } from 'react-router-dom';
 
-/*function formatPhoneNumber(value, format) {
-	let error;
-	console.log('--test--');
-
-	console.log('value:' + value);
-	if (!value) {
-
-		error = 'Required';
-	}
-	else {
-		error = 'Required too';
-				if (typeof value === 'number') {
-					value = value.toString();
-				}
-				var exp = /\d+/g;
-				var numbersOnly = value.match(exp).join('').split('');
-				var numberOfXs = format.split('').filter(function (char) {
-					return char === 'x';
-				}).length;
-				var hasOneAsPrefix = numberOfXs + 1 === numbersOnly.length;
-				// 1 has been included in the str, but is not in the desired format
-				if (hasOneAsPrefix) {
-					numbersOnly.shift();
-				}
-				if (numberOfXs === numbersOnly.length || hasOneAsPrefix) {
-					numbersOnly.forEach(function (number) {
-						format = format.replace('x', number);
-					});
-				}
-				else {
-					console.error("Incorrect Format. Double Check your values.");
-					return null;
-				} 
-	}
-	return error;
-
-}
-var _formatters = {
-	phoneNumber: formatPhoneNumber
-};
-function format(key, val, strFormat) {
-
-	return _formatters[key](val, strFormat);
-
-};*/
 
 const CreateAccount = (props, routeProps) => {
 	const [fieldType, setFieldType] = useState('Password');
@@ -69,7 +24,7 @@ const CreateAccount = (props, routeProps) => {
 
 			if (addressResponse.data.HasErrors === true) {
 				const errorsReturned = ErrorCheck(addressResponse);
-			//	console.log(errorsReturned);
+				//	console.log(errorsReturned);
 				actions.setStatus({
 					success1: errorsReturned,
 					css: 'address'
@@ -106,7 +61,7 @@ const CreateAccount = (props, routeProps) => {
 
 				try {
 					const contactAddressResponse = await CreateContactAddress(ContactID, VerificationId, "Default");
-				
+
 
 					if (contactAddressResponse.data.HasErrors === true) {
 						const errorsReturned = ErrorCheck(contactAddressResponse);
@@ -163,7 +118,10 @@ const CreateAccount = (props, routeProps) => {
 
 				})}
 				onSubmit={async (values, actions, setSubmitting) => {
-
+					//const returnval = window.formatPhoneNumber(values.Telephone);
+					//console.log('----------returnval--------');
+					//console.log(returnval);
+					//	console.log('----------------------');
 					await userCreateAccount(values, actions, props);
 
 					actions.setSubmitting(false);
