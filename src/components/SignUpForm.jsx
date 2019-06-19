@@ -69,7 +69,7 @@ const CreateAccount = (props, routeProps) => {
 
 			if (addressResponse.data.HasErrors === true) {
 				const errorsReturned = ErrorCheck(addressResponse);
-			//	console.log(errorsReturned);
+				//	console.log(errorsReturned);
 				actions.setStatus({
 					success1: errorsReturned,
 					css: 'address'
@@ -101,7 +101,7 @@ const CreateAccount = (props, routeProps) => {
 				else {
 					ContactID = response.data.Results.Id;
 					props.setFieldValue('ContactID', ContactID);
-					localStorage.setItem('UserLoginID', ContactID);
+					sessionStorage.setItem('UserLoginID', ContactID)
 				}
 
 				try {

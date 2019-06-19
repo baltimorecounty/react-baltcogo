@@ -31,7 +31,7 @@ const SignIn = (props, routeProps) => {
 				throw new Error(errorsReturned);
 			}
 			else {
-				localStorage.setItem('UserLoginID', response.data.Results.Id);
+				sessionStorage.setItem('UserLoginID', response.data.Results.Id);
 				actions.setStatus({		
 					success: 'OK',
 					css: 'success'

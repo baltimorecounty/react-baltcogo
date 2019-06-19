@@ -44,6 +44,7 @@ const getID = (categories, categoryName) => {
 
 const ServiceRequestForm = (props, errors, touched) => {
 
+	const contactID = sessionStorage.getItem("UserLoginID");
 	const requestType_petAndAnimalIssue = 'Pets and Animals Issue';
 	const petAndAnimalIssueID_OtherAnimalComplaint = 'Other animal complaint';
 
@@ -267,8 +268,12 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 	}
 	const callSignInForm = () => {
-
-		props.history.push("/SignInForm");
+		if (contactID == null){
+			props.history.push("/SignInForm");
+		}
+		else{
+			props.history.push('/ProviderDetails');
+		}	
 	}
 	const callRegisterForm = () => {
 
