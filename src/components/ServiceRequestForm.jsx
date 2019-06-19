@@ -13,7 +13,7 @@ import GenericTypeField from "./genericTypeField";
 //import PetTypes from "./pettypes.json";
 //import AnimalBreeds from "./animalbreeds.json";
 //import AnimalColors from "./animalcolors.json"
-import Model from './Model'
+import Model from './Modal'
 
 const {categoryId} = QueryString.parse(window.location.search);
 

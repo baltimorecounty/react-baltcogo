@@ -34,8 +34,8 @@ class Examples extends Component {
 					</Modal.Header>
 					<Modal.Body><div>
 
-						<p>In order to report an Isue online, we require a one-time account creation.</p>
-						<p>This allows us to better track and follow up on issues in a timely fasion, as it ensures that we get all of the proper contact information when the issue is submitted.</p>
+						<p>In order to report an issue online, we require a one-time account creation.</p>
+						<p>This allows us to better track and follow up on issues in a timely fashion, as it ensures that we get all of the proper contact information when the issue is submitted.</p>
 						<p>At this time we cannot take anonymous requests online.</p>
 
 					</div></Modal.Body>
