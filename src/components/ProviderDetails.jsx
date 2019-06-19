@@ -7,7 +7,8 @@ import Geocode from "react-geocode";
 import Collaspe from './Collaspe'
 import axios from "axios"
 import Autocomplete from 'react-autocomplete';
-import _ from 'lodash'
+import _ from 'lodash';
+import AutoCompletTypeField from './AutocompleteTypeField';
 Geocode.setApiKey('AIzaSyAqazsw3wPSSxOFVmij32C_LIhBSuyUNi8');
 
 
@@ -37,8 +38,9 @@ const providerDetails = props => {
 
 
 
-	const handleAddressChange = (e, setFieldValue) => {
-		setFieldValue('location', e.target.value);
+	const handleAddressChange = (e) => {
+		console.log('--inside handleAddressChange---');
+		//	setFieldValue('location', e.target.value);
 		setQuery(e.target.value);
 
 		let searchQuery = _.split(e.target.value, ',', 1);
@@ -50,8 +52,8 @@ const providerDetails = props => {
 	};
 
 
-	const handleAddressSelect = (val, setFieldValue) => {
-		setFieldValue("location", val)
+	const handleAddressSelect = (val) => {
+		//setFieldValue("location", val)
 		let searchQuery = _.split(val, ',', 1);
 		if (searchQuery.length > 0) {
 			let filtered = Address.filter(m => m.StreetAddress.toLowerCase().indexOf(searchQuery.toString().toLowerCase()) > -1);
@@ -112,6 +114,17 @@ const providerDetails = props => {
 						rest.formik.errors.location && rest.formik.touched.location ? "input-feedback" : "text-label"}
 				>Add a Location</label>
 				<div className="inner-render">
+
+					{/* 	<AutoCompletTypeField
+					
+						items={items}
+						name="location"
+						formikProps={rest}
+						value={rest.formik.values.location}
+						onChange={handleAddressChange}
+						onSelect={handleAddressSelect}
+					/> */}
+
 					<Autocomplete
 						getItemValue={item => item.label}
 						id="location"

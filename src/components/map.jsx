@@ -11,14 +11,14 @@ Geocode.setApiKey('AIzaSyAqazsw3wPSSxOFVmij32C_LIhBSuyUNi8');
 class Map extends React.Component {
 
 	shouldComponentUpdate(nextProps, nextState) {
-		console.log('==========================================');
-		console.log('this.center.lat:' + this.props.lat);
-		console.log('this.props.marker.lat :' + this.props.markerLat);
-		console.log('nextProps.center.lat :' + nextProps.center.lat);
-		console.log('++++++++++++++++++++++++++++++++++++++++++');
-
-
-
+		/* 	console.log('==========================================');
+			console.log('this.center.lat:' + this.props.lat);
+			console.log('this.props.marker.lat :' + this.props.markerLat);
+			console.log('nextProps.center.lat :' + nextProps.center.lat);
+			console.log('++++++++++++++++++++++++++++++++++++++++++');
+	
+	
+	 */
 		if (this.props.lat === nextProps.center.lat) {
 			console.log('first - return : false');
 			return false;
