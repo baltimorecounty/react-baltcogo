@@ -99,7 +99,7 @@ const AdditionalInformation = props => {
 	return (
 		<FormContainer title="Additional Information">
 			<form onSubmit={handleSubmit}>
-				<div name="ContactInfo">
+				<div name="ContactInfo" display="hidden">
 					<label htmlFor="NameFirst"
 						className={
 							rest.formik.errors.NameFirst && rest.formik.touched.NameFirst ? "input-feedback" : "text-label"}

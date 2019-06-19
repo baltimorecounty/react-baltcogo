@@ -60,9 +60,7 @@ const CreateAccount = (props, routeProps) => {
 	};
 	const userCreateAccount = async (values, actions, props) => {
 
-		console.log('--inside signnup');
-		console.log(values);
-		console.log(props);
+
 		try {
 			var fullAddress = values.Address + ' ' + values.City + ',MD ' + values.ZipCode;
 
@@ -71,12 +69,12 @@ const CreateAccount = (props, routeProps) => {
 
 			if (addressResponse.data.HasErrors === true) {
 				const errorsReturned = ErrorCheck(addressResponse);
-				console.log(errorsReturned);
+			//	console.log(errorsReturned);
 				actions.setStatus({
 					success1: errorsReturned,
 					css: 'address'
 				})
-				props.Field.ErrorMsg = errorsReturned;
+				//props.Field.ErrorMsg = errorsReturned;
 				throw new Error(errorsReturned);
 
 			}
@@ -92,12 +90,12 @@ const CreateAccount = (props, routeProps) => {
 
 				if (response.data.HasErrors === true) {
 					const errorsReturned = ErrorCheck(response);
-					console.log(errorsReturned);
+					//console.log(errorsReturned);
 					actions.setStatus({
 						success2: errorsReturned,
 						css: 'email'
 					})
-					props.Field.ErrorMsg = errorsReturned;
+					//props.Field.ErrorMsg = errorsReturned;
 					throw new Error(errorsReturned);
 				}
 				else {
@@ -108,12 +106,12 @@ const CreateAccount = (props, routeProps) => {
 
 				try {
 					const contactAddressResponse = await CreateContactAddress(ContactID, VerificationId, "Default");
-					//props.formik.setFieldValue('addressID', contactAddressResponse.data.Results.Id);
+				
 
 					if (contactAddressResponse.data.HasErrors === true) {
 						const errorsReturned = ErrorCheck(contactAddressResponse);
-						console.log(errorsReturned);
-						props.Field.ErrorMsg = errorsReturned;
+						//console.log(errorsReturned);
+						//props.Field.ErrorMsg = errorsReturned;
 						throw new Error(errorsReturned);
 					}
 					else {
