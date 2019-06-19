@@ -8,69 +8,47 @@ import { CreateReport } from './authService';
 const AdditionalInformation = props => {
 
 	const { errors, touched, handleSubmit, ...rest } = props;
+	const { Longitude, Latitude, ContactID, requestTypeID, requestType,
+		subRequestTypeID, subRequestType, petTypeID, petType, sexTypeID,
+		sexType, animalColorTypeID, animalColorType, otherAnimalTypesID,
+		otherAnimalTypes, streeAddressID, streeAddress, cityID, city, 
+		zipCodeID, zipCode } = props.formik.values;
 
-
+	
 	const SubmitTheForm = async values => {
-		const Selections = {
-			AppVersion : 308,
+		const reportItems = [  
+			{  Id: requestTypeID, Value: requestType },
+			{  Id: subRequestTypeID, Value: subRequestType},
+			{  Id: petTypeID, Value: petType },
+			{  Id: sexTypeID, Value: sexType },
+			{  Id: animalColorTypeID, Value: animalColorType },
+			{  Id: otherAnimalTypesID, Value: otherAnimalTypes	},
+			// { Id: describeTheProblemID, Value: describeTheProblem },
+			{ Id: streeAddressID, Value: streeAddress },
+			{ Id: cityID, Value: city },
+			{ Id: zipCodeID, Value: zipCode }
+		].filter(item => !!item.Value); 
+
+		var  Selections = {
+			AppVersion : "308",
 			Location : {  
-				X:props.formik.values.Longitude,
-				Y:props.formik.values.Latitude
+				X:Longitude,
+				Y:Latitude
 			},
-   			AuthorId: props.formik.values.contactID,
+   			AuthorId: ContactID,
    			IsPrivate: false,
    			Locale:"en",
-			ReportItems:[  
-				{  
-					Id: props.formik.values.requestTypeID,
-					Value: props.formik.values.requestType
-				},
-				{  
-					Id: props.formik.values.subRequestTypeID,
-					Value: props.formik.values.subRequestType
-				},
-				{  
-					Id: props.formik.values.petTypeID,
-					Value: props.formik.values.petType
-				},
-				{  
-					Id: props.formik.values.sexTypeID,
-					Value: props.formik.values.sexType
-				},
-				{  
-					Id: props.formik.values.animalColorTypeID,
-					Value: props.formik.values.animalColorType
-				},
-				{  
-					Id: props.formik.values.otherAnimalTypesID,
-					Value: props.formik.values.otherAnimalTypes
-				},
-				{  
-					Id: props.formik.values.describeTheProblemID,
-					Value: props.formik.values.describeTheProblem
-				},
-				{  
-					Id: props.formik.values.streeAddressID,
-					Value: props.formik.values.streeAddress
-				},
-				{  
-					Id: props.formik.values.cityID,
-					Value: props.formik.values.city
-				},
-				{  
-					Id: props.formik.values.zipCodeID,
-					Value: props.formik.values.zipCode
-				}
-			],
+			ReportItems:reportItems,
    			SuppressWorkflows: false
 		};	
 
 		try {
-			if(!localStorage.getItem('UserLoginID'))
+			if(!sessionStorage.getItem('UserLoginID'))
 			{
 				throw new Error("You are not logged in and cannot submit a request");
 			}
 			try {
+				//const response = await CreateReport(JSON.stringify(Selections, null, 2));
 				const response = await CreateReport(Selections);
 				if(response.data.ErrorsCount > 0){
 					const errorsReturned = ErrorCheck(response);

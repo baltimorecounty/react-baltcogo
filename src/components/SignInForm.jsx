@@ -20,7 +20,8 @@ const SignIn = (props, routeProps) => {
 
 		try {
 			const response = await Login(values.Email, values.Password);
-
+			const contactID = response.data.Results.Id;
+			
 			if (response.data.ErrorsCount > 0) {
 				const errorsReturned = ErrorCheck(response);
 				
@@ -31,7 +32,8 @@ const SignIn = (props, routeProps) => {
 				throw new Error(errorsReturned);
 			}
 			else {
-				sessionStorage.setItem('UserLoginID', response.data.Results.Id);
+				sessionStorage.setItem('UserLoginID', contactID);
+				props.setFieldValue('ContactID', contactID);
 				actions.setStatus({		
 					success: 'OK',
 					css: 'success'

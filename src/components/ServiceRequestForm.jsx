@@ -45,6 +45,7 @@ const getID = (categories, categoryName) => {
 const ServiceRequestForm = (props, errors, touched) => {
 
 	const contactID = sessionStorage.getItem("UserLoginID");
+	
 	const requestType_petAndAnimalIssue = 'Pets and Animals Issue';
 	const petAndAnimalIssueID_OtherAnimalComplaint = 'Other animal complaint';
 
@@ -113,6 +114,8 @@ const ServiceRequestForm = (props, errors, touched) => {
 				setAnimalBreeds(resultAnimalBreeds.data);
 				setAnimalColors(resultAnimalColors.data);
 				setOtherAnimalTypes(resultAnimalTypes.data);
+
+				props.formik.setFieldValue('ContactID', contactID);
 
 			};
 
@@ -184,7 +187,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 		let value = changeEvent.currentTarget.value.toLowerCase();
 		let ID = getID(animalSubCategories, value);
-
+	
 		props.formik.setFieldValue('animalBreedID', ID);
 		//props.formik.setFieldValue('animalBreed', value);
 	}
@@ -201,7 +204,6 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 
 	}
-
 
 	const buttonShowHideValidation = () => {
 
@@ -284,12 +286,6 @@ const ServiceRequestForm = (props, errors, touched) => {
 	}
 	const { values, isSubmitting, ...rest } = props;
 
-	const routURLID = () => {
-		var urlParts =  window.location.href.split('categoryId=');
-		return urlParts[1];
-	}
-
-
 	let displayButton = buttonShowHideValidation(props);
 	return (
 
@@ -307,9 +303,8 @@ const ServiceRequestForm = (props, errors, touched) => {
 					name="requestType"
 					formikProps={rest}
 					onChange={handleServiceRequestChange}
-					onLoad={routURLID}
-					//value ={categoryId}
-					value={props.formik.values.name}
+					value ={categoryId}
+					//value={props.formik.values.name}
 				>
 					<option key='default' value=''>--Please select a category--</option>
 					{Categories.map(category => (
