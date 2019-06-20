@@ -300,7 +300,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 			<Form>
 				<label htmlFor="requestType"
 					className={
-						rest.formik.errors.requestType && rest.formik.touched.requestType ? "input-feedback" : "text-label"}
+						rest.formik.errors.requestType && rest.formik.touched.requestType ? "error-message" : "text-label"}
 				>Request Category</label>
 
 				<RequestTypeField
@@ -318,11 +318,11 @@ const ServiceRequestForm = (props, errors, touched) => {
 						<option key={category.id} value={category.name}>{category.name}</option>
 					))}
 				</RequestTypeField>
-				<div className="input-feedback">
+				<p role='alert' className="error-message">
 					<ErrorMsg
 						errormessage={rest.formik.errors.requestType}
 						touched={rest.formik.touched.requestType} />
-				</div>
+				</p>
 				{
 					rest.formik.values['requestType'] !== '' ?
 						<div>
