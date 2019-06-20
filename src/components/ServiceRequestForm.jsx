@@ -8,8 +8,10 @@ import RequestSubTypeField from "./RequestSubTypeField";
 import RequestPetTypeField from "./RequestPetTypeField";
 import QueryString from 'query-string';
 import GenericTypeField from "./genericTypeField";
-
-import Model from './Model'
+//import PetTypes from "./pettypes.json";
+//import AnimalBreeds from "./animalbreeds.json";
+//import AnimalColors from "./animalcolors.json"
+import Model from './Modal'
 
 const { categoryId } = QueryString.parse(window.location.search);
 
@@ -39,6 +41,8 @@ const getID = (categories, categoryName) => {
 
 
 const ServiceRequestForm = (props, errors, touched) => {
+
+	const contactID = sessionStorage.getItem("UserLoginID");
 
 	const requestType_petAndAnimalIssue = 'Pets and Animals Issue';
 	const petAndAnimalIssueID_OtherAnimalComplaint = 'Other animal complaint';
@@ -108,6 +112,8 @@ const ServiceRequestForm = (props, errors, touched) => {
 				setAnimalBreeds(resultAnimalBreeds.data);
 				setAnimalColors(resultAnimalColors.data);
 				setOtherAnimalTypes(resultAnimalTypes.data);
+
+				props.formik.setFieldValue('ContactID', contactID);
 
 			};
 
@@ -263,8 +269,12 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 	}
 	const callSignInForm = () => {
-
-		props.history.push("/SignInForm");
+		if (contactID == null) {
+			props.history.push("/SignInForm");
+		}
+		else {
+			props.history.push('/ProviderDetails');
+		}
 	}
 	const callRegisterForm = () => {
 
@@ -302,6 +312,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 					onLoad={routURLID}
 					//value ={categoryId}
 					value={props.formik.values.requestType}
+
 				>
 					<option key='default' value=''>--Please select a category--</option>
 					{Categories.map(category => (

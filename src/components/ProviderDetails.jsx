@@ -40,7 +40,7 @@ const providerDetails = props => {
 
 	const handleAddressChange = (e) => {
 		console.log('--inside handleAddressChange---');
-		//	setFieldValue('location', e.target.value);
+		//setFieldValue('location', e.target.value);
 		setQuery(e.target.value);
 
 		let searchQuery = _.split(e.target.value, ',', 1);
@@ -54,6 +54,9 @@ const providerDetails = props => {
 
 	const handleAddressSelect = (val) => {
 		//setFieldValue("location", val)
+		console.log('--handleAddressSelect---');
+		console.log(rest.formik.values.location);
+		console.log(val);
 		let searchQuery = _.split(val, ',', 1);
 		if (searchQuery.length > 0) {
 			let filtered = Address.filter(m => m.StreetAddress.toLowerCase().indexOf(searchQuery.toString().toLowerCase()) > -1);
@@ -64,6 +67,7 @@ const providerDetails = props => {
 	};
 
 	const splitAddress = (Latitude, Longitude) => {
+		console.log('splitAddress');
 		setLatitude(Latitude);
 		setLongitude(Longitude);
 		setMarkerLatitude(MarkerLatitude);
@@ -115,17 +119,17 @@ const providerDetails = props => {
 				>Add a Location</label>
 				<div className="inner-render">
 
-					{/* 	<AutoCompletTypeField
-					
+					<AutoCompletTypeField
+
 						items={items}
 						name="location"
 						formikProps={rest}
 						value={rest.formik.values.location}
 						onChange={handleAddressChange}
 						onSelect={handleAddressSelect}
-					/> */}
+					/>
 
-					<Autocomplete
+					{/* 		<Autocomplete
 						getItemValue={item => item.label}
 						id="location"
 						items={items}
@@ -142,7 +146,7 @@ const providerDetails = props => {
 						onSelect={val => handleAddressSelect(val, rest.formik.setFieldValue)}
 
 						className={`text-input ${rest.formik.errors.location && rest.formik.touched.location ? "error" : ""}`}
-					/>
+					/> */}
 				</div>
 				<Collaspe address={rest.formik.values.location} lat={Latitude} lng={Longitude} markerLat={MarkerLatitude} onMarkerDragEnd={e => (onMarkerDragEnd(e, setFieldValue))} />
 

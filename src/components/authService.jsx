@@ -43,13 +43,11 @@ export function SignUp(NameFirst, NameLast, Email, Password, Telephone, UniqueId
 		SuppressNotifications });
 }
 export function ResetPassword(Email) {
-
 	return http.post(endpointResetPassword, { Email });
 }
 
 export function CreateReport(data) {
-
-	return http.post(endpointReport, { data });
+	return http.post(endpointReport, data );
 }
 
 export function GetReportByID(ReportID) {
@@ -73,7 +71,6 @@ export function GetContactAddress(id) {
 }
 
 export function CreateContactAddress(id, VerificationId, Name) {
-
 	const response = http.post(endpointContacts + id + "/", { VerificationId, Name });
 	return response;
 }

@@ -21,10 +21,11 @@ const SignIn = (props, routeProps) => {
 
 		try {
 			const response = await Login(values.Email, values.Password);
-
+			const contactID = response.data.Results.Id;
+			
 			if (response.data.ErrorsCount > 0) {
 				const errorsReturned = ErrorCheck(response);
-				//localStorage.setItem('UserLoginID', response.data.Results.Id);
+				
 				actions.setStatus({
 					success: errorsReturned,
 					css: 'error'
@@ -32,7 +33,9 @@ const SignIn = (props, routeProps) => {
 				throw new Error(errorsReturned);
 			}
 			else {
-				actions.setStatus({
+				sessionStorage.setItem('UserLoginID', contactID);
+				props.setFieldValue('ContactID', contactID);
+				actions.setStatus({		
 					success: 'OK',
 					css: 'success'
 				})
@@ -61,7 +64,6 @@ const SignIn = (props, routeProps) => {
 					Email: Yup.string().email('Invalid email address.').required('Please enter a valid email address.'),
 					Password: Yup.string()
 						.required('Please enter your password.')
-
 				})}
 				onSubmit={async (values, actions, setSubmitting) => {
 

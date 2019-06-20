@@ -4,19 +4,18 @@ import Autocomplete from 'react-autocomplete';
 import _ from 'lodash';
 const AutoCompletTypeField = props => {
 	const { items, name, formikProps, onChange, onSelect, value } = props;
-	console.log('--inside AutoCompletTypeField---');
-	console.log(items);
+
 	const handleChange = changeEvent => {
 		console.log('--inside handleChange---')
 		const { value } = changeEvent.target;
 		formikProps.formik.setFieldValue('location', value);
 		console.log('Name:' + name + -'Value:' + value);
 		onChange(changeEvent);
-		onSelect(changeEvent);
+	
 	};
 	const handleSelect = val => {
-		console.log('--inside handleChange---')
-		//const { value } = changeEvent.target;
+		console.log('--inside handleSelect---')
+	
 		formikProps.formik.setFieldValue('location', val);
 		console.log('Name:' + name + -'Value:' + val);
 
