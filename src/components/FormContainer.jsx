@@ -3,9 +3,9 @@ import React from 'react'
 
 const FormContainer = props => {
 	return (
-		<div className="container Container-bg">
-			<h3>{props.title}</h3>{props.children}
-		</div>
+		<fieldset className="container Container-bg">
+			<legend>{props.title}</legend>{props.children}
+		</fieldset>
 	)
 };
 
