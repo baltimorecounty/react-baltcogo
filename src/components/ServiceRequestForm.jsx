@@ -318,11 +318,13 @@ const ServiceRequestForm = (props, errors, touched) => {
 						<option key={category.id} value={category.name}>{category.name}</option>
 					))}
 				</RequestTypeField>
-				<p role='alert' className="error-message">
-					<ErrorMsg
-						errormessage={rest.formik.errors.requestType}
-						touched={rest.formik.touched.requestType} />
-				</p>
+				<div className="error">
+					<p role='alert' className="error-message">
+						<ErrorMsg
+							errormessage={rest.formik.errors.requestType}
+							touched={rest.formik.touched.requestType} />
+					</p>
+				</div>
 				{
 					rest.formik.values['requestType'] !== '' ?
 						<div>
