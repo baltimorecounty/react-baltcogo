@@ -12,8 +12,9 @@ import GenericTypeField from "./genericTypeField";
 //import AnimalBreeds from "./animalbreeds.json";
 //import AnimalColors from "./animalcolors.json"
 import Model from './Modal'
+import { jsonFileLocations } from "./config"
 
-const {categoryId} = QueryString.parse(window.location.search);
+const { categoryId } = QueryString.parse(window.location.search);
 const contactID = sessionStorage.getItem("UserLoginID");
 
 const getSubCategories = (categories, categoryName) => {
@@ -308,8 +309,8 @@ const ServiceRequestForm = (props, errors, touched) => {
 					formikProps={rest}
 					onChange={handleServiceRequestChange}
 					onLoad={routURLID}
-					value ={categoryId}
-					//value={props.formik.values.requestType}
+					value={categoryId}
+				//value={props.formik.values.requestType}
 
 				>
 					<option key='default' value=''>--Please select a category--</option>
@@ -605,13 +606,12 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 				{(contactID === null) ?
 					<div>
-						<button type="button" onClick={callSignInForm} disabled={displayButton}>
-							Sign In
-						</button>
-						<button type="button" onClick={callRegisterForm} disabled={displayButton}>Register</button>
+						<input type="button" class="seButton" onClick={callSignInForm} disabled={displayButton} value="Sign In" />
+
+						<input type="button" class="seButton" onClick={callRegisterForm} disabled={displayButton} value="Register" />
 						<Model />
 
-					</div> : <button type="button" disabled={displayButton} onClick={goToNextPage}>Next</button>
+					</div> : <input type="button" class="seButton" disabled={displayButton} onClick={goToNextPage} value="Next" />
 				}
 
 			</Form>
