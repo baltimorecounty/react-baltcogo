@@ -184,7 +184,7 @@ const AdditionalInformation = props => {
 					</div>
 				}
 				<input type="button" class="seButton" onClick={callProviderDetailForm} value="Previous" />
-				<input type="button" class="seButton" onClick={SubmitTheForm} value="File Your Report" />
+				<input type="button" class="seButton pull-right" onClick={SubmitTheForm} value="File Your Report" />
 
 			</form>
 

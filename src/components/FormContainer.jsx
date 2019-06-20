@@ -4,6 +4,7 @@ const tabList = [
 	{description: 'Choose a Report Type'},
 	{description: 'Enter a Location'},
 	{description: 'Proivde Your Contact Information'},
+	{description: ''},
 
 ];
 

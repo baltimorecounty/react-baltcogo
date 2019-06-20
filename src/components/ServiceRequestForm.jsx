@@ -610,7 +610,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 					<div>
 						<input type="button" class="seButton" onClick={callSignInForm} disabled={displayButton} value="Sign In" />
 
-						<input type="button" class="seButton" onClick={callRegisterForm} disabled={displayButton} value="Register" />
+						<input type="button" class="seButton pull-right" onClick={callRegisterForm} disabled={displayButton} value="Register" />
 						<Model />
 
 					</div> : <input type="button" class="seButton" disabled={displayButton} onClick={goToNextPage} value="Next" />
