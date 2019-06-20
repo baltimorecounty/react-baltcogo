@@ -16,7 +16,7 @@ import GenericTypeField from "./genericTypeField";
 import Model from './Modal'
 
 const {categoryId} = QueryString.parse(window.location.search);
-
+const contactID = sessionStorage.getItem("UserLoginID");
 
 const getSubCategories = (categories, categoryName) => {
 	var category = categories.find(category => category.name.toLowerCase() === categoryName);
@@ -44,7 +44,7 @@ const getID = (categories, categoryName) => {
 
 const ServiceRequestForm = (props, errors, touched) => {
 
-	const contactID = sessionStorage.getItem("UserLoginID");
+	
 	
 	const requestType_petAndAnimalIssue = 'Pets and Animals Issue';
 	const petAndAnimalIssueID_OtherAnimalComplaint = 'Other animal complaint';
@@ -573,7 +573,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 				<Field type="hidden" name="cityID" />
 				<Field type="hidden" name="zipCodeID" />
 
-				{(rest.formik.values['ContactID'] === '') ?
+				{(contactID === null) ?
 					<div>
 						<button type="button" onClick={callSignInForm} disabled={displayButton}>
 							Sign In
@@ -582,8 +582,6 @@ const ServiceRequestForm = (props, errors, touched) => {
 						<Model />
 
 					</div> : <button type="button" disabled={displayButton} onClick={goToNextPage}>Next</button>
-
-
 				}
 
 			</Form>
