@@ -15,6 +15,7 @@ const SignIn = (props, routeProps) => {
 		setFieldType(fieldType === 'Password' ? 'text' : 'Password');
 	};
 
+
 	const userLogin = async (values, props, actions) => {
 
 
@@ -63,10 +64,6 @@ const SignIn = (props, routeProps) => {
 					Email: Yup.string().email('Invalid email address.').required('Please enter a valid email address.'),
 					Password: Yup.string()
 						.required('Please enter your password.')
-						//.max(30, "Maximum 30 characters allowed.")
-						// .matches(
-						// 	/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9!@#$%^&*(),.?":{}|<>]{8}/,
-						// 	"Your password must be 8 to 30 characters and contain at least one uppercase letter, one lowercase letter and one number.")
 				})}
 				onSubmit={async (values, actions, setSubmitting) => {
 
