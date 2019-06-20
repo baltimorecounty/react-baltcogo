@@ -7,9 +7,9 @@ const Collaspe = ({ address, lat, lng, markerLat, onChange, onMarkerDragEnd }) =
 		<React.Fragment>
 			<Button type="button" color="link" id="toggler" style={{ marginBottom: '1rem' }}>
                     Or mark location on map
-			</Button>
-			<div class="google-map">	
-				<UncontrolledCollapse toggler="#toggler">
+			</Button>	
+			<UncontrolledCollapse toggler="#toggler">
+				<div class="google-map">
 					<Card>
 						<CardBody>
 							<Map
@@ -21,8 +21,8 @@ const Collaspe = ({ address, lat, lng, markerLat, onChange, onMarkerDragEnd }) =
 							/>
 						</CardBody>
 					</Card>
-				</UncontrolledCollapse>
-			</div>
+				</div>
+			</UncontrolledCollapse>	
 		</React.Fragment>
 	)
 };

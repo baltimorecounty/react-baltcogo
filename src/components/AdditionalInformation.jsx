@@ -76,6 +76,11 @@ const AdditionalInformation = props => {
 	return (
 		<FormContainer title="Additional Information">
 			<form onSubmit={handleSubmit}>
+				<p>
+					We require some basic contact information in order to
+                    process your request. You'll receive status updates by
+                    email, but we'll only call you if we need more information.
+				</p>
 				{(requestType === 'Website Issue') ?
 					<div name="ContactInfo" display="hidden">
 						<label htmlFor="NameFirst"
@@ -196,7 +201,20 @@ const AdditionalInformation = props => {
 							</div>
 						</div>
 					</div>
+					
 				}
+				<p class="smallest">
+                    Please do not include personal information, including, but
+                    not limited to Social Security Numbers, driver’s license
+                    numbers, financial account numbers, individual taxpayer
+                    identification numbers, passport numbers, state
+                    identification card numbers, health information, medical
+                    history, condition, treatment, or diagnosis, health
+                    insurance policies, certificate numbers, or health insurance
+                    subscriber identification numbers, biometric data, and/or
+                    user name or email address in combination with a password or
+                    security question and answer.
+				</p>
 				<br />
 				<input type="button" class="seButton" onClick={callProviderDetailForm} value="Previous" />
 				<input type="button" class="seButton pull-right" onClick={SubmitTheForm} value="File Your Report" />
