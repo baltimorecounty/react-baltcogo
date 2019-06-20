@@ -7,6 +7,7 @@ import RequestTypeField from "./RequestTypeField";
 import RequestSubTypeField from "./RequestSubTypeField";
 import RequestPetTypeField from "./RequestPetTypeField";
 import QueryString from 'query-string';
+import { jsonFileLocations } from "./config.js";
 
 import _ from 'lodash'
 import GenericTypeField from "./genericTypeField";
@@ -95,19 +96,19 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 			const fetchData = async () => {
 				const result = await axios(
-					'//dev.baltimorecountymd.gov/sebin/q/m/categories.json',
+					jsonFileLocations.results,
 				);
 				const resultPetTypes = await axios(
-					'//dev.baltimorecountymd.gov/sebin/m/a/pet-types.json',
+					jsonFileLocations.resultPetTypes,
 				);
 				const resultAnimalBreeds = await axios(
-					'//dev.baltimorecountymd.gov/sebin/y/a/animal-breeds.json',
+					jsonFileLocations.resultAnimalBreeds,
 				);
 				const resultAnimalColors = await axios(
-					'//dev.baltimorecountymd.gov/sebin/u/u/animal-colors.json',
+					jsonFileLocations.resultAnimalColors,
 				);
 				const resultAnimalTypes = await axios(
-					'//dev.baltimorecountymd.gov/sebin/a/e/animal-types.json',
+					jsonFileLocations.resultAnimalTypes,
 				);
 				setData(result.data);
 				setPetTypes(resultPetTypes.data);

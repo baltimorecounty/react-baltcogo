@@ -23,4 +23,14 @@ export const endPoints = {
   
 };
 
+export const jsonFileLocations = {
+
+	"results":"//dev.baltimorecountymd.gov/sebin/q/m/categories.json",
+	"resultPetTypes" :"//dev.baltimorecountymd.gov/sebin/m/a/pet-types.json",
+	"resultAnimalBreeds" : "//dev.baltimorecountymd.gov/sebin/y/a/animal-breeds.json",
+	"resultAnimalColors" : "//dev.baltimorecountymd.gov/sebin/u/u/animal-colors.json",
+	"resultAnimalTypes" : "//dev.baltimorecountymd.gov/sebin/a/e/animal-types.json",
+
+}
+
 export default endPoints
