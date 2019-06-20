@@ -12,14 +12,14 @@ const PasswordReset = props => {
 
 		try {
 			const response = await ResetPassword(values.Email);
-			if(response.data.ErrorsCount > 0){	
+			if (response.data.ErrorsCount > 0) {
 				const errorsReturned = ErrorCheck(response);
 				console.log(errorsReturned);
 				props.Field.ErrorMsg = errorsReturned;
 			}
-			else{
+			else {
 				props.history.push('/AdditionalInformationForm');
-			}	
+			}
 		}
 		catch (ex) {
 			if (ex.response && ex.response.status === 400) {
@@ -62,9 +62,9 @@ const PasswordReset = props => {
 										errormessage={errors.Email}
 										touched={touched.Email} />
 								</div>
-								<button type="submit" disabled={isSubmitting}>
-									Submit Reset Request
-								</button>
+								<input class="seButton" type="submit" disabled={isSubmitting} value="Submit Reset Request" />
+
+
 							</Form>
 						)
 					}

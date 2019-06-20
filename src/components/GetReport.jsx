@@ -14,14 +14,14 @@ const GetReport = props => {
 		console.log(values.Email);
 		try {
 			const response = await GetReportByID(values.ReportID);
-			if(response.data.ErrorsCount > 0){	
+			if (response.data.ErrorsCount > 0) {
 				const errorsReturned = ErrorCheck(response);
 				console.log(errorsReturned);
 				props.Field.ErrorMsg = errorsReturned;
 			}
-			else{
+			else {
 				props.history.push('/AdditionalInformationForm');
-			}	
+			}
 		}
 		catch (ex) {
 			if (ex.response && ex.response.status === 400) {
@@ -38,7 +38,7 @@ const GetReport = props => {
 				/* validationSchema={Yup.object().shape({
 					ReportID: Yup.number().NumberSchema('Invalid Report ID.').required('Please enter a valid report ID.'),
 				})} */
-				
+
 				onSubmit={(values, { setSubmitting }) => {
 					//alert(JSON.stringify(values, null, 2));
 					userGetReport(values);
@@ -66,9 +66,8 @@ const GetReport = props => {
 										errormessage={errors.ReportID}
 										touched={touched.ReportID} />
 								</div>} */}
-								<button type="submit" disabled={isSubmitting}>
-									Submit Report Request
-								</button>
+								<input class="seButton" type="submit" disabled={isSubmitting} value="Submit Report Request" />
+
 							</Form>
 						)
 					}

@@ -185,8 +185,8 @@ const providerDetails = props => {
 						errormessage={rest.formik.errors.describeTheProblem}
 						touched={rest.formik.touched.describeTheProblem} />
 				</div>
-				<button type="button" onClick={goServiceRequestForm}>Previous</button>
-				<button type="button" onClick={goToAdditionalPage}>Next</button>
+				<input type="button" class="seButton" onClick={goServiceRequestForm} value="Previous" />
+				<input type="button" class="seButton" onClick={goToAdditionalPage} value="Next" />
 
 			</Form>
 

@@ -11,53 +11,52 @@ const AdditionalInformation = props => {
 	const { Longitude, Latitude, ContactID, requestTypeID, requestType,
 		subRequestTypeID, subRequestType, petTypeID, petType, sexTypeID,
 		sexType, animalColorTypeID, animalColorType, otherAnimalTypesID,
-		otherAnimalTypes, streeAddressID, streeAddress, cityID, city, 
+		otherAnimalTypes, streeAddressID, streeAddress, cityID, city,
 		zipCodeID, zipCode } = props.formik.values;
 
-	
+
 	const SubmitTheForm = async values => {
-		const reportItems = [  
-			{  Id: requestTypeID, Value: requestType },
-			{  Id: subRequestTypeID, Value: subRequestType},
-			{  Id: petTypeID, Value: petType },
-			{  Id: sexTypeID, Value: sexType },
-			{  Id: animalColorTypeID, Value: animalColorType },
-			{  Id: otherAnimalTypesID, Value: otherAnimalTypes	},
+		const reportItems = [
+			{ Id: requestTypeID, Value: requestType },
+			{ Id: subRequestTypeID, Value: subRequestType },
+			{ Id: petTypeID, Value: petType },
+			{ Id: sexTypeID, Value: sexType },
+			{ Id: animalColorTypeID, Value: animalColorType },
+			{ Id: otherAnimalTypesID, Value: otherAnimalTypes },
 			// { Id: describeTheProblemID, Value: describeTheProblem },
 			{ Id: streeAddressID, Value: streeAddress },
 			{ Id: cityID, Value: city },
 			{ Id: zipCodeID, Value: zipCode }
-		].filter(item => !!item.Value); 
+		].filter(item => !!item.Value);
 
-		var  Selections = {
-			AppVersion : "308",
-			Location : {  
-				X:Longitude,
-				Y:Latitude
+		var Selections = {
+			AppVersion: "308",
+			Location: {
+				X: Longitude,
+				Y: Latitude
 			},
-   			AuthorId: ContactID,
-   			IsPrivate: false,
-   			Locale:"en",
-			ReportItems:reportItems,
-   			SuppressWorkflows: false
-		};	
+			AuthorId: ContactID,
+			IsPrivate: false,
+			Locale: "en",
+			ReportItems: reportItems,
+			SuppressWorkflows: false
+		};
 
 		try {
-			if(!sessionStorage.getItem('UserLoginID'))
-			{
+			if (!sessionStorage.getItem('UserLoginID')) {
 				throw new Error("You are not logged in and cannot submit a request");
 			}
 			try {
 				//const response = await CreateReport(JSON.stringify(Selections, null, 2));
 				const response = await CreateReport(Selections);
-				if(response.data.ErrorsCount > 0){
+				if (response.data.ErrorsCount > 0) {
 					const errorsReturned = ErrorCheck(response);
 					console.log(errorsReturned);
 					props.Field.ErrorMsg = errorsReturned;
 				}
-				else{
+				else {
 					props.history.push('/ProviderDetails');
-				}	
+				}
 			}
 			catch (ex) {
 				if (ex.response && ex.response.status === 400) {
@@ -73,11 +72,11 @@ const AdditionalInformation = props => {
 		props.history.push("/ProviderDetails");
 	}
 
-	
+
 	return (
 		<FormContainer title="Additional Information">
 			<form onSubmit={handleSubmit}>
-				{ (requestType === 'Website Issue') ? 
+				{(requestType === 'Website Issue') ?
 					<div name="ContactInfo" display="hidden">
 						<label htmlFor="NameFirst"
 							className={
@@ -170,7 +169,7 @@ const AdditionalInformation = props => {
 								className={
 									rest.formik.errors.zipCode && rest.formik.touched.zipCode ? "input-feedback" : "text-label"}
 							>
-						Your ZIP Code
+								Your ZIP Code
 							</label>
 							<Field type='text'
 								name="zipCode"
@@ -184,10 +183,9 @@ const AdditionalInformation = props => {
 						</div>
 					</div>
 				}
-				<button type="button" onClick={callProviderDetailForm}>Previous</button>
-				<button type="button" onClick={SubmitTheForm}>
-					File Your Report
-				</button>
+				<input type="button" class="seButton" onClick={callProviderDetailForm} value="Previous" />
+				<input type="button" class="seButton" onClick={SubmitTheForm} value="File Your Report" />
+
 			</form>
 
 		</FormContainer>

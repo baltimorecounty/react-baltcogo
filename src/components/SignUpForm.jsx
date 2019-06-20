@@ -265,9 +265,9 @@ const CreateAccount = (props, routeProps) => {
 								</div>
 								<label htmlFor="signup"
 								>Already have an account? <Link to="SignInForm" >Sign In</Link> </label><br />
-								<button type="submit" disabled={isSubmitting}>
-									Sign Up and Continue
-								</button>
+								<input class="seButton" type="submit" disabled={isSubmitting} value="Sign Up and Continue" />
+
+
 							</Form>
 						)
 					}

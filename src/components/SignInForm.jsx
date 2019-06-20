@@ -22,10 +22,10 @@ const SignIn = (props, routeProps) => {
 		try {
 			const response = await Login(values.Email, values.Password);
 			const contactID = response.data.Results.Id;
-			
+
 			if (response.data.ErrorsCount > 0) {
 				const errorsReturned = ErrorCheck(response);
-				
+
 				actions.setStatus({
 					success: errorsReturned,
 					css: 'error'
@@ -35,7 +35,7 @@ const SignIn = (props, routeProps) => {
 			else {
 				sessionStorage.setItem('UserLoginID', contactID);
 				props.setFieldValue('ContactID', contactID);
-				actions.setStatus({		
+				actions.setStatus({
 					success: 'OK',
 					css: 'success'
 				})
@@ -119,9 +119,9 @@ const SignIn = (props, routeProps) => {
 								<label htmlFor="forgetpassword"> <Link to="ResetPassword" >Forgot password?</Link></label><br />
 								<label htmlFor="signup"
 								>Don't have an account? <Link to="SignUpForm" >Sign up</Link></label><br />
-								<button type="submit" disabled={props.isSubmitting}>
-									Sign In and Continue
-								</button>
+								<input class="seButton" type="submit" disabled={props.isSubmitting} value="Sign In and Continue" />
+
+
 								{/* <DisplayFormikState {...props} /> */}
 
 
