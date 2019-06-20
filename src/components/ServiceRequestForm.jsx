@@ -88,7 +88,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 	try {
 		useEffect(() => {
 
-
+			console.log('++++brefore fetching++++');
 
 			const fetchData = async () => {
 				const result = await axios(
@@ -126,7 +126,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 
 	const handleServiceRequestChange = (changeEvent) => {
-
+		console.log('inside handleServiceRequestChange')
 		const value = changeEvent.currentTarget.value.toLowerCase();
 		let ID = getID(Categories, value)
 
@@ -309,9 +309,9 @@ const ServiceRequestForm = (props, errors, touched) => {
 					formikProps={rest}
 					onChange={handleServiceRequestChange}
 					onLoad={routURLID}
-					value={categoryId}
-				//value={props.formik.values.requestType}
-				//hello 
+					//	value={categoryId}
+					value={props.formik.values.requestType}
+
 				>
 					<option key='default' value=''>--Please select a category--</option>
 					{Categories.map(category => (
