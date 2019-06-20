@@ -330,7 +330,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 						<div>
 							<label name="subRequestType" htmlFor="subRequestType"
 								className={
-									rest.formik.errors.subRequestType && rest.formik.touched.subRequestType ? "input-feedback" : "text-label"}
+									rest.formik.errors.subRequestType && rest.formik.touched.subRequestType ? "error-message" : "text-label"}
 							>
 								Request Sub-Category
 							</label>
@@ -347,10 +347,12 @@ const ServiceRequestForm = (props, errors, touched) => {
 								))}
 
 							</RequestSubTypeField>
-							<div className="input-feedback">
-								<ErrorMsg
-									errormessage={rest.formik.errors.subRequestType}
-									touched={rest.formik.touched.subRequestType} />
+							<div className="error">
+								<p role='alert' className="error-message">
+									<ErrorMsg
+										errormessage={rest.formik.errors.subRequestType}
+										touched={rest.formik.touched.subRequestType} />
+								</p>
 							</div>
 						</div>
 						: null
@@ -413,7 +415,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 						<div>
 							<label htmlFor="petType"
 								className={
-									rest.formik.errors.petType && rest.formik.touched.petType ? "input-feedback" : "text-label"}
+									rest.formik.errors.petType && rest.formik.touched.petType ? "error-message" : "text-label"}
 							>Pet Type</label>
 							<RequestPetTypeField
 								component="select"
@@ -428,10 +430,12 @@ const ServiceRequestForm = (props, errors, touched) => {
 									<option key={petType.id} value={petType.name}>{petType.name}</option>
 								))}
 							</RequestPetTypeField>
-							<div className="input-feedback">
-								{<ErrorMsg
-									errormessage={rest.formik.errors.petType}
-									touched={rest.formik.touched.petType} />}
+							<div className="error">
+								<p role='alert' className="error-message">
+									{<ErrorMsg
+										errormessage={rest.formik.errors.petType}
+										touched={rest.formik.touched.petType} />}
+								</p>
 							</div>
 						</div>
 						: null
@@ -442,7 +446,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 						<div>
 							<label htmlFor="otherAnimalTypes"
 								className={
-									rest.formik.errors.otherAnimalTypes && rest.formik.touched.otherAnimalTypes ? "input-feedback" : "text-label"}
+									rest.formik.errors.otherAnimalTypes && rest.formik.touched.otherAnimalTypes ? "error-message" : "text-label"}
 							>Other pet type
 							</label>
 							<GenericTypeField
@@ -460,10 +464,12 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 							</GenericTypeField>
 
-							<div className="input-feedback">
-								{<ErrorMsg
-									errormessage={rest.formik.errors.otherAnimalTypes}
-									touched={rest.formik.touched.otherAnimalTypes} />}
+							<div className="error">
+								<p role='alert' className="error-message">
+									{<ErrorMsg
+										errormessage={rest.formik.errors.otherAnimalTypes}
+										touched={rest.formik.touched.otherAnimalTypes} />}
+								</p>
 							</div>
 						</div>
 						: null
@@ -475,7 +481,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 						<div>
 							<label htmlFor="sexType"
 								className={
-									rest.formik.errors.sexType && rest.formik.touched.sexType ? "input-feedback" : "text-label"}
+									rest.formik.errors.sexType && rest.formik.touched.sexType ? "error-message" : "text-label"}
 							>Pet Sex (optional)
 							</label>
 							<GenericTypeField
@@ -492,10 +498,12 @@ const ServiceRequestForm = (props, errors, touched) => {
 								))}
 							</GenericTypeField>
 
-							<div className="input-feedback">
-								{<ErrorMsg
-									errormessage={rest.formik.errors.sexType}
-									touched={rest.formik.touched.sexType} />}
+							<div className="error">
+								<p role='alert' className="error-message">
+									{<ErrorMsg
+										errormessage={rest.formik.errors.sexType}
+										touched={rest.formik.touched.sexType} />}
+								</p>
 							</div>
 						</div>
 						: null
@@ -509,7 +517,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 						<div>
 							<label htmlFor="animalColorType"
 								className={
-									rest.formik.errors.animalColorType && rest.formik.touched.animalColorType ? "input-feedback" : "text-label"}
+									rest.formik.errors.animalColorType && rest.formik.touched.animalColorType ? "error-message" : "text-label"}
 							>Primary Animal Color
 							</label>
 
@@ -528,10 +536,12 @@ const ServiceRequestForm = (props, errors, touched) => {
 								))}
 
 							</GenericTypeField>
-							<div className="input-feedback">
-								{<ErrorMsg
-									errormessage={rest.formik.errors.animalColorType}
-									touched={rest.formik.touched.animalColorType} />}
+							<div className="error">
+								<p role='alert' className="error-message">
+									{<ErrorMsg
+										errormessage={rest.formik.errors.animalColorType}
+										touched={rest.formik.touched.animalColorType} />}
+								</p>
 							</div>
 						</div>
 						: null
@@ -545,7 +555,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 						<div>
 							<label htmlFor="animalBreed"
 								className={
-									rest.formik.errors.animalBreed && rest.formik.touched.animalBreed ? "input-feedback" : "text-label"}
+									rest.formik.errors.animalBreed && rest.formik.touched.animalBreed ? "error-message" : "text-label"}
 							>Primary Animal Breed(optional)
 							</label>
 							<Field
@@ -560,10 +570,12 @@ const ServiceRequestForm = (props, errors, touched) => {
 									<option key={animalBreedType.id} value={animalBreedType.name}>{animalBreedType.name}</option>
 								))}
 							</Field>
-							<div className="input-feedback">
-								{<ErrorMsg
-									errormessage={rest.formik.errors.animalBreedType}
-									touched={rest.formik.touched.animalBreedType} />}
+							<div className="error">
+								<p role='alert' className="error-message">
+									{<ErrorMsg
+										errormessage={rest.formik.errors.animalBreedType}
+										touched={rest.formik.touched.animalBreedType} />}
+								</p>
 
 							</div>
 						</div>
@@ -575,7 +587,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 					<div>
 						<label htmlFor="serviceDescription"
 							className={
-								rest.formik.errors.serviceDescription && rest.formik.touched.serviceDescription ? "input-feedback" : "text-label"}
+								rest.formik.errors.serviceDescription && rest.formik.touched.serviceDescription ? "error-message" : "text-label"}
 						>Service Request Description
 						</label>
 						<Field type='text'
@@ -583,17 +595,16 @@ const ServiceRequestForm = (props, errors, touched) => {
 							className={rest.formik.errors.serviceDescription && rest.formik.touched.serviceDescription ? "text-select error" : null}
 						/>
 
-						<div className="input-feedback">
-							{<ErrorMsg
-								errormessage={rest.formik.errors.serviceDescription}
-								touched={rest.formik.touched.serviceDescription} />}
+						<div className="error">
+							<p role='alert' className="error-message">
+								{<ErrorMsg
+									errormessage={rest.formik.errors.serviceDescription}
+									touched={rest.formik.touched.serviceDescription} />}
+							</p>
 						</div>
 					</div> : null
 
 				}
-
-
-
 				<Field type="hidden" name="requestTypeID" />
 				<Field type="hidden" name="subRequestTypeID" />
 				<Field type="hidden" name="petTypeID" />
@@ -605,7 +616,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 				<Field type="hidden" name="streeAddressID" />
 				<Field type="hidden" name="cityID" />
 				<Field type="hidden" name="zipCodeID" />
-
+				<br />
 				{(contactID === null) ?
 					<div>
 						<input type="button" class="seButton" onClick={callSignInForm} disabled={displayButton} value="Sign In" />

@@ -5,11 +5,10 @@ import Map from './map';
 const Collaspe = ({ address, lat, lng, markerLat, onChange, onMarkerDragEnd }) => {
 	return (
 		<React.Fragment>
-
-			<div>
-				<Button type="button" color="link" id="toggler" style={{ marginBottom: '1rem' }}>
+			<Button type="button" color="link" id="toggler" style={{ marginBottom: '1rem' }}>
                     Or mark location on map
-				</Button>
+			</Button>
+			<div class="google-map">	
 				<UncontrolledCollapse toggler="#toggler">
 					<Card>
 						<CardBody>

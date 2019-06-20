@@ -80,94 +80,106 @@ const AdditionalInformation = props => {
 					<div name="ContactInfo" display="hidden">
 						<label htmlFor="NameFirst"
 							className={
-								rest.formik.errors.NameFirst && rest.formik.touched.NameFirst ? "input-feedback" : "text-label"}
+								rest.formik.errors.NameFirst && rest.formik.touched.NameFirst ? "error-message" : "text-label"}
 						>First Name</label>
 						<Field
 							type="text"
 							name="NameFirst"
 							className={`text-input ${rest.formik.errors.NameFirst && rest.formik.touched.NameFirst ? "error" : ""}`}
 						/>
-						<div className="input-feedback">
-							<ErrorMsg
-								errormessage={rest.formik.errors.NameFirst}
-								touched={rest.formik.touched.NameFirst} />
+						<div className="error">
+							<p role='alert' className="error-message">
+								<ErrorMsg
+									errormessage={rest.formik.errors.NameFirst}
+									touched={rest.formik.touched.NameFirst} />
+							</p>
 						</div>
 						<label htmlFor="NameLast"
 							className={
-								rest.formik.errors.NameLast && rest.formik.touched.NameLast ? "input-feedback" : "text-label"}
+								rest.formik.errors.NameLast && rest.formik.touched.NameLast ? "error-message" : "text-label"}
 						>Last Name</label>
 						<Field
 							type="text"
 							name="NameLast"
 							className={`text-input ${rest.formik.errors.NameLast && rest.formik.touched.NameLast ? "error" : ""}`}
 						/>
-						<div className="input-feedback">
-							<ErrorMsg
-								errormessage={rest.formik.errors.NameLast}
-								touched={rest.formik.touched.NameLast} />
+						<div className="error">
+							<p role='alert' className="error-message">
+								<ErrorMsg
+									errormessage={rest.formik.errors.NameLast}
+									touched={rest.formik.touched.NameLast} />
+							</p>
 						</div>
 						<label htmlFor="Email"
 							className={
-								rest.formik.errors.Email && rest.formik.touched.Email ? "input-feedback" : "text-label"}
+								rest.formik.errors.Email && rest.formik.touched.Email ? "error-message" : "text-label"}
 						>Email</label>
 						<Field
 							type="text"
 							name="Email"
 							className={`text-input ${rest.formik.errors.Email && rest.formik.touched.Email ? "error" : ""}`}
 						/>
-						<div className="input-feedback">
-							<ErrorMsg
-								errormessage={rest.formik.errors.Email}
-								touched={rest.formik.touched.Email} />
+						<div className="error">
+							<p role='alert' className="error-message">
+								<ErrorMsg
+									errormessage={rest.formik.errors.Email}
+									touched={rest.formik.touched.Email} />
+							</p>
 						</div>
 						<label htmlFor="Phone"
 							className={
-								rest.formik.errors.Phone && rest.formik.touched.Phone ? "input-feedback" : "text-label"}
+								rest.formik.errors.Phone && rest.formik.touched.Phone ? "error-message" : "text-label"}
 						>Phone</label>
 						<Field
 							type="text"
 							name="Phone"
 							className={`text-input ${rest.formik.errors.Phone && rest.formik.touched.Phone ? "error" : ""}`}
 						/>
-						<div className="input-feedback">
-							<ErrorMsg
-								errormessage={rest.formik.errors.Phone}
-								touched={rest.formik.touched.Phone} />
+						<div className="error">
+							<p role='alert' className="error-message">
+								<ErrorMsg
+									errormessage={rest.formik.errors.Phone}
+									touched={rest.formik.touched.Phone} />
+							</p>
 						</div>
 					</div> :
 					<div id="ContactAddress">
 						<label htmlFor="streeAddress"
 							className={
-								rest.formik.errors.streeAddress && rest.formik.touched.streeAddress ? "input-feedback" : "text-label"}
+								rest.formik.errors.streeAddress && rest.formik.touched.streeAddress ? "error-message" : "text-label"}
 						>Your Street Address</label>
 						<Field
 							type="text"
 							name="streeAddress"
 							className={`text-input ${rest.formik.errors.streeAddress && rest.formik.touched.streeAddress ? "error" : ""}`}
 						/>
-						<div className="input-feedback">
-							<ErrorMsg
-								errormessage={rest.formik.errors.streeAddress}
-								touched={rest.formik.touched.streeAddress} />
+						<div className="error">
+							<p role='alert' className="error-message">
+								<ErrorMsg
+									errormessage={rest.formik.errors.streeAddress}
+									touched={rest.formik.touched.streeAddress} />
+							</p>
 						</div>
 						<label htmlFor="city"
 							className={
-								rest.formik.errors.city && rest.formik.touched.city ? "input-feedback" : "text-label"}
+								rest.formik.errors.city && rest.formik.touched.city ? "error-message" : "text-label"}
 						>Your City</label>
 						<Field
 							type="text"
 							name="city"
 							className={`text-input ${rest.formik.errors.city && rest.formik.touched.city ? "error" : ""}`}
 						/>
-						<div className="input-feedback">
-							<ErrorMsg
-								errormessage={rest.formik.errors.city}
-								touched={rest.formik.touched.city} />
+						<div className="error">
+							<p role='alert' className="error-message">
+								<ErrorMsg
+									errormessage={rest.formik.errors.city}
+									touched={rest.formik.touched.city} />
+							</p>
 						</div>
 						<div>
 							<label name="zipCode" htmlFor="zipCode"
 								className={
-									rest.formik.errors.zipCode && rest.formik.touched.zipCode ? "input-feedback" : "text-label"}
+									rest.formik.errors.zipCode && rest.formik.touched.zipCode ? "error-message" : "text-label"}
 							>
 								Your ZIP Code
 							</label>
@@ -175,14 +187,17 @@ const AdditionalInformation = props => {
 								name="zipCode"
 								className={`text-input ${rest.formik.errors.zipCode && rest.formik.touched.zipCode ? "error" : ""}`}
 							/>
-							<div className="input-feedback">
-								<ErrorMsg
-									errormessage={rest.formik.errors.zipCode}
-									touched={rest.formik.touched.zipCode} />
+							<div className="error">
+								<p role='alert' className="error-message">
+									<ErrorMsg
+										errormessage={rest.formik.errors.zipCode}
+										touched={rest.formik.touched.zipCode} />
+								</p>
 							</div>
 						</div>
 					</div>
 				}
+				<br />
 				<input type="button" class="seButton" onClick={callProviderDetailForm} value="Previous" />
 				<input type="button" class="seButton pull-right" onClick={SubmitTheForm} value="File Your Report" />
 
