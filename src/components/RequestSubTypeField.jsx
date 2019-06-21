@@ -2,16 +2,25 @@ import React from "react";
 import { Field } from "formik";
 
 const RequestSubTypeField = props => {
-	const { component, name, formikProps,onChange,  className ,value} = props;
+	//console.log('---RequestSubTypeField---');
+	const { component, name, formikProps, onChange, className, value } = props;
 	const handleChange = changeEvent => {
-
+		//console.log('---RequestSubTypeField---handleChange');
 		const { name, value } = changeEvent.target;
+		const localProps = formikProps.formik;
 		formikProps.formik.setFieldValue(name, value);
-		formikProps.formik.setFieldValue('petType', '');
-		formikProps.formik.setFieldValue('otherAnimalTypes', '');
-		formikProps.formik.setFieldValue('sexType', '');
-		formikProps.formik.setFieldValue('animalColorType', '');
-		formikProps.formik.setFieldValue('animalBreed', '');
+
+		localProps.setFieldValue('subRequestTypeDescriptionID', '');
+		localProps.setFieldValue('subRequestTypeAddressID', '');
+		localProps.setFieldValue('subRequestTypeCityID', '');
+		localProps.setFieldValue('subRequestTypeZipID', '');
+
+
+		localProps.setFieldValue('petType', '');
+		localProps.setFieldValue('otherAnimalTypes', '');
+		localProps.setFieldValue('sexType', '');
+		localProps.setFieldValue('animalColorType', '');
+		localProps.setFieldValue('animalBreed', '');
 		onChange(changeEvent);
 	};
 	return (

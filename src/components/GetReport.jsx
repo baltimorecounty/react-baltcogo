@@ -66,7 +66,7 @@ const GetReport = props => {
 										errormessage={errors.ReportID}
 										touched={touched.ReportID} />
 								</div>} */}
-								<input class="seButton" type="submit" disabled={isSubmitting} value="Submit Report Request" />
+								<input className="seButton" type="submit" disabled={isSubmitting} value="Submit Report Request" />
 
 							</Form>
 						)

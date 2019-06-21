@@ -10,11 +10,11 @@ const tabList = [
 
 const FormContainer = props => {
 	return (
-		<div class="bc-citysourced-reporter">
-			<ol class="bc-citysourced-reporter-steps">
-				{ tabList.map(tab => {
+		<div className="bc-citysourced-reporter">
+			<ol className="bc-citysourced-reporter-steps">
+				{ tabList.map((tab,index) => {
 					return(
-						<li key={tab.key}>{tab.description}</li>
+						<li key={index}>{tab.description}</li>
 					)
 				})}	
 			</ol>

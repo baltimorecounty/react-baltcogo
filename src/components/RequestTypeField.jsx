@@ -2,23 +2,35 @@
 import React from "react";
 import { Field } from "formik";
 const RequestTypeField = props => {
-	const { component, name, formikProps, onChange, className, value } = props;
+	//console.log('---RequestTypeField---');
+	const { component, name, formikProps, onChange, className, value, } = props;
 	const handleChange = changeEvent => {
-
 		const { name, value } = changeEvent.target;
-		formikProps.formik.setFieldValue(name, value);
-		formikProps.formik.setFieldValue('subRequestType', '');
-		formikProps.formik.setFieldValue('subRequestTypeID', '');
-		formikProps.formik.setFieldValue('petType', '');
-		formikProps.formik.setFieldValue('petTypeID', '');
-		formikProps.formik.setFieldValue('otherAnimalTypes', '');
-		formikProps.formik.setFieldValue('otherAnimalTypesID', '')
-		formikProps.formik.setFieldValue('sexType', '');
-		formikProps.formik.setFieldValue('sexTypeID', '');
-		formikProps.formik.setFieldValue('animalColorType', '');
-		formikProps.formik.setFieldValue('animalColorTypeID', '');
-		formikProps.formik.setFieldValue('animalBreed', '');
-		formikProps.formik.setFieldValue('animalBreedID', '');
+		const localProps = formikProps.formik;
+
+		localProps.setFieldValue(name, value);
+		localProps.setFieldValue('requestTypeDescriptionID', '');
+		localProps.setFieldValue('requestTypeAddressID', '');
+		localProps.setFieldValue('requestTypeCityID', '');
+		localProps.setFieldValue('requestTypeZipID', '');
+
+		localProps.setFieldValue('subRequestTypeDescriptionID', '');
+		localProps.setFieldValue('subRequestTypeAddressID', '');
+		localProps.setFieldValue('subRequestTypeCityID', '');
+		localProps.setFieldValue('subRequestTypeZipID', '');
+
+		localProps.setFieldValue('subRequestTypeDescription', '');
+		localProps.setFieldValue('subRequestTypeID', '');
+		localProps.setFieldValue('petType', '');
+		localProps.setFieldValue('petTypeID', '');
+		localProps.setFieldValue('otherAnimalTypes', '');
+		localProps.setFieldValue('otherAnimalTypesID', '')
+		localProps.setFieldValue('sexType', '');
+		localProps.setFieldValue('sexTypeID', '');
+		localProps.setFieldValue('animalColorType', '');
+		localProps.setFieldValue('animalColorTypeID', '');
+		localProps.setFieldValue('animalBreed', '');
+		localProps.setFieldValue('animalBreedID', '');
 		onChange(changeEvent);
 	};
 	return (
@@ -27,6 +39,7 @@ const RequestTypeField = props => {
 			onChange={handleChange}
 			className={className}
 			value={value}
+
 		>
 			{props.children}
 		</Field>

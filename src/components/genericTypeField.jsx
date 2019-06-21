@@ -10,17 +10,10 @@ const GenericTypeField = props => {
 	const { component, name, formikProps, onChange, className } = props;
 
 	const handleChange = changeEvent => {
-
+		const localProps = formikProps.formik;
 		const { name, value } = changeEvent.target;
-		formikProps.formik.setFieldValue(name, value);
-		/* 	formikProps.formik.setFieldValue('sexTypeID', '');
-            formikProps.formik.setFieldValue('animalColorType', '');
-            formikProps.formik.setFieldValue('animalColorTypeID', '');
-            formikProps.formik.setFieldValue('animalBreedType', '');
-            formikProps.formik.setFieldValue('animalBreedID', '');
-    
-            formikProps.formik.setFieldValue('otherAnimalTypes', '');
-            formikProps.formik.setFieldValue('otherAnimalTypesID', '') */
+		localProps.setFieldValue(name, value);
+
 		onChange(changeEvent);
 	};
 

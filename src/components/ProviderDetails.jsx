@@ -39,7 +39,7 @@ const providerDetails = props => {
 
 
 	const handleAddressChange = (e) => {
-		console.log('--inside handleAddressChange---');
+
 		//setFieldValue('location', e.target.value);
 		setQuery(e.target.value);
 
@@ -54,9 +54,7 @@ const providerDetails = props => {
 
 	const handleAddressSelect = (val) => {
 		//setFieldValue("location", val)
-		console.log('--handleAddressSelect---');
-		console.log(rest.formik.values.location);
-		console.log(val);
+
 		let searchQuery = _.split(val, ',', 1);
 		if (searchQuery.length > 0) {
 			let filtered = Address.filter(m => m.StreetAddress.toLowerCase().indexOf(searchQuery.toString().toLowerCase()) > -1);
@@ -67,7 +65,7 @@ const providerDetails = props => {
 	};
 
 	const splitAddress = (Latitude, Longitude) => {
-		console.log('splitAddress');
+
 		setLatitude(Latitude);
 		setLongitude(Longitude);
 		setMarkerLatitude(MarkerLatitude);
@@ -126,7 +124,6 @@ const providerDetails = props => {
 					
 
 					<AutoCompletTypeField
-
 						items={items}
 						name="location"
 						formikProps={rest}
@@ -136,24 +133,6 @@ const providerDetails = props => {
 					/>
 					<i class="fa fa-search address-search-icon" aria-hidden="true"></i>
 
-					{/* 		<Autocomplete
-						getItemValue={item => item.label}
-						id="location"
-						items={items}
-						renderItem={(item, isHighlighted) => (
-							<div key={_.uniqueId()}
-								id="location"
-								style={{ background: isHighlighted ? "lightgray" : "white" }}
-							>
-								{item.label}
-							</div>
-						)}
-						value={rest.formik.values.location}
-						onChange={e => handleAddressChange(e, rest.formik.setFieldValue)}
-						onSelect={val => handleAddressSelect(val, rest.formik.setFieldValue)}
-
-						className={`text-input ${rest.formik.errors.location && rest.formik.touched.location ? "error" : ""}`}
-					/> */}
 				</div>
 				
 				<Collaspe address={rest.formik.values.location} lat={Latitude} lng={Longitude} markerLat={MarkerLatitude} onMarkerDragEnd={e => (onMarkerDragEnd(e, setFieldValue))} />
@@ -200,9 +179,8 @@ const providerDetails = props => {
 							touched={rest.formik.touched.describeTheProblem} />
 					</p>
 				</div>
-				<br />
-				<input type="button" class="seButton" onClick={goServiceRequestForm} value="Previous" />
-				<input type="button" class="seButton pull-right" onClick={goToAdditionalPage} value="Next" />
+				<input type="button" className="seButton" onClick={goServiceRequestForm} value="Previous" />
+				<input type="button" className="seButton" onClick={goToAdditionalPage} value="Next" />
 
 			</Form>
 

@@ -127,7 +127,7 @@ const SignIn = (props, routeProps) => {
 								<label htmlFor="forgetpassword"> <Link to="ResetPassword" >Forgot password?</Link></label><br />
 								<label htmlFor="signup"
 								>Don't have an account? <Link to="SignUpForm" >Sign up</Link></label><br />
-								<input class="seButton" type="submit" disabled={props.isSubmitting} value="Sign In and Continue" />
+								<input className="seButton" type="submit" disabled={props.isSubmitting} value="Sign In and Continue" />
 
 
 								{/* <DisplayFormikState {...props} /> */}

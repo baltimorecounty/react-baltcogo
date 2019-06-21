@@ -75,7 +75,7 @@ const FieldLevelValidation = () => (
 							<ErrorMessage name="zip" />
 						</div>
 						<br />
-						<input class="seButton" type="submit" value="Submit" />
+						<input className="seButton" type="submit" value="Submit" />
 
 					</Form>
 				)}
