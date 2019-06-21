@@ -11,8 +11,10 @@ import GenericTypeField from "./genericTypeField";
 //import PetTypes from "./pettypes.json";
 //import AnimalBreeds from "./animalbreeds.json";
 //import AnimalColors from "./animalcolors.json"
-import Model from './Modal'
-import { jsonFileLocations } from "./config"
+import Model from './Modal';
+import { jsonFileLocations } from "./config";
+import WaterAndSewerIssue from "./waterAndSewerIssue";
+import TrashAndRecycle from "./trashAndRecycle";
 
 const { categoryId } = QueryString.parse(window.location.search);
 const contactID = sessionStorage.getItem("UserLoginID");
@@ -20,6 +22,19 @@ const contactID = sessionStorage.getItem("UserLoginID");
 const getSubCategories = (categories, categoryName) => {
 	var category = categories.find(category => category.name.toLowerCase() === categoryName);
 	return category ? category.types : [];
+};
+const getSubCategoriesIncludedDescription = (categories, categoryName) => {
+	var subInfo = categories.find(category => category.name.toLowerCase() === categoryName);
+	return subInfo ? subInfo : '';
+};
+const getIncludedDescriptions = (categories, categoryName) => {
+	var category = categories.find(category => category.name.toLowerCase() === categoryName);
+	return category ? category.description : '';
+};
+const getIncludedFields = (categories, categoryName) => {
+	var category = categories.find(category => category.name.toLowerCase() === categoryName);
+
+	return category ? category.fields : [];
 };
 const getNote = (subCategories, name) => {
 	var type = subCategories.find(subcategoryname => subcategoryname.name.toLowerCase() === name);
@@ -38,8 +53,6 @@ const getID = (categories, categoryName) => {
 	var category = categories.find(category => category.name.toLowerCase() === categoryName);
 	return category ? category.id : [];
 };
-
-
 
 const ServiceRequestForm = (props, errors, touched) => {
 
@@ -84,11 +97,10 @@ const ServiceRequestForm = (props, errors, touched) => {
 	const [notes, setNotes] = useState();
 	const [animalSubCategories, setAnimalSubCategories] = useState([]);
 	const [animalSex, setAnimalSex] = useState([]);
+	const [loopCount, setLoopCount] = useState(0);
 
 	try {
 		useEffect(() => {
-
-			console.log('++++brefore fetching++++');
 
 			const fetchData = async () => {
 				const result = await axios(
@@ -118,6 +130,8 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 			fetchData();
 		}, []);
+
+
 	}
 	catch (ex) {
 
@@ -125,25 +139,58 @@ const ServiceRequestForm = (props, errors, touched) => {
 	}
 
 
+
 	const handleServiceRequestChange = (changeEvent) => {
-		console.log('inside handleServiceRequestChange')
+
 		const value = changeEvent.currentTarget.value.toLowerCase();
 		let ID = getID(Categories, value)
 
 		props.formik.setFieldValue('requestTypeID', ID);
+
 		const subCategories = getSubCategories(Categories, value ? value : value);
 		setSubCategories(subCategories);
+
+		const description = getIncludedDescriptions(Categories, value ? value : value);
+		const fields = getIncludedFields(Categories, value ? value : value);
+
+		props.formik.setFieldValue('requestTypeDescriptionID', description);
+
+		pullServiceRequestFields(fields);
+	};
+	const pullServiceRequestFields = (fields) => {
+		if (fields !== undefined) {
+			props.formik.setFieldValue('requestTypeAddressID', fields.streetAddress);
+			props.formik.setFieldValue('requestTypeCityID', fields.city);
+			props.formik.setFieldValue('requestTypeZipID', fields.zipCode);
+		}
+
 	};
 	const handleServiceSubRequestChange = (changeEvent) => {
 
 		const value = changeEvent.currentTarget.value.toLowerCase();
-		let ID = getID(subCategories, value)
+		const subInfo = getSubCategoriesIncludedDescription(subCategories, value ? value : value);
+		let ID = getID(subCategories, value);
 		const notes = getNote(subCategories, value);
 		setNotes(<div><p>{notes}</p></div>);
 
 		props.formik.setFieldValue('subRequestTypeID', ID);
 
+		if (subInfo !== undefined) {
+			if (subInfo.description !== undefined) {
+				props.formik.setFieldValue('subRequestTypeDescriptionID', subInfo.description);
+			}
+			if (subInfo.streetAddress !== undefined) {
+				props.formik.setFieldValue('subRequestTypeAddressID', subInfo.streetAddress);
+			}
+			if (subInfo.city !== undefined) {
+				props.formik.setFieldValue('subRequestTypeCityID', subInfo.city);
+			}
+			if (subInfo.zipCode !== undefined) {
+				props.formik.setFieldValue('subRequestTypeZipID', subInfo.zipCode);
+			}
+		}
 	};
+
 	const handleServicePetChange = (changeEvent) => {
 
 		let value = changeEvent.currentTarget.value.toLowerCase();
@@ -184,7 +231,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 		let value = changeEvent.currentTarget.value.toLowerCase();
 		let ID = getID(animalSubCategories, value);
 
-		props.formik.setFieldValue('animalBreedID', ID);
+		//props.formik.setFieldValue('animalBreedID', ID);
 		//props.formik.setFieldValue('animalBreed', value);
 	}
 
@@ -205,63 +252,72 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 	const buttonShowHideValidation = () => {
 
+		let requestTypeDescription = rest.formik.values['requestTypeDescription'].toLowerCase();
+		let subRequestTypeDescription = rest.formik.values['subRequestTypeDescription'].toLowerCase();
 
-		if (props.formik.values.requestType !== '' && props.formik.values.subRequestType !== '') {
-			if (props.formik.values.requestType.toLowerCase() === requestType_RoadSidewalkIssue.toLowerCase()
-				&& props.formik.values.subRequestType.toLowerCase() === subCategory_IcyConditions.toLowerCase()) {
+		if (requestTypeDescription !== ''
+			&& subRequestTypeDescription !== '') {
+
+
+			if (requestTypeDescription === requestType_RoadSidewalkIssue.toLowerCase()
+				&& subRequestTypeDescription === subCategory_IcyConditions.toLowerCase()) {
 				return true;
 			}
 
-			else if ((rest.formik.values['requestType'].toLowerCase() === requestType_WaterandSewerIssues.toLowerCase())
-				&& (rest.formik.values['subRequestType'].toLowerCase() === subCategory_SewerIssues.toLowerCase() ||
-					rest.formik.values['subRequestType'].toLowerCase() === subCategory_StormWaterIssues.toLowerCase() ||
-					rest.formik.values['subRequestType'].toLowerCase() === subCategory_WaterSupplyIssues.toLowerCase()
+			else if ((requestTypeDescription === requestType_WaterandSewerIssues.toLowerCase())
+				&& (subRequestTypeDescription === subCategory_SewerIssues.toLowerCase() ||
+					subRequestTypeDescription === subCategory_StormWaterIssues.toLowerCase() ||
+					subRequestTypeDescription === subCategory_WaterSupplyIssues.toLowerCase()
 				)) {
 				return true;
 			}
-			else if ((rest.formik.values['requestType'].toLowerCase() === requestType_TrashRecycleIssue.toLowerCase())
-				&& (rest.formik.values['subRequestType'].toLowerCase() === subCategory_CanOrLidLostDamaged.toLowerCase() ||
-					rest.formik.values['subRequestType'].toLowerCase() === subCategory_PropertyDamangeDuringCollecttion.toLowerCase() ||
-					rest.formik.values['subRequestType'].toLowerCase() === subCategory_RecyclingNotCollected.toLowerCase() ||
-					rest.formik.values['subRequestType'].toLowerCase() === subCategory_RequestToStartNewCollection.toLowerCase() ||
-					rest.formik.values['subRequestType'].toLowerCase() === subCategory_TrashNotCollected.toLowerCase() ||
-					rest.formik.values['subRequestType'].toLowerCase() === subCategory_YardWasteNotCollected.toLowerCase()
+			else if ((requestTypeDescription === requestType_TrashRecycleIssue.toLowerCase())
+				&& (subRequestTypeDescription === subCategory_CanOrLidLostDamaged.toLowerCase() ||
+					subRequestTypeDescription === subCategory_PropertyDamangeDuringCollecttion.toLowerCase() ||
+					subRequestTypeDescription === subCategory_RecyclingNotCollected.toLowerCase() ||
+					subRequestTypeDescription === subCategory_RequestToStartNewCollection.toLowerCase() ||
+					subRequestTypeDescription === subCategory_TrashNotCollected.toLowerCase() ||
+					subRequestTypeDescription === subCategory_YardWasteNotCollected.toLowerCase()
 				)) {
 
 				return true;
 			}
+			else if (requestTypeDescription === requestType_petAndAnimalIssue.toLowerCase()
+				&& subRequestTypeDescription !== ''
+				&& rest.formik.values['petType'] === '') {
 
+				return true;
+			}
 
-			else if (rest.formik.values['requestType'].toLowerCase() === requestType_petAndAnimalIssue.toLowerCase()
-				&& rest.formik.values['subRequestType'] !== ''
+			else if (requestTypeDescription === requestType_petAndAnimalIssue.toLowerCase()
+				&& subRequestTypeDescription !== ''
 				&& rest.formik.values['petType'] !== ''
-				&& (rest.formik.values['petType'].toLowerCase() !== petTypeHorse.toLowerCase()
-					&& rest.formik.values['petType'].toLowerCase() !== petType_Others.toLowerCase())
+				&& (rest.formik.values['petType'].toLowerCase() === petTypeCat.toLowerCase()
+					|| rest.formik.values['petType'].toLowerCase() === petTypeDog.toLowerCase())
 
 				&& rest.formik.values['animalColorType'] === '') {
-
+				console.log('Pett ---Is it here ----');
 				return true;
 			}
-			else if (rest.formik.values['requestType'].toLowerCase() === requestType_petAndAnimalIssue.toLowerCase()
-				&& rest.formik.values['subRequestType'] !== ''
+			else if (requestTypeDescription === requestType_petAndAnimalIssue.toLowerCase()
+				&& subRequestTypeDescription !== ''
 				&& (rest.formik.values['petType'] !== ''
 					&& (rest.formik.values['petType'].toLowerCase() === petType_Others.toLowerCase()
 						&& rest.formik.values['otherAnimalTypes'] === ''))) {
 
 				return true;
 			}
-			else if (rest.formik.values['requestType'].toLowerCase() === 'website issue' && rest.formik.values['serviceDescription'].trim() === '') {
+			else if (requestTypeDescription === 'website issue' && rest.formik.values['serviceDescription'].trim() === '') {
 				return true;
 			}
 			else {
-
+				console.log('--it it here---');
 				return false;
 			}
 
 
 		}
 		else {
-
 			return true;
 		}
 
@@ -288,30 +344,57 @@ const ServiceRequestForm = (props, errors, touched) => {
 		var urlParts = window.location.href.split('categoryId=');
 		return urlParts[1];
 	}
+	const loadSelectedItems = (props) => {
+		let requestTypeDescription = props.formik.values['requestTypeDescription'];
+
+		if (Categories.length > 0 && PetTypes.length > 0
+			&& AnimalBreeds.length > 0 && AnimalColors.length > 0 && OtherAnimalTypes.length > 0) {
+			if (requestTypeDescription !== '') {
+				if (subCategories.length === 0) {
+					const value = requestTypeDescription.toLowerCase();
+					const subCategories = getSubCategories(Categories, value ? value : value);
+					setSubCategories(subCategories);
+					if (props.formik.values['petType'] !== '') {
+						let value = props.formik.values['petType'].toLowerCase();
+						const subBreeds = getAnimalSubCategories(AnimalBreeds, value);
+						setAnimalSubCategories(subBreeds.breeds);
+						setAnimalSex(subBreeds.sex);
+					}
+				}
+
+			}
+		}
 
 
-	let displayButton = buttonShowHideValidation(props);
+	};
 
+	loadSelectedItems(props);
+	let displayButton = buttonShowHideValidation();
+	// console.log('----Categories----:' + Categories);
+	// console.log('----subCategories: ' + subCategories);
+	// console.log('----PetTypes: ' + PetTypes);
+	// console.log('----AnimalBreeds: ' + AnimalBreeds);
+	const localProps = props.formik;
 	return (
 
 
 		<FormContainer title="How Can We Help?">
 
 			<Form>
-				<label htmlFor="requestType"
+				<label htmlFor="requestTypeDescription"
 					className={
-						rest.formik.errors.requestType && rest.formik.touched.requestType ? "error-message" : "text-label"}
+						localProps.errors.requestTypeDescription && localProps.touched.requestTypeDescription ? "error-message" : "text-label"}
 				>Request Category</label>
 
 				<RequestTypeField
 					component="select"
-					name="requestType"
+					name="requestTypeDescription"
 					formikProps={rest}
 					onChange={handleServiceRequestChange}
 					onLoad={routURLID}
 					//	value={categoryId}
-					value={props.formik.values.requestType}
-
+					value={props.formik.values.requestTypeDescription}
+				//    description ={props.formik.values.description}
 				>
 					<option key='default' value=''>--Please select a category--</option>
 					{Categories.map(category => (
@@ -321,25 +404,25 @@ const ServiceRequestForm = (props, errors, touched) => {
 				<div className="error">
 					<p role='alert' className="error-message">
 						<ErrorMsg
-							errormessage={rest.formik.errors.requestType}
-							touched={rest.formik.touched.requestType} />
+							errormessage={localProps.errors.requestTypeDescription}
+							touched={localProps.touched.requestTypeDescription} />
 					</p>
 				</div>
 				{
-					rest.formik.values['requestType'] !== '' ?
+					localProps.values['requestTypeDescription'] !== '' ?
 						<div>
-							<label name="subRequestType" htmlFor="subRequestType"
+							<label name="subRequestTypeDescription" htmlFor="subRequestTypeDescription"
 								className={
-									rest.formik.errors.subRequestType && rest.formik.touched.subRequestType ? "input-feedback" : "text-label"}
+									localProps.errors.subRequestTypeDescription && localProps.touched.subRequestTypeDescription ? "input-feedback" : "text-label"}
 							>
 								Request Sub-Category
 							</label>
 							<RequestSubTypeField
 								component="select"
-								name="subRequestType"
+								name="subRequestTypeDescription"
 								formikProps={rest}
 								onChange={handleServiceSubRequestChange}
-								value={props.formik.values.subRequestType}
+								value={localProps.values.subRequestTypeDescription}
 							>
 								<option key='default' value=''>--Please select a sub-category--</option>
 								{subCategories.map(category => (
@@ -349,42 +432,43 @@ const ServiceRequestForm = (props, errors, touched) => {
 							</RequestSubTypeField>
 							<div className="input-feedback">
 								<ErrorMsg
-									errormessage={rest.formik.errors.subRequestType}
-									touched={rest.formik.touched.subRequestType} />
+									errormessage={localProps.errors.subRequestTypeDescription}
+									touched={localProps.touched.subRequestTypeDescription} />
 							</div>
 						</div>
 						: null
 				}
 				{
 
-					/* water and Sewer Issues --- Sewer Issues */
-					/* water and Sewer Issues --- Sewer Issues */
-					/* water and Sewer Issues --- Sewer Issues*/
 
-					(rest.formik.values['requestType'].toLowerCase() === requestType_WaterandSewerIssues.toLowerCase())
-						&& (rest.formik.values['subRequestType'].toLowerCase() === subCategory_SewerIssues.toLowerCase() ||
-							rest.formik.values['subRequestType'].toLowerCase() === subCategory_StormWaterIssues.toLowerCase() ||
-							rest.formik.values['subRequestType'].toLowerCase() === subCategory_WaterSupplyIssues.toLowerCase()
-						) ? notes : null
+					<WaterAndSewerIssue
+						requestTypeDescription={props.formik.values['requestTypeDescription'].toLowerCase()}
+						subRequestTypeDescription={props.formik.values['subRequestTypeDescription'].toLowerCase()}
+						WaterandSewerIssues={requestType_WaterandSewerIssues}
+						SewerIssues={subCategory_SewerIssues}
+						StormWaterIssues={subCategory_StormWaterIssues}
+						WaterSupplyIssues={subCategory_WaterSupplyIssues}
+						notes={notes} />
+
 				}
 
 
 				{
-					/* Can or lid lost or damaged*/
-					/* Property damage during collection */
-					/* Recycling not collected */
-					/* Request to start new collection */
-					/* Trash not collected */
-					/* Yard waste not collected*/
 
-					(rest.formik.values['requestType'].toLowerCase() === requestType_TrashRecycleIssue.toLowerCase())
-						&& (rest.formik.values['subRequestType'].toLowerCase() === subCategory_CanOrLidLostDamaged.toLowerCase() ||
-							rest.formik.values['subRequestType'].toLowerCase() === subCategory_PropertyDamangeDuringCollecttion.toLowerCase() ||
-							rest.formik.values['subRequestType'].toLowerCase() === subCategory_RecyclingNotCollected.toLowerCase() ||
-							rest.formik.values['subRequestType'].toLowerCase() === subCategory_RequestToStartNewCollection.toLowerCase() ||
-							rest.formik.values['subRequestType'].toLowerCase() === subCategory_TrashNotCollected.toLowerCase() ||
-							rest.formik.values['subRequestType'].toLowerCase() === subCategory_YardWasteNotCollected.toLowerCase()
-						) ? notes : null
+					<TrashAndRecycle
+						requestTypeDescription={props.formik.values['requestTypeDescription'].toLowerCase()}
+						subRequestTypeDescription={props.formik.values['subRequestTypeDescription'].toLowerCase()}
+						TrashRecycleIssue={requestType_TrashRecycleIssue.toLowerCase()}
+						CanOrLidLostDamaged={subCategory_CanOrLidLostDamaged}
+						PropertyDamangeDuringCollecttion={subCategory_PropertyDamangeDuringCollecttion}
+						RecyclingNotCollected={subCategory_RecyclingNotCollected}
+						RequestToStartNewCollection={subCategory_RequestToStartNewCollection}
+						TrashNotCollected={subCategory_TrashNotCollected}
+						YardWasteNotCollected={subCategory_YardWasteNotCollected}
+						notes={notes}
+					/>
+
+
 
 				}
 
@@ -392,28 +476,28 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 
 				{ /* Roads and Sidewalks Issue -- icy condition*/
-					(rest.formik.values['requestType'].toLowerCase() === requestType_RoadSidewalkIssue.toLowerCase()
-						&& rest.formik.values['subRequestType'].toLowerCase() === subCategory_IcyConditions.toLowerCase()) ? notes : null
+					(localProps.values['requestTypeDescription'].toLowerCase() === requestType_RoadSidewalkIssue.toLowerCase()
+						&& localProps.values['subRequestTypeDescription'].toLowerCase() === subCategory_IcyConditions.toLowerCase()) ? notes : null
 
 				}
 				{/* Pets and Animal Issue - Other animal complaint */
 
-					(rest.formik.values['requestType'].toLowerCase() === requestType_petAndAnimalIssue.toLowerCase()
-						&& rest.formik.values['subRequestType'].toLowerCase() === petAndAnimalIssueID_OtherAnimalComplaint.toLowerCase()) ? notes
+					(localProps.values['requestTypeDescription'].toLowerCase() === requestType_petAndAnimalIssue.toLowerCase()
+						&& localProps.values['subRequestTypeDescription'].toLowerCase() === petAndAnimalIssueID_OtherAnimalComplaint.toLowerCase()) ? notes
 						: null
 				}
 				{/* Website Issue - Other website problem */
 
-					(rest.formik.values['requestType'].toLowerCase() === requestType_WebSiteIssue.toLowerCase()
-						&& rest.formik.values['subRequestType'].toLowerCase() === subCategory_OtherWebsiteProblem.toLowerCase()) ? notes
+					(localProps.values['requestTypeDescription'].toLowerCase() === requestType_WebSiteIssue.toLowerCase()
+						&& localProps.values['subRequestTypeDescription'].toLowerCase() === subCategory_OtherWebsiteProblem.toLowerCase()) ? notes
 						: null
 				}
 				{
-					rest.formik.values['requestType'] === requestType_petAndAnimalIssue && rest.formik.values['subRequestType'] !== '' ?
+					localProps.values['requestTypeDescription'] === requestType_petAndAnimalIssue && localProps.values['subRequestTypeDescription'] !== '' ?
 						<div>
 							<label htmlFor="petType"
 								className={
-									rest.formik.errors.petType && rest.formik.touched.petType ? "input-feedback" : "text-label"}
+									localProps.errors.petType && localProps.touched.petType ? "input-feedback" : "text-label"}
 							>Pet Type</label>
 							<RequestPetTypeField
 								component="select"
@@ -421,7 +505,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 								formikProps={rest}
 								onChange={handleServicePetChange}
 								//value={props.formik.values.name}
-								className={rest.formik.errors.petType && rest.formik.touched.petType ? "text-select error" : null}
+								className={localProps.errors.petType && localProps.touched.petType ? "text-select error" : null}
 							>
 								<option key='default' value=''>--Please select a pet type--</option>
 								{PetTypes.map(petType => (
@@ -430,19 +514,19 @@ const ServiceRequestForm = (props, errors, touched) => {
 							</RequestPetTypeField>
 							<div className="input-feedback">
 								{<ErrorMsg
-									errormessage={rest.formik.errors.petType}
-									touched={rest.formik.touched.petType} />}
+									errormessage={localProps.errors.petType}
+									touched={localProps.touched.petType} />}
 							</div>
 						</div>
 						: null
 				}
 				{
 
-					(rest.formik.values['subRequestType'] !== '' && rest.formik.values['petType'].toLowerCase() === petType_Others) ?
+					(localProps.values['subRequestTypeDescription'] !== '' && localProps.values['petType'].toLowerCase() === petType_Others) ?
 						<div>
 							<label htmlFor="otherAnimalTypes"
 								className={
-									rest.formik.errors.otherAnimalTypes && rest.formik.touched.otherAnimalTypes ? "input-feedback" : "text-label"}
+									localProps.errors.otherAnimalTypes && localProps.touched.otherAnimalTypes ? "input-feedback" : "text-label"}
 							>Other pet type
 							</label>
 							<GenericTypeField
@@ -451,7 +535,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 								formikProps={rest}
 								onChange={handleOtherPetTypeChange}
 								//	value={props.formik.values.name}
-								className={rest.formik.errors.otherAnimalTypes && rest.formik.touched.otherAnimalTypes ? "text-select error" : null}
+								className={localProps.errors.otherAnimalTypes && localProps.touched.otherAnimalTypes ? "text-select error" : null}
 							>
 								<option key='default' value=''>--Please select an "other" pet type--</option>
 								{OtherAnimalTypes.map(OtherAnimalType => (
@@ -462,20 +546,20 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 							<div className="input-feedback">
 								{<ErrorMsg
-									errormessage={rest.formik.errors.otherAnimalTypes}
-									touched={rest.formik.touched.otherAnimalTypes} />}
+									errormessage={localProps.errors.otherAnimalTypes}
+									touched={localProps.touched.otherAnimalTypes} />}
 							</div>
 						</div>
 						: null
 				}
 				{
-					((rest.formik.values['requestType'] === requestType_petAndAnimalIssue)
-						&& rest.formik.values['subRequestType'] !== '')
-						&& checkPetType(rest.formik.values['petType']) ?
+					((localProps.values['requestTypeDescription'] === requestType_petAndAnimalIssue)
+						&& localProps.values['subRequestTypeDescription'] !== '')
+						&& checkPetType(localProps.values['petType']) ?
 						<div>
 							<label htmlFor="sexType"
 								className={
-									rest.formik.errors.sexType && rest.formik.touched.sexType ? "input-feedback" : "text-label"}
+									localProps.errors.sexType && localProps.touched.sexType ? "input-feedback" : "text-label"}
 							>Pet Sex (optional)
 							</label>
 							<GenericTypeField
@@ -484,7 +568,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 								formikProps={rest}
 								onChange={handlePetSexChange}
 								//value={props.formik.values.name}
-								className={rest.formik.errors.sexType && rest.formik.touched.sexType ? "text-select error" : null}
+								className={localProps.errors.sexType && localProps.touched.sexType ? "text-select error" : null}
 							>
 								<option key='default' value=''>--Please select a pet sex--</option>
 								{animalSex.map(petSex => (
@@ -494,8 +578,8 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 							<div className="input-feedback">
 								{<ErrorMsg
-									errormessage={rest.formik.errors.sexType}
-									touched={rest.formik.touched.sexType} />}
+									errormessage={localProps.errors.sexType}
+									touched={localProps.touched.sexType} />}
 							</div>
 						</div>
 						: null
@@ -503,13 +587,13 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 				{
 
-					(rest.formik.values['requestType'] === requestType_petAndAnimalIssue
-						&& rest.formik.values['subRequestType'] !== '')
-						&& (rest.formik.values['petType'].toLowerCase() === petTypeCat || rest.formik.values['petType'].toLowerCase() === petTypeDog) ?
+					(localProps.values['requestTypeDescription'] === requestType_petAndAnimalIssue
+						&& localProps.values['subRequestTypeDescription'] !== '')
+						&& (localProps.values['petType'].toLowerCase() === petTypeCat || localProps.values['petType'].toLowerCase() === petTypeDog) ?
 						<div>
 							<label htmlFor="animalColorType"
 								className={
-									rest.formik.errors.animalColorType && rest.formik.touched.animalColorType ? "input-feedback" : "text-label"}
+									localProps.errors.animalColorType && localProps.touched.animalColorType ? "input-feedback" : "text-label"}
 							>Primary Animal Color
 							</label>
 
@@ -519,7 +603,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 								formikProps={rest}
 								onChange={handleAnimalColorChange}
 								//value={props.formik.values.name}
-								className={rest.formik.errors.animalColorType && rest.formik.touched.animalColorType ? "text-select error" : null}
+								className={localProps.errors.animalColorType && localProps.touched.animalColorType ? "text-select error" : null}
 							>
 								<option key='default' value=''>--Please select the primary color of the animal--</option>
 
@@ -530,8 +614,8 @@ const ServiceRequestForm = (props, errors, touched) => {
 							</GenericTypeField>
 							<div className="input-feedback">
 								{<ErrorMsg
-									errormessage={rest.formik.errors.animalColorType}
-									touched={rest.formik.touched.animalColorType} />}
+									errormessage={localProps.errors.animalColorType}
+									touched={localProps.touched.animalColorType} />}
 							</div>
 						</div>
 						: null
@@ -540,30 +624,31 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 				<br />
 				{
-					((rest.formik.values['requestType'] === requestType_petAndAnimalIssue && rest.formik.values['subRequestType'] !== '')
-						&& (rest.formik.values['petType'].toLowerCase() === petTypeCat || rest.formik.values['petType'].toLowerCase() === petTypeDog)) ?
+					((localProps.values['requestTypeDescription'] === requestType_petAndAnimalIssue && localProps.values['subRequestTypeDescription'] !== '')
+						&& (localProps.values['petType'].toLowerCase() === petTypeCat || localProps.values['petType'].toLowerCase() === petTypeDog)) ?
 						<div>
 							<label htmlFor="animalBreed"
 								className={
-									rest.formik.errors.animalBreed && rest.formik.touched.animalBreed ? "input-feedback" : "text-label"}
+									localProps.errors.animalBreed && localProps.touched.animalBreed ? "input-feedback" : "text-label"}
 							>Primary Animal Breed(optional)
 							</label>
-							<Field
+							<GenericTypeField
 								component="select"
 								name="animalBreedType"
+								formikProps={rest}
 								onChange={handleAnimalBreedChange}
-								value={props.formik.values.name}
-								className={rest.formik.errors.animalBreedType && rest.formik.touched.animalBreedType ? "text-select error" : null}
+								//value={props.formik.values.animalBreedType}
+								className={localProps.errors.animalBreedType && localProps.touched.animalBreedType ? "text-select error" : null}
 							>
 								<option key='default' value=''>--Please select the primary breed of the animal--</option>
 								{animalSubCategories.map(animalBreedType => (
 									<option key={animalBreedType.id} value={animalBreedType.name}>{animalBreedType.name}</option>
 								))}
-							</Field>
+							</GenericTypeField>
 							<div className="input-feedback">
 								{<ErrorMsg
-									errormessage={rest.formik.errors.animalBreedType}
-									touched={rest.formik.touched.animalBreedType} />}
+									errormessage={localProps.errors.animalBreedType}
+									touched={localProps.touched.animalBreedType} />}
 
 							</div>
 						</div>
@@ -571,22 +656,22 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 				}
 
-				{(rest.formik.values['requestType'].toLowerCase() === 'website issue') ?
+				{(localProps.values['requestTypeDescription'].toLowerCase() === 'website issue') ?
 					<div>
 						<label htmlFor="serviceDescription"
 							className={
-								rest.formik.errors.serviceDescription && rest.formik.touched.serviceDescription ? "input-feedback" : "text-label"}
+								localProps.errors.serviceDescription && localProps.touched.serviceDescription ? "input-feedback" : "text-label"}
 						>Service Request Description
 						</label>
 						<Field type='text'
 							name="serviceDescription"
-							className={rest.formik.errors.serviceDescription && rest.formik.touched.serviceDescription ? "text-select error" : null}
+							className={localProps.errors.serviceDescription && localProps.touched.serviceDescription ? "text-select error" : null}
 						/>
 
 						<div className="input-feedback">
 							{<ErrorMsg
-								errormessage={rest.formik.errors.serviceDescription}
-								touched={rest.formik.touched.serviceDescription} />}
+								errormessage={localProps.errors.serviceDescription}
+								touched={localProps.touched.serviceDescription} />}
 						</div>
 					</div> : null
 
@@ -595,7 +680,17 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 
 				<Field type="hidden" name="requestTypeID" />
+
+				<Field type="hidden" name="requestTypeDescriptionID" />
+				<Field type="hidden" name="requestTypeAddressID" />
+				<Field type="hidden" name="requestTypeCityID" />
+				<Field type="hidden" name="requestTypeZipID" />
 				<Field type="hidden" name="subRequestTypeID" />
+
+				<Field type="hidden" name="subRequestTypeDescriptionID" />
+				<Field type="hidden" name="subRequestTypeAddressID" />
+				<Field type="hidden" name="subRequestTypeCityID" />
+				<Field type="hidden" name="subRequestTypeZipID" />
 				<Field type="hidden" name="petTypeID" />
 				<Field type="hidden" name="animalBreedID" />
 				<Field type="hidden" name="sexTypeID" />
@@ -608,12 +703,12 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 				{(contactID === null) ?
 					<div>
-						<input type="button" class="seButton" onClick={callSignInForm} disabled={displayButton} value="Sign In" />
+						<input type="button" className="seButton" onClick={callSignInForm} disabled={displayButton} value="Sign In" />
 
-						<input type="button" class="seButton" onClick={callRegisterForm} disabled={displayButton} value="Register" />
+						<input type="button" className="seButton" onClick={callRegisterForm} disabled={displayButton} value="Register" />
 						<Model />
 
-					</div> : <input type="button" class="seButton" disabled={displayButton} onClick={goToNextPage} value="Next" />
+					</div> : <input type="button" className="seButton" disabled={displayButton} onClick={goToNextPage} value="Next" />
 				}
 
 			</Form>

@@ -62,7 +62,7 @@ const PasswordReset = props => {
 										errormessage={errors.Email}
 										touched={touched.Email} />
 								</div>
-								<input class="seButton" type="submit" disabled={isSubmitting} value="Submit Reset Request" />
+								<input className="seButton" type="submit" disabled={isSubmitting} value="Submit Reset Request" />
 
 
 							</Form>

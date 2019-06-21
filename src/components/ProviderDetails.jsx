@@ -120,7 +120,6 @@ const providerDetails = props => {
 				<div className="inner-render">
 
 					<AutoCompletTypeField
-
 						items={items}
 						name="location"
 						formikProps={rest}
@@ -129,24 +128,6 @@ const providerDetails = props => {
 						onSelect={handleAddressSelect}
 					/>
 
-					{/* 		<Autocomplete
-						getItemValue={item => item.label}
-						id="location"
-						items={items}
-						renderItem={(item, isHighlighted) => (
-							<div key={_.uniqueId()}
-								id="location"
-								style={{ background: isHighlighted ? "lightgray" : "white" }}
-							>
-								{item.label}
-							</div>
-						)}
-						value={rest.formik.values.location}
-						onChange={e => handleAddressChange(e, rest.formik.setFieldValue)}
-						onSelect={val => handleAddressSelect(val, rest.formik.setFieldValue)}
-
-						className={`text-input ${rest.formik.errors.location && rest.formik.touched.location ? "error" : ""}`}
-					/> */}
 				</div>
 				<Collaspe address={rest.formik.values.location} lat={Latitude} lng={Longitude} markerLat={MarkerLatitude} onMarkerDragEnd={e => (onMarkerDragEnd(e, setFieldValue))} />
 
@@ -185,8 +166,8 @@ const providerDetails = props => {
 						errormessage={rest.formik.errors.describeTheProblem}
 						touched={rest.formik.touched.describeTheProblem} />
 				</div>
-				<input type="button" class="seButton" onClick={goServiceRequestForm} value="Previous" />
-				<input type="button" class="seButton" onClick={goToAdditionalPage} value="Next" />
+				<input type="button" className="seButton" onClick={goServiceRequestForm} value="Previous" />
+				<input type="button" className="seButton" onClick={goToAdditionalPage} value="Next" />
 
 			</Form>
 

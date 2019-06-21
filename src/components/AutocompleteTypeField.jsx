@@ -6,20 +6,14 @@ const AutoCompletTypeField = props => {
 	const { items, name, formikProps, onChange, onSelect, value } = props;
 
 	const handleChange = changeEvent => {
-		console.log('--inside handleChange---')
 		const { value } = changeEvent.target;
 		formikProps.formik.setFieldValue('location', value);
-		console.log('Name:' + name + -'Value:' + value);
 		onChange(changeEvent);
 	
 	};
 	const handleSelect = val => {
-		console.log('--inside handleSelect---')
-	
 		formikProps.formik.setFieldValue('location', val);
-		console.log('Name:' + name + -'Value:' + val);
-
-		onSelect(handleSelect);
+		onSelect(val);
 	};
 	return (
 
