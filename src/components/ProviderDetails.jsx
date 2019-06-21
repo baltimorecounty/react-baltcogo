@@ -109,7 +109,6 @@ const providerDetails = props => {
 	}));
 
 	return (
-
 		<FormContainer title="Provider Details">
 
 			<Form >
