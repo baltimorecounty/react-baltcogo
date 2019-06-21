@@ -1,9 +1,10 @@
 import React from 'react'
 
 const tabList = [
-	{ description: 'Choose a Report Type'},
-	{ description: 'Enter a Location'},
-	{ description: 'Proivde Your Contact Information'},
+	{description: 'Choose a Report Type', key: 0},
+	{description: 'Enter a Location', key: 1},
+	{description: 'Proivde Your Contact Information', key: 2},
+	{description: '', key: 3},
 
 ];
 

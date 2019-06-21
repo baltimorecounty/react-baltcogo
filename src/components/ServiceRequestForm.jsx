@@ -676,9 +676,6 @@ const ServiceRequestForm = (props, errors, touched) => {
 					</div> : null
 
 				}
-
-
-
 				<Field type="hidden" name="requestTypeID" />
 
 				<Field type="hidden" name="requestTypeDescriptionID" />
@@ -700,7 +697,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 				<Field type="hidden" name="streeAddressID" />
 				<Field type="hidden" name="cityID" />
 				<Field type="hidden" name="zipCodeID" />
-
+				<br />
 				{(contactID === null) ?
 					<div>
 						<input type="button" className="seButton" onClick={callSignInForm} disabled={displayButton} value="Sign In" />
