@@ -39,7 +39,7 @@ const providerDetails = props => {
 
 
 	const handleAddressChange = (e) => {
-		console.log('--inside handleAddressChange---');
+
 		//setFieldValue('location', e.target.value);
 		setQuery(e.target.value);
 
@@ -54,9 +54,7 @@ const providerDetails = props => {
 
 	const handleAddressSelect = (val) => {
 		//setFieldValue("location", val)
-		console.log('--handleAddressSelect---');
-		console.log(rest.formik.values.location);
-		console.log(val);
+
 		let searchQuery = _.split(val, ',', 1);
 		if (searchQuery.length > 0) {
 			let filtered = Address.filter(m => m.StreetAddress.toLowerCase().indexOf(searchQuery.toString().toLowerCase()) > -1);
@@ -67,7 +65,7 @@ const providerDetails = props => {
 	};
 
 	const splitAddress = (Latitude, Longitude) => {
-		console.log('splitAddress');
+
 		setLatitude(Latitude);
 		setLongitude(Longitude);
 		setMarkerLatitude(MarkerLatitude);
