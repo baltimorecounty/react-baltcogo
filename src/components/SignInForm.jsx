@@ -5,10 +5,11 @@ import ErrorMsg from "./ErrorMessage";
 import { ErrorCheck } from "./CustomErrorHandling";
 import { Link } from 'react-router-dom';
 import FormContainer from './FormContainer';
-import { Login } from './authService';
+import { Login, GetContactAddress } from './authService';
 // import DisplayFormikState from './helper';
 const SignIn = (props, routeProps) => {
 
+	
 
 	const [fieldType, setFieldType] = useState('Password');
 	const handlePasswordToggleChange = () => {
@@ -18,10 +19,17 @@ const SignIn = (props, routeProps) => {
 
 	const userLogin = async (values, props, actions) => {
 
+// const { streeAddressID, streeAddress, cityID, city,
+// 		zipCodeID, zipCode } = props.formik.values;
 
 		try {
 			const response = await Login(values.Email, values.Password);
 			const contactID = response.data.Results.Id;
+			
+			const getAddressResponse = await GetContactAddress(contactID);
+			const addressParts = getAddressResponse.data.Results.FormattedAddress.split(',');
+			const test = addressParts[0];
+			//streeAddressID.value = addressParts[0];
 
 			if (response.data.ErrorsCount > 0) {
 				const errorsReturned = ErrorCheck(response);

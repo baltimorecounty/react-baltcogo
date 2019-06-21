@@ -67,7 +67,7 @@ export function VerifyAddress(address) {
 }
 
 export function GetContactAddress(id) {
-	return http.get(endpointContacts + id + "addresses");
+	return http.get(endpointContacts + id + "/addresses");
 }
 
 export function CreateContactAddress(id, VerificationId, Name) {

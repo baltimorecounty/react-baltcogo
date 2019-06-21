@@ -12,7 +12,26 @@ const AdditionalInformation = props => {
 		subRequestTypeID, subRequestType, petTypeID, petType, sexTypeID,
 		sexType, animalColorTypeID, animalColorType, otherAnimalTypesID,
 		otherAnimalTypes, streeAddressID, streeAddress, cityID, city,
-		zipCodeID, zipCode } = props.formik.values;
+		zipCodeID, zipCode 	} = props.formik.values;
+		// requestTypeDescription,
+		// requestTypeDescriptionID,
+		// requestTypeAddress,
+		// requestTypeAddressID,
+		// requestTypeCity,
+		// requestTypeCityID,
+		// requestTypeZip,
+		// requestTypeZipID,
+		// subRequestTypeDescription,
+		// subRequestTypeDescriptionID,
+		// subRequestTypeAddress,
+		// subRequestTypeAddressID,
+		// subRequestTypeCity,
+		// subRequestTypeCityID,
+		// subRequestTypeZip,
+		// subRequestTypeZipID
+	
+
+		
 
 
 	const SubmitTheForm = async values => {
