@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Form, Field, connect } from "formik";
 import axios from "axios"
 import ErrorMsg from "./ErrorMessage";
+import { ErrorCheck } from "./CustomErrorHandling";
 import FormContainer from './FormContainer';
 import RequestTypeField from "./RequestTypeField";
 import RequestSubTypeField from "./RequestSubTypeField";
@@ -48,7 +49,8 @@ const getID = (categories, categoryName) => {
 
 const ServiceRequestForm = (props, errors, touched) => {
 
-	const requestType_petAndAnimalIssue = 'Pets and Animals Issue';
+	//const requestType_petAndAnimalIssue = 'Pets and Animals Issue'; //Production Value
+	const requestType_petAndAnimalIssue = 'Pets and Animals'; //test value
 	const petAndAnimalIssueID_OtherAnimalComplaint = 'Other animal complaint';
 	const requestType_WebSiteIssue = 'Website Issue';
 	const subCategory_OtherWebsiteProblem = 'Other website problem';
@@ -272,24 +274,30 @@ const ServiceRequestForm = (props, errors, touched) => {
 	}
 
 	const goToNextPage = async() =>{
-		const getAddressResponse = await GetContactAddress(contactID);
-		const addressParts = getAddressResponse.data.Results[0].FormattedAddress.split(',');
-		props.formik.setFieldValue('requestTypeAddress', addressParts[0]);
-		props.formik.values.streetAddress = addressParts[0];
-		props.formik.setFieldValue('requestTypeCity', addressParts[1]);
-		props.formik.values.city = addressParts[1];
-		props.formik.setFieldValue('requestTypeZip', addressParts[3]);
-		props.formik.values.zipCode = addressParts[3];
-		props.history.push('/ProviderDetails');
+		try{
+			const getAddressResponse = await GetContactAddress(contactID);
+			
+			if (getAddressResponse.data.HasErrors === true) {
+				const errorsReturned = ErrorCheck(getAddressResponse);
+				throw new Error(errorsReturned);
+			}
+			else {
+				const addressParts = getAddressResponse.data.Results[0].FormattedAddress.split(',');
+				props.formik.setFieldValue('requestTypeAddress', addressParts[0]);
+				props.formik.setFieldValue('requestTypeCity', addressParts[1]);
+				props.formik.setFieldValue('requestTypeZip', addressParts[3]);
+				props.formik.setFieldValue('streetAddress', addressParts[0]);
+				props.formik.setFieldValue('city', addressParts[1]);
+				props.formik.setFieldValue('zipCode', addressParts[3]);
+				props.history.push('/ProviderDetails');
+			}
+		}
+		catch (ex){
+		}
 	}
 
 	const callSignInForm = () => {
-		if (contactID == null) {
-			props.history.push("/SignInForm");
-		}
-		else {
-			props.history.push('/ProviderDetails');
-		}
+		props.history.push("/SignInForm");
 	}
 
 	const callRegisterForm = () => {
@@ -622,7 +630,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 				{(contactID === null) ?
 					<div>
 						<input type="button" className="seButton" onClick={callSignInForm} disabled={displayButton} value="Sign In" />
-						<input type="button" className="seButton" onClick={callRegisterForm} disabled={displayButton} value="Register" />
+						<input type="button" className="seButton pull-right" onClick={callRegisterForm} disabled={displayButton} value="Register" />
 						<Model />
 					</div> : <input type="button" className="seButton" disabled={displayButton} onClick={goToNextPage} value="Next" />
 				}

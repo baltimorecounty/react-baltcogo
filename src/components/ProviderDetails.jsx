@@ -175,7 +175,7 @@ const providerDetails = props => {
 					</p>
 				</div>
 				<input type="button" className="seButton" onClick={goServiceRequestForm} value="Previous" />
-				<input type="button" className="seButton" onClick={goToAdditionalPage} value="Next" />
+				<input type="button" className="seButton pull-right" onClick={goToAdditionalPage} value="Next" />
 			</Form>
 		</FormContainer>
 	);

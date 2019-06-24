@@ -60,7 +60,7 @@ const AdditionalInformation = props => {
 					props.Field.ErrorMsg = errorsReturned;
 				}
 				else {
-					props.history.push('/ProviderDetails');
+					props.history.push('/ServiceRequestForm');
 				}
 			}
 			catch (ex) {

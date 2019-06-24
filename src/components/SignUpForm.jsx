@@ -38,7 +38,6 @@ const CreateAccount = (props, routeProps) => {
 				props.setFieldValue('VerificationId', VerificationId);
 				props.setFieldValue('fullAddress', fullAddress);
 			}
-
 			try {
 				const response = await SignUp(values.NameFirst, values.NameLast, values.Email, values.Password, values.Telephone, values.UniqueId, values.SuppressNotifications);
 				var ContactID = "";
@@ -58,10 +57,8 @@ const CreateAccount = (props, routeProps) => {
 					props.setFieldValue('ContactID', ContactID);
 					sessionStorage.setItem('UserLoginID', ContactID)
 				}
-
 				try {
 					const contactAddressResponse = await CreateContactAddress(ContactID, VerificationId, "Default");
-
 
 					if (contactAddressResponse.data.HasErrors === true) {
 						const errorsReturned = ErrorCheck(contactAddressResponse);
@@ -70,6 +67,14 @@ const CreateAccount = (props, routeProps) => {
 						throw new Error(errorsReturned);
 					}
 					else {
+						
+						props.setFieldValue('requestTypeAddress', values.Address);
+						props.setFieldValue('requestTypeCity', values.City);
+						props.setFieldValue('requestTypeZip', values.ZipCode);
+
+						props.setFieldValue('streetAddress', values.Address);
+						props.setFieldValue('city', values.City);
+						props.setFieldValue('zipCode', values.ZipCode);
 						props.history.push('/ProviderDetails');
 					}
 				}

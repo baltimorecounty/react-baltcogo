@@ -18,7 +18,7 @@ const PasswordReset = props => {
 				props.Field.ErrorMsg = errorsReturned;
 			}
 			else {
-				props.history.push('/AdditionalInformationForm');
+				props.history.push('/ServiceRequestForm');
 			}
 		}
 		catch (ex) {

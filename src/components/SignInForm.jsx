@@ -22,14 +22,37 @@ const SignIn = (props, routeProps) => {
 		try {
 			const response = await Login(values.Email, values.Password);
 			const contactID = response.data.Results.Id;
-			
-			const getAddressResponse = await GetContactAddress(contactID);
-			const addressParts = getAddressResponse.data.Results[0].FormattedAddress.split(',');
-			//props.setFieldValue('NameFirst', addressParts[0]);
-			//props.setFieldValue('NameLast', addressParts[0]);
-			props.setFieldValue('requestTypeAddress', addressParts[0]);
-			props.setFieldValue('requestTypeCity', addressParts[1]);
-			props.setFieldValue('requestTypeZip', addressParts[3]);
+			props.setFieldValue('NameFirst', response.data.Results.NameFirst);
+			props.setFieldValue('NameLast', response.data.Results.NameLast);
+
+			try{
+				const getAddressResponse = await GetContactAddress(contactID);
+				
+				if (getAddressResponse.data.ErrorsCount > 0) {
+					const errorsReturned = ErrorCheck(getAddressResponse);
+	
+					actions.setStatus({
+						success: errorsReturned,
+						css: 'error'
+					})
+					throw new Error(errorsReturned);
+				}
+				else{
+					const addressParts = getAddressResponse.data.Results[0].FormattedAddress.split(',');
+					props.setFieldValue('requestTypeAddress', addressParts[0]);
+					props.setFieldValue('requestTypeCity', addressParts[1]);
+					props.setFieldValue('requestTypeZip', addressParts[3]);
+
+					props.setFieldValue('streetAddress', addressParts[0]);
+					props.setFieldValue('city', addressParts[1]);
+					props.setFieldValue('zipCode', addressParts[3]);
+				}
+			}
+			catch (ex) {
+				if (ex.response || ex.response.status === 400) {
+					props.errors.email = ex.response.data
+				}
+			}
 
 			if (response.data.ErrorsCount > 0) {
 				const errorsReturned = ErrorCheck(response);
@@ -51,7 +74,7 @@ const SignIn = (props, routeProps) => {
 			}
 		}
 		catch (ex) {
-			if (ex.response && ex.response.status === 400) {
+			if (ex.response || ex.response.status === 400) {
 				props.errors.email = ex.response.data
 			}
 		}
