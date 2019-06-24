@@ -11,7 +11,7 @@ export const endPoints = {
 	"apiTestSignInUrl": "https://testservices.baltimorecountymd.gov/platform.citysourced.net/SignUp/",
 	"apiTestPasswordResetUrl": "https://testservices.baltimorecountymd.gov/platform.citysourced.net/password/",
 	"apiTestReportUrl": "https://testservices.baltimorecountymd.gov/platform.citysourced.net/servicerequests/",
-	"apiTestContactsUrl": "https://testservices.baltimorecountymd.gov/platform.citysourced.net/contacts/",
+	"apiTestContactUrl": "https://testservices.baltimorecountymd.gov/platform.citysourced.net/contacts/",
 	"apiTestVerifyAddressUrl": "https://testservices.baltimorecountymd.gov/platform.citysourced.net/contacts/verifyaddress",
 
 	"apiProdLoginUrl": "https://services.baltimorecountymd.gov/platform.citysourced.net/login/",
