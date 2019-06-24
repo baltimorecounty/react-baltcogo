@@ -19,7 +19,7 @@ const RequestTypeField = props => {
 		localProps.setFieldValue('subRequestTypeCityID', '');
 		localProps.setFieldValue('subRequestTypeZipID', '');
 
-		localProps.setFieldValue('subRequestTypeDescription', '');
+		localProps.setFieldValue('subRequestType', '');
 		localProps.setFieldValue('subRequestTypeID', '');
 		localProps.setFieldValue('petType', '');
 		localProps.setFieldValue('petTypeID', '');

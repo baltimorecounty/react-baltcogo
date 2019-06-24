@@ -8,13 +8,11 @@ import RequestSubTypeField from "./RequestSubTypeField";
 import RequestPetTypeField from "./RequestPetTypeField";
 import QueryString from 'query-string';
 import GenericTypeField from "./genericTypeField";
-//import PetTypes from "./pettypes.json";
-//import AnimalBreeds from "./animalbreeds.json";
-//import AnimalColors from "./animalcolors.json"
 import Model from './Modal';
 import { jsonFileLocations } from "./config";
 import WaterAndSewerIssue from "./waterAndSewerIssue";
 import TrashAndRecycle from "./trashAndRecycle";
+import { GetContactAddress } from './authService';
 
 const { categoryId } = QueryString.parse(window.location.search);
 const contactID = sessionStorage.getItem("UserLoginID");
@@ -33,7 +31,6 @@ const getIncludedDescriptions = (categories, categoryName) => {
 };
 const getIncludedFields = (categories, categoryName) => {
 	var category = categories.find(category => category.name.toLowerCase() === categoryName);
-
 	return category ? category.fields : [];
 };
 const getNote = (subCategories, name) => {
@@ -41,15 +38,10 @@ const getNote = (subCategories, name) => {
 	return type ? type.note : [];
 };
 const getAnimalSubCategories = (AnimalBreeds, animalName) => {
-
-
 	var animalCats = AnimalBreeds.find(animal => animal.animal.toLowerCase() === animalName);
 	return animalCats ? animalCats : [];
-
 };
 const getID = (categories, categoryName) => {
-
-
 	var category = categories.find(category => category.name.toLowerCase() === categoryName);
 	return category ? category.id : [];
 };
@@ -58,13 +50,9 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 	const requestType_petAndAnimalIssue = 'Pets and Animals Issue';
 	const petAndAnimalIssueID_OtherAnimalComplaint = 'Other animal complaint';
-
 	const requestType_WebSiteIssue = 'Website Issue';
 	const subCategory_OtherWebsiteProblem = 'Other website problem';
-
 	const requestType_TrashRecycleIssue = 'Trash and Recycling Issue';
-
-
 	const requestType_WaterandSewerIssues = 'Water and Sewer Issues';
 	const subCategory_CanOrLidLostDamaged = 'Can or lid lost or damaged';
 	const subCategory_PropertyDamangeDuringCollecttion = 'Property damage during collection';
@@ -72,18 +60,11 @@ const ServiceRequestForm = (props, errors, touched) => {
 	const subCategory_RequestToStartNewCollection = 'Request to start new collection';
 	const subCategory_TrashNotCollected = 'Trash not collected';
 	const subCategory_YardWasteNotCollected = 'Yard waste not collected';
-
-
-
-
 	const requestType_RoadSidewalkIssue = 'Roads and Sidewalks Issue';
 	const subCategory_IcyConditions = 'Icy conditions';
-
 	const subCategory_SewerIssues = 'Sewer issues';
 	const subCategory_StormWaterIssues = 'Stormwater issues';
 	const subCategory_WaterSupplyIssues = 'Water supply issues';
-
-
 	const petTypeCat = 'cat';
 	const petTypeDog = 'dog';
 	const petTypeHorse = 'horse';
@@ -97,11 +78,9 @@ const ServiceRequestForm = (props, errors, touched) => {
 	const [notes, setNotes] = useState();
 	const [animalSubCategories, setAnimalSubCategories] = useState([]);
 	const [animalSex, setAnimalSex] = useState([]);
-	const [loopCount, setLoopCount] = useState(0);
 
 	try {
 		useEffect(() => {
-
 			const fetchData = async () => {
 				const result = await axios(
 					jsonFileLocations.results,
@@ -123,22 +102,16 @@ const ServiceRequestForm = (props, errors, touched) => {
 				setAnimalBreeds(resultAnimalBreeds.data);
 				setAnimalColors(resultAnimalColors.data);
 				setOtherAnimalTypes(resultAnimalTypes.data);
-
 				props.formik.setFieldValue('ContactID', contactID);
-
 			};
 
 			fetchData();
 		}, []);
-
-
 	}
 	catch (ex) {
 
 		console.log(ex);
 	}
-
-
 
 	const handleServiceRequestChange = (changeEvent) => {
 
@@ -157,14 +130,15 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 		pullServiceRequestFields(fields);
 	};
+
 	const pullServiceRequestFields = (fields) => {
 		if (fields !== undefined) {
 			props.formik.setFieldValue('requestTypeAddressID', fields.streetAddress);
 			props.formik.setFieldValue('requestTypeCityID', fields.city);
 			props.formik.setFieldValue('requestTypeZipID', fields.zipCode);
 		}
-
 	};
+
 	const handleServiceSubRequestChange = (changeEvent) => {
 
 		const value = changeEvent.currentTarget.value.toLowerCase();
@@ -192,47 +166,35 @@ const ServiceRequestForm = (props, errors, touched) => {
 	};
 
 	const handleServicePetChange = (changeEvent) => {
-
 		let value = changeEvent.currentTarget.value.toLowerCase();
 		let ID = getID(PetTypes, value)
 		const subBreeds = getAnimalSubCategories(AnimalBreeds, value);
 		setAnimalSubCategories(subBreeds.breeds);
 		setAnimalSex(subBreeds.sex);
 		props.formik.setFieldValue('petTypeID', ID);
-
-
 	};
-	const handleAnimalColorChange = (changeEvent) => {
 
+	const handleAnimalColorChange = (changeEvent) => {
 		let value = changeEvent.currentTarget.value.toLowerCase();
 		let ID = getID(AnimalColors, value);
 		props.formik.setFieldValue('animalColorTypeID', ID);
-		//props.formik.setFieldValue('animalColorType', value);
 	}
 
 	const handleOtherPetTypeChange = (changeEvent) => {
-
 		let value = changeEvent.currentTarget.value.toLowerCase();
 		let ID = getID(OtherAnimalTypes, value);
 		props.formik.setFieldValue('otherAnimalTypesID', ID);
-		//props.formik.setFieldValue('otherAnimalTypes', value);
 	}
+
 	const handlePetSexChange = (changeEvent) => {
 		let value = changeEvent.currentTarget.value.toLowerCase();
 		let ID = getID(animalSex, value);
 		props.formik.setFieldValue('sexTypeID', ID);
-		//props.formik.setFieldValue('sexType', value);
 	}
 
-
-
 	const handleAnimalBreedChange = (changeEvent) => {
-
 		let value = changeEvent.currentTarget.value.toLowerCase();
 		let ID = getID(animalSubCategories, value);
-
-		//props.formik.setFieldValue('animalBreedID', ID);
-		//props.formik.setFieldValue('animalBreed', value);
 	}
 
 	const checkPetType = (value) => {
@@ -244,53 +206,43 @@ const ServiceRequestForm = (props, errors, touched) => {
 		else {
 			return false;
 		}
-
-
 	}
-
-
 
 	const buttonShowHideValidation = () => {
 
-		let requestTypeDescription = rest.formik.values['requestTypeDescription'].toLowerCase();
-		let subRequestTypeDescription = rest.formik.values['subRequestTypeDescription'].toLowerCase();
+		let requestType = rest.formik.values['requestType'].toLowerCase();
+		let subRequestType = rest.formik.values['subRequestType'].toLowerCase();
 
-		if (requestTypeDescription !== ''
-			&& subRequestTypeDescription !== '') {
-
-
-			if (requestTypeDescription === requestType_RoadSidewalkIssue.toLowerCase()
-				&& subRequestTypeDescription === subCategory_IcyConditions.toLowerCase()) {
+		if (requestType !== ''
+			&& subRequestType !== '') {
+			if (requestType === requestType_RoadSidewalkIssue.toLowerCase()
+				&& subRequestType === subCategory_IcyConditions.toLowerCase()) {
 				return true;
 			}
-
-			else if ((requestTypeDescription === requestType_WaterandSewerIssues.toLowerCase())
-				&& (subRequestTypeDescription === subCategory_SewerIssues.toLowerCase() ||
-					subRequestTypeDescription === subCategory_StormWaterIssues.toLowerCase() ||
-					subRequestTypeDescription === subCategory_WaterSupplyIssues.toLowerCase()
+			else if ((requestType === requestType_WaterandSewerIssues.toLowerCase())
+				&& (subRequestType === subCategory_SewerIssues.toLowerCase() ||
+				subRequestType === subCategory_StormWaterIssues.toLowerCase() ||
+				subRequestType === subCategory_WaterSupplyIssues.toLowerCase()
 				)) {
 				return true;
 			}
-			else if ((requestTypeDescription === requestType_TrashRecycleIssue.toLowerCase())
-				&& (subRequestTypeDescription === subCategory_CanOrLidLostDamaged.toLowerCase() ||
-					subRequestTypeDescription === subCategory_PropertyDamangeDuringCollecttion.toLowerCase() ||
-					subRequestTypeDescription === subCategory_RecyclingNotCollected.toLowerCase() ||
-					subRequestTypeDescription === subCategory_RequestToStartNewCollection.toLowerCase() ||
-					subRequestTypeDescription === subCategory_TrashNotCollected.toLowerCase() ||
-					subRequestTypeDescription === subCategory_YardWasteNotCollected.toLowerCase()
+			else if ((requestType === requestType_TrashRecycleIssue.toLowerCase())
+				&& (subRequestType === subCategory_CanOrLidLostDamaged.toLowerCase() ||
+				subRequestType === subCategory_PropertyDamangeDuringCollecttion.toLowerCase() ||
+				subRequestType === subCategory_RecyclingNotCollected.toLowerCase() ||
+				subRequestType === subCategory_RequestToStartNewCollection.toLowerCase() ||
+				subRequestType === subCategory_TrashNotCollected.toLowerCase() ||
+				subRequestType === subCategory_YardWasteNotCollected.toLowerCase()
 				)) {
-
 				return true;
 			}
-			else if (requestTypeDescription === requestType_petAndAnimalIssue.toLowerCase()
-				&& subRequestTypeDescription !== ''
+			else if (requestType === requestType_petAndAnimalIssue.toLowerCase()
+				&& subRequestType !== ''
 				&& rest.formik.values['petType'] === '') {
-
 				return true;
 			}
-
-			else if (requestTypeDescription === requestType_petAndAnimalIssue.toLowerCase()
-				&& subRequestTypeDescription !== ''
+			else if (requestType === requestType_petAndAnimalIssue.toLowerCase()
+				&& subRequestType !== ''
 				&& rest.formik.values['petType'] !== ''
 				&& (rest.formik.values['petType'].toLowerCase() === petTypeCat.toLowerCase()
 					|| rest.formik.values['petType'].toLowerCase() === petTypeDog.toLowerCase())
@@ -299,30 +251,38 @@ const ServiceRequestForm = (props, errors, touched) => {
 				console.log('Pett ---Is it here ----');
 				return true;
 			}
-			else if (requestTypeDescription === requestType_petAndAnimalIssue.toLowerCase()
-				&& subRequestTypeDescription !== ''
+			else if (requestType === requestType_petAndAnimalIssue.toLowerCase()
+				&& subRequestType !== ''
 				&& (rest.formik.values['petType'] !== ''
 					&& (rest.formik.values['petType'].toLowerCase() === petType_Others.toLowerCase()
 						&& rest.formik.values['otherAnimalTypes'] === ''))) {
-
 				return true;
 			}
-			else if (requestTypeDescription === 'website issue' && rest.formik.values['serviceDescription'].trim() === '') {
+			else if (requestType === 'website issue' && rest.formik.values['serviceDescription'].trim() === '') {
 				return true;
 			}
 			else {
 				console.log('--it it here---');
 				return false;
 			}
-
-
 		}
 		else {
 			return true;
 		}
-
-
 	}
+
+	const goToNextPage = async() =>{
+		const getAddressResponse = await GetContactAddress(contactID);
+		const addressParts = getAddressResponse.data.Results[0].FormattedAddress.split(',');
+		props.formik.setFieldValue('requestTypeAddress', addressParts[0]);
+		props.formik.values.streetAddress = addressParts[0];
+		props.formik.setFieldValue('requestTypeCity', addressParts[1]);
+		props.formik.values.city = addressParts[1];
+		props.formik.setFieldValue('requestTypeZip', addressParts[3]);
+		props.formik.values.zipCode = addressParts[3];
+		props.history.push('/ProviderDetails');
+	}
+
 	const callSignInForm = () => {
 		if (contactID == null) {
 			props.history.push("/SignInForm");
@@ -331,27 +291,26 @@ const ServiceRequestForm = (props, errors, touched) => {
 			props.history.push('/ProviderDetails');
 		}
 	}
-	const callRegisterForm = () => {
 
+	const callRegisterForm = () => {
 		props.history.push("/SignUpForm");
 	}
-	const goToNextPage = () => {
-		props.history.push('/ProviderDetails');
-	}
+
 	const { values, isSubmitting, ...rest } = props;
 
 	const routURLID = () => {
 		var urlParts = window.location.href.split('categoryId=');
 		return urlParts[1];
 	}
+
 	const loadSelectedItems = (props) => {
-		let requestTypeDescription = props.formik.values['requestTypeDescription'];
+		let requestType = props.formik.values['requestType'];
 
 		if (Categories.length > 0 && PetTypes.length > 0
 			&& AnimalBreeds.length > 0 && AnimalColors.length > 0 && OtherAnimalTypes.length > 0) {
-			if (requestTypeDescription !== '') {
+			if (requestType !== '') {
 				if (subCategories.length === 0) {
-					const value = requestTypeDescription.toLowerCase();
+					const value = requestType.toLowerCase();
 					const subCategories = getSubCategories(Categories, value ? value : value);
 					setSubCategories(subCategories);
 					if (props.formik.values['petType'] !== '') {
@@ -361,40 +320,27 @@ const ServiceRequestForm = (props, errors, touched) => {
 						setAnimalSex(subBreeds.sex);
 					}
 				}
-
 			}
 		}
-
-
 	};
 
 	loadSelectedItems(props);
 	let displayButton = buttonShowHideValidation();
-	// console.log('----Categories----:' + Categories);
-	// console.log('----subCategories: ' + subCategories);
-	// console.log('----PetTypes: ' + PetTypes);
-	// console.log('----AnimalBreeds: ' + AnimalBreeds);
 	const localProps = props.formik;
 	return (
-
-
 		<FormContainer title="How Can We Help?">
-
 			<Form>
-				<label htmlFor="requestTypeDescription"
+				<label htmlFor="requestType"
 					className={
-						localProps.errors.requestTypeDescription && localProps.touched.requestTypeDescription ? "error-message" : "text-label"}
+						localProps.errors.requestType && localProps.touched.requestType ? "error-message" : "text-label"}
 				>Request Category</label>
-
 				<RequestTypeField
 					component="select"
-					name="requestTypeDescription"
+					name="requestType"
 					formikProps={rest}
 					onChange={handleServiceRequestChange}
 					onLoad={routURLID}
-					//	value={categoryId}
-					value={props.formik.values.requestTypeDescription}
-				//    description ={props.formik.values.description}
+					value={categoryId}
 				>
 					<option key='default' value=''>--Please select a category--</option>
 					{Categories.map(category => (
@@ -404,25 +350,25 @@ const ServiceRequestForm = (props, errors, touched) => {
 				<div className="error">
 					<p role='alert' className="error-message">
 						<ErrorMsg
-							errormessage={localProps.errors.requestTypeDescription}
-							touched={localProps.touched.requestTypeDescription} />
+							errormessage={localProps.errors.requestType}
+							touched={localProps.touched.requestType} />
 					</p>
 				</div>
 				{
-					localProps.values['requestTypeDescription'] !== '' ?
+					localProps.values['requestType'] !== '' ?
 						<div>
-							<label name="subRequestTypeDescription" htmlFor="subRequestTypeDescription"
+							<label name="subRequestType" htmlFor="subRequestType"
 								className={
-									localProps.errors.subRequestTypeDescription && localProps.touched.subRequestTypeDescription ? "input-feedback" : "text-label"}
+									localProps.errors.subRequestType && localProps.touched.subRequestType ? "input-feedback" : "text-label"}
 							>
 								Request Sub-Category
 							</label>
 							<RequestSubTypeField
 								component="select"
-								name="subRequestTypeDescription"
+								name="subRequestType"
 								formikProps={rest}
 								onChange={handleServiceSubRequestChange}
-								value={localProps.values.subRequestTypeDescription}
+								value={localProps.values.subRequestType}
 							>
 								<option key='default' value=''>--Please select a sub-category--</option>
 								{subCategories.map(category => (
@@ -432,32 +378,26 @@ const ServiceRequestForm = (props, errors, touched) => {
 							</RequestSubTypeField>
 							<div className="input-feedback">
 								<ErrorMsg
-									errormessage={localProps.errors.subRequestTypeDescription}
-									touched={localProps.touched.subRequestTypeDescription} />
+									errormessage={localProps.errors.subRequestType}
+									touched={localProps.touched.subRequestType} />
 							</div>
 						</div>
 						: null
 				}
 				{
-
-
 					<WaterAndSewerIssue
-						requestTypeDescription={props.formik.values['requestTypeDescription'].toLowerCase()}
-						subRequestTypeDescription={props.formik.values['subRequestTypeDescription'].toLowerCase()}
+						requestType={props.formik.values['requestType'].toLowerCase()}
+						subRequestType={props.formik.values['subRequestType'].toLowerCase()}
 						WaterandSewerIssues={requestType_WaterandSewerIssues}
 						SewerIssues={subCategory_SewerIssues}
 						StormWaterIssues={subCategory_StormWaterIssues}
 						WaterSupplyIssues={subCategory_WaterSupplyIssues}
 						notes={notes} />
-
 				}
-
-
 				{
-
 					<TrashAndRecycle
-						requestTypeDescription={props.formik.values['requestTypeDescription'].toLowerCase()}
-						subRequestTypeDescription={props.formik.values['subRequestTypeDescription'].toLowerCase()}
+						requestType={props.formik.values['requestType'].toLowerCase()}
+						subRequestType={props.formik.values['subRequestType'].toLowerCase()}
 						TrashRecycleIssue={requestType_TrashRecycleIssue.toLowerCase()}
 						CanOrLidLostDamaged={subCategory_CanOrLidLostDamaged}
 						PropertyDamangeDuringCollecttion={subCategory_PropertyDamangeDuringCollecttion}
@@ -467,33 +407,26 @@ const ServiceRequestForm = (props, errors, touched) => {
 						YardWasteNotCollected={subCategory_YardWasteNotCollected}
 						notes={notes}
 					/>
-
-
-
 				}
-
-
-
-
 				{ /* Roads and Sidewalks Issue -- icy condition*/
-					(localProps.values['requestTypeDescription'].toLowerCase() === requestType_RoadSidewalkIssue.toLowerCase()
-						&& localProps.values['subRequestTypeDescription'].toLowerCase() === subCategory_IcyConditions.toLowerCase()) ? notes : null
+					(localProps.values['requestType'].toLowerCase() === requestType_RoadSidewalkIssue.toLowerCase()
+						&& localProps.values['subRequestType'].toLowerCase() === subCategory_IcyConditions.toLowerCase()) ? notes : null
 
 				}
 				{/* Pets and Animal Issue - Other animal complaint */
 
-					(localProps.values['requestTypeDescription'].toLowerCase() === requestType_petAndAnimalIssue.toLowerCase()
-						&& localProps.values['subRequestTypeDescription'].toLowerCase() === petAndAnimalIssueID_OtherAnimalComplaint.toLowerCase()) ? notes
+					(localProps.values['requestType'].toLowerCase() === requestType_petAndAnimalIssue.toLowerCase()
+						&& localProps.values['subRequestType'].toLowerCase() === petAndAnimalIssueID_OtherAnimalComplaint.toLowerCase()) ? notes
 						: null
 				}
 				{/* Website Issue - Other website problem */
 
-					(localProps.values['requestTypeDescription'].toLowerCase() === requestType_WebSiteIssue.toLowerCase()
-						&& localProps.values['subRequestTypeDescription'].toLowerCase() === subCategory_OtherWebsiteProblem.toLowerCase()) ? notes
+					(localProps.values['requestType'].toLowerCase() === requestType_WebSiteIssue.toLowerCase()
+						&& localProps.values['subRequestType'].toLowerCase() === subCategory_OtherWebsiteProblem.toLowerCase()) ? notes
 						: null
 				}
 				{
-					localProps.values['requestTypeDescription'] === requestType_petAndAnimalIssue && localProps.values['subRequestTypeDescription'] !== '' ?
+					localProps.values['requestType'] === requestType_petAndAnimalIssue && localProps.values['subRequestType'] !== '' ?
 						<div>
 							<label htmlFor="petType"
 								className={
@@ -521,8 +454,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 						: null
 				}
 				{
-
-					(localProps.values['subRequestTypeDescription'] !== '' && localProps.values['petType'].toLowerCase() === petType_Others) ?
+					(localProps.values['subRequestType'] !== '' && localProps.values['petType'].toLowerCase() === petType_Others) ?
 						<div>
 							<label htmlFor="otherAnimalTypes"
 								className={
@@ -553,8 +485,8 @@ const ServiceRequestForm = (props, errors, touched) => {
 						: null
 				}
 				{
-					((localProps.values['requestTypeDescription'] === requestType_petAndAnimalIssue)
-						&& localProps.values['subRequestTypeDescription'] !== '')
+					((localProps.values['requestType'] === requestType_petAndAnimalIssue)
+						&& localProps.values['subRequestType'] !== '')
 						&& checkPetType(localProps.values['petType']) ?
 						<div>
 							<label htmlFor="sexType"
@@ -584,11 +516,9 @@ const ServiceRequestForm = (props, errors, touched) => {
 						</div>
 						: null
 				}
-
 				{
-
-					(localProps.values['requestTypeDescription'] === requestType_petAndAnimalIssue
-						&& localProps.values['subRequestTypeDescription'] !== '')
+					(localProps.values['requestType'] === requestType_petAndAnimalIssue
+						&& localProps.values['subRequestType'] !== '')
 						&& (localProps.values['petType'].toLowerCase() === petTypeCat || localProps.values['petType'].toLowerCase() === petTypeDog) ?
 						<div>
 							<label htmlFor="animalColorType"
@@ -621,10 +551,9 @@ const ServiceRequestForm = (props, errors, touched) => {
 						: null
 
 				}
-
 				<br />
 				{
-					((localProps.values['requestTypeDescription'] === requestType_petAndAnimalIssue && localProps.values['subRequestTypeDescription'] !== '')
+					((localProps.values['requestType'] === requestType_petAndAnimalIssue && localProps.values['subRequestType'] !== '')
 						&& (localProps.values['petType'].toLowerCase() === petTypeCat || localProps.values['petType'].toLowerCase() === petTypeDog)) ?
 						<div>
 							<label htmlFor="animalBreed"
@@ -653,10 +582,8 @@ const ServiceRequestForm = (props, errors, touched) => {
 							</div>
 						</div>
 						: null
-
 				}
-
-				{(localProps.values['requestTypeDescription'].toLowerCase() === 'website issue') ?
+				{(localProps.values['requestType'].toLowerCase() === 'website issue') ?
 					<div>
 						<label htmlFor="serviceDescription"
 							className={
@@ -677,13 +604,11 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 				}
 				<Field type="hidden" name="requestTypeID" />
-
 				<Field type="hidden" name="requestTypeDescriptionID" />
 				<Field type="hidden" name="requestTypeAddressID" />
 				<Field type="hidden" name="requestTypeCityID" />
 				<Field type="hidden" name="requestTypeZipID" />
 				<Field type="hidden" name="subRequestTypeID" />
-
 				<Field type="hidden" name="subRequestTypeDescriptionID" />
 				<Field type="hidden" name="subRequestTypeAddressID" />
 				<Field type="hidden" name="subRequestTypeCityID" />
@@ -693,29 +618,17 @@ const ServiceRequestForm = (props, errors, touched) => {
 				<Field type="hidden" name="sexTypeID" />
 				<Field type="hidden" name="animalColorTypeID" />
 				<Field type="hidden" name="otherAnimalTypesID" />
-				<Field type="hidden" name="descriptionID" />
-				<Field type="hidden" name="streeAddressID" />
-				<Field type="hidden" name="cityID" />
-				<Field type="hidden" name="zipCodeID" />
 				<br />
 				{(contactID === null) ?
 					<div>
 						<input type="button" className="seButton" onClick={callSignInForm} disabled={displayButton} value="Sign In" />
-
 						<input type="button" className="seButton" onClick={callRegisterForm} disabled={displayButton} value="Register" />
 						<Model />
-
 					</div> : <input type="button" className="seButton" disabled={displayButton} onClick={goToNextPage} value="Next" />
 				}
-
 			</Form>
-
-
 		</FormContainer>
-
 	);
-
-
 }
 
 export default connect(ServiceRequestForm);

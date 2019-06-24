@@ -10,13 +10,9 @@ import QueryString from 'query-string';
 
 import _ from 'lodash'
 import GenericTypeField from "./genericTypeField";
-//import PetTypes from "./pettypes.json";
-//import AnimalBreeds from "./animalbreeds.json";
-//import AnimalColors from "./animalcolors.json"
 import Model from './Model'
 
 const { categoryId } = QueryString.parse(window.location.search);
-
 
 const getSubCategories = (categories, categoryName) => {
 	var category = categories.find(category => category.name.toLowerCase() === categoryName);
@@ -27,20 +23,13 @@ const getNote = (subCategories, name) => {
 	return type ? type.note : [];
 };
 const getAnimalSubCategories = (AnimalBreeds, animalName) => {
-
-
 	var animalCats = AnimalBreeds.find(animal => animal.animal.toLowerCase() === animalName);
 	return animalCats ? animalCats : [];
-
 };
 const getID = (categories, categoryName) => {
-
-
 	var category = categories.find(category => category.name.toLowerCase() === categoryName);
 	return category ? category.id : [];
 };
-
-
 
 const ServiceRequestForm = (props, errors, touched) => {
 

@@ -6,34 +6,17 @@ import { ErrorCheck } from "./CustomErrorHandling";
 import { CreateReport } from './authService';
 
 const AdditionalInformation = props => {
-
 	const { errors, touched, handleSubmit, ...rest } = props;
 	const { Longitude, Latitude, ContactID, requestTypeID, requestType,
 		subRequestTypeID, subRequestType, petTypeID, petType, sexTypeID,
 		sexType, animalColorTypeID, animalColorType, otherAnimalTypesID,
-		otherAnimalTypes, streeAddressID, streeAddress, cityID, city,
-		zipCodeID, zipCode 	} = props.formik.values;
-		// requestTypeDescription,
-		// requestTypeDescriptionID,
-		// requestTypeAddress,
-		// requestTypeAddressID,
-		// requestTypeCity,
-		// requestTypeCityID,
-		// requestTypeZip,
-		// requestTypeZipID,
-		// subRequestTypeDescription,
-		// subRequestTypeDescriptionID,
-		// subRequestTypeAddress,
-		// subRequestTypeAddressID,
-		// subRequestTypeCity,
-		// subRequestTypeCityID,
-		// subRequestTypeZip,
-		// subRequestTypeZipID
+		otherAnimalTypes, requestTypeDescription, requestTypeDescriptionID,
+		requestTypeAddress, requestTypeAddressID, requestTypeCity,
+		requestTypeCityID, requestTypeZip, requestTypeZipID, subRequestTypeDescription,
+		subRequestTypeDescriptionID, subRequestTypeAddress, subRequestTypeAddressID,
+		subRequestTypeCity, subRequestTypeCityID, subRequestTypeZip,
+		subRequestTypeZipID } = props.formik.values;
 	
-
-		
-
-
 	const SubmitTheForm = async values => {
 		const reportItems = [
 			{ Id: requestTypeID, Value: requestType },
@@ -42,11 +25,15 @@ const AdditionalInformation = props => {
 			{ Id: sexTypeID, Value: sexType },
 			{ Id: animalColorTypeID, Value: animalColorType },
 			{ Id: otherAnimalTypesID, Value: otherAnimalTypes },
-			// { Id: describeTheProblemID, Value: describeTheProblem },
-			{ Id: streeAddressID, Value: streeAddress },
-			{ Id: cityID, Value: city },
-			{ Id: zipCodeID, Value: zipCode }
-		].filter(item => !!item.Value);
+			{ Id: requestTypeDescriptionID, Value: requestTypeDescription },
+			{ Id: requestTypeAddressID, Value: requestTypeAddress },
+			{ Id: requestTypeCityID, Value: requestTypeCity },
+			{ Id: requestTypeZipID, Value: requestTypeZip },
+			{ Id: subRequestTypeDescriptionID, Value: subRequestTypeDescription },
+			{ Id: subRequestTypeAddressID, Value: subRequestTypeAddress },
+			{ Id: subRequestTypeCityID, Value: subRequestTypeCity },
+			{ Id: subRequestTypeZipID, Value: subRequestTypeZip }
+		].filter(item => !!item.Id);
 
 		var Selections = {
 			AppVersion: "308",
@@ -66,7 +53,6 @@ const AdditionalInformation = props => {
 				throw new Error("You are not logged in and cannot submit a request");
 			}
 			try {
-				//const response = await CreateReport(JSON.stringify(Selections, null, 2));
 				const response = await CreateReport(Selections);
 				if (response.data.ErrorsCount > 0) {
 					const errorsReturned = ErrorCheck(response);
@@ -168,13 +154,13 @@ const AdditionalInformation = props => {
 						</div>
 					</div> :
 					<div id="ContactAddress">
-						<label htmlFor="streeAddress"
+						<label htmlFor="streetAddress"
 							className={
 								rest.formik.errors.streeAddress && rest.formik.touched.streeAddress ? "error-message" : "text-label"}
 						>Your Street Address</label>
 						<Field
 							type="text"
-							name="streeAddress"
+							name="streetAddress"
 							className={`text-input ${rest.formik.errors.streeAddress && rest.formik.touched.streeAddress ? "error" : ""}`}
 						/>
 						<div className="error">
@@ -222,7 +208,7 @@ const AdditionalInformation = props => {
 					</div>
 					
 				}
-				<p class="smallest">
+				<p className="smallest">
                     Please do not include personal information, including, but
                     not limited to Social Security Numbers, driver’s license
                     numbers, financial account numbers, individual taxpayer
@@ -235,8 +221,8 @@ const AdditionalInformation = props => {
                     security question and answer.
 				</p>
 				<br />
-				<input type="button" class="seButton" onClick={callProviderDetailForm} value="Previous" />
-				<input type="button" class="seButton pull-right" onClick={SubmitTheForm} value="File Your Report" />
+				<input type="button" className="seButton" onClick={callProviderDetailForm} value="Previous" />
+				<input type="button" className="seButton pull-right" onClick={SubmitTheForm} value="File Your Report" />
 
 			</form>
 

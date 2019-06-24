@@ -1,6 +1,6 @@
 import React from "react";
 
-const TrashAndRecycle = ({ requestTypeDescription, subRequestTypeDescription, TrashRecycleIssue,
+const TrashAndRecycle = ({ requestType, subRequestType, TrashRecycleIssue,
 	CanOrLidLostDamaged,
 	PropertyDamangeDuringCollecttion,
 	RecyclingNotCollected,
@@ -12,13 +12,13 @@ const TrashAndRecycle = ({ requestTypeDescription, subRequestTypeDescription, Tr
 
 	return (
 		<React.Fragment>
-			{(requestTypeDescription=== TrashRecycleIssue)
-                && (subRequestTypeDescription === CanOrLidLostDamaged.toLowerCase() ||
-                    subRequestTypeDescription === PropertyDamangeDuringCollecttion.toLowerCase() ||
-                    subRequestTypeDescription === RecyclingNotCollected.toLowerCase() ||
-                    subRequestTypeDescription === RequestToStartNewCollection.toLowerCase() ||
-                    subRequestTypeDescription === TrashNotCollected.toLowerCase() ||
-                    subRequestTypeDescription === YardWasteNotCollected.toLowerCase()
+			{(requestType=== TrashRecycleIssue)
+                && (subRequestType === CanOrLidLostDamaged.toLowerCase() ||
+                    subRequestType === PropertyDamangeDuringCollecttion.toLowerCase() ||
+                    subRequestType === RecyclingNotCollected.toLowerCase() ||
+                    subRequestType === RequestToStartNewCollection.toLowerCase() ||
+                    subRequestType === TrashNotCollected.toLowerCase() ||
+                    subRequestType === YardWasteNotCollected.toLowerCase()
                 ) ? notes : null
 			}
 		</React.Fragment>

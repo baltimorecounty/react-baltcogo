@@ -19,17 +19,17 @@ const SignIn = (props, routeProps) => {
 
 	const userLogin = async (values, props, actions) => {
 
-// const { streeAddressID, streeAddress, cityID, city,
-// 		zipCodeID, zipCode } = props.formik.values;
-
 		try {
 			const response = await Login(values.Email, values.Password);
 			const contactID = response.data.Results.Id;
 			
 			const getAddressResponse = await GetContactAddress(contactID);
-			const addressParts = getAddressResponse.data.Results.FormattedAddress.split(',');
-			const test = addressParts[0];
-			//streeAddressID.value = addressParts[0];
+			const addressParts = getAddressResponse.data.Results[0].FormattedAddress.split(',');
+			//props.setFieldValue('NameFirst', addressParts[0]);
+			//props.setFieldValue('NameLast', addressParts[0]);
+			props.setFieldValue('requestTypeAddress', addressParts[0]);
+			props.setFieldValue('requestTypeCity', addressParts[1]);
+			props.setFieldValue('requestTypeZip', addressParts[3]);
 
 			if (response.data.ErrorsCount > 0) {
 				const errorsReturned = ErrorCheck(response);

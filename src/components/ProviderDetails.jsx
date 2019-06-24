@@ -36,8 +36,6 @@ const providerDetails = props => {
 		fetchData();
 	}, [query]);
 
-
-
 	const handleAddressChange = (e) => {
 
 		//setFieldValue('location', e.target.value);
@@ -51,7 +49,6 @@ const providerDetails = props => {
 		}
 	};
 
-
 	const handleAddressSelect = (val) => {
 		//setFieldValue("location", val)
 
@@ -61,7 +58,6 @@ const providerDetails = props => {
 			filtered.map(item => (splitAddress(item.Latitude, item.Longitude)
 			));
 		}
-
 	};
 
 	const splitAddress = (Latitude, Longitude) => {
@@ -73,6 +69,7 @@ const providerDetails = props => {
 		rest.formik.setFieldValue('Latitude', Latitude);
 		rest.formik.setFieldValue('Longitude', Longitude);
 	};
+
 	const onMarkerDragEnd = (event, setFieldValue) => {
 
 		let newLat = event.latLng.lat(),
@@ -95,11 +92,18 @@ const providerDetails = props => {
 	};
 
 	const goToAdditionalPage = async (values) => {
+		const addressParts = props.formik.values.location.split(',');
+		rest.formik.setFieldValue('requestTypeDescription', props.formik.values.describeTheProblem);
+		rest.formik.setFieldValue('subRequestTypeAddress', addressParts[0]);
+		rest.formik.setFieldValue('subRequestTypeCity', addressParts[1]);
+		rest.formik.setFieldValue('subRequestTypeZip', addressParts[2]);
 		props.history.push('/AdditionalInformationForm');
 	}
+
 	const goServiceRequestForm = async (values) => {
 		props.history.push('/ServiceRequestForm');
 	}
+
 	const { values, isSubmitting, errors, touched, setFieldValue, ...rest } = props;
 	const items = Address.map((item, index) => ({
 		id: item.Zip,
@@ -107,22 +111,18 @@ const providerDetails = props => {
 	}));
 
 	return (
-
 		<FormContainer title="Add a Location">
-
 			<Form >
 				<p>
 					Tell us where the issue is located. You can enter an address
 					or mark the location on the map.
 				</p>
-				<div class="cs-form-control address-search">
+				<div className="cs-form-control address-search">
 					<label htmlFor="location"
 						className={
 							rest.formik.errors.location && rest.formik.touched.location ? "error-message" : "text-label"}
 					>Enter the closest street address to your service
 				request </label>
-					
-
 					<AutoCompletTypeField
 						items={items}
 						name="location"
@@ -131,13 +131,10 @@ const providerDetails = props => {
 						onChange={handleAddressChange}
 						onSelect={handleAddressSelect}
 					/>
-					<i class="fa fa-search address-search-icon" aria-hidden="true"></i>
+					<i className="fa fa-search address-search-icon" aria-hidden="true"></i>
 
-				</div>
-				
+				</div>		
 				<Collaspe address={rest.formik.values.location} lat={Latitude} lng={Longitude} markerLat={MarkerLatitude} onMarkerDragEnd={e => (onMarkerDragEnd(e, setFieldValue))} />
-
-
 				<br /><br />
 				<br /><br />
 
@@ -148,15 +145,13 @@ const providerDetails = props => {
 							touched={rest.formik.touched.location} />
 					</p>
 				</div>
-
 				<label htmlFor="describeTheProblem"
 					className={
 						rest.formik.errors.describeTheProblem && rest.formik.touched.describeTheProblem ? "error-message" : "text-label"}
 				>Describe the Problem</label>
-
 				<Field
 					component="textarea"
-					maxlength = "2000"
+					maxLength = "2000"
 					rows="5"
 					placeholder ="Maximum 2,000 characters."
 					name="describeTheProblem"
@@ -181,13 +176,9 @@ const providerDetails = props => {
 				</div>
 				<input type="button" className="seButton" onClick={goServiceRequestForm} value="Previous" />
 				<input type="button" className="seButton" onClick={goToAdditionalPage} value="Next" />
-
 			</Form>
-
 		</FormContainer>
 	);
-
-
 }
 export default connect(providerDetails);
 

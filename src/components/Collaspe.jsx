@@ -9,7 +9,7 @@ const Collaspe = ({ address, lat, lng, markerLat, onChange, onMarkerDragEnd }) =
                     Or mark location on map
 			</Button>	
 			<UncontrolledCollapse toggler="#toggler">
-				<div class="google-map">
+				<div className="google-map">
 					<Card>
 						<CardBody>
 							<Map

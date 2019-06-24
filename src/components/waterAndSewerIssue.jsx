@@ -1,17 +1,17 @@
 import React from "react";
 
-const WaterandSewerIssue = ({ requestTypeDescription, subRequestTypeDescription, WaterandSewerIssues, SewerIssues, StormWaterIssues, WaterSupplyIssues, notes }) => {
+const WaterandSewerIssue = ({ requestType, subRequestType, WaterandSewerIssues, SewerIssues, StormWaterIssues, WaterSupplyIssues, notes }) => {
 
 
-    return (
-        <React.Fragment>
-            {(requestTypeDescription === WaterandSewerIssues.toLowerCase())
-                && (subRequestTypeDescription === SewerIssues.toLowerCase() ||
-                    subRequestTypeDescription === StormWaterIssues.toLowerCase() ||
-                    subRequestTypeDescription === WaterSupplyIssues.toLowerCase()
+	return (
+		<React.Fragment>
+			{(requestType === WaterandSewerIssues.toLowerCase())
+                && (subRequestType === SewerIssues.toLowerCase() ||
+                    subRequestType === StormWaterIssues.toLowerCase() ||
+                    subRequestType === WaterSupplyIssues.toLowerCase()
                 ) ? notes : null}
-        </React.Fragment>
-    );
+		</React.Fragment>
+	);
 };
 
 export default WaterandSewerIssue;
