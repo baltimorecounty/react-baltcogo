@@ -25,12 +25,12 @@ class Examples extends Component {
 		return (
 			<>
 				<Button type="button" color="link" onClick={this.handleShow}>
-                    Why do i need to do this?
+                    Why do I need to do this?
 				</Button>
 
 				<Modal show={this.state.show} onHide={this.handleClose}>
 					<Modal.Header closeButton>
-						<Modal.Title><h3>Why do i need an account?</h3></Modal.Title>
+						<Modal.Title><h3>Why do I need an account?</h3></Modal.Title>
 					</Modal.Header>
 					<Modal.Body><div>
 

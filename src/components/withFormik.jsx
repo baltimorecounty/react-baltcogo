@@ -3,7 +3,7 @@ import * as Yup from 'yup';
 
 
 export default withFormik({
-	displayName: 'WizardForm',
+	//displayName: 'WizardForm',
 	enableReinitialize: true,
 	mapPropsToValues: () => ({
 		ContactID: '',
@@ -45,7 +45,7 @@ export default withFormik({
 		NameFirst: '',
 		NameLast: '',
 		Telephone: '',
-		location: 'Baltimore County Courts Building',
+		location: '',
 		describeTheProblem: '',
 		Latitude: '',
 		Longitude: '',

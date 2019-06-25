@@ -19,7 +19,7 @@ const TrashAndRecycle = ({ requestType, subRequestType, TrashRecycleIssue,
                     subRequestType === RequestToStartNewCollection.toLowerCase() ||
                     subRequestType === TrashNotCollected.toLowerCase() ||
                     subRequestType === YardWasteNotCollected.toLowerCase()
-                ) ? notes : null
+                ) ? notes  : null
 			}
 		</React.Fragment>
 	);

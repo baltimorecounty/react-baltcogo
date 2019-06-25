@@ -220,7 +220,6 @@ const AdditionalInformation = props => {
                     user name or email address in combination with a password or
                     security question and answer.
 				</p>
-				<br />
 				<input type="button" className="seButton" onClick={callProviderDetailForm} value="Previous" />
 				<input type="button" className="seButton pull-right" onClick={SubmitTheForm} value="File Your Report" />
 

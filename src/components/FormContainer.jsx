@@ -8,13 +8,31 @@ const tabList = [
 
 ];
 
+const selectTab = props => {
+	var classStyle = 'highlight'
+	
+	if (this.constructor.name === 'ProviderDetails'){
+		classStyle = 'highlight';
+	}
+	else{
+		classStyle = '';
+	}
+
+	return classStyle
+
+};
+
 const FormContainer = props => {
 	return (
 		<div className="bc-citysourced-reporter">
 			<ol className="bc-citysourced-reporter-steps">
 				{ tabList.map((tab,index) => {
 					return(
-						<li key={index}>{tab.description}</li>
+						<li 
+							key={index}
+							className = { selectTab }>
+							{tab.description}
+						</li>
 					)
 				})}	
 			</ol>

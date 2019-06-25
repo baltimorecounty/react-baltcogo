@@ -6,7 +6,6 @@ import FormContainer from './FormContainer';
 import Geocode from "react-geocode";
 import Collaspe from './Collaspe'
 import axios from "axios"
-import Autocomplete from 'react-autocomplete';
 import _ from 'lodash';
 import AutoCompletTypeField from './AutocompleteTypeField';
 Geocode.setApiKey('AIzaSyAqazsw3wPSSxOFVmij32C_LIhBSuyUNi8');
@@ -36,9 +35,22 @@ const providerDetails = props => {
 		fetchData();
 	}, [query]);
 
-	const handleAddressChange = (e) => {
+	const buttonShowHideValidation = () => {
+		var searchQuery = props.formik.values.location;
+		var description = props.formik.values.describeTheProblem;
 
-		//setFieldValue('location', e.target.value);
+		if (searchQuery === "" || description ==='')
+		{
+			return true;
+		}
+		else{
+			return false;
+		}
+	};
+
+	let displayButton = buttonShowHideValidation();
+
+	const handleAddressChange = (e) => {
 		setQuery(e.target.value);
 
 		let searchQuery = _.split(e.target.value, ',', 1);
@@ -50,8 +62,6 @@ const providerDetails = props => {
 	};
 
 	const handleAddressSelect = (val) => {
-		//setFieldValue("location", val)
-
 		let searchQuery = _.split(val, ',', 1);
 		if (searchQuery.length > 0) {
 			let filtered = Address.filter(m => m.StreetAddress.toLowerCase().indexOf(searchQuery.toString().toLowerCase()) > -1);
@@ -111,63 +121,68 @@ const providerDetails = props => {
 	}));
 
 	return (
-		<FormContainer title="Add a Location">
+		<FormContainer title="Provider Details">
 			<Form >
+				<label>Add a Location</label>
 				<p>
 					Tell us where the issue is located. You can enter an address
 					or mark the location on the map.
 				</p>
-				<div className="cs-form-control address-search">
-					<label htmlFor="location"
-						className={
-							rest.formik.errors.location && rest.formik.touched.location ? "error-message" : "text-label"}
-					>Enter the closest street address to your service
-				request </label>
-					<AutoCompletTypeField
-						items={items}
-						name="location"
-						formikProps={rest}
-						value={rest.formik.values.location}
-						onChange={handleAddressChange}
-						onSelect={handleAddressSelect}
-					/>
-					<i className="fa fa-search address-search-icon" aria-hidden="true"></i>
-
-				</div>		
-				<Collaspe address={rest.formik.values.location} lat={Latitude} lng={Longitude} markerLat={MarkerLatitude} onMarkerDragEnd={e => (onMarkerDragEnd(e, setFieldValue))} />
-				<br /><br />
-				<br /><br />
-
-				<div className="error">
+				<div className={
+					rest.formik.errors.location && rest.formik.touched.location ? "cs-form-control address-search error" : "cs-form-control address-search"}>
+					<div>
+						<label>Issue type</label>
+						<div>
+							<p className="smallest">{ rest.formik.values.requestType } > { rest.formik.values.subRequestType }</p>
+						</div>
+					</div>
+					<div className="address-search-wrapper">
+						<label htmlFor="location"
+							className = "address">Enter the closest street address to your service request 
+						</label>
+						<div className = "address-input-wrapper">
+							<AutoCompletTypeField
+								items={items}
+								placeholder="123 Amazing St"
+								name="location"
+								formikProps={rest}
+								value={rest.formik.values.location}
+								onChange={handleAddressChange}
+								onSelect={handleAddressSelect}
+							/>
+							<i class="fa fa-search address-search-icon" aria-hidden="true"></i>
+						</div>
+					</div>
+					
+					<Collaspe address={rest.formik.values.location} lat={Latitude} lng={Longitude} markerLat={MarkerLatitude} onMarkerDragEnd={e => (onMarkerDragEnd(e, setFieldValue))} />
 					<p role='alert' className="error-message">
 						<ErrorMsg
 							errormessage={rest.formik.errors.location}
 							touched={rest.formik.touched.location} />
 					</p>
-				</div>
-				<label htmlFor="describeTheProblem"
-					className={
-						rest.formik.errors.describeTheProblem && rest.formik.touched.describeTheProblem ? "error-message" : "text-label"}
-				>Describe the Problem</label>
-				<Field
-					component="textarea"
-					maxLength = "2000"
-					rows="5"
-					placeholder ="Maximum 2,000 characters."
-					name="describeTheProblem"
-					className={`text-input ${rest.formik.errors.describeTheProblem && rest.formik.touched.describeTheProblem ? "error" : ""}`}
-				/>
-				<Field
-					type="hidden"
-					name="Latitude"
+				</div>	
+				<div className={
+					rest.formik.errors.describeTheProblem && rest.formik.touched.describeTheProblem ? "cs-form-control address-search error" : "cs-form-control address-search"}>
+					<label htmlFor="describeTheProblem"
+						
+					>Describe the Problem</label>
+					<Field
+						component="textarea"
+						maxLength = "2000"
+						rows="5"
+						placeholder ="Maximum 2,000 characters."
+						name="describeTheProblem"
+						className={`text-input ${rest.formik.errors.describeTheProblem && rest.formik.touched.describeTheProblem ? "error" : ""}`}
+					/>
+					<Field
+						type="hidden"
+						name="Latitude"
+					/>
+					<Field
+						type="hidden"
+						name="Longitude"
 
-				/>
-				<Field
-					type="hidden"
-					name="Longitude"
-
-				/>
-				<div className="error">
+					/>
 					<p role='alert' className="error-message">
 						<ErrorMsg
 							errormessage={rest.formik.errors.describeTheProblem}
@@ -175,7 +190,7 @@ const providerDetails = props => {
 					</p>
 				</div>
 				<input type="button" className="seButton" onClick={goServiceRequestForm} value="Previous" />
-				<input type="button" className="seButton pull-right" onClick={goToAdditionalPage} value="Next" />
+				<input type="button" className="seButton pull-right" onClick={goToAdditionalPage} disabled={displayButton} value="Next" />
 			</Form>
 		</FormContainer>
 	);

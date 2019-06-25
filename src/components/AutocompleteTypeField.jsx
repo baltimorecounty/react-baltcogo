@@ -26,9 +26,9 @@ const AutoCompletTypeField = props => {
 				<div key={_.uniqueId()}
 					id="location"
 					style={{ background: isHighlighted ? "lightgray" : "white" }}
-					className = "address-input-wrapper"
 				>
 					{item.label}
+					
 				</div>
 			)}
 			value={value}
