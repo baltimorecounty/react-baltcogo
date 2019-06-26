@@ -93,7 +93,7 @@ const CreateAccount = (props, routeProps) => {
 
 
 	return (
-		<FormContainer title="Register for an Account">
+		<FormContainer title="Register for an Account" currentTab = "ServiceRequestForm">
 			<Formik
 
 				initialValues={{

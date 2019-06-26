@@ -81,10 +81,8 @@ const SignIn = (props, routeProps) => {
 
 	}
 
-
-
 	return (
-		<FormContainer title="Sign In">
+		<FormContainer title="Sign In" currentTab = "ServiceRequestForm">
 			<Formik
 				initialValues={{
 					Email: '',

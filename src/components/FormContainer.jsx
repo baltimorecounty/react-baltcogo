@@ -1,28 +1,22 @@
 import React from 'react'
+import _ from 'lodash';
 
 const tabList = [
-	{description: 'Choose a Report Type', key: 0},
-	{description: 'Enter a Location', key: 1},
-	{description: 'Proivde Your Contact Information', key: 2},
-	{description: '', key: 3},
+	{description: 'Choose a Report Type', key: 'ServiceRequestForm', value: 0},
+	{description: 'Enter a Location', key: 'ProviderDetails', value: 1},
+	{description: 'Proivde Your Contact Information', key: 'AdditionalInformation', value: 2},
+	{description: '', key: 'Blank', value: 3},
 
 ];
 
-const selectTab = props => {
-	var classStyle = 'highlight'
-	
-	if (this.constructor.name === 'ProviderDetails'){
-		classStyle = 'highlight';
-	}
-	else{
-		classStyle = '';
-	}
-
-	return classStyle
-
+const selectTab = (currentTab)  => {
+	const selectTabValue = _.filter(tabList, { key: currentTab })
+	return selectTabValue;
 };
 
 const FormContainer = props => {
+	const selectTabValue = selectTab(props.currentTab);
+
 	return (
 		<div className="bc-citysourced-reporter">
 			<ol className="bc-citysourced-reporter-steps">
@@ -30,7 +24,7 @@ const FormContainer = props => {
 					return(
 						<li 
 							key={index}
-							className = { selectTab }>
+							className = { (tab.value <= ((selectTabValue[0].value === 2) ?  3 : selectTabValue[0].value) ?  'highlight' : '') }>
 							{tab.description}
 						</li>
 					)

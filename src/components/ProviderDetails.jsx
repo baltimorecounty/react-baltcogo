@@ -18,8 +18,9 @@ const providerDetails = props => {
 	const [MarkerLongitude, setMarkerLongitude] = useState(73.8567);
 	const [Address, setData] = useState([]);
 	const [query, setQuery] = useState(encodeURIComponent());
+	
 	useEffect(() => {
-
+		
 		const fetchData = async () => {
 			//	const encodeAddress = encodeURIComponent('400 wa')
 			const result = await axios(
@@ -33,11 +34,13 @@ const providerDetails = props => {
 			}
 		};
 		fetchData();
+		props.formik.setFieldValue('currentTab', 'ProviderDetail');
 	}, [query]);
 
 	const buttonShowHideValidation = () => {
 		var searchQuery = props.formik.values.location;
 		var description = props.formik.values.describeTheProblem;
+		
 
 		if (searchQuery === "" || description ==='')
 		{
@@ -121,7 +124,7 @@ const providerDetails = props => {
 	}));
 
 	return (
-		<FormContainer title="Provider Details">
+		<FormContainer title="Provider Details" currentTab = "ProviderDetails">
 			<Form >
 				<label>Add a Location</label>
 				<p>
@@ -168,8 +171,6 @@ const providerDetails = props => {
 					>Describe the Problem</label>
 					<Field
 						component="textarea"
-						maxLength = "2000"
-						rows="5"
 						placeholder ="Maximum 2,000 characters."
 						name="describeTheProblem"
 						className={`text-input ${rest.formik.errors.describeTheProblem && rest.formik.touched.describeTheProblem ? "error" : ""}`}

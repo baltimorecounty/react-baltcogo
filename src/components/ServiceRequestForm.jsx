@@ -15,6 +15,7 @@ import WaterAndSewerIssue from "./waterAndSewerIssue";
 import TrashAndRecycle from "./trashAndRecycle";
 import { GetContactAddress } from './authService';
 
+
 const { categoryId } = QueryString.parse(window.location.search);
 const contactID = sessionStorage.getItem("UserLoginID");
 
@@ -105,6 +106,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 				setAnimalColors(resultAnimalColors.data);
 				setOtherAnimalTypes(resultAnimalTypes.data);
 				props.formik.setFieldValue('ContactID', contactID);
+				props.formik.setFieldValue('currentTab', 'ServiceRequestForm');
 			};
 
 			fetchData();
@@ -341,7 +343,8 @@ const ServiceRequestForm = (props, errors, touched) => {
 	let displayButton = buttonShowHideValidation();
 	const localProps = props.formik;
 	return (
-		<FormContainer title="How Can We Help?">
+
+		<FormContainer title="How Can We Help?" currentTab = "ServiceRequestForm" >
 			<Form>
 				<div className={
 					localProps.errors.requestType && localProps.touched.requestType ? "cs-form-control error" : "cs-form-control"}>
@@ -606,13 +609,14 @@ const ServiceRequestForm = (props, errors, touched) => {
 				<Field type="hidden" name="sexTypeID" />
 				<Field type="hidden" name="animalColorTypeID" />
 				<Field type="hidden" name="otherAnimalTypesID" />
+				
 			
 				{(contactID === null) ?
 					<div>
 						<input type="button" className="seButton" onClick={callSignInForm} disabled={displayButton} value="Sign In" />
 						<input type="button" className="seButton pull-right" onClick={callRegisterForm} disabled={displayButton} value="Register" />
 						<Model />
-					</div> : <input type="button" className="seButton" disabled={displayButton} onClick={goToNextPage} value="Next" />
+					</div> : <input type="button" className="seButton pull-right" disabled={displayButton} onClick={goToNextPage} value="Next" />
 				}
 			</Form>
 		</FormContainer>

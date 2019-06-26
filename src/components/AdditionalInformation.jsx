@@ -16,7 +16,7 @@ const AdditionalInformation = props => {
 		subRequestTypeDescriptionID, subRequestTypeAddress, subRequestTypeAddressID,
 		subRequestTypeCity, subRequestTypeCityID, subRequestTypeZip,
 		subRequestTypeZipID } = props.formik.values;
-	
+
 	const SubmitTheForm = async values => {
 		const reportItems = [
 			{ Id: requestTypeID, Value: requestType },
@@ -79,7 +79,7 @@ const AdditionalInformation = props => {
 
 
 	return (
-		<FormContainer title="Additional Information">
+		<FormContainer title="Additional Information" currentTab = "AdditionalInformation">
 			<form onSubmit={handleSubmit}>
 				<p>
 					We require some basic contact information in order to
