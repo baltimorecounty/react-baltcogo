@@ -41,7 +41,6 @@ const providerDetails = props => {
 		var searchQuery = props.formik.values.location;
 		var description = props.formik.values.describeTheProblem;
 		
-
 		if (searchQuery === "" || description ==='')
 		{
 			return true;
@@ -124,7 +123,7 @@ const providerDetails = props => {
 	}));
 
 	return (
-		<FormContainer title="Provider Details" currentTab = "ProviderDetails">
+		<FormContainer title="Provide Details" currentTab = "ProvideDetails" shouldDisableForm = {props.formik.values.shouldDisableForm}>
 			<Form >
 				<label>Add a Location</label>
 				<p>
@@ -153,7 +152,7 @@ const providerDetails = props => {
 								onChange={handleAddressChange}
 								onSelect={handleAddressSelect}
 							/>
-							<i class="fa fa-search address-search-icon" aria-hidden="true"></i>
+							<i className="fa fa-search address-search-icon" aria-hidden="true"></i>
 						</div>
 					</div>
 					

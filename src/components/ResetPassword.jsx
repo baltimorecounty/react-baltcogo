@@ -1,6 +1,7 @@
 import React from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
+import { Link } from 'react-router-dom';
 import ErrorMsg from "./ErrorMessage";
 import { ErrorCheck } from "./CustomErrorHandling";
 import FormContainer from './FormContainer';
@@ -28,7 +29,7 @@ const PasswordReset = props => {
 		}
 	}
 	return (
-		<FormContainer title="Reset Password">
+		<FormContainer title="Reset Password" currentTab = "ServiceRequestForm" shouldDisableForm = {props.formik.values.shouldDisableForm}>
 			<Formik
 				initialValues={{
 					Email: ''
@@ -62,9 +63,13 @@ const PasswordReset = props => {
 										errormessage={errors.Email}
 										touched={touched.Email} />
 								</div>
-								<input className="seButton" type="submit" disabled={isSubmitting} value="Submit Reset Request" />
-
-
+								<div>
+									<label htmlFor="signup"
+									>Don't have an account? <Link to="SignUpForm" >Sign up</Link></label><br />
+									<label htmlFor="signup"
+									>Remember your password? <Link to="SignInForm" >Sign In</Link> </label><br />
+									<input className="seButton" type="submit" disabled={isSubmitting} value="Submit Reset Request" />
+								</div>
 							</Form>
 						)
 					}

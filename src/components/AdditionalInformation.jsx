@@ -74,12 +74,12 @@ const AdditionalInformation = props => {
 		}
 	}
 	const callProviderDetailForm = () => {
-		props.history.push("/ProviderDetails");
+		props.history.push("/ProvideDetails");
 	}
 
 
 	return (
-		<FormContainer title="Additional Information" currentTab = "AdditionalInformation">
+		<FormContainer title="Additional Information" currentTab = "AdditionalInformation" shouldDisableForm = {props.formik.values.shouldDisableForm}>
 			<form onSubmit={handleSubmit}>
 				<p>
 					We require some basic contact information in order to

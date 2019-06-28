@@ -39,6 +39,11 @@ const getNote = (subCategories, name) => {
 	var type = subCategories.find(subcategoryname => subcategoryname.name.toLowerCase() === name);
 	return type ? type.note : [];
 };
+
+const getshouldDisableForm = (subCategories, name) => {
+	var type = subCategories.find(subcategoryname => subcategoryname.name.toLowerCase() === name);
+	return type ? type.shouldDisableForm : [];
+};
 const getAnimalSubCategories = (AnimalBreeds, animalName) => {
 	var animalCats = AnimalBreeds.find(animal => animal.animal.toLowerCase() === animalName);
 	return animalCats ? animalCats : [];
@@ -106,7 +111,6 @@ const ServiceRequestForm = (props, errors, touched) => {
 				setAnimalColors(resultAnimalColors.data);
 				setOtherAnimalTypes(resultAnimalTypes.data);
 				props.formik.setFieldValue('ContactID', contactID);
-				props.formik.setFieldValue('currentTab', 'ServiceRequestForm');
 			};
 
 			fetchData();
@@ -150,13 +154,15 @@ const ServiceRequestForm = (props, errors, touched) => {
 		const value = changeEvent.currentTarget.value.toLowerCase();
 		const subInfo = getSubCategoriesIncludedDescription(subCategories, value ? value : value);
 		let ID = getID(subCategories, value);
+		const isDisabled = getshouldDisableForm(subCategories, value);
 		const notes = getNote(subCategories, value);
 		setNotes(<div className="alert-information bc_alert" >
-			<i class="fa fa-icon fa-2x fa-info-circle"></i>
+			<i className="fa fa-icon fa-2x fa-info-circle"></i>
 			<p dangerouslySetInnerHTML={{ __html: notes }}></p>
 		</div>);
 
 		props.formik.setFieldValue('subRequestTypeID', ID);
+		props.formik.setFieldValue('shouldDisableForm', isDisabled);
 
 		if (subInfo !== undefined) {
 			if (subInfo.description !== undefined) {
@@ -218,6 +224,23 @@ const ServiceRequestForm = (props, errors, touched) => {
 	}
 
 	const buttonShowHideValidation = () => {
+		let requestType = rest.formik.values['requestType'].toLowerCase();
+		let subRequestType = rest.formik.values['subRequestType'].toLowerCase();
+
+		if (requestType === requestType_WaterandSewerIssues.toLowerCase()
+				&& (subRequestType === subCategory_SewerIssues.toLowerCase() ||
+				subRequestType === subCategory_StormWaterIssues.toLowerCase() ||
+				subRequestType === subCategory_WaterSupplyIssues.toLowerCase()
+				)) {
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+
+	const buttonDisableValidation = () => {
 
 		let requestType = rest.formik.values['requestType'].toLowerCase();
 		let subRequestType = rest.formik.values['subRequestType'].toLowerCase();
@@ -296,7 +319,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 				props.formik.setFieldValue('streetAddress', addressParts[0]);
 				props.formik.setFieldValue('city', addressParts[1]);
 				props.formik.setFieldValue('zipCode', addressParts[3]);
-				props.history.push('/ProviderDetails');
+				props.history.push('/ProvideDetails');
 			}
 		}
 		catch (ex){
@@ -312,11 +335,6 @@ const ServiceRequestForm = (props, errors, touched) => {
 	}
 
 	const { values, isSubmitting, ...rest } = props;
-
-	const routURLID = () => {
-		var urlParts = window.location.href.split('categoryId=');
-		return urlParts[1];
-	}
 
 	const loadSelectedItems = (props) => {
 		let requestType = props.formik.values['requestType'];
@@ -338,13 +356,13 @@ const ServiceRequestForm = (props, errors, touched) => {
 			}
 		}
 	};
-
 	loadSelectedItems(props);
+	let disableButton = buttonDisableValidation();
 	let displayButton = buttonShowHideValidation();
 	const localProps = props.formik;
 	return (
 
-		<FormContainer title="How Can We Help?" currentTab = "ServiceRequestForm" >
+		<FormContainer title="How Can We Help?" currentTab = "ServiceRequestForm" shouldDisableForm = {props.formik.values.shouldDisableForm}>
 			<Form>
 				<div className={
 					localProps.errors.requestType && localProps.touched.requestType ? "cs-form-control error" : "cs-form-control"}>
@@ -354,7 +372,6 @@ const ServiceRequestForm = (props, errors, touched) => {
 						name="requestType"
 						formikProps={rest}
 						onChange={handleServiceRequestChange}
-						onLoad={routURLID}
 						value={categoryId}
 					>
 						<option key='default' value=''>--Please select a category--</option>
@@ -610,14 +627,13 @@ const ServiceRequestForm = (props, errors, touched) => {
 				<Field type="hidden" name="animalColorTypeID" />
 				<Field type="hidden" name="otherAnimalTypesID" />
 				
-			
-				{(contactID === null) ?
-					<div>
-						<input type="button" className="seButton" onClick={callSignInForm} disabled={displayButton} value="Sign In" />
-						<input type="button" className="seButton pull-right" onClick={callRegisterForm} disabled={displayButton} value="Register" />
-						<Model />
-					</div> : <input type="button" className="seButton pull-right" disabled={displayButton} onClick={goToNextPage} value="Next" />
-				}
+				{(displayButton === true) ? 
+					(contactID === null) ? 
+						(<div>
+							<input type="button" className="seButton" onClick={callSignInForm} disabled={disableButton} value="Sign In" />
+							<input type="button" className="seButton pull-right" onClick={callRegisterForm} disabled={disableButton} value="Register" />
+							<Model />
+						</div>) : <input type="button" className="seButton pull-right" onClick={goToNextPage} value="Next" /> : "" } 
 			</Form>
 		</FormContainer>
 	);
