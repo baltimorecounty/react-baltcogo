@@ -15,6 +15,15 @@ const FormContainer = props => {
 		{description: '', key: 'Blank', value: 3, shouldDisableForm: false},
 	].filter(item => item.shouldDisableForm === false);
 
+	const selectClassName = (tab) =>{
+		if (props.shouldDisableForm === true){
+			return 'highlight';
+		}
+		else{
+			return (tab.value <= ((selectTabValue[0].value === 2) ?  3 : selectTabValue[0].value) ?  'highlight' : '');
+		}
+	}
+
 	const selectTabValue = selectTab(props.currentTab, tabList);
 
 	return (
@@ -24,7 +33,7 @@ const FormContainer = props => {
 					return (
 						<li 
 							key={index}
-							className = { (tab.value <= ((selectTabValue[0].value === 2) ?  3 : selectTabValue[0].value) ?  'highlight' : '') }>
+							className = { selectClassName(tab) }>
 							{tab.description}
 						</li>
 					)

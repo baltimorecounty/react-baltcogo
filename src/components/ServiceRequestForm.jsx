@@ -10,14 +10,16 @@ import RequestPetTypeField from "./RequestPetTypeField";
 import QueryString from 'query-string';
 import GenericTypeField from "./genericTypeField";
 import Model from './Modal';
+import { Link } from 'react-router-dom';
 import { jsonFileLocations } from "./config";
 import WaterAndSewerIssue from "./waterAndSewerIssue";
 import TrashAndRecycle from "./trashAndRecycle";
-import { GetContactAddress } from './authService';
-
+import { GetContactAddress, GetContactDetails } from './authService';
+import RoadsAndSidewalks from "./roadsAndSidewalks";
 
 const { categoryId } = QueryString.parse(window.location.search);
 const contactID = sessionStorage.getItem("UserLoginID");
+//const contactID = 914151;
 
 const getSubCategories = (categories, categoryName) => {
 	var category = categories.find(category => category.name.toLowerCase() === categoryName);
@@ -39,7 +41,6 @@ const getNote = (subCategories, name) => {
 	var type = subCategories.find(subcategoryname => subcategoryname.name.toLowerCase() === name);
 	return type ? type.note : [];
 };
-
 const getshouldDisableForm = (subCategories, name) => {
 	var type = subCategories.find(subcategoryname => subcategoryname.name.toLowerCase() === name);
 	return type ? type.shouldDisableForm : [];
@@ -62,6 +63,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 	const subCategory_OtherWebsiteProblem = 'Other website problem';
 	const requestType_TrashRecycleIssue = 'Trash and Recycling Issue';
 	const requestType_WaterandSewerIssues = 'Water and Sewer Issues';
+	const requestType_RoadsAndSidewalks = 'Roads and Sidewalks';
 	const subCategory_CanOrLidLostDamaged = 'Can or lid lost or damaged';
 	const subCategory_PropertyDamangeDuringCollecttion = 'Property damage during collection';
 	const subCategory_RecyclingNotCollected = 'Recycling not collected';
@@ -111,6 +113,11 @@ const ServiceRequestForm = (props, errors, touched) => {
 				setAnimalColors(resultAnimalColors.data);
 				setOtherAnimalTypes(resultAnimalTypes.data);
 				props.formik.setFieldValue('ContactID', contactID);
+
+				if (contactID !==null){
+
+					getContactDetails();
+				}
 			};
 
 			fetchData();
@@ -147,8 +154,6 @@ const ServiceRequestForm = (props, errors, touched) => {
 		}
 	};
 
-
-
 	const handleServiceSubRequestChange = (changeEvent) => {
 
 		const value = changeEvent.currentTarget.value.toLowerCase();
@@ -162,7 +167,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 		</div>);
 
 		props.formik.setFieldValue('subRequestTypeID', ID);
-		props.formik.setFieldValue('shouldDisableForm', isDisabled);
+		props.formik.setFieldValue('shouldDisableForm', (isDisabled === undefined) ? false : isDisabled);
 
 		if (subInfo !== undefined) {
 			if (subInfo.description !== undefined) {
@@ -224,14 +229,13 @@ const ServiceRequestForm = (props, errors, touched) => {
 	}
 
 	const buttonShowHideValidation = () => {
-		let requestType = rest.formik.values['requestType'].toLowerCase();
 		let subRequestType = rest.formik.values['subRequestType'].toLowerCase();
 
-		if (requestType === requestType_WaterandSewerIssues.toLowerCase()
-				&& (subRequestType === subCategory_SewerIssues.toLowerCase() ||
+		if (subRequestType === subCategory_SewerIssues.toLowerCase() ||
 				subRequestType === subCategory_StormWaterIssues.toLowerCase() ||
-				subRequestType === subCategory_WaterSupplyIssues.toLowerCase()
-				)) {
+				subRequestType === subCategory_WaterSupplyIssues.toLowerCase() ||
+				subRequestType === subCategory_IcyConditions.toLowerCase()
+		) {
 			return false;
 		}
 		else
@@ -303,6 +307,26 @@ const ServiceRequestForm = (props, errors, touched) => {
 		}
 	}
 
+	const getContactDetails = async() =>{
+		try{
+			const getResponse = await GetContactDetails(contactID);
+			
+			if (getResponse.data.HasErrors === true) {
+				const errorsReturned = ErrorCheck(getResponse);
+				throw new Error(errorsReturned);
+			}
+			else {
+				const NameFirst = getResponse.data.Results.NameFirst;
+				const NameLast = getResponse.data.Results.NameLast;
+
+				props.formik.setFieldValue('NameFirst', NameFirst);
+				props.formik.setFieldValue('NameLast', NameLast);
+			}
+		}
+		catch (ex){
+		}
+
+	}
 	const goToNextPage = async() =>{
 		try{
 			const getAddressResponse = await GetContactAddress(contactID);
@@ -356,13 +380,16 @@ const ServiceRequestForm = (props, errors, touched) => {
 			}
 		}
 	};
+	
+
+
 	loadSelectedItems(props);
 	let disableButton = buttonDisableValidation();
 	let displayButton = buttonShowHideValidation();
 	const localProps = props.formik;
 	return (
 
-		<FormContainer title="How Can We Help?" currentTab = "ServiceRequestForm" shouldDisableForm = {props.formik.values.shouldDisableForm}>
+		<FormContainer title =  "How Can We Help?" currentTab = "ServiceRequestForm" shouldDisableForm = {props.formik.values.shouldDisableForm}>
 			<Form>
 				<div className={
 					localProps.errors.requestType && localProps.touched.requestType ? "cs-form-control error" : "cs-form-control"}>
@@ -372,7 +399,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 						name="requestType"
 						formikProps={rest}
 						onChange={handleServiceRequestChange}
-						value={categoryId}
+						value={localProps.values.requestType}
 					>
 						<option key='default' value=''>--Please select a category--</option>
 						{Categories.map(category => (
@@ -419,6 +446,14 @@ const ServiceRequestForm = (props, errors, touched) => {
 						SewerIssues={subCategory_SewerIssues}
 						StormWaterIssues={subCategory_StormWaterIssues}
 						WaterSupplyIssues={subCategory_WaterSupplyIssues}
+						notes={notes} />
+				}
+				{
+					<RoadsAndSidewalks
+						requestType={props.formik.values['requestType'].toLowerCase()}
+						subRequestType={props.formik.values['subRequestType'].toLowerCase()}
+						RoadsAndSidewalks={requestType_RoadsAndSidewalks}
+						IcyConditions={subCategory_IcyConditions}
 						notes={notes} />
 				}
 				{	
@@ -626,6 +661,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 				<Field type="hidden" name="sexTypeID" />
 				<Field type="hidden" name="animalColorTypeID" />
 				<Field type="hidden" name="otherAnimalTypesID" />
+				<Field type="hidden" name="shouldDisableForm" />
 				
 				{(displayButton === true) ? 
 					(contactID === null) ? 
@@ -633,7 +669,12 @@ const ServiceRequestForm = (props, errors, touched) => {
 							<input type="button" className="seButton" onClick={callSignInForm} disabled={disableButton} value="Sign In" />
 							<input type="button" className="seButton pull-right" onClick={callRegisterForm} disabled={disableButton} value="Register" />
 							<Model />
-						</div>) : <input type="button" className="seButton pull-right" onClick={goToNextPage} value="Next" /> : "" } 
+						</div>) : 
+						<div>
+							<label name="userLoggedIn">You're signed is as {sessionStorage.getItem("NameFirst")} {sessionStorage.getItem("NameLast")}</label><br /> 
+							<label name="notCorrectUser"><Link to="SignInForm">Not {sessionStorage.getItem("NameFirst")}? Log in to a different account. &nbsp; </Link></label>
+							<input type="button" className="seButton pull-right" onClick={goToNextPage} value="Next" />
+						</div> : "" } 
 			</Form>
 		</FormContainer>
 	);

@@ -29,7 +29,7 @@ const PasswordReset = props => {
 		}
 	}
 	return (
-		<FormContainer title="Reset Password" currentTab = "ServiceRequestForm" shouldDisableForm = {props.formik.values.shouldDisableForm}>
+		<FormContainer title="Reset Password" currentTab = "ServiceRequestForm" shouldDisableForm = {false}>
 			<Formik
 				initialValues={{
 					Email: ''

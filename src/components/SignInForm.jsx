@@ -9,8 +9,6 @@ import { Login, GetContactAddress } from './authService';
 // import DisplayFormikState from './helper';
 const SignIn = (props, routeProps) => {
 
-	
-
 	const [fieldType, setFieldType] = useState('Password');
 	const handlePasswordToggleChange = () => {
 		setFieldType(fieldType === 'Password' ? 'text' : 'Password');
@@ -22,8 +20,14 @@ const SignIn = (props, routeProps) => {
 		try {
 			const response = await Login(values.Email, values.Password);
 			const contactID = response.data.Results.Id;
-			props.setFieldValue('NameFirst', response.data.Results.NameFirst);
-			props.setFieldValue('NameLast', response.data.Results.NameLast);
+			const NameFirst = response.data.Results.NameFirst;
+			const NameLast = response.data.Results.NameLast
+			
+			props.setFieldValue('NameFirst', NameFirst);
+			props.setFieldValue('NameLast', NameLast);
+
+			sessionStorage.setItem('NameFirst', NameFirst);
+			sessionStorage.setItem('NameLast', NameLast);
 
 			try{
 				const getAddressResponse = await GetContactAddress(contactID);
@@ -65,24 +69,25 @@ const SignIn = (props, routeProps) => {
 			}
 			else {
 				sessionStorage.setItem('UserLoginID', contactID);
+				
+
 				props.setFieldValue('ContactID', contactID);
 				actions.setStatus({
 					success: 'OK',
 					css: 'success'
 				})
-				props.history.push('/ProviderDetails');
+				props.history.push('/ProvideDetails');
 			}
 		}
 		catch (ex) {
-			if (ex.response || ex.response.status === 400) {
+			if (ex.response) {
 				props.errors.email = ex.response.data
 			}
 		}
-
 	}
 
 	return (
-		<FormContainer title="Sign In" currentTab = "ServiceRequestForm">
+		<FormContainer title="Sign In" currentTab = "ServiceRequestForm" shouldDisableForm = {props.values.shouldDisableForm}>
 			<Formik
 				initialValues={{
 					Email: '',
@@ -145,7 +150,7 @@ const SignIn = (props, routeProps) => {
 											touched={touched.Password} />
 									</div>
 								</div>
-								
+
 								<label htmlFor="forgetpassword"> <Link to="ResetPassword" >Forgot password?</Link></label><br />
 								<label htmlFor="signup"
 								>Don't have an account? <Link to="SignUpForm" >Sign up</Link></label><br />

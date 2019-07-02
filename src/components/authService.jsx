@@ -70,6 +70,10 @@ export function GetContactAddress(id) {
 	return http.get(endpointContacts + id + "/addresses");
 }
 
+export function GetContactDetails(id) {
+	return http.get(endpointContacts + id);
+}
+
 export function CreateContactAddress(id, VerificationId, Name) {
 	const response = http.post(endpointContacts + id + "/", { VerificationId, Name });
 	return response;

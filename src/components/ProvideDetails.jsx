@@ -11,7 +11,7 @@ import AutoCompletTypeField from './AutocompleteTypeField';
 Geocode.setApiKey('AIzaSyAqazsw3wPSSxOFVmij32C_LIhBSuyUNi8');
 
 
-const providerDetails = props => {
+const provideDetails = props => {
 	const [Latitude, setLatitude] = useState(39.4001526);
 	const [Longitude, setLongitude] = useState(-76.6074448);
 	const [MarkerLatitude, setMarkerLatitude] = useState(18.5204);
@@ -195,6 +195,6 @@ const providerDetails = props => {
 		</FormContainer>
 	);
 }
-export default connect(providerDetails);
+export default connect(provideDetails);
 
 

@@ -75,7 +75,7 @@ const CreateAccount = (props, routeProps) => {
 						props.setFieldValue('streetAddress', values.Address);
 						props.setFieldValue('city', values.City);
 						props.setFieldValue('zipCode', values.ZipCode);
-						props.history.push('/ProviderDetails');
+						props.history.push('/ProvideDetails');
 					}
 				}
 				catch (ex) {
@@ -93,7 +93,7 @@ const CreateAccount = (props, routeProps) => {
 
 
 	return (
-		<FormContainer title="Register for an Account" currentTab = "ServiceRequestForm">
+		<FormContainer title="Register for an Account" currentTab = "ServiceRequestForm" shouldDisableForm = {props.values.shouldDisableForm}>
 			<Formik
 
 				initialValues={{
