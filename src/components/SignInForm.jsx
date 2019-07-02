@@ -14,6 +14,10 @@ const SignIn = (props, routeProps) => {
 		setFieldType(fieldType === 'Password' ? 'text' : 'Password');
 	};
 
+	if(props.values.requestType === ""){
+		props.history.push('/ServiceRequestForm');
+		props.setFieldValue("userNeedsToLoginError", "Please log in to continue");
+	}
 
 	const userLogin = async (values, props, actions) => {
 
@@ -111,30 +115,27 @@ const SignIn = (props, routeProps) => {
 
 						return (
 							<Form >
-								<label htmlFor="Email"
-									className={
-										errors.Email && touched.Email ? "input-feedback" : "text-label"}
-								>Email Address</label>
-								<Field
-									type="email"
-									name="Email"
-									className={`text-input ${errors.Email && touched.Email ? "error" : ""}`}
-								/>
+								<div className={
+									props.errors.Email && props.touched.Email ? "cs-form-control error" : "cs-form-control"}>
+									<label htmlFor="Email">Email Address</label>
+									<Field
+										type="email"
+										name="Email"
+									/>
 
-								<ErrorMessage name='msg' className='input-feedback' component='div' />
-								<div className={`input-feedback ${props.status ? props.status.css : ''}`}>
-									{props.status ? props.status.success : ''}
+									<ErrorMessage name='msg' className='input-feedback' component='div' />
+									<div className={`input-feedback ${props.status ? props.status.css : ''}`}>
+										{props.status ? props.status.success : ''}
+									</div>
+									<p role='alert' className="error-message">
+										<ErrorMsg
+											errormessage={errors.Email}
+											touched={touched.Email} />
+									</p>
 								</div>
-								<div className="input-feedback">
-									<ErrorMsg
-										errormessage={errors.Email}
-										touched={touched.Email} />
-								</div>
-								<div>
-									<label name="Password" htmlFor="password"
-										className={
-											errors.Password && touched.Password ? "input-feedback" : "text-label"}
-									>Password</label>
+								<div className={
+									props.errors.Password && props.touched.Password ? "cs-form-control error" : "cs-form-control"}>
+									<label name="Password" htmlFor="password">Password</label>
 									<Field
 										type={fieldType === 'Password' ? 'Password' : 'text'}
 										name="Password"
@@ -143,19 +144,19 @@ const SignIn = (props, routeProps) => {
 									<span onClick={handlePasswordToggleChange}
 										className={`fa fa-fw fa-eye field-icon ${fieldType === 'text' ? "fa-eye-slash" : ""}`}></span>
 
-									<div className="input-feedback">
+									<p role='alert' className="error-message">
 										<ErrorMsg
 											errormessage={errors.Password}
 											touched={touched.Password} />
-									</div>
+									</p>
 								</div>
-
-								<label htmlFor="forgetpassword"> <Link to="ResetPassword" >Forgot password?</Link></label><br />
-								<label htmlFor="signup"
-								>Don't have an account? <Link to="SignUpForm" >Sign up</Link></label><br />
-								<input className="seButton" type="submit" disabled={props.isSubmitting} value="Sign In and Continue" />
-
-								{/* <DisplayFormikState {...props} /> */}
+								<div className = "cs-form-control" >
+									<label htmlFor="forgetpassword"> <Link to="ResetPassword" >Forgot password?</Link></label><br />
+									<label htmlFor="signup"
+									>Don't have an account? <Link to="SignUpForm" >Sign up</Link></label><br />
+								
+									<input className="seButton" type="submit" disabled={props.isSubmitting} value="Sign In and Continue" />
+								</div>
 
 							</Form>
 						)

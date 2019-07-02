@@ -8,6 +8,7 @@ import FormContainer from './FormContainer';
 import { ResetPassword } from './authService';
 
 const PasswordReset = props => {
+
 	const userPasswordReset = async (values) => {
 
 
@@ -49,21 +50,20 @@ const PasswordReset = props => {
 						const { isSubmitting, errors, touched } = props;
 						return (
 							<Form >
-								<label htmlFor="Email"
-									className={
-										errors.Email && touched.Email ? "input-feedback" : "text-label"}
-								>Email Address</label>
-								<Field
-									type="email"
-									name="Email"
-									className={`text-input ${errors.Email && touched.Email ? "error" : ""}`}
-								/>
-								<div className="input-feedback">
-									<ErrorMsg
-										errormessage={errors.Email}
-										touched={touched.Email} />
+								<div className={
+									props.errors.Email && props.touched.Email ? "cs-form-control error" : "cs-form-control"}>
+									<label htmlFor="Email">Email Address</label>
+									<Field
+										type="email"
+										name="Email"
+									/>
+									<p role='alert' className="error-message">
+										<ErrorMsg
+											errormessage={errors.Email}
+											touched={touched.Email} />
+									</p>
 								</div>
-								<div>
+								<div className = "cs-form-control" >
 									<label htmlFor="signup"
 									>Don't have an account? <Link to="SignUpForm" >Sign up</Link></label><br />
 									<label htmlFor="signup"

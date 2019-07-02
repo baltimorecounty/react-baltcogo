@@ -381,8 +381,6 @@ const ServiceRequestForm = (props, errors, touched) => {
 		}
 	};
 	
-
-
 	loadSelectedItems(props);
 	let disableButton = buttonDisableValidation();
 	let displayButton = buttonShowHideValidation();
@@ -666,12 +664,12 @@ const ServiceRequestForm = (props, errors, touched) => {
 				
 				{(displayButton === true) ? 
 					(contactID === null) ? 
-						(<div>
+						(<div className = "cs-form-control">
 							<input type="button" className="seButton" onClick={callSignInForm} disabled={disableButton} value="Sign In" />
 							<input type="button" className="seButton pull-right" onClick={callRegisterForm} disabled={disableButton} value="Register" />
 							<Model />
 						</div>) : 
-						<div>
+						<div className = "cs-form-control">
 							<label name="userLoggedIn">You're signed is as {sessionStorage.getItem("NameFirst")} {sessionStorage.getItem("NameLast")}</label><br /> 
 							<label name="notCorrectUser"><Link to="SignInForm">Not {sessionStorage.getItem("NameFirst")}? Log in to a different account. &nbsp; </Link></label>
 							<input type="button" className="seButton pull-right" onClick={goToNextPage} value="Next" />

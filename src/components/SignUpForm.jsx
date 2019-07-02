@@ -8,11 +8,18 @@ import { SignUp, VerifyAddress, CreateContactAddress } from './authService';
 import { Link } from 'react-router-dom';
 
 
+
 const CreateAccount = (props, routeProps) => {
 	const [fieldType, setFieldType] = useState('Password');
 	const handlePasswordToggleChange = () => {
 		setFieldType(fieldType === 'Password' ? 'text' : 'Password');
 	};
+
+	if(props.formik.values.ContactID === null || props.formik.values.requestType === ""){
+		props.history.push('/ServiceRequestForm');
+		props.formik.setFieldValue("userNeedsToLoginError", "Please log in to continue");
+	}
+
 	const userCreateAccount = async (values, actions, props) => {
 
 
@@ -141,141 +148,130 @@ const CreateAccount = (props, routeProps) => {
 
 						return (
 							<Form >
-								<label htmlFor="NameFirst"
-									className={
-										errors.NameFirst && touched.NameFirst ? "input-feedback" : "text-label"}
-								>First Name</label>
-
-								<Field
-									type="text"
-									name="NameFirst"
-									className={`text-input ${errors.NameFirst && touched.NameFirst ? "error" : ""}`}
-								/>
-								<div className="input-feedback">
-									<ErrorMsg
-										errormessage={errors.NameFirst}
-										touched={touched.NameFirst} />
+								<div className={
+									errors.NameFirst && touched.NameFirst ? "cs-form-control error" : "cs-form-control"}>
+									<label htmlFor="NameFirst">First Name</label>
+									<Field
+										type="text"
+										name="NameFirst"
+									/>
+									<p role='alert' className="error-message">
+										<ErrorMsg
+											errormessage={errors.NameFirst}
+											touched={touched.NameFirst} />
+									</p>
 								</div>
-								<label htmlFor="NameLast"
-									className={
-										errors.NameLast && touched.NameLast ? "input-feedback" : "text-label"}
-								>Last Name</label>
-								<Field
-									type="text"
-									name="NameLast"
-									className={`text-input ${errors.NameLast && touched.NameLast ? "error" : ""}`}
-								/>
-								<div className="input-feedback">
-									<ErrorMsg
-										errormessage={errors.NameLast}
-										touched={touched.NameLast} />
+								<div className={
+									props.errors.NameLast && props.touched.NameLast ? "cs-form-control error" : "cs-form-control"}>
+									<label htmlFor="NameLast">Last Name</label>
+									<Field
+										type="text"
+										name="NameLast"
+									/>
+									<p role='alert' className="error-message">
+										<ErrorMsg
+											errormessage={errors.NameLast}
+											touched={touched.NameLast} />
+									</p>
 								</div>
-								<label htmlFor="Telephone"
-									value={values.Telephone}
-									//validate={formatPhoneNumber(values.Telephone)}
-									className={
-										errors.Telephone && touched.Telephone ? "input-feedback" : "text-label"}
-								>Phone</label>
-								<Field
-									type="text"
-									name="Telephone"
-									className={`text-input ${errors.Telephone && touched.Telephone ? "error" : ""}`}
-								/>
-								<div className="input-feedback">
-									<ErrorMsg
-										errormessage={errors.Telephone}
-										touched={touched.Telephone} />
+								<div className={
+									props.errors.Telephone && props.touched.Telephone ? "cs-form-control error" : "cs-form-control"}>
+									<label htmlFor="Telephone"
+										value={values.Telephone}
+										//validate={formatPhoneNumber(values.Telephone)}
+									>Phone</label>
+									<Field
+										type="text"
+										name="Telephone"
+									/>
+									<p role='alert' className="error-message">
+										<ErrorMsg
+											errormessage={errors.Telephone}
+											touched={touched.Telephone} />
+									</p>
 								</div>
-								<label htmlFor="Email"
-									className={
-										errors.Email && touched.Email ? "input-feedback" : "text-label"}
-								>Email Address</label>
-								<Field
-									type="email"
-									name="Email"
-									className={`text-input ${errors.Email && touched.Email ? "error" : ""}`}
-								/>
-								<div className={`input-feedback ${props.status ? props.status.css : ''}`}>
-									{props.status ? props.status.success2 : ''}
+								<div className={
+									props.errors.Email && props.touched.Email ? "cs-form-control error" : "cs-form-control"}>
+									<label htmlFor="Email">Email Address</label>
+									<Field
+										type="email"
+										name="Email"
+									/>
+									<p role='alert' className="error-message">
+										{props.status ? props.status.success2 : ''}
+									</p>
+									<p role='alert' className="error-message">
+										<ErrorMsg
+											errormessage={errors.Email}
+											touched={touched.Email} />
+									</p>
 								</div>
-								<div className="input-feedback">
-									<ErrorMsg
-										errormessage={errors.Email}
-										touched={touched.Email} />
-								</div>
-								<div>
-									<label name="Password" htmlFor="Password"
-										className={
-											errors.Password && touched.Password ? "input-feedback" : "text-label"}
-									>
-										Password
-									</label>
+								<div className={
+									props.errors.Password && props.touched.Password ? "cs-form-control error" : "cs-form-control"}>
+									<label name="Password" htmlFor="Password">Password</label>
 									<Field type={fieldType === 'Password' ? 'Password' : 'text'}
 										name="Password"
 										value={values.Password}
-										className={`text-input ${errors.Password && touched.Password ? "error" : ""}`}
 									/>
 									<span onClick={handlePasswordToggleChange}
 										className={`fa fa-fw fa-eye field-icon ${fieldType === 'text' ? "fa-eye-slash" : ""}`}></span>
-									<div className="input-feedback">
+									<p role='alert' className="error-message">
 										<ErrorMsg
 											errormessage={errors.Password}
 											touched={touched.Password} />
-									</div>
-									<label htmlFor="Address"
-										className={errors.Address && touched.Address ? "input-feedback" : "text-label"}
-									>Street Address</label>
+									</p>
+								</div>
+								<div className={
+									props.errors.Address && props.touched.Address ? "cs-form-control error" : "cs-form-control"}>
+									<label htmlFor="Address">Street Address</label>
 									<Field
 										type="text"
 										name="Address"
-										className={`text-input ${errors.Address && touched.Address ? "error" : ""}`}
 									/>
 									<div className={`input-feedback ${props.status ? props.status.css : ''}`}>
 										{props.status ? props.status.success1 : ''}
 									</div>
-									<div className="input-feedback">
+									<p role='alert' className="error-message">
 										<ErrorMsg
 											errormessage={errors.Address}
 											touched={touched.Address} />
-									</div>
-									<label htmlFor="City"
-										className={errors.City && touched.City ? "input-feedback" : "text-label"}
-									>City</label>
+									</p>
+								</div>
+								<div className={
+									props.errors.City && props.touched.City ? "cs-form-control error" : "cs-form-control"}>
+									<label htmlFor="City">City</label>
 									<Field
 										type="text"
 										name="City"
-										className={`text-input ${errors.City && touched.City ? "error" : ""}`}
 									/>
-									<div className="input-feedback">
+									<p role='alert' className="error-message">
 										<ErrorMsg
 											errormessage={errors.City}
 											touched={touched.City} />
-									</div>
-									<div>
-										<label htmlFor="ZipCode"
-											className={errors.zipCode && touched.ZipCode ? "input-feedback" : "text-label"}
-										>ZIP Code</label>
-										<Field type='text'
-											name="ZipCode"
-											className={`text-input ${errors.ZipCode && touched.ZipCode ? "error" : ""}`}
-										/>
-										<div className="input-feedback">
-											<ErrorMsg
-												errormessage={errors.ZipCode}
-												touched={touched.ZipCode} />
-										</div>
-									</div>
-									<Field
-										type="hidden"
-										name="addressID"
-
-									/>
+									</p>
 								</div>
-								<label htmlFor="signup"
-								>Already have an account? <Link to="SignInForm" >Sign In</Link> </label><br />
-								<input className="seButton" type="submit" disabled={isSubmitting} value="Sign Up and Continue" />
-
-
+								<div className={
+									props.errors.ZipCode && props.touched.ZipCode ? "cs-form-control error" : "cs-form-control"}>
+									<label htmlFor="ZipCode">ZIP Code</label>
+									<Field type='text'
+										name="ZipCode"
+									/>
+									<p role='alert' className="error-message">
+										<ErrorMsg
+											errormessage={errors.ZipCode}
+											touched={touched.ZipCode} />
+									</p>
+								</div>	
+								<Field
+									type="hidden"
+									name="addressID"
+								/>
+								<div className = "cs-form-control" >
+									<label htmlFor="signup"
+									>Already have an account? <Link to="SignInForm" >Sign In</Link> </label><br />
+									<input className="seButton" type="submit" disabled={isSubmitting} value="Sign Up and Continue" />
+								</div>
+								
 							</Form>
 						)
 					}

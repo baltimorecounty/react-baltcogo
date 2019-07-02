@@ -35,6 +35,10 @@ const provideDetails = props => {
 		};
 		fetchData();
 		props.formik.setFieldValue('currentTab', 'ProviderDetail');
+		if(props.formik.values.ContactID === null || props.formik.values.requestType === ""){
+			props.history.push('/ServiceRequestForm');
+			props.formik.setFieldValue("userNeedsToLoginError", "Please log in to continue");
+		}
 	}, [query]);
 
 	const buttonShowHideValidation = () => {
@@ -189,8 +193,10 @@ const provideDetails = props => {
 							touched={rest.formik.touched.describeTheProblem} />
 					</p>
 				</div>
-				<input type="button" className="seButton" onClick={goServiceRequestForm} value="Previous" />
-				<input type="button" className="seButton pull-right" onClick={goToAdditionalPage} disabled={displayButton} value="Next" />
+				<div className = "cs-form-control" >
+					<input type="button" className="seButton" onClick={goServiceRequestForm} value="Previous" />
+					<input type="button" className="seButton pull-right" onClick={goToAdditionalPage} disabled={displayButton} value="Next" />
+				</div>
 			</Form>
 		</FormContainer>
 	);

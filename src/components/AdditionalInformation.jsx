@@ -17,6 +17,11 @@ const AdditionalInformation = props => {
 		subRequestTypeCity, subRequestTypeCityID, subRequestTypeZip,
 		subRequestTypeZipID } = props.formik.values;
 
+	if(props.formik.values.ContactID === null || props.formik.values.requestType === ""){
+		props.history.push('/ServiceRequestForm');
+		props.formik.setFieldValue("userNeedsToLoginError", "Please log in to continue");
+	}
+
 	const SubmitTheForm = async values => {
 		const reportItems = [
 			{ Id: requestTypeID, Value: requestType },
@@ -220,8 +225,10 @@ const AdditionalInformation = props => {
                     user name or email address in combination with a password or
                     security question and answer.
 				</p>
-				<input type="button" className="seButton" onClick={callProviderDetailForm} value="Previous" />
-				<input type="button" className="seButton pull-right" onClick={SubmitTheForm} value="File Your Report" />
+				<div className = "cs-form-control" >
+					<input type="button" className="seButton" onClick={callProviderDetailForm} value="Previous" />
+					<input type="button" className="seButton pull-right" onClick={SubmitTheForm} value="File Your Report" />
+				</div>
 
 			</form>
 
