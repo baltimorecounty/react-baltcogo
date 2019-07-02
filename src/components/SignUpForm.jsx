@@ -110,10 +110,13 @@ const CreateAccount = (props, routeProps) => {
 				validationSchema={Yup.object().shape({
 					NameFirst: Yup.string().required('Please enter your first name.'),
 					NameLast: Yup.string().required('Please enter your last name.'),
-					Email: Yup.string().email('Invalid email.').required('Please enter a valid email address.'),
-					Address: Yup.string().required('Invalid address.').required('Please enter a valid address.'),
-					City: Yup.string().required('Invalid city.').required('Please enter a valid city.'),
-					ZipCode: Yup.string().required('Invalid zip code.').required('Please enter a valid zip code.'),
+					Email: Yup.string().email('Please enter a valid email address.').required('Please enter your email address.'),
+					Address: Yup.string().required('Please enter your address.'),
+					City: Yup.string().required('Please enter your city.'),
+					ZipCode: Yup.string().matches(/(^\d{5}$)|(^\d{5}-\d{4}$)/, {
+						message: 'Please enter your five-digit ZIP code.',
+						excludeEmptyString: true
+					}).required('Please enter your zip code.'),
 					Password: Yup.string()
 						.required('Please enter your password.')
 						.max(30, "Maximum 30 characters allowed.")

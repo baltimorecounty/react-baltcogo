@@ -35,7 +35,7 @@ const PasswordReset = props => {
 					Email: ''
 				}}
 				validationSchema={Yup.object().shape({
-					Email: Yup.string().email('Invalid email address.').required('Please enter a valid email address.'),
+					Email: Yup.string().email('Please enter a valid email address.').required('Please enter your email address.'),
 				})}
 
 				onSubmit={(values, { setSubmitting }) => {

@@ -18,7 +18,6 @@ import { GetContactAddress, GetContactDetails } from './authService';
 import RoadsAndSidewalks from "./roadsAndSidewalks";
 
 const { categoryId } = QueryString.parse(window.location.search);
-const contactID = sessionStorage.getItem("UserLoginID");
 //const contactID = 914151;
 
 const getSubCategories = (categories, categoryName) => {
@@ -88,7 +87,8 @@ const ServiceRequestForm = (props, errors, touched) => {
 	const [notes, setNotes] = useState();
 	const [animalSubCategories, setAnimalSubCategories] = useState([]);
 	const [animalSex, setAnimalSex] = useState([]);
-
+	const contactID = (props.formik.values.ContactID === "") ? sessionStorage.getItem("UserLoginID") : props.formik.values.ContactID;
+	
 	try {
 		useEffect(() => {
 			const fetchData = async () => {
@@ -387,6 +387,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 	let disableButton = buttonDisableValidation();
 	let displayButton = buttonShowHideValidation();
 	const localProps = props.formik;
+	
 	return (
 
 		<FormContainer title =  "How Can We Help?" currentTab = "ServiceRequestForm" shouldDisableForm = {props.formik.values.shouldDisableForm}>

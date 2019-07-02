@@ -95,7 +95,7 @@ const SignIn = (props, routeProps) => {
 
 				}}
 				validationSchema={Yup.object().shape({
-					Email: Yup.string().email('Invalid email address.').required('Please enter a valid email address.'),
+					Email: Yup.string().email('Please enter a valid email address.').required('Please enter your email address.'),
 					Password: Yup.string()
 						.required('Please enter your password.')
 				})}
@@ -103,7 +103,6 @@ const SignIn = (props, routeProps) => {
 
 					await userLogin(values, props, actions);
 					actions.setSubmitting(false);
-
 				}}
 			>
 				{
@@ -156,18 +155,14 @@ const SignIn = (props, routeProps) => {
 								>Don't have an account? <Link to="SignUpForm" >Sign up</Link></label><br />
 								<input className="seButton" type="submit" disabled={props.isSubmitting} value="Sign In and Continue" />
 
-
 								{/* <DisplayFormikState {...props} /> */}
 
-
 							</Form>
-
 						)
 					}
 				}
 			</Formik>
 		</FormContainer >
-
 	);
 }
 
