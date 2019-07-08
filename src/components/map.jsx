@@ -20,24 +20,24 @@ class Map extends React.Component {
 	
 	 */
 		if (this.props.lat === nextProps.center.lat) {
-			console.log('first - return : false');
+			//console.log('first - return : false');
 			return false;
 		}
 		else if (this.props.lat === this.props.markerLat) {
-			console.log('second - return : true');
+			//console.log('second - return : true');
 			return true;
 
 		}
 		else if (this.props.center.lat === nextProps.center.lat) {
-			console.log('third - return : false')
+			//console.log('third - return : false')
 			return false;
 		}
 		else if (this.props.lat === this.props.center.lat) {
-			console.log('third - return : false')
+			//console.log('third - return : false')
 			return true
 		}
 		else {
-			console.log('NONE');
+			//console.log('NONE');
 			return false;
 		}
 	}
@@ -49,12 +49,14 @@ class Map extends React.Component {
 					<GoogleMap google={this.props.google}
 						defaultZoom={this.props.zoom}
 						defaultCenter={{ lat: lat, lng: lng }}
+						onClick={onMarkerDragEnd}
 					>
 
 						<Marker google={this.props.google}
 							name={'Dolores park'}
 							draggable={true}
 							onDragEnd={onMarkerDragEnd}
+
 							position={{ lat: lat, lng: lng }}
 						/>
 						<Marker />

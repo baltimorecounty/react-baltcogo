@@ -13,7 +13,7 @@ const Collaspe = ({ address, lat, lng, markerLat, onChange, onMarkerDragEnd }) =
 					<Card>
 						<CardBody>
 							<Map
-								address={address} lat={lat} lng={lng} markerLat={markerLat} onMarkerDragEnd={onMarkerDragEnd}
+								address={address} lat={lat} lng={lng} markerLat={markerLat} onMarkerDragEnd={onMarkerDragEnd} 
 								//center={{lat: 18.5204, lng: 73.8567}}
 								center={{ lat: lat, lng }}
 								height='300px'

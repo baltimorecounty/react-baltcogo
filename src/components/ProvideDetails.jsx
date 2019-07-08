@@ -17,10 +17,11 @@ const provideDetails = props => {
 	const [MarkerLatitude, setMarkerLatitude] = useState(18.5204);
 	const [MarkerLongitude, setMarkerLongitude] = useState(73.8567);
 	const [Address, setData] = useState([]);
+	const [ReverseGeoCode, setGeoCode] = useState([]);
 	const [query, setQuery] = useState(encodeURIComponent());
-	
+
 	useEffect(() => {
-		
+
 		const fetchData = async () => {
 			//	const encodeAddress = encodeURIComponent('400 wa')
 			const result = await axios(
@@ -32,24 +33,44 @@ const provideDetails = props => {
 			else {
 				setData([]);
 			}
+
 		};
-		fetchData();
 		props.formik.setFieldValue('currentTab', 'ProviderDetail');
-		if(props.formik.values.ContactID === null || props.formik.values.requestType === ""){
+		if (props.formik.values.ContactID === null || props.formik.values.requestType === "") {
 			props.history.push('/ServiceRequestForm');
 			props.formik.setFieldValue("userNeedsToLoginError", "Please log in to continue");
 		}
-	}, [query]);
+		fetchData();
+	},
+	[query]);
+
+	const reverseGeocode = async (latitude, longitude) => {
+		console.log('latitude:' + latitude);
+		console.log('longitude:' + longitude);
+		const result = await axios(
+			`http://bcgis.baltimorecountymd.gov/arcgis/rest/services/Geocoders/CompositeGeocode_CS/GeocodeServer/reverseGeocode?location=${longitude}%2C${latitude}&f=pjson`,
+		);
+	
+		if (result.status === 200) {
+			setGeoCode(result.data);
+		}
+		else {
+			setGeoCode([]);
+		}
+		console.log('++++++++++++++++++');
+		console.log(ReverseGeoCode);
+		console.log('++++++++++++++++++');
+
+	}
 
 	const buttonShowHideValidation = () => {
 		var searchQuery = props.formik.values.location;
 		var description = props.formik.values.describeTheProblem;
-		
-		if (searchQuery === "" || description ==='')
-		{
+
+		if (searchQuery === "" || description === '') {
 			return true;
 		}
-		else{
+		else {
 			return false;
 		}
 	};
@@ -86,26 +107,47 @@ const provideDetails = props => {
 		rest.formik.setFieldValue('Longitude', Longitude);
 	};
 
-	const onMarkerDragEnd = (event, setFieldValue) => {
+	const onMarkerDragEnd =async (event, setFieldValue) => {
 
 		let newLat = event.latLng.lat(),
 			newLng = event.latLng.lng();
-		Geocode.fromLatLng(newLat, newLng).then(
-			response => {
-				const address = response.results[0].formatted_address;
-				rest.formik.setFieldValue('location', address);
-				setLatitude(newLat);
-				setLongitude(newLng);
-				setMarkerLatitude(newLat);
-				setMarkerLongitude(newLng);
-				rest.formik.setFieldValue('Latitude', newLat);
-				rest.formik.setFieldValue('Longitude', newLat);
-			},
-			error => {
-				console.error(error);
-			}
-		);
+		 await	 reverseGeocode(newLat, newLng);
+		console.log('----------------');
+		console.log(ReverseGeoCode);
+		console.log('--------');
+		console.log('----------------');
+		if (ReverseGeoCode !== null) {
+			// const address = ReverseGeoCode.address;
+			// rest.formik.setFieldValue('location', address);
+			// setLatitude(newLat);
+			// setLongitude(newLng);
+			// setMarkerLatitude(newLat);
+			// setMarkerLongitude(newLng);
+			// rest.formik.setFieldValue('Latitude', newLat);
+			// rest.formik.setFieldValue('Longitude', newLat);
+		}
+		else {
+			rest.formik.setFieldValue('location', 'not a valid address');
+
+		}
+		// console.log(ReverseGeoCode);
+		// Geocode.fromLatLng(newLat, newLng).then(
+		// 	response => {
+		// 		const address = response.results[0].formatted_address;
+		// 		rest.formik.setFieldValue('location', address);
+		// 		setLatitude(newLat);
+		// 		setLongitude(newLng);
+		// 		setMarkerLatitude(newLat);
+		// 		setMarkerLongitude(newLng);
+		// 		rest.formik.setFieldValue('Latitude', newLat);
+		// 		rest.formik.setFieldValue('Longitude', newLat);
+		// 	},
+		// 	error => {
+		// 		console.error(error);
+		// 	}
+		// );
 	};
+
 
 	const goToAdditionalPage = async (values) => {
 		const addressParts = props.formik.values.location.split(',');
@@ -127,7 +169,7 @@ const provideDetails = props => {
 	}));
 
 	return (
-		<FormContainer title="Provide Details" currentTab = "ProvideDetails" shouldDisableForm = {props.formik.values.shouldDisableForm}>
+		<FormContainer title="Provide Details" currentTab="ProvideDetails" shouldDisableForm={props.formik.values.shouldDisableForm}>
 			<Form >
 				<label>Add a Location</label>
 				<p>
@@ -139,14 +181,14 @@ const provideDetails = props => {
 					<div>
 						<label>Issue type</label>
 						<div>
-							<p className="smallest">{ rest.formik.values.requestType } > { rest.formik.values.subRequestType }</p>
+							<p className="smallest">{rest.formik.values.requestType} > {rest.formik.values.subRequestType}</p>
 						</div>
 					</div>
 					<div className="address-search-wrapper">
 						<label htmlFor="location"
-							className = "address">Enter the closest street address to your service request 
+							className="address">Enter the closest street address to your service request
 						</label>
-						<div className = "address-input-wrapper">
+						<div className="address-input-wrapper">
 							<AutoCompletTypeField
 								items={items}
 								placeholder="123 Amazing St"
@@ -159,22 +201,22 @@ const provideDetails = props => {
 							<i className="fa fa-search address-search-icon" aria-hidden="true"></i>
 						</div>
 					</div>
-					
+
 					<Collaspe address={rest.formik.values.location} lat={Latitude} lng={Longitude} markerLat={MarkerLatitude} onMarkerDragEnd={e => (onMarkerDragEnd(e, setFieldValue))} />
 					<p role='alert' className="error-message">
 						<ErrorMsg
 							errormessage={rest.formik.errors.location}
 							touched={rest.formik.touched.location} />
 					</p>
-				</div>	
+				</div>
 				<div className={
 					rest.formik.errors.describeTheProblem && rest.formik.touched.describeTheProblem ? "cs-form-control address-search error" : "cs-form-control address-search"}>
 					<label htmlFor="describeTheProblem"
-						
+
 					>Describe the Problem</label>
 					<Field
 						component="textarea"
-						placeholder ="Maximum 2,000 characters."
+						placeholder="Maximum 2,000 characters."
 						name="describeTheProblem"
 						className={`text-input ${rest.formik.errors.describeTheProblem && rest.formik.touched.describeTheProblem ? "error" : ""}`}
 					/>
@@ -193,7 +235,7 @@ const provideDetails = props => {
 							touched={rest.formik.touched.describeTheProblem} />
 					</p>
 				</div>
-				<div className = "cs-form-control" >
+				<div className="cs-form-control" >
 					<input type="button" className="seButton" onClick={goServiceRequestForm} value="Previous" />
 					<input type="button" className="seButton pull-right" onClick={goToAdditionalPage} disabled={displayButton} value="Next" />
 				</div>

@@ -14,10 +14,13 @@ const CreateAccount = (props, routeProps) => {
 	const handlePasswordToggleChange = () => {
 		setFieldType(fieldType === 'Password' ? 'text' : 'Password');
 	};
-
-	if(props.formik.values.ContactID === null || props.formik.values.requestType === ""){
-		props.history.push('/ServiceRequestForm');
-		props.formik.setFieldValue("userNeedsToLoginError", "Please log in to continue");
+	console.log('ContactID:');
+	console.log( props);
+	//if (props.formik.values.ContactID === null || props.formik.values.requestType === "") {
+	if (props.values.ContactID === null || props.values.requestType === "") {
+	//	props.history.push('/ServiceRequestForm');
+		//props.formik.setFieldValue("userNeedsToLoginError", "Please log in to continue");
+		//props.setFieldValue("userNeedsToLoginError", "Please log in to continue");
 	}
 
 	const userCreateAccount = async (values, actions, props) => {
@@ -74,7 +77,7 @@ const CreateAccount = (props, routeProps) => {
 						throw new Error(errorsReturned);
 					}
 					else {
-						
+
 						props.setFieldValue('requestTypeAddress', values.Address);
 						props.setFieldValue('requestTypeCity', values.City);
 						props.setFieldValue('requestTypeZip', values.ZipCode);
@@ -100,7 +103,7 @@ const CreateAccount = (props, routeProps) => {
 
 
 	return (
-		<FormContainer title="Register for an Account" currentTab = "ServiceRequestForm" shouldDisableForm = {props.values.shouldDisableForm}>
+		<FormContainer title="Register for an Account" currentTab="ServiceRequestForm" shouldDisableForm={props.values.shouldDisableForm}>
 			<Formik
 
 				initialValues={{
@@ -178,7 +181,7 @@ const CreateAccount = (props, routeProps) => {
 									props.errors.Telephone && props.touched.Telephone ? "cs-form-control error" : "cs-form-control"}>
 									<label htmlFor="Telephone"
 										value={values.Telephone}
-										//validate={formatPhoneNumber(values.Telephone)}
+									//validate={formatPhoneNumber(values.Telephone)}
 									>Phone</label>
 									<Field
 										type="text"
@@ -261,17 +264,17 @@ const CreateAccount = (props, routeProps) => {
 											errormessage={errors.ZipCode}
 											touched={touched.ZipCode} />
 									</p>
-								</div>	
+								</div>
 								<Field
 									type="hidden"
 									name="addressID"
 								/>
-								<div className = "cs-form-control" >
+								<div className="cs-form-control" >
 									<label htmlFor="signup"
 									>Already have an account? <Link to="SignInForm" >Sign In</Link> </label><br />
 									<input className="seButton" type="submit" disabled={isSubmitting} value="Sign Up and Continue" />
 								</div>
-								
+
 							</Form>
 						)
 					}

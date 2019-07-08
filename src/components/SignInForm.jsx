@@ -14,7 +14,7 @@ const SignIn = (props, routeProps) => {
 		setFieldType(fieldType === 'Password' ? 'text' : 'Password');
 	};
 
-	if(props.values.requestType === ""){
+	if (props.values.requestType === "") {
 		props.history.push('/ServiceRequestForm');
 		props.setFieldValue("userNeedsToLoginError", "Please log in to continue");
 	}
@@ -22,30 +22,43 @@ const SignIn = (props, routeProps) => {
 	const userLogin = async (values, props, actions) => {
 
 		try {
+			console.log('inside sign In and continue');
 			const response = await Login(values.Email, values.Password);
 			const contactID = response.data.Results.Id;
 			const NameFirst = response.data.Results.NameFirst;
 			const NameLast = response.data.Results.NameLast
-			
+
 			props.setFieldValue('NameFirst', NameFirst);
 			props.setFieldValue('NameLast', NameLast);
 
 			sessionStorage.setItem('NameFirst', NameFirst);
 			sessionStorage.setItem('NameLast', NameLast);
+			/*TODO: sgurung4 -- remove this , just added for testing only */
+			console.log('ContactID:' + contactID);
+			sessionStorage.setItem('UserLoginID', contactID);
 
-			try{
+
+			props.setFieldValue('ContactID', contactID);
+			actions.setStatus({
+				success: 'OK',
+				css: 'success'
+			})
+			props.history.push('/ProvideDetails');
+
+			/*TODO: sgurung4 -- remove up to here  , just added for testing only */
+			try {
 				const getAddressResponse = await GetContactAddress(contactID);
-				
+				console.log(getAddressResponse);
 				if (getAddressResponse.data.ErrorsCount > 0) {
 					const errorsReturned = ErrorCheck(getAddressResponse);
-	
+
 					actions.setStatus({
 						success: errorsReturned,
 						css: 'error'
 					})
 					throw new Error(errorsReturned);
 				}
-				else{
+				else {
 					const addressParts = getAddressResponse.data.Results[0].FormattedAddress.split(',');
 					props.setFieldValue('requestTypeAddress', addressParts[0]);
 					props.setFieldValue('requestTypeCity', addressParts[1]);
@@ -73,7 +86,7 @@ const SignIn = (props, routeProps) => {
 			}
 			else {
 				sessionStorage.setItem('UserLoginID', contactID);
-				
+
 
 				props.setFieldValue('ContactID', contactID);
 				actions.setStatus({
@@ -91,7 +104,7 @@ const SignIn = (props, routeProps) => {
 	}
 
 	return (
-		<FormContainer title="Sign In" currentTab = "ServiceRequestForm" shouldDisableForm = {props.values.shouldDisableForm}>
+		<FormContainer title="Sign In" currentTab="ServiceRequestForm" shouldDisableForm={props.values.shouldDisableForm}>
 			<Formik
 				initialValues={{
 					Email: '',
@@ -150,11 +163,11 @@ const SignIn = (props, routeProps) => {
 											touched={touched.Password} />
 									</p>
 								</div>
-								<div className = "cs-form-control" >
+								<div className="cs-form-control" >
 									<label htmlFor="forgetpassword"> <Link to="ResetPassword" >Forgot password?</Link></label><br />
 									<label htmlFor="signup"
 									>Don't have an account? <Link to="SignUpForm" >Sign up</Link></label><br />
-								
+
 									<input className="seButton" type="submit" disabled={props.isSubmitting} value="Sign In and Continue" />
 								</div>
 
