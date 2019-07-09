@@ -1,5 +1,4 @@
 export const endPointsLocal = [
-	
 	{ key: "apiLoginUrl", value: "http://localhost:54727/platform.citysourced.net/login/" },
 	{ key: "apiSignInUrl", value: "http://localhost:54727/platform.citysourced.net/SignUp/" },
 	{ ket: "apiPasswordResetUrl" , value: "http://localhost:54727/platform.citysourced.net/password/" },
@@ -24,7 +23,6 @@ export const endPointsProd = [
 	{ key: "apiVerifyAddressUrl" , value: "https://services.baltimorecountymd.gov/platform.citysourced.net/contacts/verifyaddress" }
 ];
 export const jsonFileLocationsTest = [
-
 	{ key: "results", value: "//dev.baltimorecountymd.gov/sebin/q/o/categories.json" },
 	{ key: "resultPetTypes", value:"//dev.baltimorecountymd.gov/sebin/m/c/pet-types.json" },
 	{ key: "resultAnimalBreeds", value: "//dev.baltimorecountymd.gov/sebin/y/c/animal-breeds.json" },
@@ -60,7 +58,6 @@ export  const formTypesTest = [
 	{ key: "petTypeDog", value: "Dog" },
 	{ key: "petType_Others", value: "Other" }
 ];
-
 export  const formTypesProd = [
 	{ key: "requestType_petAndAnimalIssue", value: "Pets and Animals Issue" },
 	{ key: "petAndAnimalIssueID_OtherAnimalComplaint", value: "Other animal complaint" },
@@ -83,13 +80,11 @@ export  const formTypesProd = [
 	{ key: "petTypeDog", value: "Dog" },
 	{ key: "petType_Others", value: "Other" }
 ];
-
 export const mapEndPointTest = {
 	key: "mapGISEndPoint",
 	value: "https://services.baltimorecountymd.gov/api/gis/addressLookup/"
 	//value: "https://testservices.baltimorecountymd.gov/api/gis/addressLookup/" --value for test but not until HostFile is updated
 }
-
 export const mapEndPointProd = {
 	key: "mapGISEndPoint",
 	value: "https://services.baltimorecountymd.gov/api/gis/addressLookup/"

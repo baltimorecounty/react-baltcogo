@@ -195,6 +195,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 	const handleAnimalBreedChange = (changeEvent) => {
 		let value = changeEvent.currentTarget.value.toLowerCase();
 		let ID = getID(animalSubCategories, value);
+		props.formik.setFieldValue('animalBreedID', ID);
 	}
 
 	const checkPetType = (value) => {
@@ -381,7 +382,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 					<TrashAndRecycle
 						requestType={props.formik.values['requestType'].toLowerCase()}
 						subRequestType={props.formik.values['subRequestType'].toLowerCase()}
-						TrashRecycleIssue={returnRequestTypes("requestType_TrashRecycleIssue").toLowerCase()}
+						TrashRecycleIssue={(returnRequestTypes("requestType_TrashRecycleIssue")).toLowerCase()}
 						CanOrLidLostDamaged={returnRequestTypes("subCategory_CanOrLidLostDamaged")}
 						PropertyDamangeDuringCollection={returnRequestTypes("subCategory_PropertyDamangeDuringCollection")}
 						RecyclingNotCollected={returnRequestTypes("subCategory_RecyclingNotCollected")}
@@ -393,14 +394,14 @@ const ServiceRequestForm = (props, errors, touched) => {
 				}
 				{/* Pets and Animal Issue - Other animal complaint */
 
-					(localProps.values['requestType'].toLowerCase() === returnRequestTypes("requestType_petAndAnimalIssue").toLowerCase()
-						&& localProps.values['subRequestType'].toLowerCase() === returnRequestTypes(".petAndAnimalIssueID_OtherAnimalComplaint").toLowerCase()) ? notes
+					(localProps.values['requestType'].toLowerCase() === (returnRequestTypes("requestType_petAndAnimalIssue")).toLowerCase()
+						&& localProps.values['subRequestType'].toLowerCase() === (returnRequestTypes("petAndAnimalIssueID_OtherAnimalComplaint")).toLowerCase()) ? notes
 						: null
 				}
 				{/* Website Issue - Other website problem */
 
-					(localProps.values['requestType'].toLowerCase() === returnRequestTypes("requestType_WebSiteIssue").toLowerCase()
-						&& localProps.values['subRequestType'].toLowerCase() === returnRequestTypes("subCategory_OtherWebsiteProblem").toLowerCase()) ? notes
+					(localProps.values['requestType'].toLowerCase() === (returnRequestTypes("requestType_WebSiteIssue")).toLowerCase()
+						&& localProps.values['subRequestType'].toLowerCase() === (returnRequestTypes("subCategory_OtherWebsiteProblem")).toLowerCase()) ? notes
 						: null
 				}
 				{
@@ -430,7 +431,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 						: null
 				}
 				{
-					(localProps.values['subRequestType'] !== '' && localProps.values['petType'].toLowerCase() === returnRequestTypes("petType_Others")) ?
+					(localProps.values['subRequestType'] !== '' && localProps.values['petType'] === returnRequestTypes("petType_Others")) ?
 						<div className={
 							localProps.errors.otherAnimalTypes && localProps.touched.otherAnimalTypes ? "cs-form-control error" : "cs-form-control"}>
 							<label htmlFor="otherAnimalTypes">Other pet type</label>
@@ -458,9 +459,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 						: null
 				}
 				{
-					((localProps.values['requestType'] === returnRequestTypes("requestType_petAndAnimalIssue"))
-						&& localProps.values['subRequestType'] !== '')
-						&& checkPetType(localProps.values['petType']) ?
+					(localProps.values['requestType'] === returnRequestTypes("requestType_petAndAnimalIssue") && localProps.values['subRequestType'] !== '') && checkPetType(localProps.values['petType']) ?
 						<div className={
 							localProps.errors.sexType && localProps.touched.sexType ? "cs-form-control error" : "cs-form-control"}>
 							<label htmlFor="sexType">Pet Sex (optional)</label>
@@ -488,8 +487,8 @@ const ServiceRequestForm = (props, errors, touched) => {
 				}
 				{
 					(localProps.values['requestType'] === returnRequestTypes("requestType_petAndAnimalIssue")
-						&& localProps.values['subRequestType'] !== '')
-						&& (localProps.values['petType'].toLowerCase() === returnRequestTypes("petTypeCat") || localProps.values['petType'].toLowerCase() === returnRequestTypes("petTypeDog")) ?
+						&& localProps.values['subRequestType'] !== ''
+						&& (localProps.values['petType'] === returnRequestTypes("petTypeCat")|| localProps.values['petType']=== returnRequestTypes("petTypeDog"))) ?
 						<div className={
 							localProps.errors.animalColorType && localProps.touched.animalColorType ? "cs-form-control error" : "cs-form-control"}>
 							<label htmlFor="animalColorType">Primary Animal Color</label>
@@ -519,7 +518,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 				}
 				{
 					((localProps.values['requestType'] === returnRequestTypes("requestType_petAndAnimalIssue") && localProps.values['subRequestType'] !== '')
-						&& (localProps.values['petType'].toLowerCase() === returnRequestTypes("petTypeCat") || localProps.values['petType'].toLowerCase() === returnRequestTypes("petTypeDog"))) ?
+						&& (localProps.values['petType'] === returnRequestTypes("petTypeCat") || localProps.values['petType'] === returnRequestTypes("petTypeDog"))) ?
 						<div className={
 							localProps.errors.animalBreedType && localProps.touched.animalBreedType ? "cs-form-control error" : "cs-form-control"}>
 							<label htmlFor="animalBreed">Primary Animal Breed(optional)</label>

@@ -2,7 +2,6 @@ import React from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
-
 const Schema = Yup.object().shape({
 	email: Yup.string().required('This field is required1111'),
 });
@@ -43,42 +42,42 @@ const FieldLevelValidation = () => (
 				validateField,
 				validateForm,
 			}) => (
-					<Form>
-						<label htmlFor="username">Username</label>
-						<div>
-							<Field
-								name="username"
-								validate={isRequired('This field is required')}
-								type="text"
-								placeholder="username"
-							/>
-							<ErrorMessage name="username" />
-						</div>
-						<br />
-						<div>
-							<Field
-								name="email"
-								validate={isRequired('This field is required')}
-								type="text"
-								placeholder="email"
-							/>
-							<ErrorMessage name="email" />
-						</div>
-						<br />
-						<div>
-							<Field
-								name="zip"
-								validate={isRequired('This field is required')}
-								type="text"
-								placeholder="zip"
-							/>
-							<ErrorMessage name="zip" />
-						</div>
-						<br />
-						<input className="seButton" type="submit" value="Submit" />
+				<Form>
+					<label htmlFor="username">Username</label>
+					<div>
+						<Field
+							name="username"
+							validate={isRequired('This field is required')}
+							type="text"
+							placeholder="username"
+						/>
+						<ErrorMessage name="username" />
+					</div>
+					<br />
+					<div>
+						<Field
+							name="email"
+							validate={isRequired('This field is required')}
+							type="text"
+							placeholder="email"
+						/>
+						<ErrorMessage name="email" />
+					</div>
+					<br />
+					<div>
+						<Field
+							name="zip"
+							validate={isRequired('This field is required')}
+							type="text"
+							placeholder="zip"
+						/>
+						<ErrorMessage name="zip" />
+					</div>
+					<br />
+					<input className="seButton" type="submit" value="Submit" />
 
-					</Form>
-				)}
+				</Form>
+			)}
 		/>
 	</div>
 );

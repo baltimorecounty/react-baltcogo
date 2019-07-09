@@ -10,6 +10,7 @@ import _ from 'lodash';
 import AutoCompletTypeField from './AutocompleteTypeField';
 import { formIncomplete } from "./checkFormCompletion";
 import { returnMapEndPoint } from "./returnEnvironmentItems"
+import { polyfill } from 'es6-promise'; polyfill();
 Geocode.setApiKey('AIzaSyAqazsw3wPSSxOFVmij32C_LIhBSuyUNi8');
 
 
