@@ -6,7 +6,7 @@ import { ErrorCheck } from "./CustomErrorHandling";
 import FormContainer from './FormContainer';
 import { SignUp, VerifyAddress, CreateContactAddress } from './authService';
 import { Link } from 'react-router-dom';
-
+import { formIncomplete } from "./checkFormCompletion";
 
 
 const CreateAccount = (props, routeProps) => {
@@ -14,11 +14,6 @@ const CreateAccount = (props, routeProps) => {
 	const handlePasswordToggleChange = () => {
 		setFieldType(fieldType === 'Password' ? 'text' : 'Password');
 	};
-
-	if(props.formik.values.ContactID === null || props.formik.values.requestType === ""){
-		props.history.push('/ServiceRequestForm');
-		props.formik.setFieldValue("userNeedsToLoginError", "Please log in to continue");
-	}
 
 	const userCreateAccount = async (values, actions, props) => {
 
@@ -82,7 +77,14 @@ const CreateAccount = (props, routeProps) => {
 						props.setFieldValue('streetAddress', values.Address);
 						props.setFieldValue('city', values.City);
 						props.setFieldValue('zipCode', values.ZipCode);
-						props.history.push('/ProvideDetails');
+
+						if(formIncomplete(props) === true){
+							props.history.push('/ServiceRequestForm');
+							props.setFieldValue("userNeedsToLoginError", "Please log in to continue");
+						}
+						else{
+							props.history.push('/ProvideDetails');
+						}
 					}
 				}
 				catch (ex) {

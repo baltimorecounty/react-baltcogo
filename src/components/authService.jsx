@@ -1,38 +1,12 @@
 import http from "./httpService";
-import { endPoints } from "./config.js";
-
-const environment = window.location.href;
-var urlParts = environment.replace('http://','').replace('https://','').split(/[/?#]/);
-var domain =  urlParts[0];
-
-var endpointLogin = endPoints.apiLoginUrl;
-var endpointSignUp = endPoints.apiSignInUrl;
-var endpointResetPassword = endPoints.apiPasswordResetUrl;
-var endpointReport = endPoints.apiReportUrl;
-var endpointContacts = endPoints.apiContactUrl;
-var endpointVerifyAddress = endPoints.apiVerifyAddressUrl
- 
-if (domain === "dev.baltimorecountymd.gov"){
-	endpointLogin = endPoints.apiTestLoginUrl
-	endpointSignUp = endPoints.apiTestSignInUrl
- 	endpointResetPassword = endPoints.apiTestPasswordResetUrl
-	endpointReport = endPoints.apiTestReportUrl
-	endpointContacts = endPoints.apiTestContactUrl
-	endpointVerifyAddress = endPoints.apiTestVerifyAddressUrl
-}else if(domain === "baltimorecountymd.gov"){
-	endpointLogin = endPoints.apiProdLoginUrl
-	endpointSignUp = endPoints.apiProdSignInUrl
- 	endpointResetPassword = endPoints.apiProdPasswordResetUrl
-	endpointReport = endPoints.apiProdReportUrl
-	endpointContacts = endPoints.apiProdContactUrl
-	endpointVerifyAddress = endPoints.apiProdVerifyAddressUrl
-};
+import { returnAPIEndPoint } from "./returnEnvironmentItems"
 
 export function Login(email, password) {
+	const endpointLogin = returnAPIEndPoint("apiLoginUrl");
 	return http.post(endpointLogin, { email, password });
-
 }
 export function SignUp(NameFirst, NameLast, Email, Password, Telephone, UniqueId, SuppressNotifications) {
+	const endpointSignUp = returnAPIEndPoint("apiSignInUrl");
 	return http.post(endpointSignUp, { 
 		NameFirst, 
 		NameLast, 
@@ -43,38 +17,46 @@ export function SignUp(NameFirst, NameLast, Email, Password, Telephone, UniqueId
 		SuppressNotifications });
 }
 export function ResetPassword(Email) {
+	const endpointResetPassword = returnAPIEndPoint("apiPasswordResetUrl");
 	return http.post(endpointResetPassword, { Email });
 }
-
 export function CreateReport(data) {
+	const endpointReport = returnAPIEndPoint("apiReportUrl");
 	return http.post(endpointReport, data );
 }
 
 export function GetReportByID(ReportID) {
+	const endpointReport = returnAPIEndPoint("apiReportUrl");
 	return http.get(endpointReport + ReportID);
 }
 
 export function GetReportByLatLong(X, Y) {
+	const endpointReport = returnAPIEndPoint("apiReportUrl");
 	return http.get(endpointReport + X + Y);
 }
 
 export function GetReportByLatLongRadius(X, Y, Radius) {
+	const endpointReport = returnAPIEndPoint("apiReportUrl");
 	return http.get(endpointReport + X + Y + Radius);
 }
 
 export function VerifyAddress(address) {
+	const endpointVerifyAddress = returnAPIEndPoint("apiVerifyAddressUrl");
 	return http.get(endpointVerifyAddress + "/" + address);
 }
 
 export function GetContactAddress(id) {
+	const endpointContacts = returnAPIEndPoint("apiContactUrl");
 	return http.get(endpointContacts + id + "/addresses");
 }
 
 export function GetContactDetails(id) {
+	const endpointContacts = returnAPIEndPoint("apiContactUrl");
 	return http.get(endpointContacts + id);
 }
 
 export function CreateContactAddress(id, VerificationId, Name) {
+	const endpointContacts = returnAPIEndPoint("apiContactUrl");
 	const response = http.post(endpointContacts + id + "/", { VerificationId, Name });
 	return response;
 }

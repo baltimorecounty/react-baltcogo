@@ -6,6 +6,8 @@ import { ErrorCheck } from "./CustomErrorHandling";
 import { Link } from 'react-router-dom';
 import FormContainer from './FormContainer';
 import { Login, GetContactAddress } from './authService';
+import { formIncomplete } from "./checkFormCompletion";
+
 // import DisplayFormikState from './helper';
 const SignIn = (props, routeProps) => {
 
@@ -14,11 +16,7 @@ const SignIn = (props, routeProps) => {
 		setFieldType(fieldType === 'Password' ? 'text' : 'Password');
 	};
 
-	if(props.values.requestType === ""){
-		props.history.push('/ServiceRequestForm');
-		props.setFieldValue("userNeedsToLoginError", "Please log in to continue");
-	}
-
+	
 	const userLogin = async (values, props, actions) => {
 
 		try {
@@ -80,7 +78,13 @@ const SignIn = (props, routeProps) => {
 					success: 'OK',
 					css: 'success'
 				})
-				props.history.push('/ProvideDetails');
+				if(formIncomplete(props) === true){
+					props.history.push('/ServiceRequestForm');
+					props.setFieldValue("userNeedsToLoginError", "Please log in to continue");
+				}
+				else{
+					props.history.push('/ProvideDetails');
+				}	
 			}
 		}
 		catch (ex) {
