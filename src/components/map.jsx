@@ -10,6 +10,7 @@ Geocode.setApiKey('AIzaSyAqazsw3wPSSxOFVmij32C_LIhBSuyUNi8');
 //Geocode.enableDebug();
 class Map extends React.Component {
 
+
 	shouldComponentUpdate(nextProps, nextState) {
 		/* 	console.log('==========================================');
 			console.log('this.center.lat:' + this.props.lat);
@@ -41,23 +42,32 @@ class Map extends React.Component {
 			return false;
 		}
 	}
+
+
+
 	render() {
 		const { address, lat, lng, markerLat, onMarkerDragEnd } = this.props;
+		console.log('=========================');
+		console.log('address:' + address);
+		console.log('lat:' + lat);
+		console.log('lng:' + lng);
+		console.log('=========================');
+
 		const AsyncMap = withScriptjs(
 			withGoogleMap(
 				props => (
 					<GoogleMap google={this.props.google}
 						defaultZoom={this.props.zoom}
-						defaultCenter={{ lat: lat, lng: lng }}
+						defaultCenter={{ lat, lng }}
 						onClick={onMarkerDragEnd}
 					>
 
 						<Marker google={this.props.google}
-							name={'Dolores park'}
+							//name={'Dolores park'}
 							draggable={true}
 							onDragEnd={onMarkerDragEnd}
 
-							position={{ lat: lat, lng: lng }}
+							position={{ lat, lng }}
 						/>
 						<Marker />
 

@@ -15,10 +15,10 @@ const CreateAccount = (props, routeProps) => {
 		setFieldType(fieldType === 'Password' ? 'text' : 'Password');
 	};
 	console.log('ContactID:');
-	console.log( props);
+	console.log(props);
 	//if (props.formik.values.ContactID === null || props.formik.values.requestType === "") {
 	if (props.values.ContactID === null || props.values.requestType === "") {
-	//	props.history.push('/ServiceRequestForm');
+		//	props.history.push('/ServiceRequestForm');
 		//props.formik.setFieldValue("userNeedsToLoginError", "Please log in to continue");
 		//props.setFieldValue("userNeedsToLoginError", "Please log in to continue");
 	}
