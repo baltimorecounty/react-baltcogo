@@ -12,8 +12,8 @@ Geocode.setApiKey('AIzaSyAqazsw3wPSSxOFVmij32C_LIhBSuyUNi8');
 
 
 const provideDetails = props => {
-	const [Latitude1, setLatitude] = useState(39.4001526);
-	const [Longitude1, setLongitude] = useState(-76.6074448);
+	const [Latitude, setLatitude] = useState(39.4001526);
+	const [Longitude, setLongitude] = useState(-76.6074448);
 	const [MarkerLatitude, setMarkerLatitude] = useState(18.5204);
 	const [MarkerLongitude, setMarkerLongitude] = useState(73.8567);
 	const [Address, setData] = useState([]);
@@ -100,56 +100,54 @@ const provideDetails = props => {
 	const onMarkerDragEnd = async (event, setFieldValue) => {
 
 		let newLat = event.latLng.lat();
-		let	newLng = event.latLng.lng();
+		let newLng = event.latLng.lng();
 
-		console.log('--Marker --inside new value --');
-		console.log('--newLat:' + newLat);
-		console.log('--newLng:' + newLng);
-		console.log('--Marker --out of  --')
-		/* 	await reverseGeocode(newLat, newLng).then(
-	
-				response => {
-					
-					try {
-						const address = response.data.address.Match_addr;
+
+		await reverseGeocode(newLat, newLng).then(
+
+			response => {
+
+				try {
+					const address = response.data.address.Match_addr;
+					rest.formik.setFieldValue('location', address);
+
+					setLongitude(newLng);
+					setLatitude(newLat);
+					setMarkerLatitude(newLat);
+					setMarkerLongitude(newLng);
+					rest.formik.setFieldValue('Latitude', newLat);
+					rest.formik.setFieldValue('Longitude', newLng);
+
+				}
+				catch (ex) {
+
+					rest.formik.errors.location = 'You must select a location inside Baltimore County.';
+
+				}
+			}
+		)
+
+
+
+
+		/* 		Geocode.fromLatLng(newLat, newLng).then(
+					response => {
+						const address = response.results[0].formatted_address;
 						rest.formik.setFieldValue('location', address);
-						setLatitude(newLat);
-						setLongitude(newLng);
+						setLongitude(newLat);
+						setLatitude(newLng);
+					
 						setMarkerLatitude(newLat);
 						setMarkerLongitude(newLng);
 						rest.formik.setFieldValue('Latitude', newLat);
 						rest.formik.setFieldValue('Longitude', newLng);
-	
+					},
+					error => {
+						console.error(error);
 					}
-					catch (ex) {
-				
-						rest.formik.errors.location = 'You must select a location inside Baltimore County.';
-	
-					}
-				}
-			)
-	 */
-
-
-
-		Geocode.fromLatLng(newLat, newLng).then(
-			response => {
-				const address = response.results[0].formatted_address;
-				rest.formik.setFieldValue('location', address);
-				setLongitude(newLat);
-				setLatitude(newLng);
-			
-				setMarkerLatitude(newLat);
-				setMarkerLongitude(newLng);
-				rest.formik.setFieldValue('Latitude', newLat);
-				rest.formik.setFieldValue('Longitude', newLng);
-			},
-			error => {
-				console.error(error);
-			}
-		);
-		console.log('Latitude1 value :' + Latitude1);
-		console.log('Longitude1 value :' + Longitude1);
+				);
+				console.log('Latitude1 value :' + Latitude1);
+				console.log('Longitude1 value :' + Longitude1); */
 	};
 
 
@@ -171,8 +169,7 @@ const provideDetails = props => {
 		id: item.Zip,
 		label: `${item.StreetAddress}, ${item.City}, ${item.Zip}`,
 	}));
-	console.log('whre is th value Latitude:' + rest.formik.values.Latitude);
-	console.log('whre is th value Longitude:' + rest.formik.values.Longitude);
+
 	return (
 
 		<FormContainer title="Provide Details" currentTab="ProvideDetails" shouldDisableForm={props.formik.values.shouldDisableForm}>
@@ -223,9 +220,9 @@ const provideDetails = props => {
 						{props.status ? props.status.success : ''}
 					</div>
 					<Collaspe address={rest.formik.values.location}
-						lat={Latitude1}
-						lng={Longitude1}
-					
+						lat={Latitude}
+						lng={Longitude}
+
 						markerLat={MarkerLatitude} onMarkerDragEnd={e => (onMarkerDragEnd(e, setFieldValue))} />
 					<p role='alert' className="error-message">
 						<ErrorMsg

@@ -47,11 +47,11 @@ class Map extends React.Component {
 
 	render() {
 		const { address, lat, lng, markerLat, onMarkerDragEnd } = this.props;
-		console.log('=========================');
-		console.log('address:' + address);
-		console.log('lat:' + lat);
-		console.log('lng:' + lng);
-		console.log('=========================');
+		// console.log('=========================');
+		// console.log('address:' + address);
+		// console.log('lat:' + lat);
+		// console.log('lng:' + lng);
+		// console.log('=========================');
 
 		const AsyncMap = withScriptjs(
 			withGoogleMap(
@@ -63,7 +63,7 @@ class Map extends React.Component {
 					>
 
 						<Marker google={this.props.google}
-							//name={'Dolores park'}
+							name={'Dolores park'}
 							draggable={true}
 							onDragEnd={onMarkerDragEnd}
 

@@ -3,11 +3,11 @@ import React from 'react';
 import { UncontrolledCollapse, Button, CardBody, Card } from 'reactstrap';
 import Map from './map';
 const Collaspe = ({ address, lat, lng, markerLat, onChange, onMarkerDragEnd }) => {
-	console.log('----Collaspe-----++++++++++++++++++++++++++++------------------');
-	/* console.log('address:' + address);*/
-	console.log('lat:' + lat);
-	console.log('lng:' + lng);
-	console.log('----Collaspe------++++++++++++++++++++++----------------'); 
+	/*	console.log('----Collaspe-----++++++++++++++++++++++++++++------------------');
+		 console.log('address:' + address);
+		console.log('lat:' + lat);
+		console.log('lng:' + lng);
+		console.log('----Collaspe------++++++++++++++++++++++----------------'); */
 	return (
 		<React.Fragment>
 			<Button type="button" className="small" color="link" id="toggler" align="left" style={{ marginBottom: '1rem' }}>
@@ -20,7 +20,7 @@ const Collaspe = ({ address, lat, lng, markerLat, onChange, onMarkerDragEnd }) =
 							<Map
 								address={address} lat={lat} lng={lng} markerLat={markerLat} onMarkerDragEnd={onMarkerDragEnd}
 								//center={{lat: 18.5204, lng: 73.8567}}
-								center={{ lat,lng }}
+								center={{ lat, lng }}
 								height='300px'
 								zoom={15}
 							/>
