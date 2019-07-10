@@ -30,20 +30,7 @@ const SignIn = (props, routeProps) => {
 			props.setFieldValue('NameLast', NameLast);
 
 			sessionStorage.setItem('NameFirst', NameFirst);
-			sessionStorage.setItem('NameLast', NameLast);
-			/*TODO: sgurung4 -- remove this , just added for testing only */
-			console.log('ContactID:' + contactID);
-			sessionStorage.setItem('UserLoginID', contactID);
-
-
-			props.setFieldValue('ContactID', contactID);
-			actions.setStatus({
-				success: 'OK',
-				css: 'success'
-			})
-			props.history.push('/ProvideDetails');
-
-			/*TODO: sgurung4 -- remove up to here  , just added for testing only */
+			sessionStorage.setItem('NameLast', NameLast);		
 			try {
 				const getAddressResponse = await GetContactAddress(contactID);
 				console.log(getAddressResponse);

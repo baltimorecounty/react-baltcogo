@@ -3,7 +3,7 @@ import React from "react";
 import Autocomplete from 'react-autocomplete';
 import _ from 'lodash';
 const AutoCompletTypeField = props => {
-	const { items, name, formikProps, onChange, onSelect, value } = props;
+	const { items, formikProps, onChange, onSelect, value } = props;
 
 	const handleChange = changeEvent => {
 		const { value } = changeEvent.target;
