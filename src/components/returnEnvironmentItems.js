@@ -13,16 +13,13 @@ export const returnAPIEndPoint = (endPointName) => {
 	
 	if (domain === "dev.baltimorecountymd.gov"){
 		endPoint = _.filter(configItems.endPointsTest, { key: endPointName })
-		return endPoint[0].value;
-
 	}else if(domain === "baltimorecountymd.gov"){
 		endPoint = _.filter(configItems.endPointsProd, { key: endPointName })
-		return endPoint[0].value;
 	}
 	else{
 		endPoint = _.filter(configItems.endPointsLocal, { key: endPointName })
-		return endPoint[0].value;
 	}
+	return endPoint[0].value;
 }
 
 export const returnJsonFileLocations = (fileName) => {
@@ -31,16 +28,13 @@ export const returnJsonFileLocations = (fileName) => {
 
 	if (domain === "dev.baltimorecountymd.gov"){
 		fileLocation = _.filter(configItems.jsonFileLocationsTest, { key: fileName })
-		return fileLocation[0].value;
-
 	}else if(domain === "baltimorecountymd.gov"){
 		fileLocation = _.filter(configItems.jsonFileLocationsProd, { key: fileName })
-		return fileLocation[0].value;
 	}
 	else{
-		fileLocation = _.filter(configItems.jsonFileLocationsTest, { key: fileName })
-		return fileLocation[0].value;
+		fileLocation = _.filter(configItems.jsonFileLocationsTest, { key: fileName })	
 	}
+	return fileLocation[0].value;
 }
 
 export const returnRequestTypes = (requestTypeName) => {
@@ -49,30 +43,28 @@ export const returnRequestTypes = (requestTypeName) => {
 
 	if (domain === "dev.baltimorecountymd.gov"){
 		requestType = _.filter(configItems.formTypesTest, { key: requestTypeName })
-		return requestType[0].value;
-
 	}else if(domain === "baltimorecountymd.gov"){
 		requestType = _.filter(configItems.formTypesProd, { key: requestTypeName })
-		return requestType[0].value;
 	}
 	else{
 		requestType = _.filter(configItems.formTypesTest, { key: requestTypeName })
-		return requestType[0].value;
 	}
+	return requestType[0].value;
 }
 
-export const returnMapEndPoint = () => {
+export const returnMapEndPoint = (mapEndPointName) => {
 	var domain =  checkEnvironment();
+	var mapEndPoint = "";
 
 	if (domain === "dev.baltimorecountymd.gov"){
-		return configItems.mapEndPointTest.value;
-
+		mapEndPoint =  _.filter(configItems.mapEndPointTest, { key: mapEndPointName })
 	}else if(domain === "baltimorecountymd.gov"){
-		return configItems.mapEndPointProd.value;
+		mapEndPoint =  _.filter(configItems.mapEndPointProd, { key: mapEndPointName })
 	}
 	else{
-		return configItems.mapEndPointTest.value;
+		mapEndPoint =  _.filter(configItems.mapEndPointTest, { key: mapEndPointName })
 	}
+	return mapEndPoint[0].value;
 }
 
 export default checkEnvironment

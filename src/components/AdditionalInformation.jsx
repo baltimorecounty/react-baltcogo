@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Field, connect } from "formik";
 import ErrorMsg from "./ErrorMessage";
 import FormContainer from './FormContainer';
 import { ErrorCheck } from "./CustomErrorHandling";
 import { CreateReport } from './authService';
 import { formIncomplete } from "./checkFormCompletion";
+import { returnJsonFileLocations } from "./returnEnvironmentItems"
+import axios from "axios"
 
 const AdditionalInformation = props => {
 	const { errors, touched, handleSubmit, ...rest } = props;
@@ -17,11 +19,25 @@ const AdditionalInformation = props => {
 		subRequestTypeDescriptionID, subRequestTypeAddress, subRequestTypeAddressID,
 		subRequestTypeCity, subRequestTypeCityID, subRequestTypeZip,
 		subRequestTypeZipID } = props.formik.values;
+	const [FormFieldNames, setFormData] = useState([]);
 
 	if(props.formik.values.ContactID === null || formIncomplete(props.formik) === true){
 		props.history.push('/ServiceRequestForm');
 		props.formik.setFieldValue("userNeedsToLoginError", "Please log in to continue");
 	}
+
+	useEffect(() => {
+
+		const fetchData = async () => {
+			const resultFormFieldNames = await axios(
+				returnJsonFileLocations("resultFormFieldNames"),
+			);
+			setFormData(resultFormFieldNames.data.AdditionalInfoPage);
+
+		};
+		fetchData();
+	});
+
 
 	const SubmitTheForm = async values => {
 		const reportItems = [
@@ -85,19 +101,17 @@ const AdditionalInformation = props => {
 
 
 	return (
-		<FormContainer title="Additional Information" currentTab = "AdditionalInformation" shouldDisableForm = {props.formik.values.shouldDisableForm}>
+		<FormContainer title={FormFieldNames.map(name => name.AdditionalInfoTitle)} currentTab = "AdditionalInformation" shouldDisableForm = {props.formik.values.shouldDisableForm}>
 			<form onSubmit={handleSubmit}>
 				<p>
-					We require some basic contact information in order to
-                    process your request. You'll receive status updates by
-                    email, but we'll only call you if we need more information.
+					{FormFieldNames.map(name => name.DisclaimerLabel)}
 				</p>
 				{(requestType === 'Website Issue') ?
 					<div name="ContactInfo" display="hidden">
 						<label htmlFor="NameFirst"
 							className={
 								rest.formik.errors.NameFirst && rest.formik.touched.NameFirst ? "error-message" : "text-label"}
-						>First Name</label>
+						>{FormFieldNames.map(name => name.FirstNameLabel)}</label>
 						<Field
 							type="text"
 							name="NameFirst"
@@ -113,7 +127,7 @@ const AdditionalInformation = props => {
 						<label htmlFor="NameLast"
 							className={
 								rest.formik.errors.NameLast && rest.formik.touched.NameLast ? "error-message" : "text-label"}
-						>Last Name</label>
+						>{FormFieldNames.map(name => name.LastNameLabel)}</label>
 						<Field
 							type="text"
 							name="NameLast"
@@ -129,7 +143,7 @@ const AdditionalInformation = props => {
 						<label htmlFor="Email"
 							className={
 								rest.formik.errors.Email && rest.formik.touched.Email ? "error-message" : "text-label"}
-						>Email</label>
+						>{FormFieldNames.map(name => name.EmailLabel)}</label>
 						<Field
 							type="text"
 							name="Email"
@@ -145,7 +159,7 @@ const AdditionalInformation = props => {
 						<label htmlFor="Phone"
 							className={
 								rest.formik.errors.Phone && rest.formik.touched.Phone ? "error-message" : "text-label"}
-						>Phone</label>
+						>{FormFieldNames.map(name => name.PhoneLabel)}</label>
 						<Field
 							type="text"
 							name="Phone"
@@ -163,7 +177,7 @@ const AdditionalInformation = props => {
 						<label htmlFor="streetAddress"
 							className={
 								rest.formik.errors.streeAddress && rest.formik.touched.streeAddress ? "error-message" : "text-label"}
-						>Your Street Address</label>
+						>{FormFieldNames.map(name => name.StreetLabel)}</label>
 						<Field
 							type="text"
 							name="streetAddress"
@@ -179,7 +193,7 @@ const AdditionalInformation = props => {
 						<label htmlFor="city"
 							className={
 								rest.formik.errors.city && rest.formik.touched.city ? "error-message" : "text-label"}
-						>Your City</label>
+						>{FormFieldNames.map(name => name.CityLabel)}</label>
 						<Field
 							type="text"
 							name="city"
@@ -197,7 +211,7 @@ const AdditionalInformation = props => {
 								className={
 									rest.formik.errors.zipCode && rest.formik.touched.zipCode ? "error-message" : "text-label"}
 							>
-								Your ZIP Code
+								{FormFieldNames.map(name => name.ZipcodeLabel)}
 							</label>
 							<Field type='text'
 								name="zipCode"
@@ -215,16 +229,7 @@ const AdditionalInformation = props => {
 					
 				}
 				<p className="smallest">
-                    Please do not include personal information, including, but
-                    not limited to Social Security Numbers, driver’s license
-                    numbers, financial account numbers, individual taxpayer
-                    identification numbers, passport numbers, state
-                    identification card numbers, health information, medical
-                    history, condition, treatment, or diagnosis, health
-                    insurance policies, certificate numbers, or health insurance
-                    subscriber identification numbers, biometric data, and/or
-                    user name or email address in combination with a password or
-                    security question and answer.
+					{FormFieldNames.map(name => name.LegalDisclamierBottom)}
 				</p>
 				<div className = "cs-form-control" >
 					<input type="button" className="seButton" onClick={callProviderDetailForm} value="Previous" />

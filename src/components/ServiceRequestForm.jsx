@@ -65,6 +65,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 	const [animalSubCategories, setAnimalSubCategories] = useState([]);
 	const [animalSex, setAnimalSex] = useState([]);
 	const { ContactID } = props.formik.values;
+	const [FormFieldNames, setFormData] = useState([]);
 	const contactID =  (ContactID === "") ? sessionStorage.getItem("UserLoginID") : ContactID; 
 	
 	//
@@ -87,11 +88,15 @@ const ServiceRequestForm = (props, errors, touched) => {
 				const resultAnimalTypes = await axios(
 					returnJsonFileLocations("resultAnimalTypes"),
 				);
+				const resultFormFieldNames = await axios(
+					returnJsonFileLocations("resultFormFieldNames"),
+				);
 				setData(result.data);
 				setPetTypes(resultPetTypes.data);
 				setAnimalBreeds(resultAnimalBreeds.data);
 				setAnimalColors(resultAnimalColors.data);
 				setOtherAnimalTypes(resultAnimalTypes.data);
+				setFormData(resultFormFieldNames.data.RequestPage);
 				props.formik.setFieldValue('ContactID', contactID);
 
 				if (contactID !==null){
@@ -308,14 +313,14 @@ const ServiceRequestForm = (props, errors, touched) => {
 	let disableButton = buttonDisableValidation();
 	let displayButton = buttonShowHideValidation();
 	const localProps = props.formik;
-	
+	console.log(FormFieldNames);
 	return (
 
-		<FormContainer title =  "How Can We Help?" currentTab = "ServiceRequestForm" shouldDisableForm = {props.formik.values.shouldDisableForm}>
+		<FormContainer title = {FormFieldNames.map(name => name.RequestTitle)} currentTab = "ServiceRequestForm" shouldDisableForm = {props.formik.values.shouldDisableForm}>
 			<Form>
 				<div className={
 					localProps.errors.requestType && localProps.touched.requestType ? "cs-form-control error" : "cs-form-control"}>
-					<label htmlFor="requestType">Request Category</label>
+					<label htmlFor="requestType">{FormFieldNames.map(name => name.CategoryLabel)}</label>
 					<RequestTypeField
 						component="select"
 						name="requestType"
@@ -338,7 +343,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 					localProps.values['requestType'] !== '' ?
 						<div className={
 							localProps.errors.subRequestType && localProps.touched.subRequestType ? "cs-form-control error" : "cs-form-control"}>
-							<label name="subRequestType" htmlFor="subRequestType">Request Sub-Category</label>
+							<label name="subRequestType" htmlFor="subRequestType">{FormFieldNames.map(name => name.SubCategoryLabel)}</label>
 							<RequestSubTypeField
 								component="select"
 								name="subRequestType"
@@ -408,7 +413,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 					localProps.values['requestType'] === returnRequestTypes("requestType_petAndAnimalIssue") && localProps.values['subRequestType'] !== '' ?
 						<div className={
 							localProps.errors.petType && localProps.touched.petType ? "cs-form-control error" : "cs-form-control"}>
-							<label htmlFor="petType">Pet Type</label>
+							<label htmlFor="petType">{FormFieldNames.map(name => name.PetType)}</label>
 							<RequestPetTypeField
 								component="select"
 								name="petType"
@@ -434,7 +439,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 					(localProps.values['subRequestType'] !== '' && localProps.values['petType'] === returnRequestTypes("petType_Others")) ?
 						<div className={
 							localProps.errors.otherAnimalTypes && localProps.touched.otherAnimalTypes ? "cs-form-control error" : "cs-form-control"}>
-							<label htmlFor="otherAnimalTypes">Other pet type</label>
+							<label htmlFor="otherAnimalTypes">{FormFieldNames.map(name => name.PetTypeOther)}</label>
 							<GenericTypeField
 								component="select"
 								name="otherAnimalTypes"
@@ -462,7 +467,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 					(localProps.values['requestType'] === returnRequestTypes("requestType_petAndAnimalIssue") && localProps.values['subRequestType'] !== '') && checkPetType(localProps.values['petType']) ?
 						<div className={
 							localProps.errors.sexType && localProps.touched.sexType ? "cs-form-control error" : "cs-form-control"}>
-							<label htmlFor="sexType">Pet Sex (optional)</label>
+							<label htmlFor="sexType">{FormFieldNames.map(name => name.PetSex)}</label>
 							<GenericTypeField
 								component="select"
 								name="sexType"
@@ -491,7 +496,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 						&& (localProps.values['petType'] === returnRequestTypes("petTypeCat")|| localProps.values['petType']=== returnRequestTypes("petTypeDog"))) ?
 						<div className={
 							localProps.errors.animalColorType && localProps.touched.animalColorType ? "cs-form-control error" : "cs-form-control"}>
-							<label htmlFor="animalColorType">Primary Animal Color</label>
+							<label htmlFor="animalColorType">{FormFieldNames.map(name => name.PetColor)}</label>
 							<GenericTypeField
 								component="select"
 								name="animalColorType"
@@ -521,7 +526,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 						&& (localProps.values['petType'] === returnRequestTypes("petTypeCat") || localProps.values['petType'] === returnRequestTypes("petTypeDog"))) ?
 						<div className={
 							localProps.errors.animalBreedType && localProps.touched.animalBreedType ? "cs-form-control error" : "cs-form-control"}>
-							<label htmlFor="animalBreed">Primary Animal Breed(optional)</label>
+							<label htmlFor="animalBreed">{FormFieldNames.map(name => name.PetBreed)}</label>
 							<GenericTypeField
 								component="select"
 								name="animalBreedType"
@@ -547,7 +552,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 				{(localProps.values['requestType'].toLowerCase() === 'website issue') ?
 					<div className={
 						localProps.errors.serviceDescription && localProps.touched.serviceDescription ? "cs-form-control error" : "cs-form-control"}>
-						<label htmlFor="serviceDescription">Service Request Description</label>
+						<label htmlFor="serviceDescription">{FormFieldNames.map(name => name.Description)}</label>
 						<Field type='text'
 							name="serviceDescription"
 							className={localProps.errors.serviceDescription && localProps.touched.serviceDescription ? "text-select error" : null}
@@ -586,7 +591,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 							<Model />
 						</div>) : 
 						<div className = "cs-form-control">
-							<label name="userLoggedIn">You're signed is as {sessionStorage.getItem("NameFirst")} {sessionStorage.getItem("NameLast")}</label><br /> 
+							<label name="userLoggedIn">{FormFieldNames.map(name => name.AlreadySignedInLabel)} {sessionStorage.getItem("NameFirst")} {sessionStorage.getItem("NameLast")}</label><br /> 
 							<label name="notCorrectUser"><Link to="SignInForm">Not {sessionStorage.getItem("NameFirst")}? Log in to a different account. &nbsp; </Link></label>
 							<input type="button" className="seButton pull-right" onClick={goToNextPage} disabled={disableButton} value="Next" />
 						</div> : "" } 

@@ -28,6 +28,7 @@ export const jsonFileLocationsTest = [
 	{ key: "resultAnimalBreeds", value: "//dev.baltimorecountymd.gov/sebin/y/c/animal-breeds.json" },
 	{ key: "resultAnimalColors", value: "//dev.baltimorecountymd.gov/sebin/u/w/animal-colors.json" },
 	{ key: "resultAnimalTypes", value: "//dev.baltimorecountymd.gov/sebin/a/g/animal-types.json" },
+	{ key: "resultFormFieldNames", value: "//dev.baltimorecountymd.gov/sebin/s/u/FormFieldNames.json"}
 ];
 export const jsonFileLocationsProd = [
 	{ key: "results", value: "//dev.baltimorecountymd.gov/sebin/q/m/categories.json" },
@@ -80,14 +81,15 @@ export  const formTypesProd = [
 	{ key: "petTypeDog", value: "Dog" },
 	{ key: "petType_Others", value: "Other" }
 ];
-export const mapEndPointTest = {
-	key: "mapGISEndPoint",
-	value: "https://services.baltimorecountymd.gov/api/gis/addressLookup/"
-	//value: "https://testservices.baltimorecountymd.gov/api/gis/addressLookup/" --value for test but not until HostFile is updated
-}
-export const mapEndPointProd = {
-	key: "mapGISEndPoint",
-	value: "https://services.baltimorecountymd.gov/api/gis/addressLookup/"
-}
+export const mapEndPointTest = [
+	//{ key: "mapGISEndPoint", value: "https://testservices.baltimorecountymd.gov/api/gis/addressLookup/" }, --value for test but not until HostFile is updated
+	{ key: "mapGISEndPoint", value: "https://services.baltimorecountymd.gov/api/gis/addressLookup/" },
+	{ key: "mapReverseGISEndPoint", value: "https://bcgis.baltimorecountymd.gov/arcgis/rest/services/Geocoders/CompositeGeocode_CS/GeocodeServer/reverseGeocode?location=" }
+
+];
+export const mapEndPointProd = [
+	{ key: "mapGISEndPoint", value: "https://services.baltimorecountymd.gov/api/gis/addressLookup/" },
+	{ key: "mapReverseGISEndPoint", value: "https://bcgis.baltimorecountymd.gov/arcgis/rest/services/Geocoders/CompositeGeocode_CS/GeocodeServer/reverseGeocode?location=" }
+];
 
 export default endPointsLocal
