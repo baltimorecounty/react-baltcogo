@@ -70,15 +70,15 @@ class Map extends React.Component {
 							position={{ lat, lng }}
 						/>
 						<Marker />
-
-						<InfoWindow
-							onClose={this.onInfoWindowClose}
-							position={{ lat: (lat + 0.0018), lng: lng }}
-						>
-							<div>
-								<span style={{ padding: 0, margin: 0 }}>{address}</span>
-							</div>
-						</InfoWindow>
+						{address !== '' ?
+							<InfoWindow
+								onClose={this.onInfoWindowClose}
+								position={{ lat: (lat + 0.0018), lng: lng }}
+							>
+								<div>
+									<span style={{ padding: 0, margin: 0 }}>{address}</span>
+								</div>
+							</InfoWindow> : ''}
 					</GoogleMap>
 
 				)

@@ -65,10 +65,10 @@ const ServiceRequestForm = (props, errors, touched) => {
 	const [animalSubCategories, setAnimalSubCategories] = useState([]);
 	const [animalSex, setAnimalSex] = useState([]);
 	const { ContactID } = props.formik.values;
-	const contactID =  (ContactID === "") ? sessionStorage.getItem("UserLoginID") : ContactID; 
-	
+	const contactID = (ContactID === "") ? sessionStorage.getItem("UserLoginID") : ContactID;
+
 	//
-	
+
 	try {
 		useEffect(() => {
 			const fetchData = async () => {
@@ -94,7 +94,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 				setOtherAnimalTypes(resultAnimalTypes.data);
 				props.formik.setFieldValue('ContactID', contactID);
 
-				if (contactID !==null){
+				if (contactID !== null) {
 
 					getContactDetails();
 				}
@@ -213,14 +213,13 @@ const ServiceRequestForm = (props, errors, touched) => {
 		let subRequestType = rest.formik.values['subRequestType'].toLowerCase();
 
 		if (subRequestType === returnRequestTypes("subCategory_SewerIssues").toLowerCase() ||
-				subRequestType === returnRequestTypes("subCategory_StormWaterIssues").toLowerCase() ||
-				subRequestType === returnRequestTypes("subCategory_WaterSupplyIssues").toLowerCase() ||
-				subRequestType === returnRequestTypes("subCategory_IcyConditions").toLowerCase()
+			subRequestType === returnRequestTypes("subCategory_StormWaterIssues").toLowerCase() ||
+			subRequestType === returnRequestTypes("subCategory_WaterSupplyIssues").toLowerCase() ||
+			subRequestType === returnRequestTypes("subCategory_IcyConditions").toLowerCase()
 		) {
 			return false;
 		}
-		else
-		{
+		else {
 			return true;
 		}
 	}
@@ -230,10 +229,10 @@ const ServiceRequestForm = (props, errors, touched) => {
 		return formIncomplete(props.formik);
 	}
 
-	const getContactDetails = async() =>{
-		try{
+	const getContactDetails = async () => {
+		try {
 			const getResponse = await GetContactDetails(contactID);
-			
+
 			if (getResponse.data.HasErrors === true) {
 				const errorsReturned = ErrorCheck(getResponse);
 				throw new Error(errorsReturned);
@@ -246,14 +245,14 @@ const ServiceRequestForm = (props, errors, touched) => {
 				props.formik.setFieldValue('NameLast', NameLast);
 			}
 		}
-		catch (ex){
+		catch (ex) {
 		}
 
 	}
-	const goToNextPage = async() =>{
-		try{
+	const goToNextPage = async () => {
+		try {
 			const getAddressResponse = await GetContactAddress(contactID);
-			
+
 			if (getAddressResponse.data.HasErrors === true) {
 				const errorsReturned = ErrorCheck(getAddressResponse);
 				throw new Error(errorsReturned);
@@ -269,7 +268,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 				props.history.push('/ProvideDetails');
 			}
 		}
-		catch (ex){
+		catch (ex) {
 		}
 	}
 
@@ -303,15 +302,16 @@ const ServiceRequestForm = (props, errors, touched) => {
 			}
 		}
 	};
-	
+
 	loadSelectedItems(props);
 	let disableButton = buttonDisableValidation();
 	let displayButton = buttonShowHideValidation();
 	const localProps = props.formik;
-	
+
+
 	return (
 
-		<FormContainer title =  "How Can We Help?" currentTab = "ServiceRequestForm" shouldDisableForm = {props.formik.values.shouldDisableForm}>
+		<FormContainer title="How Can We Help?" currentTab="ServiceRequestForm" shouldDisableForm={props.formik.values.shouldDisableForm}>
 			<Form>
 				<div className={
 					localProps.errors.requestType && localProps.touched.requestType ? "cs-form-control error" : "cs-form-control"}>
@@ -352,13 +352,13 @@ const ServiceRequestForm = (props, errors, touched) => {
 								))}
 
 							</RequestSubTypeField>
-						
+
 							<p role='alert' className="error-message">
 								<ErrorMsg
 									errormessage={localProps.errors.subRequestType}
 									touched={localProps.touched.subRequestType} />
 							</p>
-						</div>: null
+						</div> : null
 				}
 				{
 					<WaterAndSewerIssue
@@ -378,7 +378,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 						IcyConditions={returnRequestTypes("subCategory_IcyConditions")}
 						notes={notes} />
 				}
-				{	
+				{
 					<TrashAndRecycle
 						requestType={props.formik.values['requestType'].toLowerCase()}
 						subRequestType={props.formik.values['subRequestType'].toLowerCase()}
@@ -488,7 +488,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 				{
 					(localProps.values['requestType'] === returnRequestTypes("requestType_petAndAnimalIssue")
 						&& localProps.values['subRequestType'] !== ''
-						&& (localProps.values['petType'] === returnRequestTypes("petTypeCat")|| localProps.values['petType']=== returnRequestTypes("petTypeDog"))) ?
+						&& (localProps.values['petType'] === returnRequestTypes("petTypeCat") || localProps.values['petType'] === returnRequestTypes("petTypeDog"))) ?
 						<div className={
 							localProps.errors.animalColorType && localProps.touched.animalColorType ? "cs-form-control error" : "cs-form-control"}>
 							<label htmlFor="animalColorType">Primary Animal Color</label>
@@ -577,19 +577,19 @@ const ServiceRequestForm = (props, errors, touched) => {
 				<Field type="hidden" name="animalColorTypeID" />
 				<Field type="hidden" name="otherAnimalTypesID" />
 				<Field type="hidden" name="shouldDisableForm" />
-				
-				{(displayButton === true) ? 
-					(contactID === null) ? 
-						(<div className = "cs-form-control">
+
+				{(displayButton === true) ?
+					(contactID === null) ?
+						(<div className="cs-form-control">
 							<input type="button" className="seButton" onClick={callSignInForm} disabled={disableButton} value="Sign In" />
 							<input type="button" className="seButton pull-right" onClick={callRegisterForm} disabled={disableButton} value="Register" />
 							<Model />
-						</div>) : 
-						<div className = "cs-form-control">
-							<label name="userLoggedIn">You're signed is as {sessionStorage.getItem("NameFirst")} {sessionStorage.getItem("NameLast")}</label><br /> 
+						</div>) :
+						<div className="cs-form-control">
+							<label name="userLoggedIn">You're signed is as {sessionStorage.getItem("NameFirst")} {sessionStorage.getItem("NameLast")}</label><br />
 							<label name="notCorrectUser"><Link to="SignInForm">Not {sessionStorage.getItem("NameFirst")}? Log in to a different account. &nbsp; </Link></label>
 							<input type="button" className="seButton pull-right" onClick={goToNextPage} disabled={disableButton} value="Next" />
-						</div> : "" } 
+						</div> : ""}
 			</Form>
 		</FormContainer>
 	);

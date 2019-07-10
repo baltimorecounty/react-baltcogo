@@ -49,6 +49,7 @@ export default withFormik({
 		describeTheProblem: '',
 		Latitude: '',
 		Longitude: '',
+		ShowErrorMsg:'',
 		contactID: '',
 		streetAddress: '',
 		city: '',
