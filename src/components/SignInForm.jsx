@@ -1,86 +1,158 @@
 import React, { useState } from "react";
-import { Formik, Form, Field } from "formik";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import ErrorMsg from "./ErrorMessage";
 import { ErrorCheck } from "./CustomErrorHandling";
+import { Link } from 'react-router-dom';
 import FormContainer from './FormContainer';
-import { Login } from './authService';
+import { Login, GetContactAddress } from './authService';
+import { formIncomplete } from "./checkFormCompletion";
 
-const SignIn = props => {
+// import DisplayFormikState from './helper';
+const SignIn = (props, routeProps) => {
+
 	const [fieldType, setFieldType] = useState('Password');
 	const handlePasswordToggleChange = () => {
 		setFieldType(fieldType === 'Password' ? 'text' : 'Password');
 	};
 
-	const userLogin = async (values) => {
+	
+	const userLogin = async (values, props, actions) => {
 
-		console.log('--inside signnup');
-		console.log(values);
 		try {
+			console.log('inside sign In and continue');
 			const response = await Login(values.Email, values.Password);
-			if(response.data.ErrorsCount > 0){
-				const errorsReturned = ErrorCheck(response);
-				console.log(errorsReturned);
-				Field.email.errormessage = errorsReturned;
+			const contactID = response.data.Results.Id;
+			const NameFirst = response.data.Results.NameFirst;
+			const NameLast = response.data.Results.NameLast
+
+			props.setFieldValue('NameFirst', NameFirst);
+			props.setFieldValue('NameLast', NameLast);
+
+			sessionStorage.setItem('NameFirst', NameFirst);
+			sessionStorage.setItem('NameLast', NameLast);
+			/*TODO: sgurung4 -- remove this , just added for testing only */
+			console.log('ContactID:' + contactID);
+			sessionStorage.setItem('UserLoginID', contactID);
+
+
+			props.setFieldValue('ContactID', contactID);
+			actions.setStatus({
+				success: 'OK',
+				css: 'success'
+			})
+			props.history.push('/ProvideDetails');
+
+			/*TODO: sgurung4 -- remove up to here  , just added for testing only */
+			try {
+				const getAddressResponse = await GetContactAddress(contactID);
+				console.log(getAddressResponse);
+				if (getAddressResponse.data.ErrorsCount > 0) {
+					const errorsReturned = ErrorCheck(getAddressResponse);
+
+					actions.setStatus({
+						success: errorsReturned,
+						css: 'error'
+					})
+					throw new Error(errorsReturned);
+				}
+				else {
+					const addressParts = getAddressResponse.data.Results[0].FormattedAddress.split(',');
+					props.setFieldValue('requestTypeAddress', addressParts[0]);
+					props.setFieldValue('requestTypeCity', addressParts[1]);
+					props.setFieldValue('requestTypeZip', addressParts[3]);
+
+					props.setFieldValue('streetAddress', addressParts[0]);
+					props.setFieldValue('city', addressParts[1]);
+					props.setFieldValue('zipCode', addressParts[3]);
+				}
 			}
-			else{
-				props.history.push('/AdditionalInformationForm');
-			}	
+			catch (ex) {
+				if (ex.response || ex.response.status === 400) {
+					props.errors.email = ex.response.data
+				}
+			}
+
+			if (response.data.ErrorsCount > 0) {
+				const errorsReturned = ErrorCheck(response);
+
+				actions.setStatus({
+					success: errorsReturned,
+					css: 'error'
+				})
+				throw new Error(errorsReturned);
+			}
+			else {
+				sessionStorage.setItem('UserLoginID', contactID);
+
+
+				props.setFieldValue('ContactID', contactID);
+				actions.setStatus({
+					success: 'OK',
+					css: 'success'
+				})
+				if(formIncomplete(props) === true){
+					props.history.push('/ServiceRequestForm');
+					props.setFieldValue("userNeedsToLoginError", "Please log in to continue");
+				}
+				else{
+					props.history.push('/ProvideDetails');
+				}	
+			}
 		}
 		catch (ex) {
-			if (ex.response && ex.response.status === 400) {
+			if (ex.response) {
 				props.errors.email = ex.response.data
 			}
 		}
-
 	}
+
 	return (
-		<FormContainer title="Sign In">
+		<FormContainer title="Sign In" currentTab="ServiceRequestForm" shouldDisableForm={props.values.shouldDisableForm}>
 			<Formik
 				initialValues={{
 					Email: '',
-					Password: ''
+					Password: '',
+
 				}}
 				validationSchema={Yup.object().shape({
-					Email: Yup.string().email('Invalid email address.').required('Please enter a valid email address.'),
-					//Password: Yup.string()
-					//	.required('Please enter your password.')
-					//	.max(30, "Maximum 30 characters allowed.")
-					//	.matches(
-					//		/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9!@#$%^&*(),.?":{}|<>]{8}/,
-					//		"Your password must be 8 to 30 characters and contain at least one uppercase letter, one lowercase letter and one number.")
+					Email: Yup.string().email('Please enter a valid email address.').required('Please enter your email address.'),
+					Password: Yup.string()
+						.required('Please enter your password.')
 				})}
+				onSubmit={async (values, actions, setSubmitting) => {
 
-				onSubmit={(values, { setSubmitting }) => {
-					//alert(JSON.stringify(values, null, 2));
-					userLogin(values);
-					setSubmitting(false);
+					await userLogin(values, props, actions);
+					actions.setSubmitting(false);
 				}}
 			>
 				{
 					(props) => {
-						const { isSubmitting, errors, touched } = props;
+						const { errors, touched } = props;
+
 						return (
 							<Form >
-								<label htmlFor="Email"
-									className={
-										errors.Email && touched.Email ? "input-feedback" : "text-label"}
-								>Email Address</label>
-								<Field
-									type="email"
-									name="Email"
-									className={`text-input ${errors.Email && touched.Email ? "error" : ""}`}
-								/>
-								<div className="input-feedback">
-									<ErrorMsg
-										errormessage={errors.Email}
-										touched={touched.Email} />
+								<div className={
+									props.errors.Email && props.touched.Email ? "cs-form-control error" : "cs-form-control"}>
+									<label htmlFor="Email">Email Address</label>
+									<Field
+										type="email"
+										name="Email"
+									/>
+
+									<ErrorMessage name='msg' className='input-feedback' component='div' />
+									<div className={`input-feedback ${props.status ? props.status.css : ''}`}>
+										{props.status ? props.status.success : ''}
+									</div>
+									<p role='alert' className="error-message">
+										<ErrorMsg
+											errormessage={errors.Email}
+											touched={touched.Email} />
+									</p>
 								</div>
-								<div>
-									<label name="Password" htmlFor="password"
-										className={
-											errors.Password && touched.Password ? "input-feedback" : "text-label"}
-									>Password</label>
+								<div className={
+									props.errors.Password && props.touched.Password ? "cs-form-control error" : "cs-form-control"}>
+									<label name="Password" htmlFor="password">Password</label>
 									<Field
 										type={fieldType === 'Password' ? 'Password' : 'text'}
 										name="Password"
@@ -89,25 +161,26 @@ const SignIn = props => {
 									<span onClick={handlePasswordToggleChange}
 										className={`fa fa-fw fa-eye field-icon ${fieldType === 'text' ? "fa-eye-slash" : ""}`}></span>
 
-									<div className="input-feedback">
+									<p role='alert' className="error-message">
 										<ErrorMsg
 											errormessage={errors.Password}
 											touched={touched.Password} />
-									</div>
+									</p>
 								</div>
-								<label htmlFor="forgetpassword"> <a href="ResetPassword" >Forgot password?</a></label><br />
-								<label htmlFor="signup"
-								>Don't have an account? <a href="SignUpForm" >Sign up</a></label><br />
-								<button type="submit" disabled={isSubmitting}>
-									Sign In and Continue
-								</button>
+								<div className="cs-form-control" >
+									<label htmlFor="forgetpassword"> <Link to="ResetPassword" >Forgot password?</Link></label><br />
+									<label htmlFor="signup"
+									>Don't have an account? <Link to="SignUpForm" >Sign up</Link></label><br />
+
+									<input className="seButton" type="submit" disabled={props.isSubmitting} value="Sign In and Continue" />
+								</div>
+
 							</Form>
 						)
 					}
 				}
 			</Formik>
-		</FormContainer>
-
+		</FormContainer >
 	);
 }
 

@@ -1,36 +1,26 @@
-
 import React from "react";
 import { Field } from "formik";
-const RequestTypeField = props => {
-	//console.log('---RequestTypeField---');
-	const { component, name, formikProps, onChange, className, value, } = props;
+
+const RequestSubTypeField = props => {
+	//console.log('---RequestSubTypeField---');
+	const { component, name, formikProps, onChange, className, value } = props;
 	const handleChange = changeEvent => {
+		//console.log('---RequestSubTypeField---handleChange');
 		const { name, value } = changeEvent.target;
 		const localProps = formikProps.formik;
-
-		localProps.setFieldValue(name, value);
-		localProps.setFieldValue('requestTypeDescriptionID', '');
-		localProps.setFieldValue('requestTypeAddressID', '');
-		localProps.setFieldValue('requestTypeCityID', '');
-		localProps.setFieldValue('requestTypeZipID', '');
+		formikProps.formik.setFieldValue(name, value);
 
 		localProps.setFieldValue('subRequestTypeDescriptionID', '');
 		localProps.setFieldValue('subRequestTypeAddressID', '');
 		localProps.setFieldValue('subRequestTypeCityID', '');
 		localProps.setFieldValue('subRequestTypeZipID', '');
 
-		localProps.setFieldValue('subRequestType', '');
-		localProps.setFieldValue('subRequestTypeID', '');
+
 		localProps.setFieldValue('petType', '');
-		localProps.setFieldValue('petTypeID', '');
 		localProps.setFieldValue('otherAnimalTypes', '');
-		localProps.setFieldValue('otherAnimalTypesID', '')
 		localProps.setFieldValue('sexType', '');
-		localProps.setFieldValue('sexTypeID', '');
 		localProps.setFieldValue('animalColorType', '');
-		localProps.setFieldValue('animalColorTypeID', '');
 		localProps.setFieldValue('animalBreed', '');
-		localProps.setFieldValue('animalBreedID', '');
 		onChange(changeEvent);
 	};
 	return (
@@ -39,11 +29,10 @@ const RequestTypeField = props => {
 			onChange={handleChange}
 			className={className}
 			value={value}
-
 		>
 			{props.children}
 		</Field>
 	);
 };
 
-export default RequestTypeField;
+export default RequestSubTypeField;

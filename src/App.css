@@ -3,7 +3,6 @@
 }
 * {
   box-sizing: border-box;
-  font-family: ;
 }
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
@@ -14,6 +13,13 @@ body {
   background-color: #fff;
 }
 
+.hideContent{
+  display: none;
+}
+
+.showContent{
+  display: "";
+}
 
 .Container-bg{
   background-color: #F5F5F5;
@@ -54,6 +60,10 @@ select.error  {
   margin-top: -25px;
   position: relative;
   z-index: 2;
+}
+.inner-render{
+
+  z-index: 999;
 }
 
 

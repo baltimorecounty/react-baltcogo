@@ -4,84 +4,105 @@ import * as Yup from "yup";
 import ErrorMsg from "./ErrorMessage";
 import { ErrorCheck } from "./CustomErrorHandling";
 import FormContainer from './FormContainer';
-import { SignUp } from './authService';
+import { SignUp, VerifyAddress, CreateContactAddress } from './authService';
+import { Link } from 'react-router-dom';
+import { formIncomplete } from "./checkFormCompletion";
 
-/*function formatPhoneNumber(value, format) {
-	let error;
-	console.log('--test--');
 
-	console.log('value:' + value);
-	if (!value) {
-
-		error = 'Required';
-	}
-	else {
-		error = 'Required too';
-				if (typeof value === 'number') {
-					value = value.toString();
-				}
-				var exp = /\d+/g;
-				var numbersOnly = value.match(exp).join('').split('');
-				var numberOfXs = format.split('').filter(function (char) {
-					return char === 'x';
-				}).length;
-				var hasOneAsPrefix = numberOfXs + 1 === numbersOnly.length;
-				// 1 has been included in the str, but is not in the desired format
-				if (hasOneAsPrefix) {
-					numbersOnly.shift();
-				}
-				if (numberOfXs === numbersOnly.length || hasOneAsPrefix) {
-					numbersOnly.forEach(function (number) {
-						format = format.replace('x', number);
-					});
-				}
-				else {
-					console.error("Incorrect Format. Double Check your values.");
-					return null;
-				} 
-	}
-	return error;
-
-}
-var _formatters = {
-	phoneNumber: formatPhoneNumber
-};
-function format(key, val, strFormat) {
-
-	return _formatters[key](val, strFormat);
-
-};*/
-
-const CreateAccount = props => {
+const CreateAccount = (props, routeProps) => {
 	const [fieldType, setFieldType] = useState('Password');
 	const handlePasswordToggleChange = () => {
 		setFieldType(fieldType === 'Password' ? 'text' : 'Password');
 	};
-	const userCreateAccount = async (values) => {
 
-		console.log('--inside signnup');
-		console.log(values);
+	const userCreateAccount = async (values, actions, props) => {
+
+
 		try {
-			const response = await SignUp(values.NameFirst, values.NameLast, values.Email, values.Password, values.Telephone, values.UniqueId, values.SuppressNotifications);
-			if(response.data.ErrorsCount > 0){
-				const errorsReturned = ErrorCheck(response);
-				console.log(errorsReturned);
-				props.Field.ErrorMsg = errorsReturned;
+			var fullAddress = values.Address + ' ' + values.City + ',MD ' + values.ZipCode;
+
+			const addressResponse = await VerifyAddress(fullAddress);
+			var VerificationId = "";
+
+			if (addressResponse.data.HasErrors === true) {
+				const errorsReturned = ErrorCheck(addressResponse);
+				//	console.log(errorsReturned);
+				actions.setStatus({
+					success1: errorsReturned,
+					css: 'address'
+				})
+				//props.Field.ErrorMsg = errorsReturned;
+				throw new Error(errorsReturned);
+
 			}
-			else{
-				props.history.push('/AdditionalInformationForm');
-			}	
+			else {
+				VerificationId = addressResponse.data.Results.VerificationID;
+				props.setFieldValue('VerificationId', VerificationId);
+				props.setFieldValue('fullAddress', fullAddress);
+			}
+			try {
+				const response = await SignUp(values.NameFirst, values.NameLast, values.Email, values.Password, values.Telephone, values.UniqueId, values.SuppressNotifications);
+				var ContactID = "";
+
+				if (response.data.HasErrors === true) {
+					const errorsReturned = ErrorCheck(response);
+					//console.log(errorsReturned);
+					actions.setStatus({
+						success2: errorsReturned,
+						css: 'email'
+					})
+					//props.Field.ErrorMsg = errorsReturned;
+					throw new Error(errorsReturned);
+				}
+				else {
+					ContactID = response.data.Results.Id;
+					props.setFieldValue('ContactID', ContactID);
+					sessionStorage.setItem('UserLoginID', ContactID)
+				}
+				try {
+					const contactAddressResponse = await CreateContactAddress(ContactID, VerificationId, "Default");
+
+					if (contactAddressResponse.data.HasErrors === true) {
+						const errorsReturned = ErrorCheck(contactAddressResponse);
+						//console.log(errorsReturned);
+						//props.Field.ErrorMsg = errorsReturned;
+						throw new Error(errorsReturned);
+					}
+					else {
+
+						props.setFieldValue('requestTypeAddress', values.Address);
+						props.setFieldValue('requestTypeCity', values.City);
+						props.setFieldValue('requestTypeZip', values.ZipCode);
+
+						props.setFieldValue('streetAddress', values.Address);
+						props.setFieldValue('city', values.City);
+						props.setFieldValue('zipCode', values.ZipCode);
+
+						if(formIncomplete(props) === true){
+							props.history.push('/ServiceRequestForm');
+							props.setFieldValue("userNeedsToLoginError", "Please log in to continue");
+						}
+						else{
+							props.history.push('/ProvideDetails');
+						}
+					}
+				}
+				catch (ex) {
+					console.log(ex.message);
+				}
+			}
+			catch (ex) {
+				console.log(ex.message);
+			}
 		}
 		catch (ex) {
-			if (ex.response && ex.response.status === 400) {
-				props.errors.email = ex.response.data
-			}
+			console.log(ex.message);
 		}
 	}
 
 
 	return (
-		<FormContainer title="Register for an Account">
+		<FormContainer title="Register for an Account" currentTab="ServiceRequestForm" shouldDisableForm={props.values.shouldDisableForm}>
 			<Formik
 
 				initialValues={{
@@ -89,13 +110,22 @@ const CreateAccount = props => {
 					NameLast: '',
 					Telephone: '',
 					Email: '',
-					Password: ''
+					Password: '',
+					Address: '',
+					City: '',
+					ZipCode: ''
 				}}
 
 				validationSchema={Yup.object().shape({
 					NameFirst: Yup.string().required('Please enter your first name.'),
 					NameLast: Yup.string().required('Please enter your last name.'),
-					Email: Yup.string().email('Invalid email.').required('Please enter a valid email address.'),
+					Email: Yup.string().email('Please enter a valid email address.').required('Please enter your email address.'),
+					Address: Yup.string().required('Please enter your address.'),
+					City: Yup.string().required('Please enter your city.'),
+					ZipCode: Yup.string().matches(/(^\d{5}$)|(^\d{5}-\d{4}$)/, {
+						message: 'Please enter your five-digit ZIP code.',
+						excludeEmptyString: true
+					}).required('Please enter your zip code.'),
 					Password: Yup.string()
 						.required('Please enter your password.')
 						.max(30, "Maximum 30 characters allowed.")
@@ -104,10 +134,14 @@ const CreateAccount = props => {
 							"Your password must be 8 to 30 characters and contain at least one uppercase letter, one lowercase letter and one number.")
 
 				})}
-				onSubmit={(values, { setSubmitting }) => {
-					//alert(JSON.stringify(values, null, 2));
-					userCreateAccount(values);
-					setSubmitting(false);
+				onSubmit={async (values, actions, setSubmitting) => {
+					//const returnval = window.formatPhoneNumber(values.Telephone);
+					//console.log('----------returnval--------');
+					//console.log(returnval);
+					//	console.log('----------------------');
+					await userCreateAccount(values, actions, props);
+
+					actions.setSubmitting(false);
 				}}
 			>
 				{
@@ -116,89 +150,130 @@ const CreateAccount = props => {
 
 						return (
 							<Form >
-								<label htmlFor="NameFirst"
-									className={
-										errors.NameFirst && touched.NameFirst ? "input-feedback" : "text-label"}
-								>First Name</label>
-								<Field
-									type="text"
-									name="NameFirst"
-									className={`text-input ${errors.NameFirst && touched.NameFirst ? "error" : ""}`}
-								/>
-								<div className="input-feedback">
-									<ErrorMsg
-										errormessage={errors.NameFirst}
-										touched={touched.NameFirst} />
+								<div className={
+									errors.NameFirst && touched.NameFirst ? "cs-form-control error" : "cs-form-control"}>
+									<label htmlFor="NameFirst">First Name</label>
+									<Field
+										type="text"
+										name="NameFirst"
+									/>
+									<p role='alert' className="error-message">
+										<ErrorMsg
+											errormessage={errors.NameFirst}
+											touched={touched.NameFirst} />
+									</p>
 								</div>
-								<label htmlFor="NameLast"
-									className={
-										errors.NameLast && touched.NameLast ? "input-feedback" : "text-label"}
-								>Last Name</label>
-								<Field
-									type="text"
-									name="NameLast"
-									className={`text-input ${errors.NameLast && touched.NameLast ? "error" : ""}`}
-								/>
-								<div className="input-feedback">
-									<ErrorMsg
-										errormessage={errors.NameLast}
-										touched={touched.NameLast} />
+								<div className={
+									props.errors.NameLast && props.touched.NameLast ? "cs-form-control error" : "cs-form-control"}>
+									<label htmlFor="NameLast">Last Name</label>
+									<Field
+										type="text"
+										name="NameLast"
+									/>
+									<p role='alert' className="error-message">
+										<ErrorMsg
+											errormessage={errors.NameLast}
+											touched={touched.NameLast} />
+									</p>
 								</div>
-								<label htmlFor="Telephone"
-									value={values.Telephone}
+								<div className={
+									props.errors.Telephone && props.touched.Telephone ? "cs-form-control error" : "cs-form-control"}>
+									<label htmlFor="Telephone"
+										value={values.Telephone}
 									//validate={formatPhoneNumber(values.Telephone)}
-									className={
-										errors.Telephone && touched.Telephone ? "input-feedback" : "text-label"}
-								>Phone</label>
-								<Field
-									type="text"
-									name="Telephone"
-									className={`text-input ${errors.Telephone && touched.Telephone ? "error" : ""}`}
-								/>
-								<div className="input-feedback">
-									<ErrorMsg
-										errormessage={errors.Telephone}
-										touched={touched.Telephone} />
+									>Phone</label>
+									<Field
+										type="text"
+										name="Telephone"
+									/>
+									<p role='alert' className="error-message">
+										<ErrorMsg
+											errormessage={errors.Telephone}
+											touched={touched.Telephone} />
+									</p>
 								</div>
-								<label htmlFor="Email"
-									className={
-										errors.Email && touched.Email ? "input-feedback" : "text-label"}
-								>Email Address</label>
-								<Field
-									type="email"
-									name="Email"
-									className={`text-input ${errors.Email && touched.Email ? "error" : ""}`}
-								/>
-								<div className="input-feedback">
-									<ErrorMsg
-										errormessage={errors.Email}
-										touched={touched.Email} />
+								<div className={
+									props.errors.Email && props.touched.Email ? "cs-form-control error" : "cs-form-control"}>
+									<label htmlFor="Email">Email Address</label>
+									<Field
+										type="email"
+										name="Email"
+									/>
+									<p role='alert' className="error-message">
+										{props.status ? props.status.success2 : ''}
+									</p>
+									<p role='alert' className="error-message">
+										<ErrorMsg
+											errormessage={errors.Email}
+											touched={touched.Email} />
+									</p>
 								</div>
-								<div>
-									<label name="Password" htmlFor="Password"
-										className={
-											errors.Password && touched.Password ? "input-feedback" : "text-label"}
-									>
-										Password
-									</label>
+								<div className={
+									props.errors.Password && props.touched.Password ? "cs-form-control error" : "cs-form-control"}>
+									<label name="Password" htmlFor="Password">Password</label>
 									<Field type={fieldType === 'Password' ? 'Password' : 'text'}
 										name="Password"
 										value={values.Password}
-										className={`text-input ${errors.Password && touched.Password ? "error" : ""}`}
 									/>
 									<span onClick={handlePasswordToggleChange}
 										className={`fa fa-fw fa-eye field-icon ${fieldType === 'text' ? "fa-eye-slash" : ""}`}></span>
-									<div className="input-feedback">
+									<p role='alert' className="error-message">
 										<ErrorMsg
 											errormessage={errors.Password}
 											touched={touched.Password} />
-									</div>
+									</p>
 								</div>
-								<label htmlFor="signup"
-								>Already have an account? <a href="SignInForm" >Sign In</a> </label><br />
-								<button type="submit" disabled={isSubmitting}>
-									Sign Up and Continue
-								</button>
+								<div className={
+									props.errors.Address && props.touched.Address ? "cs-form-control error" : "cs-form-control"}>
+									<label htmlFor="Address">Street Address</label>
+									<Field
+										type="text"
+										name="Address"
+									/>
+									<div className={`input-feedback ${props.status ? props.status.css : ''}`}>
+										{props.status ? props.status.success1 : ''}
+									</div>
+									<p role='alert' className="error-message">
+										<ErrorMsg
+											errormessage={errors.Address}
+											touched={touched.Address} />
+									</p>
+								</div>
+								<div className={
+									props.errors.City && props.touched.City ? "cs-form-control error" : "cs-form-control"}>
+									<label htmlFor="City">City</label>
+									<Field
+										type="text"
+										name="City"
+									/>
+									<p role='alert' className="error-message">
+										<ErrorMsg
+											errormessage={errors.City}
+											touched={touched.City} />
+									</p>
+								</div>
+								<div className={
+									props.errors.ZipCode && props.touched.ZipCode ? "cs-form-control error" : "cs-form-control"}>
+									<label htmlFor="ZipCode">ZIP Code</label>
+									<Field type='text'
+										name="ZipCode"
+									/>
+									<p role='alert' className="error-message">
+										<ErrorMsg
+											errormessage={errors.ZipCode}
+											touched={touched.ZipCode} />
+									</p>
+								</div>
+								<Field
+									type="hidden"
+									name="addressID"
+								/>
+								<div className="cs-form-control" >
+									<label htmlFor="signup"
+									>Already have an account? <Link to="SignInForm" >Sign In</Link> </label><br />
+									<input className="seButton" type="submit" disabled={isSubmitting} value="Sign Up and Continue" />
+								</div>
+
 							</Form>
 						)
 					}
