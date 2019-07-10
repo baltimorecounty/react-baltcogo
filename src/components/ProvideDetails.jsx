@@ -8,6 +8,8 @@ import Collaspe from './Collaspe'
 import axios from "axios"
 import _ from 'lodash';
 import AutoCompletTypeField from './AutocompleteTypeField';
+import { formIncomplete } from "./checkFormCompletion";
+import { returnMapEndPoint } from "./returnEnvironmentItems"
 Geocode.setApiKey('AIzaSyAqazsw3wPSSxOFVmij32C_LIhBSuyUNi8');
 
 
@@ -23,8 +25,10 @@ const provideDetails = props => {
 
 		const fetchData = async () => {
 			//	const encodeAddress = encodeURIComponent('400 wa')
+			const mapEndPoint = returnMapEndPoint();
+			
 			const result = await axios(
-				`https://services.baltimorecountymd.gov/api/gis/addressLookup/${query}`,
+				`${mapEndPoint}${query}`,
 			);
 			if (result.status === 200) {
 				setData(result.data);
@@ -35,7 +39,7 @@ const provideDetails = props => {
 
 		};
 		props.formik.setFieldValue('currentTab', 'ProviderDetail');
-		if (props.formik.values.ContactID === null || props.formik.values.requestType === "") {
+		if(props.formik.values.ContactID === null || formIncomplete(props.formik) === true){
 			props.history.push('/ServiceRequestForm');
 			props.formik.setFieldValue("userNeedsToLoginError", "Please log in to continue");
 		}

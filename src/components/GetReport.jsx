@@ -1,7 +1,5 @@
 import React from "react";
 import { Formik, Form, Field } from "formik";
-import * as Yup from "yup";
-import ErrorMsg from "./ErrorMessage";
 import { ErrorCheck } from "./CustomErrorHandling";
 import FormContainer from './FormContainer';
 import { GetReportByID } from './authService';

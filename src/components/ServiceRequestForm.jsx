@@ -11,11 +11,12 @@ import QueryString from 'query-string';
 import GenericTypeField from "./genericTypeField";
 import Model from './Modal';
 import { Link } from 'react-router-dom';
-import { jsonFileLocations } from "./config";
 import WaterAndSewerIssue from "./waterAndSewerIssue";
 import TrashAndRecycle from "./trashAndRecycle";
 import { GetContactAddress, GetContactDetails } from './authService';
 import RoadsAndSidewalks from "./roadsAndSidewalks";
+import { formIncomplete } from "./checkFormCompletion";
+import { returnJsonFileLocations, returnRequestTypes } from "./returnEnvironmentItems"
 
 const { categoryId } = QueryString.parse(window.location.search);
 //const contactID = 914151;
@@ -54,30 +55,6 @@ const getID = (categories, categoryName) => {
 };
 
 const ServiceRequestForm = (props, errors, touched) => {
-
-	//const requestType_petAndAnimalIssue = 'Pets and Animals Issue'; //Production Value
-	const requestType_petAndAnimalIssue = 'Pets and Animals'; //test value
-	const petAndAnimalIssueID_OtherAnimalComplaint = 'Other animal complaint';
-	const requestType_WebSiteIssue = 'Website Issue';
-	const subCategory_OtherWebsiteProblem = 'Other website problem';
-	const requestType_TrashRecycleIssue = 'Trash and Recycling Issue';
-	const requestType_WaterandSewerIssues = 'Water and Sewer Issues';
-	const requestType_RoadsAndSidewalks = 'Roads and Sidewalks';
-	const subCategory_CanOrLidLostDamaged = 'Can or lid lost or damaged';
-	const subCategory_PropertyDamangeDuringCollecttion = 'Property damage during collection';
-	const subCategory_RecyclingNotCollected = 'Recycling not collected';
-	const subCategory_RequestToStartNewCollection = 'Request to start new collection';
-	const subCategory_TrashNotCollected = 'Trash not collected';
-	const subCategory_YardWasteNotCollected = 'Yard waste not collected';
-	const requestType_RoadSidewalkIssue = 'Roads and Sidewalks Issue';
-	const subCategory_IcyConditions = 'Icy conditions';
-	const subCategory_SewerIssues = 'Sewer issues';
-	const subCategory_StormWaterIssues = 'Stormwater issues';
-	const subCategory_WaterSupplyIssues = 'Water supply issues';
-	const petTypeCat = 'cat';
-	const petTypeDog = 'dog';
-	const petTypeHorse = 'horse';
-	const petType_Others = 'other';
 	const [Categories, setData] = useState([]);
 	const [PetTypes, setPetTypes] = useState([]);
 	const [AnimalBreeds, setAnimalBreeds] = useState([]);
@@ -87,25 +64,28 @@ const ServiceRequestForm = (props, errors, touched) => {
 	const [notes, setNotes] = useState();
 	const [animalSubCategories, setAnimalSubCategories] = useState([]);
 	const [animalSex, setAnimalSex] = useState([]);
-	const contactID = (props.formik.values.ContactID === "") ? sessionStorage.getItem("UserLoginID") : props.formik.values.ContactID;
+	const { ContactID } = props.formik.values;
+	const contactID =  (ContactID === "") ? sessionStorage.getItem("UserLoginID") : ContactID; 
+	
+	//
 	
 	try {
 		useEffect(() => {
 			const fetchData = async () => {
 				const result = await axios(
-					jsonFileLocations.results,
+					returnJsonFileLocations("results"),
 				);
 				const resultPetTypes = await axios(
-					jsonFileLocations.resultPetTypes,
+					returnJsonFileLocations("resultPetTypes"),
 				);
 				const resultAnimalBreeds = await axios(
-					jsonFileLocations.resultAnimalBreeds,
+					returnJsonFileLocations("resultAnimalBreeds"),
 				);
 				const resultAnimalColors = await axios(
-					jsonFileLocations.resultAnimalColors,
+					returnJsonFileLocations("resultAnimalColors"),
 				);
 				const resultAnimalTypes = await axios(
-					jsonFileLocations.resultAnimalTypes,
+					returnJsonFileLocations("resultAnimalTypes"),
 				);
 				setData(result.data);
 				setPetTypes(resultPetTypes.data);
@@ -215,6 +195,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 	const handleAnimalBreedChange = (changeEvent) => {
 		let value = changeEvent.currentTarget.value.toLowerCase();
 		let ID = getID(animalSubCategories, value);
+		props.formik.setFieldValue('animalBreedID', ID);
 	}
 
 	const checkPetType = (value) => {
@@ -231,10 +212,10 @@ const ServiceRequestForm = (props, errors, touched) => {
 	const buttonShowHideValidation = () => {
 		let subRequestType = rest.formik.values['subRequestType'].toLowerCase();
 
-		if (subRequestType === subCategory_SewerIssues.toLowerCase() ||
-				subRequestType === subCategory_StormWaterIssues.toLowerCase() ||
-				subRequestType === subCategory_WaterSupplyIssues.toLowerCase() ||
-				subRequestType === subCategory_IcyConditions.toLowerCase()
+		if (subRequestType === returnRequestTypes("subCategory_SewerIssues").toLowerCase() ||
+				subRequestType === returnRequestTypes("subCategory_StormWaterIssues").toLowerCase() ||
+				subRequestType === returnRequestTypes("subCategory_WaterSupplyIssues").toLowerCase() ||
+				subRequestType === returnRequestTypes("subCategory_IcyConditions").toLowerCase()
 		) {
 			return false;
 		}
@@ -246,65 +227,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 	const buttonDisableValidation = () => {
 
-		let requestType = rest.formik.values['requestType'].toLowerCase();
-		let subRequestType = rest.formik.values['subRequestType'].toLowerCase();
-
-		if (requestType !== ''
-			&& subRequestType !== '') {
-			if (requestType === requestType_RoadSidewalkIssue.toLowerCase()
-				&& subRequestType === subCategory_IcyConditions.toLowerCase()) {
-				return true;
-			}
-			else if ((requestType === requestType_WaterandSewerIssues.toLowerCase())
-				&& (subRequestType === subCategory_SewerIssues.toLowerCase() ||
-				subRequestType === subCategory_StormWaterIssues.toLowerCase() ||
-				subRequestType === subCategory_WaterSupplyIssues.toLowerCase()
-				)) {
-				return true;
-			}
-			else if ((requestType === requestType_TrashRecycleIssue.toLowerCase())
-				&& (subRequestType === subCategory_CanOrLidLostDamaged.toLowerCase() ||
-				subRequestType === subCategory_PropertyDamangeDuringCollecttion.toLowerCase() ||
-				subRequestType === subCategory_RecyclingNotCollected.toLowerCase() ||
-				subRequestType === subCategory_RequestToStartNewCollection.toLowerCase() ||
-				subRequestType === subCategory_TrashNotCollected.toLowerCase() ||
-				subRequestType === subCategory_YardWasteNotCollected.toLowerCase()
-				)) {
-				return true;
-			}
-			else if (requestType === requestType_petAndAnimalIssue.toLowerCase()
-				&& subRequestType !== ''
-				&& rest.formik.values['petType'] === '') {
-				return true;
-			}
-			else if (requestType === requestType_petAndAnimalIssue.toLowerCase()
-				&& subRequestType !== ''
-				&& rest.formik.values['petType'] !== ''
-				&& (rest.formik.values['petType'].toLowerCase() === petTypeCat.toLowerCase()
-					|| rest.formik.values['petType'].toLowerCase() === petTypeDog.toLowerCase())
-
-				&& rest.formik.values['animalColorType'] === '') {
-				console.log('Pett ---Is it here ----');
-				return true;
-			}
-			else if (requestType === requestType_petAndAnimalIssue.toLowerCase()
-				&& subRequestType !== ''
-				&& (rest.formik.values['petType'] !== ''
-					&& (rest.formik.values['petType'].toLowerCase() === petType_Others.toLowerCase()
-						&& rest.formik.values['otherAnimalTypes'] === ''))) {
-				return true;
-			}
-			else if (requestType === 'website issue' && rest.formik.values['serviceDescription'].trim() === '') {
-				return true;
-			}
-			else {
-				console.log('--it it here---');
-				return false;
-			}
-		}
-		else {
-			return true;
-		}
+		return formIncomplete(props.formik);
 	}
 
 	const getContactDetails = async() =>{
@@ -441,53 +364,48 @@ const ServiceRequestForm = (props, errors, touched) => {
 					<WaterAndSewerIssue
 						requestType={props.formik.values['requestType'].toLowerCase()}
 						subRequestType={props.formik.values['subRequestType'].toLowerCase()}
-						WaterandSewerIssues={requestType_WaterandSewerIssues}
-						SewerIssues={subCategory_SewerIssues}
-						StormWaterIssues={subCategory_StormWaterIssues}
-						WaterSupplyIssues={subCategory_WaterSupplyIssues}
+						WaterandSewerIssues={returnRequestTypes("requestType_WaterandSewerIssues")}
+						SewerIssues={returnRequestTypes("subCategory_SewerIssues")}
+						StormWaterIssues={returnRequestTypes("subCategory_StormWaterIssues")}
+						WaterSupplyIssues={returnRequestTypes("subCategory_WaterSupplyIssues")}
 						notes={notes} />
 				}
 				{
 					<RoadsAndSidewalks
 						requestType={props.formik.values['requestType'].toLowerCase()}
 						subRequestType={props.formik.values['subRequestType'].toLowerCase()}
-						RoadsAndSidewalks={requestType_RoadsAndSidewalks}
-						IcyConditions={subCategory_IcyConditions}
+						RoadsAndSidewalks={returnRequestTypes("requestType_RoadsAndSidewalks")}
+						IcyConditions={returnRequestTypes("subCategory_IcyConditions")}
 						notes={notes} />
 				}
 				{	
 					<TrashAndRecycle
 						requestType={props.formik.values['requestType'].toLowerCase()}
 						subRequestType={props.formik.values['subRequestType'].toLowerCase()}
-						TrashRecycleIssue={requestType_TrashRecycleIssue.toLowerCase()}
-						CanOrLidLostDamaged={subCategory_CanOrLidLostDamaged}
-						PropertyDamangeDuringCollecttion={subCategory_PropertyDamangeDuringCollecttion}
-						RecyclingNotCollected={subCategory_RecyclingNotCollected}
-						RequestToStartNewCollection={subCategory_RequestToStartNewCollection}
-						TrashNotCollected={subCategory_TrashNotCollected}
-						YardWasteNotCollected={subCategory_YardWasteNotCollected}
+						TrashRecycleIssue={(returnRequestTypes("requestType_TrashRecycleIssue")).toLowerCase()}
+						CanOrLidLostDamaged={returnRequestTypes("subCategory_CanOrLidLostDamaged")}
+						PropertyDamangeDuringCollection={returnRequestTypes("subCategory_PropertyDamangeDuringCollection")}
+						RecyclingNotCollected={returnRequestTypes("subCategory_RecyclingNotCollected")}
+						RequestToStartNewCollection={returnRequestTypes("subCategory_RequestToStartNewCollection")}
+						TrashNotCollected={returnRequestTypes("subCategory_TrashNotCollected")}
+						YardWasteNotCollected={returnRequestTypes("subCategory_YardWasteNotCollected")}
 						notes={notes}
 					/>
 				}
-				{ /* Roads and Sidewalks Issue -- icy condition*/
-					(localProps.values['requestType'].toLowerCase() === requestType_RoadSidewalkIssue.toLowerCase()
-						&& localProps.values['subRequestType'].toLowerCase() === subCategory_IcyConditions.toLowerCase()) ? notes : null
-
-				}
 				{/* Pets and Animal Issue - Other animal complaint */
 
-					(localProps.values['requestType'].toLowerCase() === requestType_petAndAnimalIssue.toLowerCase()
-						&& localProps.values['subRequestType'].toLowerCase() === petAndAnimalIssueID_OtherAnimalComplaint.toLowerCase()) ? notes
+					(localProps.values['requestType'].toLowerCase() === (returnRequestTypes("requestType_petAndAnimalIssue")).toLowerCase()
+						&& localProps.values['subRequestType'].toLowerCase() === (returnRequestTypes("petAndAnimalIssueID_OtherAnimalComplaint")).toLowerCase()) ? notes
 						: null
 				}
 				{/* Website Issue - Other website problem */
 
-					(localProps.values['requestType'].toLowerCase() === requestType_WebSiteIssue.toLowerCase()
-						&& localProps.values['subRequestType'].toLowerCase() === subCategory_OtherWebsiteProblem.toLowerCase()) ? notes
+					(localProps.values['requestType'].toLowerCase() === (returnRequestTypes("requestType_WebSiteIssue")).toLowerCase()
+						&& localProps.values['subRequestType'].toLowerCase() === (returnRequestTypes("subCategory_OtherWebsiteProblem")).toLowerCase()) ? notes
 						: null
 				}
 				{
-					localProps.values['requestType'] === requestType_petAndAnimalIssue && localProps.values['subRequestType'] !== '' ?
+					localProps.values['requestType'] === returnRequestTypes("requestType_petAndAnimalIssue") && localProps.values['subRequestType'] !== '' ?
 						<div className={
 							localProps.errors.petType && localProps.touched.petType ? "cs-form-control error" : "cs-form-control"}>
 							<label htmlFor="petType">Pet Type</label>
@@ -513,7 +431,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 						: null
 				}
 				{
-					(localProps.values['subRequestType'] !== '' && localProps.values['petType'].toLowerCase() === petType_Others) ?
+					(localProps.values['subRequestType'] !== '' && localProps.values['petType'] === returnRequestTypes("petType_Others")) ?
 						<div className={
 							localProps.errors.otherAnimalTypes && localProps.touched.otherAnimalTypes ? "cs-form-control error" : "cs-form-control"}>
 							<label htmlFor="otherAnimalTypes">Other pet type</label>
@@ -541,9 +459,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 						: null
 				}
 				{
-					((localProps.values['requestType'] === requestType_petAndAnimalIssue)
-						&& localProps.values['subRequestType'] !== '')
-						&& checkPetType(localProps.values['petType']) ?
+					(localProps.values['requestType'] === returnRequestTypes("requestType_petAndAnimalIssue") && localProps.values['subRequestType'] !== '') && checkPetType(localProps.values['petType']) ?
 						<div className={
 							localProps.errors.sexType && localProps.touched.sexType ? "cs-form-control error" : "cs-form-control"}>
 							<label htmlFor="sexType">Pet Sex (optional)</label>
@@ -570,9 +486,9 @@ const ServiceRequestForm = (props, errors, touched) => {
 						: null
 				}
 				{
-					(localProps.values['requestType'] === requestType_petAndAnimalIssue
-						&& localProps.values['subRequestType'] !== '')
-						&& (localProps.values['petType'].toLowerCase() === petTypeCat || localProps.values['petType'].toLowerCase() === petTypeDog) ?
+					(localProps.values['requestType'] === returnRequestTypes("requestType_petAndAnimalIssue")
+						&& localProps.values['subRequestType'] !== ''
+						&& (localProps.values['petType'] === returnRequestTypes("petTypeCat")|| localProps.values['petType']=== returnRequestTypes("petTypeDog"))) ?
 						<div className={
 							localProps.errors.animalColorType && localProps.touched.animalColorType ? "cs-form-control error" : "cs-form-control"}>
 							<label htmlFor="animalColorType">Primary Animal Color</label>
@@ -601,8 +517,8 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 				}
 				{
-					((localProps.values['requestType'] === requestType_petAndAnimalIssue && localProps.values['subRequestType'] !== '')
-						&& (localProps.values['petType'].toLowerCase() === petTypeCat || localProps.values['petType'].toLowerCase() === petTypeDog)) ?
+					((localProps.values['requestType'] === returnRequestTypes("requestType_petAndAnimalIssue") && localProps.values['subRequestType'] !== '')
+						&& (localProps.values['petType'] === returnRequestTypes("petTypeCat") || localProps.values['petType'] === returnRequestTypes("petTypeDog"))) ?
 						<div className={
 							localProps.errors.animalBreedType && localProps.touched.animalBreedType ? "cs-form-control error" : "cs-form-control"}>
 							<label htmlFor="animalBreed">Primary Animal Breed(optional)</label>
@@ -672,7 +588,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 						<div className = "cs-form-control">
 							<label name="userLoggedIn">You're signed is as {sessionStorage.getItem("NameFirst")} {sessionStorage.getItem("NameLast")}</label><br /> 
 							<label name="notCorrectUser"><Link to="SignInForm">Not {sessionStorage.getItem("NameFirst")}? Log in to a different account. &nbsp; </Link></label>
-							<input type="button" className="seButton pull-right" onClick={goToNextPage} value="Next" />
+							<input type="button" className="seButton pull-right" onClick={goToNextPage} disabled={disableButton} value="Next" />
 						</div> : "" } 
 			</Form>
 		</FormContainer>

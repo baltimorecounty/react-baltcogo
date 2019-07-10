@@ -4,6 +4,7 @@ import ErrorMsg from "./ErrorMessage";
 import FormContainer from './FormContainer';
 import { ErrorCheck } from "./CustomErrorHandling";
 import { CreateReport } from './authService';
+import { formIncomplete } from "./checkFormCompletion";
 
 const AdditionalInformation = props => {
 	const { errors, touched, handleSubmit, ...rest } = props;
@@ -17,7 +18,7 @@ const AdditionalInformation = props => {
 		subRequestTypeCity, subRequestTypeCityID, subRequestTypeZip,
 		subRequestTypeZipID } = props.formik.values;
 
-	if(props.formik.values.ContactID === null || props.formik.values.requestType === ""){
+	if(props.formik.values.ContactID === null || formIncomplete(props.formik) === true){
 		props.history.push('/ServiceRequestForm');
 		props.formik.setFieldValue("userNeedsToLoginError", "Please log in to continue");
 	}
