@@ -49,7 +49,7 @@ const provideDetails = props => {
 
 	const reverseGeocode = async (latitude, longitude) => {
 		const result = await axios(
-			`http://bcgis.baltimorecountymd.gov/arcgis/rest/services/Geocoders/CompositeGeocode_CS/GeocodeServer/reverseGeocode?location=${longitude}%2C${latitude}&f=pjson`,
+			`https://bcgis.baltimorecountymd.gov/arcgis/rest/services/Geocoders/CompositeGeocode_CS/GeocodeServer/reverseGeocode?location=${longitude}%2C${latitude}&f=pjson`,
 		);
 		return result;
 
