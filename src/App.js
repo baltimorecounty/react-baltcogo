@@ -10,9 +10,10 @@ import withFormik from './components/withFormik';
 import DisplayFormikState from './components/helper';
 import ProvideDetails from './components/ProvideDetails';
 import GetReport from './components/GetReport';
+import checkEnvironment from './components/returnEnvironmentItems'
 
 function App(props) {
-
+	var Domain = checkEnvironment();
 	return (
 
 		<main className="container" >
@@ -28,7 +29,7 @@ function App(props) {
 				<Route path='/' component={ServiceRequestForm} />
 			</Switch>
 			{/* This is used for debugging purposes.  */}
-			{/* { <DisplayFormikState {...props} />  } */} 
+			{ Domain === "localhost:3000" ?  <DisplayFormikState {...props} /> : null}
 		</main>
 
 	);
