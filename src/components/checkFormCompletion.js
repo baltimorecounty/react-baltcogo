@@ -38,7 +38,6 @@ export const formIncomplete = (props) => {
 			&& (props.values['petType'].toLowerCase() === returnRequestTypes("petTypeCat").toLowerCase()
 				|| props.values['petType'].toLowerCase() === returnRequestTypes("petTypeDog").toLowerCase())
 			&& props.values['animalColorType'] === "") {
-			console.log('Pett ---Is it here ----');
 			return true;
 		}
 		else if (requestType === returnRequestTypes("requestType_petAndAnimalIssue").toLowerCase()

@@ -16,7 +16,7 @@ const SignIn = (props, routeProps) => {
 		setFieldType(fieldType === 'Password' ? 'text' : 'Password');
 	};
 
-	
+
 	const userLogin = async (values, props, actions) => {
 
 		try {
@@ -78,13 +78,13 @@ const SignIn = (props, routeProps) => {
 					success: 'OK',
 					css: 'success'
 				})
-				if(formIncomplete(props) === true){
+				if (formIncomplete(props) === true) {
 					props.history.push('/ServiceRequestForm');
 					props.setFieldValue("userNeedsToLoginError", "Please log in to continue");
 				}
-				else{
+				else {
 					props.history.push('/ProvideDetails');
-				}	
+				}
 			}
 		}
 		catch (ex) {

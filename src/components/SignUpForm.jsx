@@ -8,7 +8,6 @@ import { SignUp, VerifyAddress, CreateContactAddress } from './authService';
 import { Link } from 'react-router-dom';
 import { formIncomplete } from "./checkFormCompletion";
 
-
 const CreateAccount = (props, routeProps) => {
 	const [fieldType, setFieldType] = useState('Password');
 	const handlePasswordToggleChange = () => {

@@ -9,7 +9,9 @@ import axios from "axios"
 import _ from 'lodash';
 import AutoCompletTypeField from './AutocompleteTypeField';
 import { formIncomplete } from "./checkFormCompletion";
-import { returnMapEndPoint, returnJsonFileLocations } from "./returnEnvironmentItems"
+import { returnMapEndPoint } from "./returnEnvironmentItems"
+import { VerifyAddress } from './authService';
+import { ErrorCheck } from "./CustomErrorHandling";
 Geocode.setApiKey('AIzaSyAqazsw3wPSSxOFVmij32C_LIhBSuyUNi8');
 
 
@@ -102,6 +104,10 @@ const provideDetails = props => {
 		rest.formik.setFieldValue('Longitude', Longitude);
 	};
 
+	const onZoom = (val) => {
+		rest.formik.setFieldValue('ZoomValue', val);
+	};
+
 	const onMarkerDragEnd = async (event, setFieldValue) => {
 
 		let newLat = event.latLng.lat();
@@ -141,12 +147,23 @@ const provideDetails = props => {
 
 
 	const goToAdditionalPage = async (values) => {
-		const addressParts = props.formik.values.location.split(',');
-		rest.formik.setFieldValue('requestTypeDescription', props.formik.values.describeTheProblem);
-		rest.formik.setFieldValue('subRequestTypeAddress', addressParts[0]);
-		rest.formik.setFieldValue('subRequestTypeCity', addressParts[1]);
-		rest.formik.setFieldValue('subRequestTypeZip', addressParts[2]);
-		props.history.push('/AdditionalInformationForm');
+
+		let fullAddress = rest.formik.values.location;
+		const addressResponse = await VerifyAddress(fullAddress);
+		if (addressResponse.data.HasErrors === true) {
+
+			const errorsReturned = ErrorCheck(addressResponse);
+			rest.formik.setFieldValue('ShowErrorMsg', 1);
+			rest.formik.errors.location = errorsReturned;
+		}
+		else {
+			const addressParts = props.formik.values.location.split(',');
+			rest.formik.setFieldValue('requestTypeDescription', props.formik.values.describeTheProblem);
+			rest.formik.setFieldValue('subRequestTypeAddress', addressParts[0]);
+			rest.formik.setFieldValue('subRequestTypeCity', addressParts[1]);
+			rest.formik.setFieldValue('subRequestTypeZip', addressParts[2]);
+			props.history.push('/AdditionalInformationForm');
+		}
 	}
 
 	const goServiceRequestForm = async (values) => {
@@ -212,9 +229,10 @@ const provideDetails = props => {
 						{rest.formik.values.ShowErrorMsg === 1 ? rest.formik.errors.location : ''}
 					</div>
 					<Collaspe address={rest.formik.values.location}
+						ZoomValue={rest.formik.values.ZoomValue}
 						lat={Latitude}
 						lng={Longitude}
-
+						onZoom={onZoom}
 						markerLat={MarkerLatitude} onMarkerDragEnd={e => (onMarkerDragEnd(e, setFieldValue))} />
 					<p role='alert' className="error-message">
 

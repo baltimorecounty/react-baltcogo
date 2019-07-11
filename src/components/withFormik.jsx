@@ -13,7 +13,7 @@ export default withFormik({
 		requestTypeDescriptionID: '',
 		requestTypeAddressID: '',
 		requestTypeCityID: '',
-		requestTypeZipID: '',	
+		requestTypeZipID: '',
 		requestTypeAddress: '',
 		requestTypeCity: '',
 		requestTypeZip: '',
@@ -49,7 +49,7 @@ export default withFormik({
 		describeTheProblem: '',
 		Latitude: '',
 		Longitude: '',
-		ShowErrorMsg:'',
+		ShowErrorMsg: '',
 		contactID: '',
 		streetAddress: '',
 		city: '',
@@ -62,9 +62,8 @@ export default withFormik({
 		AdditionalInfoPage: [''],
 		SignUpPage: [''],
 		SignInPage: [''],
-		ResetPasswordPage: ['']
-
-
+		ResetPasswordPage: [''],
+		ZoomValue: ''
 	}),
 
 	validationSchema: () =>
