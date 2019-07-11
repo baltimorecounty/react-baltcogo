@@ -27,8 +27,8 @@ function App(props) {
 				<Route path='/GetReport' component={GetReport} />
 				<Route path='/' component={ServiceRequestForm} />
 			</Switch>
-
-			{ <DisplayFormikState {...props} />  }
+			{/* This is used for debugging purposes.  */}
+			{/* { <DisplayFormikState {...props} />  } */} 
 		</main>
 
 	);

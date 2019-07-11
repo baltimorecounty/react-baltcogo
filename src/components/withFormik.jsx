@@ -59,7 +59,10 @@ export default withFormik({
 		Tabs: [''],
 		RequestPage: [''],
 		MapPage: [''],
-		AdditionalInfoPage: ['']
+		AdditionalInfoPage: [''],
+		SignUpPage: [''],
+		SignInPage: [''],
+		ResetPasswordPage: ['']
 
 
 	}),

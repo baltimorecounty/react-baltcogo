@@ -220,7 +220,18 @@ const AdditionalInformation = props => {
 					<input type="button" className="seButton" onClick={callProviderDetailForm} value="Previous" />
 					<input type="button" className="seButton pull-right" onClick={SubmitTheForm} value="File Your Report" />
 				</div>
-
+				<div role="alert" class="bc-citysourced-reporter-alert alert-success" >
+					<h2>Your Submission Has Been Received</h2>
+					<p>
+						Thank you for submitting your report. You will receive an email in a
+						few minutes with your tracking number and additional information.
+					</p>
+					<p>
+						You can track your status online at any time by entering your
+						tracking number at
+						<a href="/followup" title="Track your issue status online.">www.baltimorecountymd.gov/followup</a>.
+					</p>
+				</div>
 			</form>
 
 		</FormContainer>

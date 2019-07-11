@@ -14,6 +14,84 @@
         }
 
     ],
+    "SignInPage":[
+        {
+            "SignInTitle":"Sign In"
+        },
+        {
+            "EmailLabel":"Email Address"
+        },
+        {
+            "PasswordLabel":"Password"
+        },
+        {
+            "ForgotPasswordLabel":"Forgot password?"
+        },
+        {
+            "NoAccountLabel": "Don't have an account?"
+        },
+        {
+            "SignUpLinkLabel": "Sign up"
+        }
+
+    ],
+    "SignUpPage":[
+        {
+            "SignUpTitle":"Register for an Account"
+        },
+        {
+            "FirstNameLabel":"First Name"
+        },
+        {
+            "LastNameLabel":"Last Name"
+        },
+        {
+            "PhoneLabel":"Phone"
+        },
+        {
+            "EmailLabel":"Email Address"
+        },
+        {
+            "PasswordLabel":"Password"
+        },
+        {
+            "StreetLabel":"Street Address"
+        },
+        {
+            "CityLabel":"City"
+        },
+        {
+            "ZipcodeLabel":"ZIP Code"
+        },
+        {
+            "HaveAccountLabel": "Already have an account?"
+        },
+        {
+            "SignInLinkLabel": "Sign in"
+        }
+
+    ],
+    "ResetPasswordPage":[
+        {
+            "ResetPasswordTitle":"Reset Password"
+        },
+        {
+            "EmailLabel":"Email Address"
+        },   
+        {
+            "NoAccountLabel": "Don't have an account?"
+        },
+        {
+            "SignUpLinkLabel": "Sign up"
+        },
+        {
+            "RememberPasswordLabel":"Remember your password?"
+        },
+        {
+            "SignInLinkLabel": "Sign in"
+        }
+
+    ],
     "RequestPage": [
         {
             "RequestTitle": "How Can We Help?"

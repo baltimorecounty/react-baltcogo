@@ -269,8 +269,8 @@ const CreateAccount = (props, routeProps) => {
 									name="addressID"
 								/>
 								<div className="cs-form-control" >
-									<label htmlFor="signup"
-									>Already have an account? <Link to="SignInForm" >Sign In</Link> </label><br />
+									<p htmlFor="signup"
+									>Already have an account? <Link to="SignInForm" >Sign In</Link> </p>
 									<input className="seButton" type="submit" disabled={isSubmitting} value="Sign Up and Continue" />
 								</div>
 

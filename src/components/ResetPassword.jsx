@@ -64,10 +64,10 @@ const PasswordReset = props => {
 									</p>
 								</div>
 								<div className = "cs-form-control" >
-									<label htmlFor="signup"
-									>Don't have an account? <Link to="SignUpForm" >Sign up</Link></label><br />
-									<label htmlFor="signup"
-									>Remember your password? <Link to="SignInForm" >Sign In</Link> </label><br />
+									<p htmlFor="signup"
+									>Don't have an account? <Link to="SignUpForm" >Sign up</Link></p>
+									<p htmlFor="signup"
+									>Remember your password? <Link to="SignInForm" >Sign In</Link> </p>
 									<input className="seButton" type="submit" disabled={isSubmitting} value="Submit Reset Request" />
 								</div>
 							</Form>

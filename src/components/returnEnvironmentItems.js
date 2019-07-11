@@ -32,7 +32,7 @@ export const returnJsonFileLocations = (fileName) => {
 		fileLocation = _.filter(configItems.jsonFileLocationsProd, { key: fileName })
 	}
 	else{
-		fileLocation = _.filter(configItems.jsonFileLocationsTest, { key: fileName })	
+		fileLocation = _.filter(configItems.jsonFileLocationsLocal, { key: fileName })	
 	}
 	return fileLocation[0].value;
 }

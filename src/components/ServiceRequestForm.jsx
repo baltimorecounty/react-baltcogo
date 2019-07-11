@@ -102,6 +102,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 				props.formik.setFieldValue('RequestPage', resultFormFieldNames.data.RequestPage);
 				props.formik.setFieldValue('MapPage', resultFormFieldNames.data.MapPage);
 				props.formik.setFieldValue('AdditionalInfoPage', resultFormFieldNames.data.AdditionalInfoPage);
+				props.formik.setFieldValue('AdditionalInfoPage', resultFormFieldNames.data.SignInPage);
 				props.formik.setFieldValue('ContactID', contactID);
 
 
@@ -559,7 +560,9 @@ const ServiceRequestForm = (props, errors, touched) => {
 					<div className={
 						localProps.errors.serviceDescription && localProps.touched.serviceDescription ? "cs-form-control error" : "cs-form-control"}>
 						<label htmlFor="serviceDescription">{pageFieldName.map(name => name.Description)}</label>
-						<Field type='text'
+						<Field 
+							component="textarea"
+							placeholder="Maximum 2,000 characters."
 							name="serviceDescription"
 							className={localProps.errors.serviceDescription && localProps.touched.serviceDescription ? "text-select error" : null}
 						/>
@@ -597,8 +600,8 @@ const ServiceRequestForm = (props, errors, touched) => {
 							<Model />
 						</div>) : 
 						<div className = "cs-form-control">
-							<label name="userLoggedIn">{pageFieldName.map(name => name.AlreadySignedInLabel)} {sessionStorage.getItem("NameFirst")} {sessionStorage.getItem("NameLast")}</label><br /> 
-							<label name="notCorrectUser"><Link to="SignInForm">Not {sessionStorage.getItem("NameFirst")}? Log in to a different account. &nbsp; </Link></label>
+							<p name="userLoggedIn">{pageFieldName.map(name => name.AlreadySignedInLabel)} {sessionStorage.getItem("NameFirst")} {sessionStorage.getItem("NameLast")}</p> 
+							<p name="notCorrectUser"><Link to="SignInForm">Not {sessionStorage.getItem("NameFirst")}? Log in to a different account. &nbsp; </Link></p>
 							<input type="button" className="seButton pull-right" onClick={goToNextPage} disabled={disableButton} value="Next" />
 						</div> : ""}
 			</Form>

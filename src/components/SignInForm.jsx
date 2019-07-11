@@ -155,9 +155,9 @@ const SignIn = (props, routeProps) => {
 									</p>
 								</div>
 								<div className="cs-form-control" >
-									<label htmlFor="forgetpassword"> <Link to="ResetPassword" >Forgot password?</Link></label><br />
-									<label htmlFor="signup"
-									>Don't have an account? <Link to="SignUpForm" >Sign up</Link></label><br />
+									<p htmlFor="forgetpassword"> <Link to="ResetPassword" >Forgot password?</Link></p>
+									<p htmlFor="signup"
+									>Don't have an account? <Link to="SignUpForm" >Sign up</Link></p>
 
 									<input className="seButton" type="submit" disabled={props.isSubmitting} value="Sign In and Continue" />
 								</div>

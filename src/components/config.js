@@ -22,6 +22,14 @@ export const endPointsProd = [
 	{ key: "apiContactUrl" , value: "https://services.baltimorecountymd.gov/platform.citysourced.net/contacts/" },
 	{ key: "apiVerifyAddressUrl" , value: "https://services.baltimorecountymd.gov/platform.citysourced.net/contacts/verifyaddress" }
 ];
+export const jsonFileLocationsLocal = [
+	{ key: "results", value: "//dev.baltimorecountymd.gov/sebin/q/o/categories.json" },
+	{ key: "resultPetTypes", value:"//dev.baltimorecountymd.gov/sebin/m/c/pet-types.json" },
+	{ key: "resultAnimalBreeds", value: "//dev.baltimorecountymd.gov/sebin/y/c/animal-breeds.json" },
+	{ key: "resultAnimalColors", value: "//dev.baltimorecountymd.gov/sebin/u/w/animal-colors.json" },
+	{ key: "resultAnimalTypes", value: "//dev.baltimorecountymd.gov/sebin/a/g/animal-types.json" },
+	{ key: "resultFormFieldNames", value: "//dev.baltimorecountymd.gov/sebin/s/u/FormFieldNames.json"}
+];
 export const jsonFileLocationsTest = [
 	{ key: "results", value: "//dev.baltimorecountymd.gov/sebin/q/o/categories.json" },
 	{ key: "resultPetTypes", value:"//dev.baltimorecountymd.gov/sebin/m/c/pet-types.json" },
@@ -30,6 +38,7 @@ export const jsonFileLocationsTest = [
 	{ key: "resultAnimalTypes", value: "//dev.baltimorecountymd.gov/sebin/a/g/animal-types.json" },
 	{ key: "resultFormFieldNames", value: "//dev.baltimorecountymd.gov/sebin/s/u/FormFieldNames.json"}
 ];
+
 export const jsonFileLocationsProd = [
 	{ key: "results", value: "//dev.baltimorecountymd.gov/sebin/q/m/categories.json" },
 	{ key: "resultPetTypes", value:"//dev.baltimorecountymd.gov/sebin/m/a/pet-types.json" },
