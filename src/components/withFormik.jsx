@@ -55,7 +55,13 @@ export default withFormik({
 		city: '',
 		zipCode: '',
 		shouldDisableForm: false,
-		userNeedsToLoginError: ''
+		userNeedsToLoginError: '',
+		Tabs: [''],
+		RequestPage: [''],
+		MapPage: [''],
+		AdditionalInfoPage: ['']
+
+
 	}),
 
 	validationSchema: () =>

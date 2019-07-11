@@ -19,8 +19,8 @@ const provideDetails = props => {
 	const [MarkerLatitude, setMarkerLatitude] = useState(18.5204);
 	//const [MarkerLongitude, setMarkerLongitude] = useState(73.8567);
 	const [Address, setData] = useState([]);
-	const [FormFieldNames, setFormData] = useState([]);
 	const [query, setQuery] = useState(encodeURIComponent());
+	const pageFieldName = props.formik.values.MapPage
 
 	useEffect(() => {
 
@@ -37,11 +37,6 @@ const provideDetails = props => {
 			else {
 				setData([]);
 			}
-			const resultFormFieldNames = await axios(
-				returnJsonFileLocations("resultFormFieldNames"),
-			);
-			setFormData(resultFormFieldNames.data.MapPage);
-
 		};
 		props.formik.setFieldValue('currentTab', 'ProviderDetail');
 		if (props.formik.values.ContactID === null || formIncomplete(props.formik) === true) {
@@ -166,7 +161,7 @@ const provideDetails = props => {
 
 	return (
 
-		<FormContainer title={FormFieldNames.map(name => name.DetailsTitle)} currentTab="ProvideDetails" shouldDisableForm={props.formik.values.shouldDisableForm}>
+		<FormContainer title={pageFieldName.map(name => name.DetailsTitle)} currentTab="ProvideDetails" shouldDisableForm={props.formik.values.shouldDisableForm}>
 			<Form >
 				<Field
 					type="hidden"
@@ -186,7 +181,7 @@ const provideDetails = props => {
 				/>
 				<label>Add a Location</label>
 				<p>
-					{FormFieldNames.map(name => name.DetailsMainLabelExplaination)}
+					{pageFieldName.map(name => name.DetailsMainLabelExplaination)}
 				</p>
 				<div className={
 					rest.formik.errors.location && rest.formik.touched.location ? "cs-form-control address-search error" : "cs-form-control address-search"}>
@@ -198,12 +193,11 @@ const provideDetails = props => {
 					</div>
 					<div className="address-search-wrapper">
 						<label htmlFor="location"
-							className="address">{FormFieldNames.map(name => name.AddressHeaderLabel)}
+							className="address">{pageFieldName.map(name => name.AddressHeaderLabel)}
 						</label>
 						<div className="address-input-wrapper">
 							<AutoCompletTypeField
 								items={items}
-								placeholder="123 Amazing St"
 								//name="location"
 								formikProps={rest}
 								value={rest.formik.values.location}
@@ -233,7 +227,7 @@ const provideDetails = props => {
 					rest.formik.errors.describeTheProblem && rest.formik.touched.describeTheProblem ? "cs-form-control address-search error" : "cs-form-control address-search"}>
 					<label htmlFor="describeTheProblem"
 
-					>{FormFieldNames.map(name => name.ProblemLabel)}</label>
+					>{pageFieldName.map(name => name.ProblemLabel)}</label>
 					<Field
 						component="textarea"
 						placeholder="Maximum 2,000 characters."

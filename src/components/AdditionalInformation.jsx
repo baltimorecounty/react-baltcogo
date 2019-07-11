@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Field, connect } from "formik";
 import ErrorMsg from "./ErrorMessage";
 import FormContainer from './FormContainer';
 import { ErrorCheck } from "./CustomErrorHandling";
 import { CreateReport } from './authService';
 import { formIncomplete } from "./checkFormCompletion";
-import { returnJsonFileLocations } from "./returnEnvironmentItems"
-import axios from "axios"
 
 const AdditionalInformation = props => {
+	const pageFieldName = props.formik.values.AdditionalInfoPage
 	const { errors, touched, handleSubmit, ...rest } = props;
 	const { Longitude, Latitude, ContactID, requestTypeID, requestType,
 		subRequestTypeID, subRequestType, petTypeID, petType, sexTypeID,
@@ -19,25 +18,11 @@ const AdditionalInformation = props => {
 		subRequestTypeDescriptionID, subRequestTypeAddress, subRequestTypeAddressID,
 		subRequestTypeCity, subRequestTypeCityID, subRequestTypeZip,
 		subRequestTypeZipID } = props.formik.values;
-	const [FormFieldNames, setFormData] = useState([]);
 
 	if(props.formik.values.ContactID === null || formIncomplete(props.formik) === true){
 		props.history.push('/ServiceRequestForm');
 		props.formik.setFieldValue("userNeedsToLoginError", "Please log in to continue");
 	}
-
-	useEffect(() => {
-
-		const fetchData = async () => {
-			const resultFormFieldNames = await axios(
-				returnJsonFileLocations("resultFormFieldNames"),
-			);
-			setFormData(resultFormFieldNames.data.AdditionalInfoPage);
-
-		};
-		fetchData();
-	});
-
 
 	const SubmitTheForm = async values => {
 		const reportItems = [
@@ -101,17 +86,17 @@ const AdditionalInformation = props => {
 
 
 	return (
-		<FormContainer title={FormFieldNames.map(name => name.AdditionalInfoTitle)} currentTab = "AdditionalInformation" shouldDisableForm = {props.formik.values.shouldDisableForm}>
+		<FormContainer title={pageFieldName.map(name => name.AdditionalInfoTitle)} currentTab = "AdditionalInformation" shouldDisableForm = {props.formik.values.shouldDisableForm}>
 			<form onSubmit={handleSubmit}>
 				<p>
-					{FormFieldNames.map(name => name.DisclaimerLabel)}
+					{pageFieldName.map(name => name.DisclaimerLabel)}
 				</p>
 				{(requestType === 'Website Issue') ?
 					<div name="ContactInfo" display="hidden">
 						<label htmlFor="NameFirst"
 							className={
 								rest.formik.errors.NameFirst && rest.formik.touched.NameFirst ? "error-message" : "text-label"}
-						>{FormFieldNames.map(name => name.FirstNameLabel)}</label>
+						>{pageFieldName.map(name => name.FirstNameLabel)}</label>
 						<Field
 							type="text"
 							name="NameFirst"
@@ -127,7 +112,7 @@ const AdditionalInformation = props => {
 						<label htmlFor="NameLast"
 							className={
 								rest.formik.errors.NameLast && rest.formik.touched.NameLast ? "error-message" : "text-label"}
-						>{FormFieldNames.map(name => name.LastNameLabel)}</label>
+						>{pageFieldName.map(name => name.LastNameLabel)}</label>
 						<Field
 							type="text"
 							name="NameLast"
@@ -143,7 +128,7 @@ const AdditionalInformation = props => {
 						<label htmlFor="Email"
 							className={
 								rest.formik.errors.Email && rest.formik.touched.Email ? "error-message" : "text-label"}
-						>{FormFieldNames.map(name => name.EmailLabel)}</label>
+						>{pageFieldName.map(name => name.EmailLabel)}</label>
 						<Field
 							type="text"
 							name="Email"
@@ -159,7 +144,7 @@ const AdditionalInformation = props => {
 						<label htmlFor="Phone"
 							className={
 								rest.formik.errors.Phone && rest.formik.touched.Phone ? "error-message" : "text-label"}
-						>{FormFieldNames.map(name => name.PhoneLabel)}</label>
+						>{pageFieldName.map(name => name.PhoneLabel)}</label>
 						<Field
 							type="text"
 							name="Phone"
@@ -177,7 +162,7 @@ const AdditionalInformation = props => {
 						<label htmlFor="streetAddress"
 							className={
 								rest.formik.errors.streeAddress && rest.formik.touched.streeAddress ? "error-message" : "text-label"}
-						>{FormFieldNames.map(name => name.StreetLabel)}</label>
+						>{pageFieldName.map(name => name.StreetLabel)}</label>
 						<Field
 							type="text"
 							name="streetAddress"
@@ -193,7 +178,7 @@ const AdditionalInformation = props => {
 						<label htmlFor="city"
 							className={
 								rest.formik.errors.city && rest.formik.touched.city ? "error-message" : "text-label"}
-						>{FormFieldNames.map(name => name.CityLabel)}</label>
+						>{pageFieldName.map(name => name.CityLabel)}</label>
 						<Field
 							type="text"
 							name="city"
@@ -211,7 +196,7 @@ const AdditionalInformation = props => {
 								className={
 									rest.formik.errors.zipCode && rest.formik.touched.zipCode ? "error-message" : "text-label"}
 							>
-								{FormFieldNames.map(name => name.ZipcodeLabel)}
+								{pageFieldName.map(name => name.ZipcodeLabel)}
 							</label>
 							<Field type='text'
 								name="zipCode"
@@ -229,7 +214,7 @@ const AdditionalInformation = props => {
 					
 				}
 				<p className="smallest">
-					{FormFieldNames.map(name => name.LegalDisclamierBottom)}
+					{pageFieldName.map(name => name.LegalDisclamierBottom)}
 				</p>
 				<div className = "cs-form-control" >
 					<input type="button" className="seButton" onClick={callProviderDetailForm} value="Previous" />
