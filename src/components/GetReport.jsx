@@ -7,9 +7,7 @@ import { GetReportByID } from './authService';
 const GetReport = props => {
 	const userGetReport = async (values) => {
 
-		console.log('--inside signnup');
-		console.log(values);
-		console.log(values.Email);
+
 		try {
 			const response = await GetReportByID(values.ReportID);
 			if (response.data.ErrorsCount > 0) {

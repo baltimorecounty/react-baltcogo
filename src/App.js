@@ -28,7 +28,7 @@ function App(props) {
 				<Route path='/' component={ServiceRequestForm} />
 			</Switch>
 
-			{ <DisplayFormikState {...props} />  }
+			{<DisplayFormikState {...props} />}
 		</main>
 
 	);

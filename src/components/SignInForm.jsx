@@ -16,7 +16,7 @@ const SignIn = (props, routeProps) => {
 		setFieldType(fieldType === 'Password' ? 'text' : 'Password');
 	};
 
-	
+
 	const userLogin = async (values, props, actions) => {
 
 		try {
@@ -32,16 +32,16 @@ const SignIn = (props, routeProps) => {
 			sessionStorage.setItem('NameFirst', NameFirst);
 			sessionStorage.setItem('NameLast', NameLast);
 			/*TODO: sgurung4 -- remove this , just added for testing only */
-			console.log('ContactID:' + contactID);
-			sessionStorage.setItem('UserLoginID', contactID);
+			// console.log('ContactID:' + contactID);
+			// sessionStorage.setItem('UserLoginID', contactID);
 
 
-			props.setFieldValue('ContactID', contactID);
-			actions.setStatus({
-				success: 'OK',
-				css: 'success'
-			})
-			props.history.push('/ProvideDetails');
+			// props.setFieldValue('ContactID', contactID);
+			// actions.setStatus({
+			// 	success: 'OK',
+			// 	css: 'success'
+			// })
+			// props.history.push('/ProvideDetails');
 
 			/*TODO: sgurung4 -- remove up to here  , just added for testing only */
 			try {
@@ -91,13 +91,13 @@ const SignIn = (props, routeProps) => {
 					success: 'OK',
 					css: 'success'
 				})
-				if(formIncomplete(props) === true){
+				if (formIncomplete(props) === true) {
 					props.history.push('/ServiceRequestForm');
 					props.setFieldValue("userNeedsToLoginError", "Please log in to continue");
 				}
-				else{
+				else {
 					props.history.push('/ProvideDetails');
-				}	
+				}
 			}
 		}
 		catch (ex) {
