@@ -1,8 +1,8 @@
 
 import React from "react";
 import Autocomplete from 'react-autocomplete';
-import _ from 'lodash';
-const AutoCompletTypeField = props => {
+
+const AutoCompleteTypeField = props => {
 	const { items, formikProps, onChange, onSelect, value } = props;
 
 	const handleChange = changeEvent => {
@@ -41,4 +41,4 @@ const AutoCompletTypeField = props => {
 	);
 };
 
-export default AutoCompletTypeField;
+export default AutoCompleteTypeField;
