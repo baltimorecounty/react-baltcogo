@@ -21,7 +21,7 @@ const AutoCompleteTypeField = (props) => {
 			id="location-autocomplete-input"
 			items={items}
 			renderItem={(item, isHighlighted) => (
-				<div key={item.id} style={{ background: isHighlighted ? 'lightgray' : 'white' }}>
+				<div key={item.id} className={isHighlighted ? "is-highlighted" : ""}>
 					{item.label}
 				</div>
 			)}
