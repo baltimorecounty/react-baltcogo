@@ -23,7 +23,7 @@ const AutoCompletTypeField = props => {
 			id="location-autocomplete-input"
 			items={items}
 			renderItem={(item, isHighlighted) => (
-				<div key={_.uniqueId()}
+				<div key={item.id}
 					style={{ background: isHighlighted ? "lightgray" : "white" }}
 				>
 					{item.label}
