@@ -9,7 +9,7 @@ const AutoCompletTypeField = props => {
 		const { value } = changeEvent.target;
 		formikProps.formik.setFieldValue('location', value);
 		onChange(changeEvent);
-	
+
 	};
 	const handleSelect = val => {
 		formikProps.formik.setFieldValue('location', val);
@@ -20,15 +20,14 @@ const AutoCompletTypeField = props => {
 		<Autocomplete
 			name="location"
 			getItemValue={item => item.label}
-			id="location"
+			id="location-autocomplete-input"
 			items={items}
 			renderItem={(item, isHighlighted) => (
 				<div key={_.uniqueId()}
-					id="location"
 					style={{ background: isHighlighted ? "lightgray" : "white" }}
 				>
 					{item.label}
-					
+
 				</div>
 			)}
 			value={value}
