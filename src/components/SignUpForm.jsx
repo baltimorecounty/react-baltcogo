@@ -14,9 +14,8 @@ const CreateAccount = (props, routeProps) => {
 		setFieldType(fieldType === 'Password' ? 'text' : 'Password');
 	};
 
-	if(formIncomplete(props) || props.values.ContactID === null){
+	if(formIncomplete(props) || !props.values.ContactID){
 		props.history.push('/ServiceRequestForm');
-		props.setFieldValue("userNeedsToLoginError", "Please log in to continue");
 	}
 	else{
 		props.history.push('/ProvideDetails');

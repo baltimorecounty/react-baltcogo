@@ -56,7 +56,6 @@ export default withFormik({
 		zipCode: '',
 		shouldDisableForm: false,
 		requiresLocation: true,
-		userNeedsToLoginError: '',
 		Tabs: [''],
 		RequestPage: [''],
 		MapPage: [''],

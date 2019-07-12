@@ -20,9 +20,8 @@ const AdditionalInformation = props => {
 		subRequestTypeCity, subRequestTypeCityID, subRequestTypeZip,
 		subRequestTypeZipID } = props.formik.values;
 
-	if(props.formik.values.ContactID === null || formIncomplete(props.formik)){
+	if(!props.formik.values.ContactID || formIncomplete(props.formik)){
 		props.history.push('/ServiceRequestForm');
-		props.formik.setFieldValue("userNeedsToLoginError", "Please log in to continue");
 	}
 
 	const SubmitTheForm = async values => {
