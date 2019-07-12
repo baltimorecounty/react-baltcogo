@@ -17,10 +17,7 @@ const CreateAccount = (props, routeProps) => {
 	if(formIncomplete(props) || !props.values.ContactID){
 		props.history.push('/ServiceRequestForm');
 	}
-	else{
-		props.history.push('/ProvideDetails');
-	}
-
+	
 	const userCreateAccount = async (values, actions, props) => {
 
 
@@ -83,6 +80,8 @@ const CreateAccount = (props, routeProps) => {
 						props.setFieldValue('streetAddress', values.Address);
 						props.setFieldValue('city', values.City);
 						props.setFieldValue('zipCode', values.ZipCode);
+
+						props.history.push('/ProvideDetails');
 					}
 				}
 				catch (ex) {

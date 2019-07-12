@@ -16,13 +16,10 @@ const SignIn = (props, routeProps) => {
 		setFieldType(fieldType === 'Password' ? 'text' : 'Password');
 	};
 
-	if (formIncomplete(props) || !props.values.ContactID) {
+	if (formIncomplete(props)) {
 		props.history.push('/ServiceRequestForm');
 	}
-	else {
-		props.history.push('/ProvideDetails');
-	}
-
+	
 	const userLogin = async (values, props, actions) => {
 
 		try {
@@ -59,6 +56,7 @@ const SignIn = (props, routeProps) => {
 					props.setFieldValue('city', addressParts[1]);
 					props.setFieldValue('zipCode', addressParts[3]);
 				}
+
 			}
 			catch (ex) {
 				if (ex.response || ex.response.status === 400) {
@@ -84,6 +82,8 @@ const SignIn = (props, routeProps) => {
 					success: 'OK',
 					css: 'success'
 				})
+
+				props.history.push('/ProvideDetails');
 			}
 		}
 		catch (ex) {
