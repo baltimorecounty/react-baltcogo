@@ -2,12 +2,9 @@
 import React from 'react';
 import { UncontrolledCollapse, Button, CardBody, Card } from 'reactstrap';
 import Map from './map';
-const Collaspe = ({ address, lat, lng, markerLat, onChange, onMarkerDragEnd }) => {
-	/*	console.log('----Collaspe-----++++++++++++++++++++++++++++------------------');
-		 console.log('address:' + address);
-		console.log('lat:' + lat);
-		console.log('lng:' + lng);
-		console.log('----Collaspe------++++++++++++++++++++++----------------'); */
+
+const Collaspe = ({ address, ZoomValue, lat, lng, onZoom, markerLat, onChange, onMarkerDragEnd }) => {
+
 	return (
 		<React.Fragment>
 			<Button type="button" className="small" color="link" id="toggler" align="left" style={{ marginBottom: '1rem' }}>
@@ -17,12 +14,13 @@ const Collaspe = ({ address, lat, lng, markerLat, onChange, onMarkerDragEnd }) =
 				<div className="google-map">
 					<Card>
 						<CardBody>
+
 							<Map
-								address={address} lat={lat} lng={lng} markerLat={markerLat} onMarkerDragEnd={onMarkerDragEnd}
-								//center={{lat: 18.5204, lng: 73.8567}}
+								address={address} lat={lat} lng={lng} onZoom={onZoom} markerLat={markerLat} onMarkerDragEnd={onMarkerDragEnd}
 								center={{ lat, lng }}
 								height='300px'
-								zoom={15}
+								zoom={ZoomValue === '' ? 15 : ZoomValue}
+								streetViewControl='false'
 							/>
 						</CardBody>
 					</Card>

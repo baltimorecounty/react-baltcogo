@@ -7,6 +7,8 @@ import { CreateReport } from './authService';
 import { formIncomplete } from "./checkFormCompletion";
 
 const AdditionalInformation = props => {
+	const localProps = props.formik.values;
+	const pageFieldName = props.formik.values.AdditionalInfoPage
 	const { errors, touched, handleSubmit, ...rest } = props;
 	const { Longitude, Latitude, ContactID, requestTypeID, requestType,
 		subRequestTypeID, subRequestType, petTypeID, petType, sexTypeID,
@@ -65,9 +67,7 @@ const AdditionalInformation = props => {
 					console.log(errorsReturned);
 					props.Field.ErrorMsg = errorsReturned;
 				}
-				else {
-					props.history.push('/ServiceRequestForm');
-				}
+				props.history.push('/SubmitResponsePage');
 			}
 			catch (ex) {
 				if (ex.response && ex.response.status === 400) {
@@ -79,25 +79,27 @@ const AdditionalInformation = props => {
 			console.log(ex.message);
 		}
 	}
-	const callProviderDetailForm = () => {
-		props.history.push("/ProvideDetails");
+	const callPreviousForm = () => {
+		if(localProps.requiresLocation === false){
+			props.history.push("/ServiceRequestForm");
+		}
+		else{
+			props.history.push("/ProvideDetails");
+		}
 	}
 
-
 	return (
-		<FormContainer title="Additional Information" currentTab = "AdditionalInformation" shouldDisableForm = {props.formik.values.shouldDisableForm}>
+		<FormContainer title={pageFieldName.map(name => name.AdditionalInfoTitle)} tabNames = {localProps.Tabs} currentTab = "AdditionalInformation" shouldDisableForm = {localProps.shouldDisableForm} requiresLocation = {localProps.requiresLocation}>
 			<form onSubmit={handleSubmit}>
-				<p>
-					We require some basic contact information in order to
-                    process your request. You'll receive status updates by
-                    email, but we'll only call you if we need more information.
-				</p>
-				{(requestType === 'Website Issue') ?
-					<div name="ContactInfo" display="hidden">
+				{(localProps.requiresLocation === false) ?
+					<div name="ContactInfo">
+						<p>
+							{pageFieldName.map(name => name.DisclaimerLabel)}
+						</p>
 						<label htmlFor="NameFirst"
 							className={
 								rest.formik.errors.NameFirst && rest.formik.touched.NameFirst ? "error-message" : "text-label"}
-						>First Name</label>
+						>{pageFieldName.map(name => name.FirstNameLabel)}</label>
 						<Field
 							type="text"
 							name="NameFirst"
@@ -113,7 +115,7 @@ const AdditionalInformation = props => {
 						<label htmlFor="NameLast"
 							className={
 								rest.formik.errors.NameLast && rest.formik.touched.NameLast ? "error-message" : "text-label"}
-						>Last Name</label>
+						>{pageFieldName.map(name => name.LastNameLabel)}</label>
 						<Field
 							type="text"
 							name="NameLast"
@@ -129,7 +131,7 @@ const AdditionalInformation = props => {
 						<label htmlFor="Email"
 							className={
 								rest.formik.errors.Email && rest.formik.touched.Email ? "error-message" : "text-label"}
-						>Email</label>
+						>{pageFieldName.map(name => name.EmailLabel)}</label>
 						<Field
 							type="text"
 							name="Email"
@@ -142,28 +144,32 @@ const AdditionalInformation = props => {
 									touched={rest.formik.touched.Email} />
 							</p>
 						</div>
-						<label htmlFor="Phone"
+						<label htmlFor="Telephone"
 							className={
-								rest.formik.errors.Phone && rest.formik.touched.Phone ? "error-message" : "text-label"}
-						>Phone</label>
+								rest.formik.errors.Telephone && rest.formik.touched.Telephone ? "error-message" : "text-label"}
+						>{pageFieldName.map(name => name.PhoneLabel)}</label>
 						<Field
 							type="text"
-							name="Phone"
-							className={`text-input ${rest.formik.errors.Phone && rest.formik.touched.Phone ? "error" : ""}`}
+							name="Telephone"
+							className={`text-input ${rest.formik.errors.Telephone && rest.formik.touched.Telephone ? "error" : ""}`}
 						/>
 						<div className="error">
 							<p role='alert' className="error-message">
 								<ErrorMsg
-									errormessage={rest.formik.errors.Phone}
-									touched={rest.formik.touched.Phone} />
+									errormessage={rest.formik.errors.Telephone}
+									touched={rest.formik.touched.Telephone} />
 							</p>
 						</div>
-					</div> :
+					</div>
+					:
 					<div id="ContactAddress">
+						<p>
+							{pageFieldName.map(name => name.DisclaimerLabel)}
+						</p>
 						<label htmlFor="streetAddress"
 							className={
 								rest.formik.errors.streeAddress && rest.formik.touched.streeAddress ? "error-message" : "text-label"}
-						>Your Street Address</label>
+						>{pageFieldName.map(name => name.StreetLabel)}</label>
 						<Field
 							type="text"
 							name="streetAddress"
@@ -179,7 +185,7 @@ const AdditionalInformation = props => {
 						<label htmlFor="city"
 							className={
 								rest.formik.errors.city && rest.formik.touched.city ? "error-message" : "text-label"}
-						>Your City</label>
+						>{pageFieldName.map(name => name.CityLabel)}</label>
 						<Field
 							type="text"
 							name="city"
@@ -197,7 +203,7 @@ const AdditionalInformation = props => {
 								className={
 									rest.formik.errors.zipCode && rest.formik.touched.zipCode ? "error-message" : "text-label"}
 							>
-								Your ZIP Code
+								{pageFieldName.map(name => name.ZipcodeLabel)}
 							</label>
 							<Field type='text'
 								name="zipCode"
@@ -211,32 +217,17 @@ const AdditionalInformation = props => {
 								</p>
 							</div>
 						</div>
-					</div>
-					
-				}
-				<p className="smallest">
-                    Please do not include personal information, including, but
-                    not limited to Social Security Numbers, driver’s license
-                    numbers, financial account numbers, individual taxpayer
-                    identification numbers, passport numbers, state
-                    identification card numbers, health information, medical
-                    history, condition, treatment, or diagnosis, health
-                    insurance policies, certificate numbers, or health insurance
-                    subscriber identification numbers, biometric data, and/or
-                    user name or email address in combination with a password or
-                    security question and answer.
-				</p>
+						<p className="smallest">
+							{pageFieldName.map(name => name.LegalDisclamierBottom)}
+						</p>
+					</div>}
 				<div className = "cs-form-control" >
-					<input type="button" className="seButton" onClick={callProviderDetailForm} value="Previous" />
+					<input type="button" className="seButton" onClick={callPreviousForm} value="Previous" />
 					<input type="button" className="seButton pull-right" onClick={SubmitTheForm} value="File Your Report" />
 				</div>
-
 			</form>
-
 		</FormContainer>
 	);
 }
-
-
 
 export default connect(AdditionalInformation);

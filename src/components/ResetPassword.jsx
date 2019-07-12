@@ -7,9 +7,9 @@ import { ErrorCheck } from "./CustomErrorHandling";
 import FormContainer from './FormContainer';
 import { ResetPassword } from './authService';
 
-const PasswordReset = props => {
+const PasswordReset = (props, routeProps) => {
 
-	const userPasswordReset = async (values) => {
+	const userPasswordReset = async (values,actions, props) => {
 
 
 		try {
@@ -30,7 +30,21 @@ const PasswordReset = props => {
 		}
 	}
 	return (
-		<FormContainer title="Reset Password" currentTab = "ServiceRequestForm" shouldDisableForm = {false}>
+		<FormContainer title="Reset Password" tabNames = {[
+			{
+				"Tab1":"Choose a Report Type"
+			},
+			{
+				"Tab2":"Enter a Location"
+			},
+			{
+				"Tab3":"Provide Your Contact Information"
+			},
+			{
+				"Tab4":""
+			}
+	
+		]} currentTab = "ServiceRequestForm" shouldDisableForm = {false} requiresLocation= {true}>
 			<Formik
 				initialValues={{
 					Email: ''
@@ -39,7 +53,7 @@ const PasswordReset = props => {
 					Email: Yup.string().email('Please enter a valid email address.').required('Please enter your email address.'),
 				})}
 
-				onSubmit={(values, { setSubmitting }) => {
+				onSubmit={async (values, { setSubmitting }) => {
 					//alert(JSON.stringify(values, null, 2));
 					userPasswordReset(values);
 					setSubmitting(false);
@@ -47,7 +61,7 @@ const PasswordReset = props => {
 			>
 				{
 					(props) => {
-						const { isSubmitting, errors, touched } = props;
+						const { errors, touched, isSubmitting } = props;
 						return (
 							<Form >
 								<div className={
@@ -64,10 +78,10 @@ const PasswordReset = props => {
 									</p>
 								</div>
 								<div className = "cs-form-control" >
-									<label htmlFor="signup"
-									>Don't have an account? <Link to="SignUpForm" >Sign up</Link></label><br />
-									<label htmlFor="signup"
-									>Remember your password? <Link to="SignInForm" >Sign In</Link> </label><br />
+									<p htmlFor="signup"
+									>Don't have an account? <Link to="SignUpForm" >Sign up</Link></p>
+									<p htmlFor="signup"
+									>Remember your password? <Link to="SignInForm" >Sign In</Link> </p>
 									<input className="seButton" type="submit" disabled={isSubmitting} value="Submit Reset Request" />
 								</div>
 							</Form>

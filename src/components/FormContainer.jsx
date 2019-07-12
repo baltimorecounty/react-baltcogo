@@ -9,11 +9,12 @@ const selectTab = (currentTab, tabList)  => {
 const FormContainer = props => {
 
 	const tabList = [
-		{description: 'Choose a Report Type', key: 'ServiceRequestForm', value: 0, shouldDisableForm: false},
-		{description: 'Enter a Location', key: 'ProvideDetails', value: 1, shouldDisableForm: props.shouldDisableForm},
-		{description: 'Proivde Your Contact Information', key: 'AdditionalInformation', value: 2, shouldDisableForm: props.shouldDisableForm},
-		{description: '', key: 'Blank', value: 3, shouldDisableForm: false},
-	].filter(item => item.shouldDisableForm === false);
+		{description: props.tabNames.map(name => name.Tab1), key: 'ServiceRequestForm', value: 0, shouldDisableForm: false, requiresLocation: true},
+		{description: props.tabNames.map(name => name.Tab2), key: 'ProvideDetails', value: 1, shouldDisableForm: props.shouldDisableForm, requiresLocation: props.requiresLocation},
+		{description: props.tabNames.map(name => name.Tab3), key: 'AdditionalInformation', value: 2, shouldDisableForm: props.shouldDisableForm, requiresLocation: true},
+		{description: props.tabNames.map(name => name.Tab4), key: 'Blank', value: 3, shouldDisableForm: false, requiresLocation: true},
+	].filter(item => item.shouldDisableForm === false)
+		.filter(item => item.requiresLocation === true);
 
 	const selectClassName = (tab) =>{
 		if (props.shouldDisableForm === true){
