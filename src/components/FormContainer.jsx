@@ -14,10 +14,10 @@ const FormContainer = props => {
 		{description: props.tabNames.map(name => name.Tab3), key: 'AdditionalInformation', value: 2, shouldDisableForm: props.shouldDisableForm, requiresLocation: true},
 		{description: props.tabNames.map(name => name.Tab4), key: 'Blank', value: 3, shouldDisableForm: false, requiresLocation: true},
 	].filter(item => item.shouldDisableForm === false)
-		.filter(item => item.requiresLocation === true);
+		.filter(item => item.requiresLocation);
 
 	const selectClassName = (tab) =>{
-		if (props.shouldDisableForm === true){
+		if (props.shouldDisableForm){
 			return 'highlight';
 		}
 		else{

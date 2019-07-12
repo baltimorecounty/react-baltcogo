@@ -14,7 +14,7 @@ const CreateAccount = (props, routeProps) => {
 		setFieldType(fieldType === 'Password' ? 'text' : 'Password');
 	};
 
-	if(formIncomplete(props) === true || props.values.ContactID === null){
+	if(formIncomplete(props) || props.values.ContactID === null){
 		props.history.push('/ServiceRequestForm');
 		props.setFieldValue("userNeedsToLoginError", "Please log in to continue");
 	}
@@ -31,7 +31,7 @@ const CreateAccount = (props, routeProps) => {
 			const addressResponse = await VerifyAddress(fullAddress);
 			var VerificationId = "";
 
-			if (addressResponse.data.HasErrors === true) {
+			if (addressResponse.data.HasErrors) {
 				const errorsReturned = ErrorCheck(addressResponse);
 				//	console.log(errorsReturned);
 				actions.setStatus({
@@ -51,7 +51,7 @@ const CreateAccount = (props, routeProps) => {
 				const response = await SignUp(values.NameFirst, values.NameLast, values.Email, values.Password, values.Telephone, values.UniqueId, values.SuppressNotifications);
 				var ContactID = "";
 
-				if (response.data.HasErrors === true) {
+				if (response.data.HasErrors) {
 					const errorsReturned = ErrorCheck(response);
 					//console.log(errorsReturned);
 					actions.setStatus({
@@ -69,7 +69,7 @@ const CreateAccount = (props, routeProps) => {
 				try {
 					const contactAddressResponse = await CreateContactAddress(ContactID, VerificationId, "Default");
 
-					if (contactAddressResponse.data.HasErrors === true) {
+					if (contactAddressResponse.data.HasErrors) {
 						const errorsReturned = ErrorCheck(contactAddressResponse);
 						//console.log(errorsReturned);
 						//props.Field.ErrorMsg = errorsReturned;

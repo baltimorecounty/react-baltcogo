@@ -16,14 +16,14 @@ const SignIn = (props, routeProps) => {
 		setFieldType(fieldType === 'Password' ? 'text' : 'Password');
 	};
 
-	if (formIncomplete(props) === true || props.values.ContactID === null) {
+	if (formIncomplete(props) || props.values.ContactID === null) {
 		props.history.push('/ServiceRequestForm');
 		props.setFieldValue("userNeedsToLoginError", "Please log in to continue");
 	}
 	else {
 		props.history.push('/ProvideDetails');
 	}
-	
+
 	const userLogin = async (values, props, actions) => {
 
 		try {

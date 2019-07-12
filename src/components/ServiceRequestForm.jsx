@@ -256,7 +256,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 		try {
 			const getResponse = await GetContactDetails(contactID);
 
-			if (getResponse.data.HasErrors === true) {
+			if (getResponse.data.HasErrors) {
 				const errorsReturned = ErrorCheck(getResponse);
 				throw new Error(errorsReturned);
 			}
@@ -280,7 +280,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 		try {
 			const getAddressResponse = await GetContactAddress(contactID);
 
-			if (getAddressResponse.data.HasErrors === true) {
+			if (getAddressResponse.data.HasErrors) {
 				const errorsReturned = ErrorCheck(getAddressResponse);
 				throw new Error(errorsReturned);
 			}
@@ -292,7 +292,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 				localProps.setFieldValue('streetAddress', addressParts[0]);
 				localProps.setFieldValue('city', addressParts[1]);
 				localProps.setFieldValue('zipCode', addressParts[3]);
-				if(localProps.values.requiresLocation === true){
+				if(localProps.values.requiresLocation){
 					props.history.push('/ProvideDetails');
 				}
 				else{
@@ -612,7 +612,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 				<Field type="hidden" name="otherAnimalTypesID" />
 				<Field type="hidden" name="shouldDisableForm" />
 
-				{(displayButton === true) ?
+				{(displayButton) ?
 					(contactID === null) ?
 						(<div className="cs-form-control">
 							<input type="button" className="seButton" onClick={callSignInForm} disabled={disableButton} value="Sign In" />
