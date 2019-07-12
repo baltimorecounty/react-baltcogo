@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import ErrorMsg from "./ErrorMessage";
-import { ErrorCheck } from "./CustomErrorHandling";
+import { ErrorCheck, formatPhoneNumber } from "./CustomErrorHandling";
 import FormContainer from './FormContainer';
 import { SignUp, VerifyAddress, CreateContactAddress } from './authService';
 import { Link } from 'react-router-dom';
@@ -77,11 +77,11 @@ const CreateAccount = (props, routeProps) => {
 						props.setFieldValue('city', values.City);
 						props.setFieldValue('zipCode', values.ZipCode);
 
-						if(formIncomplete(props) === true){
+						if (formIncomplete(props) === true) {
 							props.history.push('/ServiceRequestForm');
 							props.setFieldValue("userNeedsToLoginError", "Please log in to continue");
 						}
-						else{
+						else {
 							props.history.push('/ProvideDetails');
 						}
 					}
@@ -98,7 +98,26 @@ const CreateAccount = (props, routeProps) => {
 			console.log(ex.message);
 		}
 	}
+	Yup.addMethod(Yup.string, "Telephone", function (value) {
+		return this.test("Telephone", "Please enter your phone number in the following format: 410-555-1212.", function (value) {
+			let formattedPhoneNumber;
+			let returnBooleanVal;
+			let format = "xxx-xxx-xxxx";
+			if (value === undefined) {
+				return false;
+			}
+			else {
+				let returnValue = formatPhoneNumber(value, format, formattedPhoneNumber, returnBooleanVal);
+				props.setFieldValue('Telephone', returnValue.formattedPhoneNumber);
+				return returnValue.returnBooleanVal
+			}
+		})
+	})
+	const handleTelephoneFieldBlur = () => {
 
+		console.log('inisee onBlur');
+		//		props.setFieldValue('Telephone', props.values.Telephone);
+	}
 
 	return (
 		<FormContainer title="Register for an Account" currentTab="ServiceRequestForm" shouldDisableForm={props.values.shouldDisableForm}>
@@ -125,6 +144,8 @@ const CreateAccount = (props, routeProps) => {
 						message: 'Please enter your five-digit ZIP code.',
 						excludeEmptyString: true
 					}).required('Please enter your zip code.'),
+					Telephone: Yup.string().required('Please enter your phone number in the following format: 410-555-1212.').Telephone(),
+
 					Password: Yup.string()
 						.required('Please enter your password.')
 						.max(30, "Maximum 30 characters allowed.")
@@ -145,7 +166,7 @@ const CreateAccount = (props, routeProps) => {
 			>
 				{
 					(props) => {
-						const { values, isSubmitting, errors, touched } = props;
+						const { values, isSubmitting, errors, touched, validateField } = props;
 
 						return (
 							<Form >
@@ -178,12 +199,13 @@ const CreateAccount = (props, routeProps) => {
 								<div className={
 									props.errors.Telephone && props.touched.Telephone ? "cs-form-control error" : "cs-form-control"}>
 									<label htmlFor="Telephone"
-										value={values.Telephone}
-									//validate={formatPhoneNumber(values.Telephone)}
+
 									>Phone</label>
 									<Field
 										type="text"
 										name="Telephone"
+										value={values.Telephone}
+									//	onBlur={handleTelephoneFieldBlur}
 									/>
 									<p role='alert' className="error-message">
 										<ErrorMsg
@@ -271,6 +293,9 @@ const CreateAccount = (props, routeProps) => {
 									<label htmlFor="signup"
 									>Already have an account? <Link to="SignInForm" >Sign In</Link> </label><br />
 									<input className="seButton" type="submit" disabled={isSubmitting} value="Sign Up and Continue" />
+									<button type="button" onClick={() => validateField('Telephone')}>
+										Check Username
+									</button>
 								</div>
 
 							</Form>

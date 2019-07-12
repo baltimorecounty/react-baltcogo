@@ -20,6 +20,7 @@ const PasswordReset = props => {
 				props.Field.ErrorMsg = errorsReturned;
 			}
 			else {
+				props.setFieldValue('Email', values.Email);
 				props.history.push('/SignInForm');	
 			}
 		}

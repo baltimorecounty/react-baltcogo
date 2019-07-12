@@ -20,7 +20,7 @@ const SignIn = (props, routeProps) => {
 	const userLogin = async (values, props, actions) => {
 
 		try {
-			console.log('inside sign In and continue');
+			//console.log('inside sign In and continue');
 			const response = await Login(values.Email, values.Password);
 			const contactID = response.data.Results.Id;
 			const NameFirst = response.data.Results.NameFirst;
@@ -33,20 +33,20 @@ const SignIn = (props, routeProps) => {
 			sessionStorage.setItem('NameLast', NameLast);
 			/*TODO: sgurung4 -- remove this , just added for testing only */
 			// console.log('ContactID:' + contactID);
-			// sessionStorage.setItem('UserLoginID', contactID);
+			sessionStorage.setItem('UserLoginID', contactID);
 
 
-			// props.setFieldValue('ContactID', contactID);
-			// actions.setStatus({
-			// 	success: 'OK',
-			// 	css: 'success'
-			// })
-			// props.history.push('/ProvideDetails');
+			props.setFieldValue('ContactID', contactID);
+			actions.setStatus({
+				success: 'OK',
+				css: 'success'
+			})
+			props.history.push('/ProvideDetails');
 
 			/*TODO: sgurung4 -- remove up to here  , just added for testing only */
 			try {
 				const getAddressResponse = await GetContactAddress(contactID);
-				console.log(getAddressResponse);
+				//console.log(getAddressResponse);
 				if (getAddressResponse.data.ErrorsCount > 0) {
 					const errorsReturned = ErrorCheck(getAddressResponse);
 

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Form, Field, connect } from "formik";
 import axios from "axios"
 import ErrorMsg from "./ErrorMessage";
-import { ErrorCheck } from "./CustomErrorHandling";
+import { ErrorCheck, formatPhoneNumber } from "./CustomErrorHandling";
 import FormContainer from './FormContainer';
 import RequestTypeField from "./RequestTypeField";
 import RequestSubTypeField from "./RequestSubTypeField";
@@ -16,7 +16,8 @@ import TrashAndRecycle from "./trashAndRecycle";
 import { GetContactAddress, GetContactDetails } from './authService';
 import RoadsAndSidewalks from "./roadsAndSidewalks";
 import { formIncomplete } from "./checkFormCompletion";
-import { returnJsonFileLocations, returnRequestTypes } from "./returnEnvironmentItems"
+import { returnJsonFileLocations, returnRequestTypes } from "./returnEnvironmentItems";
+
 
 const { categoryId } = QueryString.parse(window.location.search);
 //const contactID = 914151;
@@ -308,7 +309,8 @@ const ServiceRequestForm = (props, errors, touched) => {
 	let displayButton = buttonShowHideValidation();
 	const localProps = props.formik;
 
-
+	// const formatval = formatPhoneNumber("fsdfsdj7555fdsfsd5252dfds","xxx xxx xxxx");
+	// console.log('formatval:' + formatval);
 	return (
 
 		<FormContainer title="How Can We Help?" currentTab="ServiceRequestForm" shouldDisableForm={props.formik.values.shouldDisableForm}>
