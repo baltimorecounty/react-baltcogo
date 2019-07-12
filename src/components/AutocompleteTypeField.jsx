@@ -1,40 +1,36 @@
-
-import React from "react";
+import React from 'react';
 import Autocomplete from 'react-autocomplete';
 
-const AutoCompleteTypeField = props => {
+const AutoCompleteTypeField = (props) => {
 	const { items, formikProps, onChange, onSelect, value } = props;
 
-	const handleChange = changeEvent => {
+	const handleChange = (changeEvent) => {
 		const { value } = changeEvent.target;
 		formikProps.formik.setFieldValue('location', value);
 		onChange(changeEvent);
-
 	};
-	const handleSelect = val => {
+	const handleSelect = (val) => {
 		formikProps.formik.setFieldValue('location', val);
 		onSelect(val);
 	};
-	return (
 
+	return (
 		<Autocomplete
 			name="location"
-			getItemValue={item => item.label}
+			getItemValue={(item) => item.label}
 			id="location-autocomplete-input"
 			items={items}
 			renderItem={(item, isHighlighted) => (
-				<div key={item.id}
-					style={{ background: isHighlighted ? "lightgray" : "white" }}
-				>
+				<div key={item.id} style={{ background: isHighlighted ? 'lightgray' : 'white' }}>
 					{item.label}
-
 				</div>
 			)}
 			value={value}
 			onChange={handleChange}
 			onSelect={handleSelect}
-
-			className={`text-input ${formikProps.formik.errors.location && formikProps.formik.touched.location ? "error" : ""}`}
+			className={`text-input ${formikProps.formik.errors.location && formikProps.formik.touched.location
+				? 'error'
+				: ''}`}
 		>
 			{props.children}
 		</Autocomplete>
