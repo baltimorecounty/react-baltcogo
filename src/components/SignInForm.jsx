@@ -30,20 +30,7 @@ const SignIn = (props, routeProps) => {
 			props.setFieldValue('NameLast', NameLast);
 
 			sessionStorage.setItem('NameFirst', NameFirst);
-			sessionStorage.setItem('NameLast', NameLast);
-			/*TODO: sgurung4 -- remove this , just added for testing only */
-			// console.log('ContactID:' + contactID);
-			// sessionStorage.setItem('UserLoginID', contactID);
-
-
-			// props.setFieldValue('ContactID', contactID);
-			// actions.setStatus({
-			// 	success: 'OK',
-			// 	css: 'success'
-			// })
-			// props.history.push('/ProvideDetails');
-
-			/*TODO: sgurung4 -- remove up to here  , just added for testing only */
+			sessionStorage.setItem('NameLast', NameLast);		
 			try {
 				const getAddressResponse = await GetContactAddress(contactID);
 				console.log(getAddressResponse);
@@ -108,7 +95,7 @@ const SignIn = (props, routeProps) => {
 	}
 
 	return (
-		<FormContainer title="Sign In" currentTab="ServiceRequestForm" shouldDisableForm={props.values.shouldDisableForm}>
+		<FormContainer title="Sign In" tabNames = {props.values.Tabs} currentTab="ServiceRequestForm" shouldDisableForm={props.values.shouldDisableForm} requiresLocation= {props.values.requiresLocation}>
 			<Formik
 				initialValues={{
 					Email: '',
@@ -168,9 +155,9 @@ const SignIn = (props, routeProps) => {
 									</p>
 								</div>
 								<div className="cs-form-control" >
-									<label htmlFor="forgetpassword"> <Link to="ResetPassword" >Forgot password?</Link></label><br />
-									<label htmlFor="signup"
-									>Don't have an account? <Link to="SignUpForm" >Sign up</Link></label><br />
+									<p htmlFor="forgetpassword"> <Link to="ResetPassword" >Forgot password?</Link></p>
+									<p htmlFor="signup"
+									>Don't have an account? <Link to="SignUpForm" >Sign up</Link></p>
 
 									<input className="seButton" type="submit" disabled={props.isSubmitting} value="Sign In and Continue" />
 								</div>

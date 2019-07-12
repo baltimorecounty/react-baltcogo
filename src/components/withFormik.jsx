@@ -55,7 +55,15 @@ export default withFormik({
 		city: '',
 		zipCode: '',
 		shouldDisableForm: false,
+		requiresLocation: true,
 		userNeedsToLoginError: '',
+		Tabs: [''],
+		RequestPage: [''],
+		MapPage: [''],
+		AdditionalInfoPage: [''],
+		SignUpPage: [''],
+		SignInPage: [''],
+		ResetPasswordPage: [''],
 		ZoomValue: ''
 	}),
 

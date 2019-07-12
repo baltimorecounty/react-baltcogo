@@ -20,6 +20,7 @@ const AutoCompleteTypeField = (props) => {
 			getItemValue={(item) => item.label}
 			id="location-autocomplete-input"
 			items={items}
+			placeholder="123 Amazing St"
 			renderItem={(item, isHighlighted) => (
 				<div key={item.id} className={isHighlighted ? "is-highlighted" : ""}>
 					{item.label}

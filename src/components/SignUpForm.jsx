@@ -101,7 +101,7 @@ const CreateAccount = (props, routeProps) => {
 
 
 	return (
-		<FormContainer title="Register for an Account" currentTab="ServiceRequestForm" shouldDisableForm={props.values.shouldDisableForm}>
+		<FormContainer title="Register for an Account" tabNames = {props.values.Tabs} currentTab="ServiceRequestForm" shouldDisableForm={props.values.shouldDisableForm} requiresLocation= {props.values.requiresLocation}>
 			<Formik
 
 				initialValues={{
@@ -268,8 +268,8 @@ const CreateAccount = (props, routeProps) => {
 									name="addressID"
 								/>
 								<div className="cs-form-control" >
-									<label htmlFor="signup"
-									>Already have an account? <Link to="SignInForm" >Sign In</Link> </label><br />
+									<p htmlFor="signup"
+									>Already have an account? <Link to="SignInForm" >Sign In</Link> </p>
 									<input className="seButton" type="submit" disabled={isSubmitting} value="Sign Up and Continue" />
 								</div>
 
