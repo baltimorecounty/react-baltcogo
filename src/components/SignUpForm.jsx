@@ -14,6 +14,14 @@ const CreateAccount = (props, routeProps) => {
 		setFieldType(fieldType === 'Password' ? 'text' : 'Password');
 	};
 
+	if(formIncomplete(props) === true || props.values.ContactID === null){
+		props.history.push('/ServiceRequestForm');
+		props.setFieldValue("userNeedsToLoginError", "Please log in to continue");
+	}
+	else{
+		props.history.push('/ProvideDetails');
+	}
+
 	const userCreateAccount = async (values, actions, props) => {
 
 
@@ -76,14 +84,6 @@ const CreateAccount = (props, routeProps) => {
 						props.setFieldValue('streetAddress', values.Address);
 						props.setFieldValue('city', values.City);
 						props.setFieldValue('zipCode', values.ZipCode);
-
-						if(formIncomplete(props) === true){
-							props.history.push('/ServiceRequestForm');
-							props.setFieldValue("userNeedsToLoginError", "Please log in to continue");
-						}
-						else{
-							props.history.push('/ProvideDetails');
-						}
 					}
 				}
 				catch (ex) {

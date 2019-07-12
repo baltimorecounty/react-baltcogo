@@ -292,7 +292,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 				localProps.setFieldValue('streetAddress', addressParts[0]);
 				localProps.setFieldValue('city', addressParts[1]);
 				localProps.setFieldValue('zipCode', addressParts[3]);
-				if(localProps.requiresLocation === true){
+				if(localProps.values.requiresLocation === true){
 					props.history.push('/ProvideDetails');
 				}
 				else{
