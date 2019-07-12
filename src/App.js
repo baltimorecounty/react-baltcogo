@@ -10,6 +10,7 @@ import withFormik from './components/withFormik';
 import DisplayFormikState from './components/helper';
 import ProvideDetails from './components/ProvideDetails';
 import GetReport from './components/GetReport';
+import SubmitResponsePage from './components/SubmitResponsePage';
 import checkEnvironment from './components/returnEnvironmentItems'
 
 function App(props) {
@@ -22,10 +23,12 @@ function App(props) {
 					render={(routeProps) => <SignInForm {...routeProps}{...props} />} />
 				<Route path='/SignUpForm'
 					render={(routeProps) => <SignUpForm {...routeProps}{...props} />} />
+				<Route path='/ResetPassword' 
+					render={(routeProps) => <ResetPassword {...routeProps}{...props} />} />
 				<Route path='/AdditionalInformationForm' component={AdditionalInformationForm} />
-				<Route path='/ResetPassword' component={ResetPassword} />
 				<Route path='/ProvideDetails' component={ProvideDetails} />
 				<Route path='/GetReport' component={GetReport} />
+				<Route path='/SubmitResponsePage' component={SubmitResponsePage} />
 				<Route path='/' component={ServiceRequestForm} />
 			</Switch>
 			{/* This is used for debugging purposes.  */}

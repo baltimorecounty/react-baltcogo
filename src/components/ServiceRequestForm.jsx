@@ -45,6 +45,10 @@ const getshouldDisableForm = (subCategories, name) => {
 	var type = subCategories.find(subcategoryname => subcategoryname.name.toLowerCase() === name);
 	return type ? type.shouldDisableForm : [];
 };
+const getrequiresLocation = (categories, name) => {
+	var category = categories.find(category => category.name.toLowerCase() === name);
+	return category ? category.requiresLocation : true;
+};
 const getAnimalSubCategories = (AnimalBreeds, animalName) => {
 	var animalCats = AnimalBreeds.find(animal => animal.animal.toLowerCase() === animalName);
 	return animalCats ? animalCats : [];
@@ -55,6 +59,8 @@ const getID = (categories, categoryName) => {
 };
 
 const ServiceRequestForm = (props, errors, touched) => {
+	const localProps = props.formik;
+	const pageFieldName = localProps.values.RequestPage
 	const [Categories, setData] = useState([]);
 	const [PetTypes, setPetTypes] = useState([]);
 	const [AnimalBreeds, setAnimalBreeds] = useState([]);
@@ -64,8 +70,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 	const [notes, setNotes] = useState();
 	const [animalSubCategories, setAnimalSubCategories] = useState([]);
 	const [animalSex, setAnimalSex] = useState([]);
-	const { ContactID } = props.formik.values;
-	const [FormFieldNames, setFormRequestData] = useState([]);
+	const { ContactID } = localProps.values;
 	const contactID =  (ContactID === "") ? sessionStorage.getItem("UserLoginID") : ContactID; 
 	//
 
@@ -96,14 +101,16 @@ const ServiceRequestForm = (props, errors, touched) => {
 				setAnimalBreeds(resultAnimalBreeds.data);
 				setAnimalColors(resultAnimalColors.data);
 				setOtherAnimalTypes(resultAnimalTypes.data);
-				setFormRequestData(resultFormFieldNames.data);
 
-				props.formik.setFieldValue('Tabs', resultFormFieldNames.data.Tabs);
-				props.formik.setFieldValue('RequestPage', resultFormFieldNames.data.RequestPage);
-				props.formik.setFieldValue('MapPage', resultFormFieldNames.data.MapPage);
-				props.formik.setFieldValue('AdditionalInfoPage', resultFormFieldNames.data.AdditionalInfoPage);
-				props.formik.setFieldValue('AdditionalInfoPage', resultFormFieldNames.data.SignInPage);
-				props.formik.setFieldValue('ContactID', contactID);
+				localProps.setFieldValue('Tabs', resultFormFieldNames.data.Tabs);
+				localProps.setFieldValue('RequestPage', resultFormFieldNames.data.RequestPage);
+				localProps.setFieldValue('MapPage', resultFormFieldNames.data.MapPage);
+				localProps.setFieldValue('AdditionalInfoPage', resultFormFieldNames.data.AdditionalInfoPage);
+				localProps.setFieldValue('SignInPage', resultFormFieldNames.data.SignInPage);
+				localProps.setFieldValue('SignUpPage', resultFormFieldNames.data.SignUpPage);
+				localProps.setFieldValue('ResetPasswordPage', resultFormFieldNames.data.ResetPasswordPage);
+				
+				localProps.setFieldValue('ContactID', contactID);
 
 
 				if (contactID !== null) {
@@ -125,7 +132,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 		const value = changeEvent.currentTarget.value.toLowerCase();
 		let ID = getID(Categories, value)
 
-		props.formik.setFieldValue('requestTypeID', ID);
+		localProps.setFieldValue('requestTypeID', ID);
 
 		const subCategories = getSubCategories(Categories, value ? value : value);
 		setSubCategories(subCategories);
@@ -133,16 +140,18 @@ const ServiceRequestForm = (props, errors, touched) => {
 		const description = getIncludedDescriptions(Categories, value ? value : value);
 		const fields = getIncludedFields(Categories, value ? value : value);
 
-		props.formik.setFieldValue('requestTypeDescriptionID', description);
+		const requiresLocation = getrequiresLocation(Categories, value ? value : value);
+		localProps.setFieldValue('requestTypeDescriptionID', description);
+		localProps.setFieldValue('requiresLocation', (requiresLocation === undefined) ? true : requiresLocation);
 
 		pullServiceRequestFields(fields);
 	};
 
 	const pullServiceRequestFields = (fields) => {
 		if (fields !== undefined) {
-			props.formik.setFieldValue('requestTypeAddressID', fields.streetAddress);
-			props.formik.setFieldValue('requestTypeCityID', fields.city);
-			props.formik.setFieldValue('requestTypeZipID', fields.zipCode);
+			localProps.setFieldValue('requestTypeAddressID', fields.streetAddress);
+			localProps.setFieldValue('requestTypeCityID', fields.city);
+			localProps.setFieldValue('requestTypeZipID', fields.zipCode);
 		}
 	};
 
@@ -152,27 +161,29 @@ const ServiceRequestForm = (props, errors, touched) => {
 		const subInfo = getSubCategoriesIncludedDescription(subCategories, value ? value : value);
 		let ID = getID(subCategories, value);
 		const isDisabled = getshouldDisableForm(subCategories, value);
+		
 		const notes = getNote(subCategories, value);
 		setNotes(<div className="alert-information bc_alert" >
 			<i className="fa fa-icon fa-2x fa-info-circle"></i>
 			<p dangerouslySetInnerHTML={{ __html: notes }}></p>
 		</div>);
 
-		props.formik.setFieldValue('subRequestTypeID', ID);
-		props.formik.setFieldValue('shouldDisableForm', (isDisabled === undefined) ? false : isDisabled);
+		localProps.setFieldValue('subRequestTypeID', ID);
+		localProps.setFieldValue('shouldDisableForm', (isDisabled === undefined) ? false : isDisabled);
+		
 
 		if (subInfo !== undefined) {
 			if (subInfo.description !== undefined) {
-				props.formik.setFieldValue('subRequestTypeDescriptionID', subInfo.description);
+				localProps.setFieldValue('subRequestTypeDescriptionID', subInfo.description);
 			}
 			if (subInfo.streetAddress !== undefined) {
-				props.formik.setFieldValue('subRequestTypeAddressID', subInfo.streetAddress);
+				localProps.setFieldValue('subRequestTypeAddressID', subInfo.streetAddress);
 			}
 			if (subInfo.city !== undefined) {
-				props.formik.setFieldValue('subRequestTypeCityID', subInfo.city);
+				localProps.setFieldValue('subRequestTypeCityID', subInfo.city);
 			}
 			if (subInfo.zipCode !== undefined) {
-				props.formik.setFieldValue('subRequestTypeZipID', subInfo.zipCode);
+				localProps.setFieldValue('subRequestTypeZipID', subInfo.zipCode);
 			}
 		}
 	};
@@ -183,31 +194,31 @@ const ServiceRequestForm = (props, errors, touched) => {
 		const subBreeds = getAnimalSubCategories(AnimalBreeds, value);
 		setAnimalSubCategories(subBreeds.breeds);
 		setAnimalSex(subBreeds.sex);
-		props.formik.setFieldValue('petTypeID', ID);
+		localProps.setFieldValue('petTypeID', ID);
 	};
 
 	const handleAnimalColorChange = (changeEvent) => {
 		let value = changeEvent.currentTarget.value.toLowerCase();
 		let ID = getID(AnimalColors, value);
-		props.formik.setFieldValue('animalColorTypeID', ID);
+		localProps.setFieldValue('animalColorTypeID', ID);
 	}
 
 	const handleOtherPetTypeChange = (changeEvent) => {
 		let value = changeEvent.currentTarget.value.toLowerCase();
 		let ID = getID(OtherAnimalTypes, value);
-		props.formik.setFieldValue('otherAnimalTypesID', ID);
+		localProps.setFieldValue('otherAnimalTypesID', ID);
 	}
 
 	const handlePetSexChange = (changeEvent) => {
 		let value = changeEvent.currentTarget.value.toLowerCase();
 		let ID = getID(animalSex, value);
-		props.formik.setFieldValue('sexTypeID', ID);
+		localProps.setFieldValue('sexTypeID', ID);
 	}
 
 	const handleAnimalBreedChange = (changeEvent) => {
 		let value = changeEvent.currentTarget.value.toLowerCase();
 		let ID = getID(animalSubCategories, value);
-		props.formik.setFieldValue('animalBreedID', ID);
+		localProps.setFieldValue('animalBreedID', ID);
 	}
 
 	const checkPetType = (value) => {
@@ -252,9 +263,13 @@ const ServiceRequestForm = (props, errors, touched) => {
 			else {
 				const NameFirst = getResponse.data.Results.NameFirst;
 				const NameLast = getResponse.data.Results.NameLast;
+				const Email = getResponse.data.Results.Email;
+				const Phone = getResponse.data.Results.Telephone;
 
-				props.formik.setFieldValue('NameFirst', NameFirst);
-				props.formik.setFieldValue('NameLast', NameLast);
+				localProps.setFieldValue('NameFirst', NameFirst);
+				localProps.setFieldValue('NameLast', NameLast);
+				localProps.setFieldValue('Email', Email);
+				localProps.setFieldValue('Telephone', Phone);
 			}
 		}
 		catch (ex) {
@@ -271,13 +286,19 @@ const ServiceRequestForm = (props, errors, touched) => {
 			}
 			else {
 				const addressParts = getAddressResponse.data.Results[0].FormattedAddress.split(',');
-				props.formik.setFieldValue('requestTypeAddress', addressParts[0]);
-				props.formik.setFieldValue('requestTypeCity', addressParts[1]);
-				props.formik.setFieldValue('requestTypeZip', addressParts[3]);
-				props.formik.setFieldValue('streetAddress', addressParts[0]);
-				props.formik.setFieldValue('city', addressParts[1]);
-				props.formik.setFieldValue('zipCode', addressParts[3]);
-				props.history.push('/ProvideDetails');
+				localProps.setFieldValue('requestTypeAddress', addressParts[0]);
+				localProps.setFieldValue('requestTypeCity', addressParts[1]);
+				localProps.setFieldValue('requestTypeZip', addressParts[3]);
+				localProps.setFieldValue('streetAddress', addressParts[0]);
+				localProps.setFieldValue('city', addressParts[1]);
+				localProps.setFieldValue('zipCode', addressParts[3]);
+				if(localProps.requiresLocation === true){
+					props.history.push('/ProvideDetails');
+				}
+				else{
+					props.history.push('/AdditionalInformationForm');
+				}
+				
 			}
 		}
 		catch (ex) {
@@ -295,7 +316,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 	const { values, isSubmitting, ...rest } = props;
 
 	const loadSelectedItems = (props) => {
-		let requestType = props.formik.values['requestType'];
+		let requestType = localProps.values['requestType'];
 
 		if (Categories.length > 0 && PetTypes.length > 0
 			&& AnimalBreeds.length > 0 && AnimalColors.length > 0 && OtherAnimalTypes.length > 0) {
@@ -304,8 +325,8 @@ const ServiceRequestForm = (props, errors, touched) => {
 					const value = requestType.toLowerCase();
 					const subCategories = getSubCategories(Categories, value ? value : value);
 					setSubCategories(subCategories);
-					if (props.formik.values['petType'] !== '') {
-						let value = props.formik.values['petType'].toLowerCase();
+					if (localProps.values['petType'] !== '') {
+						let value = localProps.values['petType'].toLowerCase();
 						const subBreeds = getAnimalSubCategories(AnimalBreeds, value);
 						setAnimalSubCategories(subBreeds.breeds);
 						setAnimalSex(subBreeds.sex);
@@ -318,12 +339,11 @@ const ServiceRequestForm = (props, errors, touched) => {
 	loadSelectedItems(props);
 	let disableButton = buttonDisableValidation();
 	let displayButton = buttonShowHideValidation();
-	const localProps = props.formik;
-	const pageFieldName = localProps.values.RequestPage
+	
 	//{localProps.RequestPage.RequestTitle}
 	return (
 
-		<FormContainer title = {pageFieldName.map(name => name.RequestTitle)} currentTab = "ServiceRequestForm" shouldDisableForm = {props.formik.values.shouldDisableForm}>
+		<FormContainer title = {pageFieldName.map(name => name.RequestTitle)} tabNames = {localProps.values.Tabs} currentTab = "ServiceRequestForm" shouldDisableForm = {localProps.values.shouldDisableForm} requiresLocation= {localProps.values.requiresLocation}>
 			<Form>
 				<div className={
 					localProps.errors.requestType && localProps.touched.requestType ? "cs-form-control error" : "cs-form-control"}>
@@ -374,8 +394,8 @@ const ServiceRequestForm = (props, errors, touched) => {
 				}
 				{
 					<WaterAndSewerIssue
-						requestType={props.formik.values['requestType'].toLowerCase()}
-						subRequestType={props.formik.values['subRequestType'].toLowerCase()}
+						requestType={localProps.values['requestType'].toLowerCase()}
+						subRequestType={localProps.values['subRequestType'].toLowerCase()}
 						WaterandSewerIssues={returnRequestTypes("requestType_WaterandSewerIssues")}
 						SewerIssues={returnRequestTypes("subCategory_SewerIssues")}
 						StormWaterIssues={returnRequestTypes("subCategory_StormWaterIssues")}
@@ -384,16 +404,16 @@ const ServiceRequestForm = (props, errors, touched) => {
 				}
 				{
 					<RoadsAndSidewalks
-						requestType={props.formik.values['requestType'].toLowerCase()}
-						subRequestType={props.formik.values['subRequestType'].toLowerCase()}
+						requestType={localProps.values['requestType'].toLowerCase()}
+						subRequestType={localProps.values['subRequestType'].toLowerCase()}
 						RoadsAndSidewalks={returnRequestTypes("requestType_RoadsAndSidewalks")}
 						IcyConditions={returnRequestTypes("subCategory_IcyConditions")}
 						notes={notes} />
 				}
 				{
 					<TrashAndRecycle
-						requestType={props.formik.values['requestType'].toLowerCase()}
-						subRequestType={props.formik.values['subRequestType'].toLowerCase()}
+						requestType={localProps.values['requestType'].toLowerCase()}
+						subRequestType={localProps.values['subRequestType'].toLowerCase()}
 						TrashRecycleIssue={(returnRequestTypes("requestType_TrashRecycleIssue")).toLowerCase()}
 						CanOrLidLostDamaged={returnRequestTypes("subCategory_CanOrLidLostDamaged")}
 						PropertyDamangeDuringCollection={returnRequestTypes("subCategory_PropertyDamangeDuringCollection")}
@@ -426,7 +446,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 								name="petType"
 								formikProps={rest}
 								onChange={handleServicePetChange}
-								//value={props.formik.values.name}
+								//value={localProps.values.name}
 								className={localProps.errors.petType && localProps.touched.petType ? "text-select error" : null}
 							>
 								<option key='default' value=''>--Please select a pet type--</option>
@@ -452,7 +472,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 								name="otherAnimalTypes"
 								formikProps={rest}
 								onChange={handleOtherPetTypeChange}
-								//	value={props.formik.values.name}
+								//	value={localProps.values.name}
 								className={localProps.errors.otherAnimalTypes && localProps.touched.otherAnimalTypes ? "text-select error" : null}
 							>
 								<option key='default' value=''>--Please select an "other" pet type--</option>
@@ -480,7 +500,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 								name="sexType"
 								formikProps={rest}
 								onChange={handlePetSexChange}
-								//value={props.formik.values.name}
+								//value={localProps.values.name}
 								className={localProps.errors.sexType && localProps.touched.sexType ? "text-select error" : null}
 							>
 								<option key='default' value=''>--Please select a pet sex--</option>
@@ -509,7 +529,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 								name="animalColorType"
 								formikProps={rest}
 								onChange={handleAnimalColorChange}
-								//value={props.formik.values.name}
+								//value={localProps.values.name}
 								className={localProps.errors.animalColorType && localProps.touched.animalColorType ? "text-select error" : null}
 							>
 								<option key='default' value=''>--Please select the primary color of the animal--</option>
@@ -539,7 +559,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 								name="animalBreedType"
 								formikProps={rest}
 								onChange={handleAnimalBreedChange}
-								//value={props.formik.values.animalBreedType}
+								//value={localProps.values.animalBreedType}
 								className={localProps.errors.animalBreedType && localProps.touched.animalBreedType ? "text-select error" : null}
 							>
 								<option key='default' value=''>--Please select the primary breed of the animal--</option>

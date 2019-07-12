@@ -101,7 +101,7 @@ const CreateAccount = (props, routeProps) => {
 
 
 	return (
-		<FormContainer title="Register for an Account" currentTab="ServiceRequestForm" shouldDisableForm={props.values.shouldDisableForm}>
+		<FormContainer title="Register for an Account" tabNames = {props.values.Tabs} currentTab="ServiceRequestForm" shouldDisableForm={props.values.shouldDisableForm} requiresLocation= {props.values.requiresLocation}>
 			<Formik
 
 				initialValues={{

@@ -7,9 +7,9 @@ import { ErrorCheck } from "./CustomErrorHandling";
 import FormContainer from './FormContainer';
 import { ResetPassword } from './authService';
 
-const PasswordReset = props => {
+const PasswordReset = (props, routeProps) => {
 
-	const userPasswordReset = async (values) => {
+	const userPasswordReset = async (values,actions, props) => {
 
 
 		try {
@@ -30,7 +30,21 @@ const PasswordReset = props => {
 		}
 	}
 	return (
-		<FormContainer title="Reset Password" currentTab = "ServiceRequestForm" shouldDisableForm = {false}>
+		<FormContainer title="Reset Password" tabNames = {[
+			{
+				"Tab1":"Choose a Report Type"
+			},
+			{
+				"Tab2":"Enter a Location"
+			},
+			{
+				"Tab3":"Provide Your Contact Information"
+			},
+			{
+				"Tab4":""
+			}
+	
+		]} currentTab = "ServiceRequestForm" shouldDisableForm = {false} requiresLocation= {true}>
 			<Formik
 				initialValues={{
 					Email: ''
@@ -39,7 +53,7 @@ const PasswordReset = props => {
 					Email: Yup.string().email('Please enter a valid email address.').required('Please enter your email address.'),
 				})}
 
-				onSubmit={(values, { setSubmitting }) => {
+				onSubmit={async (values, { setSubmitting }) => {
 					//alert(JSON.stringify(values, null, 2));
 					userPasswordReset(values);
 					setSubmitting(false);
@@ -47,7 +61,7 @@ const PasswordReset = props => {
 			>
 				{
 					(props) => {
-						const { isSubmitting, errors, touched } = props;
+						const { errors, touched, isSubmitting } = props;
 						return (
 							<Form >
 								<div className={

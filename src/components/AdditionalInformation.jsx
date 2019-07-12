@@ -7,6 +7,7 @@ import { CreateReport } from './authService';
 import { formIncomplete } from "./checkFormCompletion";
 
 const AdditionalInformation = props => {
+	const localProps = props.formik.values;
 	const pageFieldName = props.formik.values.AdditionalInfoPage
 	const { errors, touched, handleSubmit, ...rest } = props;
 	const { Longitude, Latitude, ContactID, requestTypeID, requestType,
@@ -66,9 +67,7 @@ const AdditionalInformation = props => {
 					console.log(errorsReturned);
 					props.Field.ErrorMsg = errorsReturned;
 				}
-				else {
-					props.history.push('/ServiceRequestForm');
-				}
+				props.history.push('/SubmitResponsePage');
 			}
 			catch (ex) {
 				if (ex.response && ex.response.status === 400) {
@@ -80,19 +79,23 @@ const AdditionalInformation = props => {
 			console.log(ex.message);
 		}
 	}
-	const callProviderDetailForm = () => {
-		props.history.push("/ProvideDetails");
+	const callPreviousForm = () => {
+		if(localProps.requiresLocation === false){
+			props.history.push("/ServiceRequestForm");
+		}
+		else{
+			props.history.push("/ProvideDetails");
+		}
 	}
 
-
 	return (
-		<FormContainer title={pageFieldName.map(name => name.AdditionalInfoTitle)} currentTab = "AdditionalInformation" shouldDisableForm = {props.formik.values.shouldDisableForm}>
+		<FormContainer title={pageFieldName.map(name => name.AdditionalInfoTitle)} tabNames = {localProps.Tabs} currentTab = "AdditionalInformation" shouldDisableForm = {localProps.shouldDisableForm} requiresLocation = {localProps.requiresLocation}>
 			<form onSubmit={handleSubmit}>
-				<p>
-					{pageFieldName.map(name => name.DisclaimerLabel)}
-				</p>
-				{(requestType === 'Website Issue') ?
-					<div name="ContactInfo" display="hidden">
+				{(localProps.requiresLocation === false) ?
+					<div name="ContactInfo">
+						<p>
+							{pageFieldName.map(name => name.DisclaimerLabel)}
+						</p>
 						<label htmlFor="NameFirst"
 							className={
 								rest.formik.errors.NameFirst && rest.formik.touched.NameFirst ? "error-message" : "text-label"}
@@ -141,24 +144,28 @@ const AdditionalInformation = props => {
 									touched={rest.formik.touched.Email} />
 							</p>
 						</div>
-						<label htmlFor="Phone"
+						<label htmlFor="Telephone"
 							className={
-								rest.formik.errors.Phone && rest.formik.touched.Phone ? "error-message" : "text-label"}
+								rest.formik.errors.Telephone && rest.formik.touched.Telephone ? "error-message" : "text-label"}
 						>{pageFieldName.map(name => name.PhoneLabel)}</label>
 						<Field
 							type="text"
-							name="Phone"
-							className={`text-input ${rest.formik.errors.Phone && rest.formik.touched.Phone ? "error" : ""}`}
+							name="Telephone"
+							className={`text-input ${rest.formik.errors.Telephone && rest.formik.touched.Telephone ? "error" : ""}`}
 						/>
 						<div className="error">
 							<p role='alert' className="error-message">
 								<ErrorMsg
-									errormessage={rest.formik.errors.Phone}
-									touched={rest.formik.touched.Phone} />
+									errormessage={rest.formik.errors.Telephone}
+									touched={rest.formik.touched.Telephone} />
 							</p>
 						</div>
-					</div> :
+					</div>
+					:
 					<div id="ContactAddress">
+						<p>
+							{pageFieldName.map(name => name.DisclaimerLabel)}
+						</p>
 						<label htmlFor="streetAddress"
 							className={
 								rest.formik.errors.streeAddress && rest.formik.touched.streeAddress ? "error-message" : "text-label"}
@@ -210,34 +217,17 @@ const AdditionalInformation = props => {
 								</p>
 							</div>
 						</div>
-					</div>
-					
-				}
-				<p className="smallest">
-					{pageFieldName.map(name => name.LegalDisclamierBottom)}
-				</p>
+						<p className="smallest">
+							{pageFieldName.map(name => name.LegalDisclamierBottom)}
+						</p>
+					</div>}
 				<div className = "cs-form-control" >
-					<input type="button" className="seButton" onClick={callProviderDetailForm} value="Previous" />
+					<input type="button" className="seButton" onClick={callPreviousForm} value="Previous" />
 					<input type="button" className="seButton pull-right" onClick={SubmitTheForm} value="File Your Report" />
 				</div>
-				<div role="alert" class="bc-citysourced-reporter-alert alert-success" >
-					<h2>Your Submission Has Been Received</h2>
-					<p>
-						Thank you for submitting your report. You will receive an email in a
-						few minutes with your tracking number and additional information.
-					</p>
-					<p>
-						You can track your status online at any time by entering your
-						tracking number at
-						<a href="/followup" title="Track your issue status online.">www.baltimorecountymd.gov/followup</a>.
-					</p>
-				</div>
 			</form>
-
 		</FormContainer>
 	);
 }
-
-
 
 export default connect(AdditionalInformation);

@@ -22,7 +22,8 @@ const provideDetails = props => {
 	//const [MarkerLongitude, setMarkerLongitude] = useState(73.8567);
 	const [Address, setData] = useState([]);
 	const [query, setQuery] = useState(encodeURIComponent());
-	const pageFieldName = props.formik.values.MapPage
+	const pageFieldName = props.formik.values.MapPage;
+	const localProps = props.formik.values;
 
 	useEffect(() => {
 
@@ -178,7 +179,7 @@ const provideDetails = props => {
 
 	return (
 
-		<FormContainer title={pageFieldName.map(name => name.DetailsTitle)} currentTab="ProvideDetails" shouldDisableForm={props.formik.values.shouldDisableForm}>
+		<FormContainer title={pageFieldName.map(name => name.DetailsTitle)} tabNames = {localProps.Tabs} currentTab="ProvideDetails" shouldDisableForm={localProps.shouldDisableForm} requiresLocation = {localProps.requiresLocation}>
 			<Form >
 				<Field
 					type="hidden"
