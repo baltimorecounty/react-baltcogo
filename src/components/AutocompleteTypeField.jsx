@@ -1,5 +1,6 @@
 import React from 'react';
 import Autocomplete from 'react-autocomplete';
+import './Autocomplete.css';
 
 const AutoCompleteTypeField = (props) => {
 	const { items, formikProps, onChange, onSelect, value } = props;
@@ -21,17 +22,20 @@ const AutoCompleteTypeField = (props) => {
 			id="location-autocomplete-input"
 			items={items}
 			placeholder="123 Amazing St"
+			renderInput={(props) => <input className="autocomplete-input" {...props} />}
 			renderItem={(item, isHighlighted) => (
-				<div key={item.id} className={isHighlighted ? "is-highlighted" : ""}>
+				<div key={item.id} className={`autocomplete-option ${isHighlighted ? "is-highlighted" : ""}`}>
 					{item.label}
 				</div>
 			)}
+			renderMenu={(items, value, style) => <div className="autocomplete-results" style={{ ...style }} children={items}/>}
 			value={value}
 			onChange={handleChange}
 			onSelect={handleSelect}
 			className={`text-input ${formikProps.formik.errors.location && formikProps.formik.touched.location
 				? 'error'
 				: ''}`}
+			wrapperStyle={{}}
 		>
 			{props.children}
 		</Autocomplete>
