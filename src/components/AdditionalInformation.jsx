@@ -3,7 +3,7 @@ import { Field, connect } from "formik";
 import ErrorMsg from "./ErrorMessage";
 import FormContainer from './FormContainer';
 import { ErrorCheck } from "./CustomErrorHandling";
-import { CreateReport } from './authService';
+import { CreateReport, VerifyAddress } from './authService';
 import { formIncomplete } from "./checkFormCompletion";
 
 const AdditionalInformation = props => {
@@ -14,18 +14,16 @@ const AdditionalInformation = props => {
 		subRequestTypeID, subRequestType, petTypeID, petType, sexTypeID,
 		sexType, animalColorTypeID, animalColorType, otherAnimalTypesID,
 		otherAnimalTypes, requestTypeDescription, requestTypeDescriptionID,
-		requestTypeAddress, requestTypeAddressID, requestTypeCity,
-		requestTypeCityID, requestTypeZip, requestTypeZipID, subRequestTypeDescription,
+		requestTypeAddressID, requestTypeCityID, requestTypeZipID, subRequestTypeDescription,
 		subRequestTypeDescriptionID, subRequestTypeAddress, subRequestTypeAddressID,
 		subRequestTypeCity, subRequestTypeCityID, subRequestTypeZip,
 		subRequestTypeZipID } = props.formik.values;
 
-	if(props.formik.values.ContactID === null || formIncomplete(props.formik)){
+	if(!props.formik.values.ContactID || formIncomplete(props.formik)){
 		props.history.push('/ServiceRequestForm');
-		props.formik.setFieldValue("userNeedsToLoginError", "Please log in to continue");
 	}
 
-	const SubmitTheForm = async values => {
+	const SubmitTheForm = async (values, actions, props) => {
 		const reportItems = [
 			{ Id: requestTypeID, Value: requestType },
 			{ Id: subRequestTypeID, Value: subRequestType },
@@ -34,9 +32,12 @@ const AdditionalInformation = props => {
 			{ Id: animalColorTypeID, Value: animalColorType },
 			{ Id: otherAnimalTypesID, Value: otherAnimalTypes },
 			{ Id: requestTypeDescriptionID, Value: requestTypeDescription },
-			{ Id: requestTypeAddressID, Value: requestTypeAddress },
-			{ Id: requestTypeCityID, Value: requestTypeCity },
-			{ Id: requestTypeZipID, Value: requestTypeZip },
+			{ Id: requestTypeAddressID, requestTypeAddressID },
+			{ Id: requestTypeCityID, Value: requestTypeCityID },
+			{ Id: requestTypeZipID, requestTypeZipID },
+			{ Id: requestTypeAddressID, Value: localProps.streetAddress },
+			{ Id: requestTypeCityID, Value: localProps.city },
+			{ Id: requestTypeZipID, Value: localProps.zipCode },
 			{ Id: subRequestTypeDescriptionID, Value: subRequestTypeDescription },
 			{ Id: subRequestTypeAddressID, Value: subRequestTypeAddress },
 			{ Id: subRequestTypeCityID, Value: subRequestTypeCity },
@@ -57,27 +58,38 @@ const AdditionalInformation = props => {
 		};
 
 		try {
-			if (!sessionStorage.getItem('UserLoginID')) {
-				throw new Error("You are not logged in and cannot submit a request");
+			var fullAddress = localProps.streetAddress + ' ' + localProps.city + ',MD ' + localProps.zipCode;
+	
+			const addressResponse = await VerifyAddress(fullAddress);
+			if (addressResponse.data.HasErrors) {
+				const errorsReturned = ErrorCheck(addressResponse);
+				actions.setStatus({
+					success1: errorsReturned,
+					css: 'address'
+				})
+				throw new Error(errorsReturned);
 			}
-			try {
-				const response = await CreateReport(Selections);
-				if (response.data.ErrorsCount > 0) {
-					const errorsReturned = ErrorCheck(response);
-					console.log(errorsReturned);
-					props.Field.ErrorMsg = errorsReturned;
+			else {
+				try {
+					const response = await CreateReport(Selections);
+					if (response.data.ErrorsCount > 0) {
+						const errorsReturned = ErrorCheck(response);
+						console.log(errorsReturned);
+						props.Field.ErrorMsg = errorsReturned;
+					}
+					props.history.push('/SubmitResponsePage');
 				}
-				props.history.push('/SubmitResponsePage');
-			}
-			catch (ex) {
-				if (ex.response && ex.response.status === 400) {
-					console.log(ex.message);
+				catch (ex) {
+					if (ex.response && ex.response.status === 400) {
+						console.log(ex.message);
+					}
 				}
 			}
 		}
 		catch (ex) {
 			console.log(ex.message);
 		}
+		
 	}
 	const callPreviousForm = () => {
 		if(localProps.requiresLocation === false){
@@ -168,18 +180,18 @@ const AdditionalInformation = props => {
 						</p>
 						<label htmlFor="streetAddress"
 							className={
-								rest.formik.errors.streeAddress && rest.formik.touched.streeAddress ? "error-message" : "text-label"}
+								rest.formik.errors.streetAddress && rest.formik.touched.streetAddress ? "error-message" : "text-label"}
 						>{pageFieldName.map(name => name.StreetLabel)}</label>
 						<Field
 							type="text"
 							name="streetAddress"
-							className={`text-input ${rest.formik.errors.streeAddress && rest.formik.touched.streeAddress ? "error" : ""}`}
+							className={`text-input ${rest.formik.errors.streetAddress && rest.formik.touched.streetAddress ? "error" : ""}`}
 						/>
 						<div className="error">
 							<p role='alert' className="error-message">
 								<ErrorMsg
-									errormessage={rest.formik.errors.streeAddress}
-									touched={rest.formik.touched.streeAddress} />
+									errormessage={rest.formik.errors.streetAddress}
+									touched={rest.formik.touched.streetAddress} />
 							</p>
 						</div>
 						<label htmlFor="city"

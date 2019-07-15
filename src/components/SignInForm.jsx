@@ -16,19 +16,16 @@ const SignIn = (props, routeProps) => {
 		setFieldType(fieldType === 'Password' ? 'text' : 'Password');
 	};
 
-	if (formIncomplete(props) || props.values.ContactID === null) {
+	if (formIncomplete(props)) {
 		props.history.push('/ServiceRequestForm');
-		props.setFieldValue("userNeedsToLoginError", "Please log in to continue");
 	}
-	else {
-		props.history.push('/ProvideDetails');
-	}
-
+	
 	const userLogin = async (values, props, actions) => {
 
 		try {
-			console.log('inside sign In and continue');
+
 			const response = await Login(values.Email, values.Password);
+
 			const contactID = response.data.Results.Id;
 			const NameFirst = response.data.Results.NameFirst;
 			const NameLast = response.data.Results.NameLast
@@ -36,36 +33,9 @@ const SignIn = (props, routeProps) => {
 			props.setFieldValue('NameFirst', NameFirst);
 			props.setFieldValue('NameLast', NameLast);
 
+			sessionStorage.setItem('UserLoginID', contactID)
 			sessionStorage.setItem('NameFirst', NameFirst);
 			sessionStorage.setItem('NameLast', NameLast);		
-			try {
-				const getAddressResponse = await GetContactAddress(contactID);
-				console.log(getAddressResponse);
-				if (getAddressResponse.data.ErrorsCount > 0) {
-					const errorsReturned = ErrorCheck(getAddressResponse);
-
-					actions.setStatus({
-						success: errorsReturned,
-						css: 'error'
-					})
-					throw new Error(errorsReturned);
-				}
-				else {
-					const addressParts = getAddressResponse.data.Results[0].FormattedAddress.split(',');
-					props.setFieldValue('requestTypeAddress', addressParts[0]);
-					props.setFieldValue('requestTypeCity', addressParts[1]);
-					props.setFieldValue('requestTypeZip', addressParts[3]);
-
-					props.setFieldValue('streetAddress', addressParts[0]);
-					props.setFieldValue('city', addressParts[1]);
-					props.setFieldValue('zipCode', addressParts[3]);
-				}
-			}
-			catch (ex) {
-				if (ex.response || ex.response.status === 400) {
-					props.errors.email = ex.response.data
-				}
-			}
 
 			if (response.data.ErrorsCount > 0) {
 				const errorsReturned = ErrorCheck(response);
@@ -77,15 +47,14 @@ const SignIn = (props, routeProps) => {
 				throw new Error(errorsReturned);
 			}
 			else {
-				sessionStorage.setItem('UserLoginID', contactID);
-
-
 				props.setFieldValue('ContactID', contactID);
 				actions.setStatus({
 					success: 'OK',
 					css: 'success'
 				})
+
 			}
+			props.history.push('/ProvideDetails');
 		}
 		catch (ex) {
 			if (ex.response) {

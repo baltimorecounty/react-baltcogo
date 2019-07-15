@@ -1,10 +1,10 @@
 import React from "react";
 import FormContainer from './FormContainer';
-import { Formik, Form, Field } from "formik";
+import { Formik, Form } from "formik";
 
 const SubmitResponse = (props, routeProps) => {
 	return (
-		<FormContainer title="Sign In" tabNames = {props.values.Tabs} currentTab="ServiceRequestForm" shouldDisableForm={props.values.shouldDisableForm} requiresLocation= {props.values.requiresLocation}>
+		<FormContainer title="" tabNames = {props.values.Tabs} currentTab="ServiceRequestForm" shouldDisableForm={props.values.shouldDisableForm} requiresLocation= {props.values.requiresLocation}>
 			<Formik>
 				{
 					(props) => {
