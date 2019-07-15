@@ -3,7 +3,7 @@ import React from "react";
 import Autocomplete from 'react-autocomplete';
 import _ from 'lodash';
 const AutoCompletTypeField = props => {
-	const { items, formikProps, onChange, onSelect, value } = props;
+	const { items, formikProps, onChange, onSelect, value, placeholder } = props;
 
 	const handleChange = changeEvent => {
 		const { value } = changeEvent.target;
@@ -18,13 +18,14 @@ const AutoCompletTypeField = props => {
 	return (
 
 		<Autocomplete
-			name="location"
+			name="address"
 			getItemValue={item => item.label}
-			id="location"
+			id="address"
 			items={items}
+			placeholder="123 Amazing St"
 			renderItem={(item, isHighlighted) => (
 				<div key={_.uniqueId()}
-					id="location"
+					id="address"
 					style={{ background: isHighlighted ? "lightgray" : "white" }}
 				>
 					{item.label}

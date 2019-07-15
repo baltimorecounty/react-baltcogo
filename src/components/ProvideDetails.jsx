@@ -22,12 +22,14 @@ const provideDetails = props => {
 	//const [MarkerLongitude, setMarkerLongitude] = useState(73.8567);
 	const [Address, setData] = useState([]);
 	const [query, setQuery] = useState(encodeURIComponent());
+	const pageFieldName = props.formik.values.MapPage;
+	const localProps = props.formik.values;
 
 	useEffect(() => {
 
 		const fetchData = async () => {
 			//	const encodeAddress = encodeURIComponent('400 wa')
-			const mapEndPoint = returnMapEndPoint();
+			const mapEndPoint = returnMapEndPoint('mapGISEndPoint');
 			console.log(query);
 			if (query !== 'undefined' && query.length > 0) {
 				const result = await axios(
@@ -41,7 +43,6 @@ const provideDetails = props => {
 					setData([]);
 				}
 			}
-
 		};
 
 		props.formik.setFieldValue('currentTab', 'ProviderDetail');
@@ -53,8 +54,9 @@ const provideDetails = props => {
 	[query]);
 
 	const reverseGeocode = async (latitude, longitude) => {
+		const mapReverseEndPoint = returnMapEndPoint("mapReverseGISEndPoint");
 		const result = await axios(
-			`https://bcgis.baltimorecountymd.gov/arcgis/rest/services/Geocoders/CompositeGeocode_CS/GeocodeServer/reverseGeocode?location=${longitude}%2C${latitude}&f=pjson`,
+			`${mapReverseEndPoint}${longitude}%2C${latitude}&f=pjson`,
 		);
 		return result;
 
@@ -152,7 +154,7 @@ const provideDetails = props => {
 
 		let fullAddress = rest.formik.values.location;
 		const addressResponse = await VerifyAddress(fullAddress);
-		if (addressResponse.data.HasErrors === true) {
+		if (addressResponse.data.HasErrors) {
 
 			const errorsReturned = ErrorCheck(addressResponse);
 			rest.formik.setFieldValue('ShowErrorMsg', 1);
@@ -180,7 +182,7 @@ const provideDetails = props => {
 
 	return (
 
-		<FormContainer title="Provide Details" currentTab="ProvideDetails" shouldDisableForm={props.formik.values.shouldDisableForm}>
+		<FormContainer title={pageFieldName.map(name => name.DetailsTitle)} tabNames = {localProps.Tabs} currentTab="ProvideDetails" shouldDisableForm={localProps.shouldDisableForm} requiresLocation = {localProps.requiresLocation}>
 			<Form >
 				<Field
 					type="hidden"
@@ -200,8 +202,7 @@ const provideDetails = props => {
 				/>
 				<label>Add a Location</label>
 				<p>
-					Tell us where the issue is located. You can enter an address
-					or mark the location on the map.
+					{pageFieldName.map(name => name.DetailsMainLabelExplaination)}
 				</p>
 				<div className={
 					rest.formik.errors.location && rest.formik.touched.location ? "cs-form-control address-search error" : "cs-form-control address-search"}>
@@ -213,12 +214,11 @@ const provideDetails = props => {
 					</div>
 					<div className="address-search-wrapper">
 						<label htmlFor="location"
-							className="address">Enter the closest street address to your service request
+							className="address">{pageFieldName.map(name => name.AddressHeaderLabel)}
 						</label>
 						<div className="address-input-wrapper">
 							<AutoCompletTypeField
 								items={items}
-								placeholder="123 Amazing St"
 								//name="location"
 								formikProps={rest}
 								value={rest.formik.values.location}
@@ -249,7 +249,7 @@ const provideDetails = props => {
 					rest.formik.errors.describeTheProblem && rest.formik.touched.describeTheProblem ? "cs-form-control address-search error" : "cs-form-control address-search"}>
 					<label htmlFor="describeTheProblem"
 
-					>Describe the Problem</label>
+					>{pageFieldName.map(name => name.ProblemLabel)}</label>
 					<Field
 						component="textarea"
 						placeholder="Maximum 2,000 characters."
