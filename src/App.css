@@ -62,11 +62,5 @@ select.error  {
   z-index: 2;
 }
 .inner-render{
-
   z-index: 999;
-}
-
-
-.is-highlighted {
-	background: #e0e0e0;
 }
