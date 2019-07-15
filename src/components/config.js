@@ -103,6 +103,16 @@ export const formTypesProd = [
 	{ key: 'petTypeDog', value: 'Dog' },
 	{ key: 'petType_Others', value: 'Other' }
 ];
+
+export const mapEndPointDevelopment = [
+	{ key: "mapGISEndPoint", value: "http://localhost:54727/api/gis/addressLookup/" },
+	{
+		key: 'mapReverseGISEndPoint',
+		value:
+			'https://bcgis.baltimorecountymd.gov/arcgis/rest/services/Geocoders/CompositeGeocode_CS/GeocodeServer/reverseGeocode?location='
+	}
+];
+
 export const mapEndPointTest = [
 	{ key: "mapGISEndPoint", value: "https://testservices.baltimorecountymd.gov/api/gis/addressLookup/" },
 	{
