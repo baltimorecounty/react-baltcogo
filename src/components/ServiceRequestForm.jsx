@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Form, Field, connect } from "formik";
 import axios from "axios"
 import ErrorMsg from "./ErrorMessage";
-import { ErrorCheck } from "./CustomErrorHandling";
+import { ErrorCheck, formatPhoneNumber } from "./CustomErrorHandling";
 import FormContainer from './FormContainer';
 import RequestTypeField from "./RequestTypeField";
 import RequestSubTypeField from "./RequestSubTypeField";
@@ -16,7 +16,8 @@ import TrashAndRecycle from "./trashAndRecycle";
 import { GetContactAddress, GetContactDetails } from './authService';
 import RoadsAndSidewalks from "./roadsAndSidewalks";
 import { formIncomplete } from "./checkFormCompletion";
-import { returnJsonFileLocations, returnRequestTypes } from "./returnEnvironmentItems"
+import { returnJsonFileLocations, returnRequestTypes } from "./returnEnvironmentItems";
+
 
 const { categoryId } = QueryString.parse(window.location.search);
 //const contactID = 914151;
@@ -321,7 +322,6 @@ const ServiceRequestForm = (props, errors, touched) => {
 	let disableButton = buttonDisableValidation();
 	let displayButton = buttonShowHideValidation();
 	
-	//{localProps.RequestPage.RequestTitle}
 	return (
 
 		<FormContainer title = {pageFieldName.map(name => name.RequestTitle)} tabNames = {localProps.values.Tabs} currentTab = "ServiceRequestForm" shouldDisableForm = {localProps.values.shouldDisableForm} requiresLocation= {localProps.values.requiresLocation}>

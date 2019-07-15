@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import ErrorMsg from "./ErrorMessage";
-import { ErrorCheck } from "./CustomErrorHandling";
+import { ErrorCheck, formatPhoneNumber } from "./CustomErrorHandling";
 import FormContainer from './FormContainer';
 import { SignUp, VerifyAddress, CreateContactAddress } from './authService';
 import { Link } from 'react-router-dom';
@@ -53,8 +53,21 @@ const CreateAccount = (props, routeProps) => {
 			console.log(ex.message);
 		}
 	}
-	
-
+	Yup.addMethod(Yup.string, "Telephone", function (value) {
+		return this.test("Telephone", "Please enter your phone number in the following format: 410-555-1212.", function (value) {
+			let formattedPhoneNumber;
+			let returnBooleanVal;
+			let format = "xxx-xxx-xxxx";
+			if (value === undefined) {
+				return false;
+			}
+			else {
+				let returnValue = formatPhoneNumber(value, format, formattedPhoneNumber, returnBooleanVal);
+				props.setFieldValue('Telephone', returnValue.formattedPhoneNumber);
+				return returnValue.returnBooleanVal
+			}
+		})
+	})
 
 	return (
 		<FormContainer title="Register for an Account" tabNames = {props.values.Tabs} currentTab="ServiceRequestForm" shouldDisableForm={props.values.shouldDisableForm} requiresLocation= {props.values.requiresLocation}>
@@ -75,6 +88,14 @@ const CreateAccount = (props, routeProps) => {
 					NameFirst: Yup.string().required('Please enter your first name.'),
 					NameLast: Yup.string().required('Please enter your last name.'),
 					Email: Yup.string().email('Please enter a valid email address.').required('Please enter your email address.'),
+					Address: Yup.string().required('Please enter your address.'),
+					City: Yup.string().required('Please enter your city.'),
+					ZipCode: Yup.string().matches(/(^\d{5}$)|(^\d{5}-\d{4}$)/, {
+						message: 'Please enter your five-digit ZIP code.',
+						excludeEmptyString: true
+					}).required('Please enter your zip code.'),
+					Telephone: Yup.string().required('Please enter your phone number in the following format: 410-555-1212.').Telephone(),
+
 					Password: Yup.string()
 						.required('Please enter your password.')
 						.max(30, "Maximum 30 characters allowed.")
@@ -95,7 +116,7 @@ const CreateAccount = (props, routeProps) => {
 			>
 				{
 					(props) => {
-						const { values, isSubmitting, errors, touched } = props;
+						const { values, isSubmitting, errors, touched} = props;
 
 						return (
 							<Form >
@@ -128,12 +149,13 @@ const CreateAccount = (props, routeProps) => {
 								<div className={
 									props.errors.Telephone && props.touched.Telephone ? "cs-form-control error" : "cs-form-control"}>
 									<label htmlFor="Telephone"
-										value={values.Telephone}
-									//validate={formatPhoneNumber(values.Telephone)}
+
 									>Phone</label>
 									<Field
 										type="text"
 										name="Telephone"
+										value={values.Telephone}
+
 									/>
 									<p role='alert' className="error-message">
 										<ErrorMsg
@@ -177,6 +199,7 @@ const CreateAccount = (props, routeProps) => {
 									<p htmlFor="signup"
 									>Already have an account? <Link to="SignInForm" >Sign In</Link> </p>
 									<input className="seButton" type="submit" disabled={isSubmitting} value="Sign Up and Continue" />
+
 								</div>
 
 							</Form>

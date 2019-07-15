@@ -23,8 +23,9 @@ const SignIn = (props, routeProps) => {
 	const userLogin = async (values, props, actions) => {
 
 		try {
-			console.log('inside sign In and continue');
+
 			const response = await Login(values.Email, values.Password);
+
 			const contactID = response.data.Results.Id;
 			const NameFirst = response.data.Results.NameFirst;
 			const NameLast = response.data.Results.NameLast
