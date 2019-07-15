@@ -28,26 +28,29 @@ const provideDetails = props => {
 		const fetchData = async () => {
 			//	const encodeAddress = encodeURIComponent('400 wa')
 			const mapEndPoint = returnMapEndPoint();
-
-			const result = await axios(
-				`${mapEndPoint}${query}`,
-			);
-			if (result.status === 200) {
-				setData(result.data);
-			}
-			else {
-				setData([]);
+			console.log(query);
+			if (query !== 'undefined' && query.length > 0) {
+				const result = await axios(
+					`${mapEndPoint}${query}`,
+				);
+				console.log(result);
+				if (result.status === 200) {
+					setData(result.data);
+				}
+				else {
+					setData([]);
+				}
 			}
 
 		};
+
 		props.formik.setFieldValue('currentTab', 'ProviderDetail');
-		if (props.formik.values.ContactID === null || formIncomplete(props.formik) === true) {
+		if (!props.formik.values.ContactID || formIncomplete(props.formik)) {
 			props.history.push('/ServiceRequestForm');
-			props.formik.setFieldValue("userNeedsToLoginError", "Please log in to continue");
 		}
 		fetchData();
 	},
-		[query]);
+	[query]);
 
 	const reverseGeocode = async (latitude, longitude) => {
 		const result = await axios(

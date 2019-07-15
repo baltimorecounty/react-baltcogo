@@ -113,11 +113,6 @@ const CreateAccount = (props, routeProps) => {
 			}
 		})
 	})
-	const handleTelephoneFieldBlur = () => {
-
-		console.log('inisee onBlur');
-		//		props.setFieldValue('Telephone', props.values.Telephone);
-	}
 
 	return (
 		<FormContainer title="Register for an Account" currentTab="ServiceRequestForm" shouldDisableForm={props.values.shouldDisableForm}>
@@ -166,7 +161,7 @@ const CreateAccount = (props, routeProps) => {
 			>
 				{
 					(props) => {
-						const { values, isSubmitting, errors, touched, validateField } = props;
+						const { values, isSubmitting, errors, touched} = props;
 
 						return (
 							<Form >
@@ -205,7 +200,7 @@ const CreateAccount = (props, routeProps) => {
 										type="text"
 										name="Telephone"
 										value={values.Telephone}
-									//	onBlur={handleTelephoneFieldBlur}
+
 									/>
 									<p role='alert' className="error-message">
 										<ErrorMsg
@@ -293,9 +288,7 @@ const CreateAccount = (props, routeProps) => {
 									<label htmlFor="signup"
 									>Already have an account? <Link to="SignInForm" >Sign In</Link> </label><br />
 									<input className="seButton" type="submit" disabled={isSubmitting} value="Sign Up and Continue" />
-									<button type="button" onClick={() => validateField('Telephone')}>
-										Check Username
-									</button>
+
 								</div>
 
 							</Form>
