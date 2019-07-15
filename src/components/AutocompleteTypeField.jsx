@@ -1,46 +1,45 @@
-
-import React from "react";
+import React from 'react';
 import Autocomplete from 'react-autocomplete';
-import _ from 'lodash';
-const AutoCompletTypeField = props => {
-	const { items, formikProps, onChange, onSelect, value, placeholder } = props;
+import './Autocomplete.css';
 
-	const handleChange = changeEvent => {
+const AutoCompleteTypeField = (props) => {
+	const { items, formikProps, onChange, onSelect, value } = props;
+
+	const handleChange = (changeEvent) => {
 		const { value } = changeEvent.target;
 		formikProps.formik.setFieldValue('location', value);
 		onChange(changeEvent);
-	
 	};
-	const handleSelect = val => {
+	const handleSelect = (val) => {
 		formikProps.formik.setFieldValue('location', val);
 		onSelect(val);
 	};
-	return (
 
+	return (
 		<Autocomplete
-			name="address"
-			getItemValue={item => item.label}
-			id="address"
+			name="location"
+			getItemValue={(item) => item.label}
+			id="location-autocomplete-input"
 			items={items}
 			placeholder="123 Amazing St"
+			renderInput={(props) => <input className="autocomplete-input" {...props} />}
 			renderItem={(item, isHighlighted) => (
-				<div key={_.uniqueId()}
-					id="address"
-					style={{ background: isHighlighted ? "lightgray" : "white" }}
-				>
+				<div key={item.id} className={`autocomplete-option ${isHighlighted ? "is-highlighted" : ""}`}>
 					{item.label}
-					
 				</div>
 			)}
+			renderMenu={(items, value, style) => <div className="autocomplete-results" style={{ ...style }} children={items}/>}
 			value={value}
 			onChange={handleChange}
 			onSelect={handleSelect}
-
-			className={`text-input ${formikProps.formik.errors.location && formikProps.formik.touched.location ? "error" : ""}`}
+			className={`text-input ${formikProps.formik.errors.location && formikProps.formik.touched.location
+				? 'error'
+				: ''}`}
+			wrapperStyle={{}}
 		>
 			{props.children}
 		</Autocomplete>
 	);
 };
 
-export default AutoCompletTypeField;
+export default AutoCompleteTypeField;

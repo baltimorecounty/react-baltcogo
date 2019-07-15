@@ -10,7 +10,7 @@ export const checkEnvironment = () => {
 export const returnAPIEndPoint = (endPointName) => {
 	var domain =  checkEnvironment();
 	var endPoint = "";
-	
+
 	if (domain === "dev.baltimorecountymd.gov"){
 		endPoint = _.filter(configItems.endPointsTest, { key: endPointName })
 	}else if(domain === "baltimorecountymd.gov"){
@@ -32,7 +32,7 @@ export const returnJsonFileLocations = (fileName) => {
 		fileLocation = _.filter(configItems.jsonFileLocationsProd, { key: fileName })
 	}
 	else{
-		fileLocation = _.filter(configItems.jsonFileLocationsLocal, { key: fileName })	
+		fileLocation = _.filter(configItems.jsonFileLocationsLocal, { key: fileName })
 	}
 	return fileLocation[0].value;
 }
@@ -62,7 +62,7 @@ export const returnMapEndPoint = (mapEndPointName) => {
 		mapEndPoint =  _.filter(configItems.mapEndPointProd, { key: mapEndPointName })
 	}
 	else{
-		mapEndPoint =  _.filter(configItems.mapEndPointTest, { key: mapEndPointName })
+		mapEndPoint =  _.filter(configItems.mapEndPointDevelopment, { key: mapEndPointName })
 	}
 	return mapEndPoint[0].value;
 }
