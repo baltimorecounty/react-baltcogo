@@ -20,9 +20,9 @@ const SignIn = (props, routeProps) => {
 	const userLogin = async (values, props, actions) => {
 
 		try {
-			console.log('inside sign In and continue');
+
 			const response = await Login(values.Email, values.Password);
-			console.log(response);
+
 			const contactID = response.data.Results.Id;
 			const NameFirst = response.data.Results.NameFirst;
 			const NameLast = response.data.Results.NameLast
@@ -34,9 +34,9 @@ const SignIn = (props, routeProps) => {
 			sessionStorage.setItem('NameLast', NameLast);
 
 			try {
-				console.log('contactID:' + contactID);
+
 				const getAddressResponse = await GetContactAddress(contactID);
-				console.log(getAddressResponse);
+
 				if (getAddressResponse.data.ErrorsCount > 0) {
 					const errorsReturned = ErrorCheck(getAddressResponse);
 
@@ -47,9 +47,10 @@ const SignIn = (props, routeProps) => {
 					throw new Error(errorsReturned);
 				}
 				else {
-					console.log('inside else');
+				 
+				 
 					const addressParts = getAddressResponse.data.Results[0].FormattedAddress.split(',');
-					console.log('addressParts:' + addressParts);
+			
 					props.setFieldValue('requestTypeAddress', addressParts[0]);
 					props.setFieldValue('requestTypeCity', addressParts[1]);
 					props.setFieldValue('requestTypeZip', addressParts[3]);
