@@ -265,7 +265,10 @@ const provideDetails = props => {
 				</div>
 				<div className="cs-form-control" >
 					<input type="button" className="seButton" onClick={goServiceRequestForm} value="Previous" />
-					<input type="button" className="seButton pull-right" onClick={goToAdditionalPage} disabled={displayButton} value="Next" />
+					{(rest.formik.values.requestTypeAddressID) ? 
+						<input type="button" className="seButton pull-right" onClick={goToAdditionalPage} disabled={displayButton} value="Next" />
+						:
+						null}
 				</div>
 			</Form>
 		</FormContainer>

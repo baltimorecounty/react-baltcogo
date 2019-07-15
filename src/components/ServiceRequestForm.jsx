@@ -13,14 +13,12 @@ import Model from './Modal';
 import { Link } from 'react-router-dom';
 import WaterAndSewerIssue from "./waterAndSewerIssue";
 import TrashAndRecycle from "./trashAndRecycle";
-import { GetContactAddress, GetContactDetails } from './authService';
+import { GetContactDetails } from './authService';
 import RoadsAndSidewalks from "./roadsAndSidewalks";
 import { formIncomplete } from "./checkFormCompletion";
 import { returnJsonFileLocations, returnRequestTypes } from "./returnEnvironmentItems";
 
-
 const { categoryId } = QueryString.parse(window.location.search);
-//const contactID = 914151;
 
 const getSubCategories = (categories, categoryName) => {
 	var category = categories.find(category => category.name.toLowerCase() === categoryName);
@@ -114,7 +112,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 				localProps.setFieldValue('ContactID', contactID);
 
 
-				if (contactID !== null) {
+				if (contactID) {
 
 					getContactDetails();
 				}
@@ -274,17 +272,13 @@ const ServiceRequestForm = (props, errors, touched) => {
 			}
 		}
 		catch (ex) {
+			
 		}
 
 	}
 	const goToNextPage = () => {
 		
-		if(localProps.values.requiresLocation){
-			props.history.push('/ProvideDetails');
-		}
-		else{
-			props.history.push('/AdditionalInformationForm');
-		}
+		props.history.push('/ProvideDetails');
 	}
 
 	const callSignInForm = () => {
