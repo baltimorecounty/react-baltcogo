@@ -276,32 +276,13 @@ const ServiceRequestForm = (props, errors, touched) => {
 		}
 
 	}
-	const goToNextPage = async () => {
-		try {
-			const getAddressResponse = await GetContactAddress(contactID);
-
-			if (getAddressResponse.data.HasErrors) {
-				const errorsReturned = ErrorCheck(getAddressResponse);
-				throw new Error(errorsReturned);
-			}
-			else {
-				const addressParts = getAddressResponse.data.Results[0].FormattedAddress.split(',');
-				localProps.setFieldValue('requestTypeAddress', addressParts[0]);
-				localProps.setFieldValue('requestTypeCity', addressParts[1]);
-				localProps.setFieldValue('requestTypeZip', addressParts[3]);
-				localProps.setFieldValue('streetAddress', addressParts[0]);
-				localProps.setFieldValue('city', addressParts[1]);
-				localProps.setFieldValue('zipCode', addressParts[3]);
-				if(localProps.values.requiresLocation){
-					props.history.push('/ProvideDetails');
-				}
-				else{
-					props.history.push('/AdditionalInformationForm');
-				}
-				
-			}
+	const goToNextPage = () => {
+		
+		if(localProps.values.requiresLocation){
+			props.history.push('/ProvideDetails');
 		}
-		catch (ex) {
+		else{
+			props.history.push('/AdditionalInformationForm');
 		}
 	}
 

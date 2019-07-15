@@ -14,88 +14,46 @@ const CreateAccount = (props, routeProps) => {
 		setFieldType(fieldType === 'Password' ? 'text' : 'Password');
 	};
 
-	if(formIncomplete(props) || !props.values.ContactID){
+	if(formIncomplete(props)){
 		props.history.push('/ServiceRequestForm');
 	}
 	
 	const userCreateAccount = async (values, actions, props) => {
-
-
 		try {
-			var fullAddress = values.Address + ' ' + values.City + ',MD ' + values.ZipCode;
+			const response = await SignUp(values.NameFirst, values.NameLast, values.Email, values.Password, values.Telephone, values.UniqueId, values.SuppressNotifications);
+			var ContactID = "";
 
-			const addressResponse = await VerifyAddress(fullAddress);
-			var VerificationId = "";
-
-			if (addressResponse.data.HasErrors) {
-				const errorsReturned = ErrorCheck(addressResponse);
-				//	console.log(errorsReturned);
+			if (response.data.HasErrors) {
+				const errorsReturned = ErrorCheck(response);
+				//console.log(errorsReturned);
 				actions.setStatus({
-					success1: errorsReturned,
-					css: 'address'
+					success2: errorsReturned,
+					css: 'email'
 				})
 				//props.Field.ErrorMsg = errorsReturned;
 				throw new Error(errorsReturned);
-
 			}
 			else {
-				VerificationId = addressResponse.data.Results.VerificationID;
-				props.setFieldValue('VerificationId', VerificationId);
-				props.setFieldValue('fullAddress', fullAddress);
-			}
-			try {
-				const response = await SignUp(values.NameFirst, values.NameLast, values.Email, values.Password, values.Telephone, values.UniqueId, values.SuppressNotifications);
-				var ContactID = "";
+				ContactID = response.data.Results.Id;
+				const NameFirst = response.data.Results.NameFirst;
+				const NameLast = response.data.Results.NameLast
 
-				if (response.data.HasErrors) {
-					const errorsReturned = ErrorCheck(response);
-					//console.log(errorsReturned);
-					actions.setStatus({
-						success2: errorsReturned,
-						css: 'email'
-					})
-					//props.Field.ErrorMsg = errorsReturned;
-					throw new Error(errorsReturned);
-				}
-				else {
-					ContactID = response.data.Results.Id;
-					props.setFieldValue('ContactID', ContactID);
-					sessionStorage.setItem('UserLoginID', ContactID)
-				}
-				try {
-					const contactAddressResponse = await CreateContactAddress(ContactID, VerificationId, "Default");
+				props.setFieldValue('ContactID', ContactID);
+				props.setFieldValue('NameFirst', NameFirst);
+				props.setFieldValue('NameLast', NameLast);
 
-					if (contactAddressResponse.data.HasErrors) {
-						const errorsReturned = ErrorCheck(contactAddressResponse);
-						//console.log(errorsReturned);
-						//props.Field.ErrorMsg = errorsReturned;
-						throw new Error(errorsReturned);
-					}
-					else {
+				sessionStorage.setItem('UserLoginID', ContactID)
+				sessionStorage.setItem('NameFirst', NameFirst);
+				sessionStorage.setItem('NameLast', NameLast);	
 
-						props.setFieldValue('requestTypeAddress', values.Address);
-						props.setFieldValue('requestTypeCity', values.City);
-						props.setFieldValue('requestTypeZip', values.ZipCode);
-
-						props.setFieldValue('streetAddress', values.Address);
-						props.setFieldValue('city', values.City);
-						props.setFieldValue('zipCode', values.ZipCode);
-
-						props.history.push('/ProvideDetails');
-					}
-				}
-				catch (ex) {
-					console.log(ex.message);
-				}
-			}
-			catch (ex) {
-				console.log(ex.message);
-			}
+				props.history.push('/ProvideDetails');
+			}	
 		}
 		catch (ex) {
 			console.log(ex.message);
 		}
 	}
+	
 
 
 	return (
@@ -117,12 +75,6 @@ const CreateAccount = (props, routeProps) => {
 					NameFirst: Yup.string().required('Please enter your first name.'),
 					NameLast: Yup.string().required('Please enter your last name.'),
 					Email: Yup.string().email('Please enter a valid email address.').required('Please enter your email address.'),
-					Address: Yup.string().required('Please enter your address.'),
-					City: Yup.string().required('Please enter your city.'),
-					ZipCode: Yup.string().matches(/(^\d{5}$)|(^\d{5}-\d{4}$)/, {
-						message: 'Please enter your five-digit ZIP code.',
-						excludeEmptyString: true
-					}).required('Please enter your zip code.'),
 					Password: Yup.string()
 						.required('Please enter your password.')
 						.max(30, "Maximum 30 characters allowed.")
@@ -220,51 +172,7 @@ const CreateAccount = (props, routeProps) => {
 											touched={touched.Password} />
 									</p>
 								</div>
-								<div className={
-									props.errors.Address && props.touched.Address ? "cs-form-control error" : "cs-form-control"}>
-									<label htmlFor="Address">Street Address</label>
-									<Field
-										type="text"
-										name="Address"
-									/>
-									<div className={`input-feedback ${props.status ? props.status.css : ''}`}>
-										{props.status ? props.status.success1 : ''}
-									</div>
-									<p role='alert' className="error-message">
-										<ErrorMsg
-											errormessage={errors.Address}
-											touched={touched.Address} />
-									</p>
-								</div>
-								<div className={
-									props.errors.City && props.touched.City ? "cs-form-control error" : "cs-form-control"}>
-									<label htmlFor="City">City</label>
-									<Field
-										type="text"
-										name="City"
-									/>
-									<p role='alert' className="error-message">
-										<ErrorMsg
-											errormessage={errors.City}
-											touched={touched.City} />
-									</p>
-								</div>
-								<div className={
-									props.errors.ZipCode && props.touched.ZipCode ? "cs-form-control error" : "cs-form-control"}>
-									<label htmlFor="ZipCode">ZIP Code</label>
-									<Field type='text'
-										name="ZipCode"
-									/>
-									<p role='alert' className="error-message">
-										<ErrorMsg
-											errormessage={errors.ZipCode}
-											touched={touched.ZipCode} />
-									</p>
-								</div>
-								<Field
-									type="hidden"
-									name="addressID"
-								/>
+								
 								<div className="cs-form-control" >
 									<p htmlFor="signup"
 									>Already have an account? <Link to="SignInForm" >Sign In</Link> </p>

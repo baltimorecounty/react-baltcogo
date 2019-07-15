@@ -57,6 +57,6 @@ export function GetContactDetails(id) {
 
 export function CreateContactAddress(id, VerificationId, Name) {
 	const endpointContacts = returnAPIEndPoint("apiContactUrl");
-	const response = http.post(endpointContacts + id + "/", { VerificationId, Name });
+	const response = http.post(endpointContacts + id + "/addresses", { VerificationId, Name });
 	return response;
 }

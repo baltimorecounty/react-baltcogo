@@ -42,6 +42,7 @@ const provideDetails = props => {
 			}
 		};
 		props.formik.setFieldValue('currentTab', 'ProviderDetail');
+		
 		if (!props.formik.values.ContactID || formIncomplete(props.formik)) {
 			props.history.push('/ServiceRequestForm');
 		}
