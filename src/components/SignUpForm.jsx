@@ -7,6 +7,7 @@ import FormContainer from './FormContainer';
 import { SignUp, VerifyAddress, CreateContactAddress } from './authService';
 import { Link } from 'react-router-dom';
 import { formIncomplete } from "./checkFormCompletion";
+import { IsPhoneNumberValid } from '@baltimorecounty/validation';
 
 const CreateAccount = (props, routeProps) => {
 	const [fieldType, setFieldType] = useState('Password');
@@ -17,7 +18,7 @@ const CreateAccount = (props, routeProps) => {
 	if(formIncomplete(props)){
 		props.history.push('/ServiceRequestForm');
 	}
-	
+
 	const userCreateAccount = async (values, actions, props) => {
 		try {
 			const response = await SignUp(values.NameFirst, values.NameLast, values.Email, values.Password, values.Telephone, values.UniqueId, values.SuppressNotifications);
@@ -44,30 +45,22 @@ const CreateAccount = (props, routeProps) => {
 
 				sessionStorage.setItem('UserLoginID', ContactID)
 				sessionStorage.setItem('NameFirst', NameFirst);
-				sessionStorage.setItem('NameLast', NameLast);	
+				sessionStorage.setItem('NameLast', NameLast);
 
 				props.history.push('/ProvideDetails');
-			}	
+			}
 		}
 		catch (ex) {
 			console.log(ex.message);
 		}
 	}
 	Yup.addMethod(Yup.string, "Telephone", function (value) {
-		return this.test("Telephone", "Please enter your phone number in the following format: 410-555-1212.", function (value) {
-			let formattedPhoneNumber;
-			let returnBooleanVal;
-			let format = "xxx-xxx-xxxx";
-			if (value === undefined) {
-				return false;
-			}
-			else {
-				let returnValue = formatPhoneNumber(value, format, formattedPhoneNumber, returnBooleanVal);
-				props.setFieldValue('Telephone', returnValue.formattedPhoneNumber);
-				return returnValue.returnBooleanVal
-			}
-		})
-	})
+		return this.test(
+			"Telephone",
+			"Please enter your phone number in the following format: 410-555-1212.",
+			IsPhoneNumberValid
+		);
+	});
 
 	return (
 		<FormContainer title="Register for an Account" tabNames = {props.values.Tabs} currentTab="ServiceRequestForm" shouldDisableForm={props.values.shouldDisableForm} requiresLocation= {props.values.requiresLocation}>
@@ -194,7 +187,7 @@ const CreateAccount = (props, routeProps) => {
 											touched={touched.Password} />
 									</p>
 								</div>
-								
+
 								<div className="cs-form-control" >
 									<p htmlFor="signup"
 									>Already have an account? <Link to="SignInForm" >Sign In</Link> </p>
