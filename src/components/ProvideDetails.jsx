@@ -42,7 +42,7 @@ const provideDetails = props => {
 			}
 		};
 		props.formik.setFieldValue('currentTab', 'ProviderDetail');
-		if (props.formik.values.ContactID === null || formIncomplete(props.formik) === true) {
+		if (props.formik.values.ContactID === null || formIncomplete(props.formik)) {
 			props.history.push('/ServiceRequestForm');
 			props.formik.setFieldValue("userNeedsToLoginError", "Please log in to continue");
 		}
@@ -151,7 +151,7 @@ const provideDetails = props => {
 
 		let fullAddress = rest.formik.values.location;
 		const addressResponse = await VerifyAddress(fullAddress);
-		if (addressResponse.data.HasErrors === true) {
+		if (addressResponse.data.HasErrors) {
 
 			const errorsReturned = ErrorCheck(addressResponse);
 			rest.formik.setFieldValue('ShowErrorMsg', 1);

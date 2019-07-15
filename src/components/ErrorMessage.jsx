@@ -4,7 +4,7 @@ const ErrorMessage = ({ errormessage, touched }) => {
 
 	return (
 		<React.Fragment>
-			{(touched === true && errormessage !== undefined) ? errormessage : null}
+			{(touched && errormessage !== undefined) ? errormessage : null}
 		</React.Fragment>
 	);
 };
