@@ -2,7 +2,7 @@ import React from "react";
 import { Field, connect } from "formik";
 import ErrorMsg from "./ErrorMessage";
 import FormContainer from './FormContainer';
-import { ErrorCheck } from "./CustomErrorHandling";
+import { GetErrorsDetails } from "../utilities/CustomErrorHandling";
 import { CreateReport, VerifyAddress } from './authService';
 import { formIncomplete } from "./checkFormCompletion";
 
@@ -59,10 +59,10 @@ const AdditionalInformation = props => {
 
 		try {
 			var fullAddress = localProps.streetAddress + ' ' + localProps.city + ',MD ' + localProps.zipCode;
-	
+
 			const addressResponse = await VerifyAddress(fullAddress);
 			if (addressResponse.data.HasErrors) {
-				const errorsReturned = ErrorCheck(addressResponse);
+				const errorsReturned = GetErrorsDetails(addressResponse);
 				actions.setStatus({
 					success1: errorsReturned,
 					css: 'address'
@@ -73,7 +73,7 @@ const AdditionalInformation = props => {
 				try {
 					const response = await CreateReport(Selections);
 					if (response.data.ErrorsCount > 0) {
-						const errorsReturned = ErrorCheck(response);
+						const errorsReturned = GetErrorsDetails(response);
 						console.log(errorsReturned);
 						props.Field.ErrorMsg = errorsReturned;
 					}
@@ -89,7 +89,7 @@ const AdditionalInformation = props => {
 		catch (ex) {
 			console.log(ex.message);
 		}
-		
+
 	}
 	const callPreviousForm = () => {
 		if(localProps.requiresLocation === false){

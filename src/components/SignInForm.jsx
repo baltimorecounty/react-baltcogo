@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import ErrorMsg from "./ErrorMessage";
-import { ErrorCheck } from "./CustomErrorHandling";
+import { GetErrorsDetails } from "../utilities/CustomErrorHandling";
 import { Link } from 'react-router-dom';
 import FormContainer from './FormContainer';
 import { Login, GetContactAddress } from './authService';
@@ -22,7 +22,7 @@ const SignIn = (props, routeProps) => {
 	}
 
 	const handleLoginFailure = (actions, response) => {
-		const errorsReturned = ErrorCheck(response);
+		const errorsReturned = GetErrorsDetails(response);
 
 		actions.setStatus({
 			success: errorsReturned,
