@@ -65,20 +65,21 @@ export const submitReport = async (actions, props ) => {
 					success1: errorsReturned,
 					css: 'address'
 				})
-				throw new Error(errorsReturned);}}
-		else {
-			try {
-				const response = await CreateReport(itemsToSubmit);
-				if (response.data.ErrorsCount > 0) {
-					const errorsReturned = GetErrorsDetails(response);
-					console.log(errorsReturned);
-					props.Field.ErrorMsg = errorsReturned;
+				throw new Error(errorsReturned);}
+			else {
+				try {
+					const response = await CreateReport(itemsToSubmit);
+					if (response.data.ErrorsCount > 0) {
+						const errorsReturned = GetErrorsDetails(response);
+						console.log(errorsReturned);
+						props.Field.ErrorMsg = errorsReturned;
+					}
+					props.history.push('/SubmitResponsePage');
 				}
-				props.history.push('/SubmitResponsePage');
-			}
-			catch (ex) {
-				if (ex.response && ex.response.status === 400) {
-					console.log(ex.message);}
+				catch (ex) {
+					if (ex.response && ex.response.status === 400) {
+						console.log(ex.message);}
+				}
 			}
 		}
 	}
