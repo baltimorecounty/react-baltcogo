@@ -1,6 +1,6 @@
 import React from "react";
 import { Formik, Form, Field } from "formik";
-import { ErrorCheck } from "./CustomErrorHandling";
+import { GetErrorsDetails } from "../utilities/CustomErrorHandling";
 import FormContainer from './FormContainer';
 import { GetReportByID } from './authService';
 
@@ -11,7 +11,7 @@ const GetReport = props => {
 		try {
 			const response = await GetReportByID(values.ReportID);
 			if (response.data.ErrorsCount > 0) {
-				const errorsReturned = ErrorCheck(response);
+				const errorsReturned = GetErrorsDetails(response);
 				console.log(errorsReturned);
 				props.Field.ErrorMsg = errorsReturned;
 			}

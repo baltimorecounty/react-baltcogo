@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Form, Field, connect } from "formik";
 import axios from "axios"
 import ErrorMsg from "./ErrorMessage";
-import { ErrorCheck, formatPhoneNumber } from "./CustomErrorHandling";
+import { GetErrorsDetails, formatPhoneNumber } from "../utilities/CustomErrorHandling";
 import FormContainer from './FormContainer';
 import RequestTypeField from "./RequestTypeField";
 import RequestSubTypeField from "./RequestSubTypeField";
@@ -72,7 +72,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 	const [animalSubCategories, setAnimalSubCategories] = useState([]);
 	const [animalSex, setAnimalSex] = useState([]);
 	const { ContactID } = localProps.values;
-	const contactID =  (ContactID === "") ? sessionStorage.getItem("UserLoginID") : ContactID; 
+	const contactID =  (ContactID === "") ? sessionStorage.getItem("UserLoginID") : ContactID;
 	//
 
 	try {
@@ -110,7 +110,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 				localProps.setFieldValue('SignInPage', resultFormFieldNames.data.SignInPage);
 				localProps.setFieldValue('SignUpPage', resultFormFieldNames.data.SignUpPage);
 				localProps.setFieldValue('ResetPasswordPage', resultFormFieldNames.data.ResetPasswordPage);
-				
+
 				localProps.setFieldValue('ContactID', contactID);
 
 
@@ -162,7 +162,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 		const subInfo = getSubCategoriesIncludedDescription(subCategories, value ? value : value);
 		let ID = getID(subCategories, value);
 		const isDisabled = getshouldDisableForm(subCategories, value);
-		
+
 		const notes = getNote(subCategories, value);
 		setNotes(<div className="alert-information bc_alert" >
 			<i className="fa fa-icon fa-2x fa-info-circle"></i>
@@ -171,7 +171,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 		localProps.setFieldValue('subRequestTypeID', ID);
 		localProps.setFieldValue('shouldDisableForm', (isDisabled === undefined) ? false : isDisabled);
-		
+
 
 		if (subInfo !== undefined) {
 			if (subInfo.description !== undefined) {
@@ -258,7 +258,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 			const getResponse = await GetContactDetails(contactID);
 
 			if (getResponse.data.HasErrors) {
-				const errorsReturned = ErrorCheck(getResponse);
+				const errorsReturned = GetErrorsDetails(getResponse);
 				throw new Error(errorsReturned);
 			}
 			else {
@@ -278,7 +278,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 	}
 	const goToNextPage = () => {
-		
+
 		if(localProps.values.requiresLocation){
 			props.history.push('/ProvideDetails');
 		}
@@ -321,7 +321,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 	loadSelectedItems(props);
 	let disableButton = buttonDisableValidation();
 	let displayButton = buttonShowHideValidation();
-	
+
 	return (
 
 		<FormContainer title = {pageFieldName.map(name => name.RequestTitle)} tabNames = {localProps.values.Tabs} currentTab = "ServiceRequestForm" shouldDisableForm = {localProps.values.shouldDisableForm} requiresLocation= {localProps.values.requiresLocation}>
@@ -561,7 +561,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 					<div className={
 						localProps.errors.serviceDescription && localProps.touched.serviceDescription ? "cs-form-control error" : "cs-form-control"}>
 						<label htmlFor="serviceDescription">{pageFieldName.map(name => name.Description)}</label>
-						<Field 
+						<Field
 							component="textarea"
 							placeholder="Maximum 2,000 characters."
 							name="serviceDescription"
@@ -599,9 +599,9 @@ const ServiceRequestForm = (props, errors, touched) => {
 							<input type="button" className="seButton" onClick={callSignInForm} disabled={disableButton} value="Sign In" />
 							<input type="button" className="seButton pull-right" onClick={callRegisterForm} disabled={disableButton} value="Register" />
 							<Model />
-						</div>) : 
+						</div>) :
 						<div className = "cs-form-control">
-							<p name="userLoggedIn">{pageFieldName.map(name => name.AlreadySignedInLabel)} {sessionStorage.getItem("NameFirst")} {sessionStorage.getItem("NameLast")}</p> 
+							<p name="userLoggedIn">{pageFieldName.map(name => name.AlreadySignedInLabel)} {sessionStorage.getItem("NameFirst")} {sessionStorage.getItem("NameLast")}</p>
 							<p name="notCorrectUser"><Link to="SignInForm">Not {sessionStorage.getItem("NameFirst")}? Log in to a different account. &nbsp; </Link></p>
 							<input type="button" className="seButton pull-right" onClick={goToNextPage} disabled={disableButton} value="Next" />
 						</div> : ""}
