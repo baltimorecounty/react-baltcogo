@@ -3,7 +3,7 @@ import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import { Link } from 'react-router-dom';
 import ErrorMsg from "./ErrorMessage";
-import { ErrorCheck } from "./CustomErrorHandling";
+import { GetErrorsDetails } from "../utilities/CustomErrorHandling";
 import FormContainer from './FormContainer';
 import { ResetPassword } from './authService';
 
@@ -15,13 +15,12 @@ const PasswordReset = (props, routeProps) => {
 		try {
 			const response = await ResetPassword(values.Email);
 			if (response.data.ErrorsCount > 0) {
-				const errorsReturned = ErrorCheck(response);
-				console.log(errorsReturned);
+				const errorsReturned = GetErrorsDetails(response);
 				props.Field.ErrorMsg = errorsReturned;
 			}
 			else {
 				props.setFieldValue('Email', values.Email);
-				props.history.push('/SignInForm');	
+				props.history.push('/SignInForm');
 			}
 		}
 		catch (ex) {
@@ -44,7 +43,7 @@ const PasswordReset = (props, routeProps) => {
 			{
 				"Tab4":""
 			}
-	
+
 		]} currentTab = "ServiceRequestForm" shouldDisableForm = {false} requiresLocation= {true}>
 			<Formik
 				initialValues={{

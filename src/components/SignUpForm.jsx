@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import ErrorMsg from "./ErrorMessage";
-import { ErrorCheck, formatPhoneNumber } from "./CustomErrorHandling";
+import { GetErrorsDetails } from "../utilities/CustomErrorHandling";
 import FormContainer from './FormContainer';
-import { SignUp, VerifyAddress, CreateContactAddress } from './authService';
+import { SignUp } from './authService';
 import { Link } from 'react-router-dom';
 import { formIncomplete } from "./checkFormCompletion";
+import { IsPhoneNumberValid } from '@baltimorecounty/validation';
+import SeButton from "./SeButton";
 
 const CreateAccount = (props, routeProps) => {
 	const [fieldType, setFieldType] = useState('Password');
@@ -17,20 +19,18 @@ const CreateAccount = (props, routeProps) => {
 	if(formIncomplete(props)){
 		props.history.push('/ServiceRequestForm');
 	}
-	
+
 	const userCreateAccount = async (values, actions, props) => {
 		try {
 			const response = await SignUp(values.NameFirst, values.NameLast, values.Email, values.Password, values.Telephone, values.UniqueId, values.SuppressNotifications);
 			var ContactID = "";
 
 			if (response.data.HasErrors) {
-				const errorsReturned = ErrorCheck(response);
-				//console.log(errorsReturned);
+				const errorsReturned = GetErrorsDetails(response);
 				actions.setStatus({
 					success2: errorsReturned,
 					css: 'email'
 				})
-				//props.Field.ErrorMsg = errorsReturned;
 				throw new Error(errorsReturned);
 			}
 			else {
@@ -44,30 +44,22 @@ const CreateAccount = (props, routeProps) => {
 
 				sessionStorage.setItem('UserLoginID', ContactID)
 				sessionStorage.setItem('NameFirst', NameFirst);
-				sessionStorage.setItem('NameLast', NameLast);	
+				sessionStorage.setItem('NameLast', NameLast);
 
 				props.history.push('/ProvideDetails');
-			}	
+			}
 		}
 		catch (ex) {
 			console.log(ex.message);
 		}
 	}
 	Yup.addMethod(Yup.string, "Telephone", function (value) {
-		return this.test("Telephone", "Please enter your phone number in the following format: 410-555-1212.", function (value) {
-			let formattedPhoneNumber;
-			let returnBooleanVal;
-			let format = "xxx-xxx-xxxx";
-			if (value === undefined) {
-				return false;
-			}
-			else {
-				let returnValue = formatPhoneNumber(value, format, formattedPhoneNumber, returnBooleanVal);
-				props.setFieldValue('Telephone', returnValue.formattedPhoneNumber);
-				return returnValue.returnBooleanVal
-			}
-		})
-	})
+		return this.test(
+			"Telephone",
+			"Please enter your phone number in the following format: 410-555-1212.",
+			IsPhoneNumberValid
+		);
+	});
 
 	return (
 		<FormContainer title="Register for an Account" tabNames = {props.values.Tabs} currentTab="ServiceRequestForm" shouldDisableForm={props.values.shouldDisableForm} requiresLocation= {props.values.requiresLocation}>
@@ -105,12 +97,7 @@ const CreateAccount = (props, routeProps) => {
 
 				})}
 				onSubmit={async (values, actions, setSubmitting) => {
-					//const returnval = window.formatPhoneNumber(values.Telephone);
-					//console.log('----------returnval--------');
-					//console.log(returnval);
-					//	console.log('----------------------');
 					await userCreateAccount(values, actions, props);
-
 					actions.setSubmitting(false);
 				}}
 			>
@@ -194,14 +181,16 @@ const CreateAccount = (props, routeProps) => {
 											touched={touched.Password} />
 									</p>
 								</div>
-								
+
 								<div className="cs-form-control" >
-									<p htmlFor="signup"
-									>Already have an account? <Link to="SignInForm" >Sign In</Link> </p>
-									<input className="seButton" type="submit" disabled={isSubmitting} value="Sign Up and Continue" />
-
+									<p htmlFor="signup">Already have an account? <Link to="SignInForm" >Sign In</Link></p>
+									<SeButton
+										text="Sign Up and Continue"
+										type="submit"
+										isLoading={isSubmitting}
+										isLoadingText="Signing Up..."
+									/>
 								</div>
-
 							</Form>
 						)
 					}

@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import ErrorMsg from "./ErrorMessage";
-import { ErrorCheck } from "./CustomErrorHandling";
+import { GetErrorsDetails } from "../utilities/CustomErrorHandling";
 import { Link } from 'react-router-dom';
 import FormContainer from './FormContainer';
-import { Login, GetContactAddress } from './authService';
+import { Login } from './authService';
 import { formIncomplete } from "./checkFormCompletion";
+import Alert from './Alert';
+import SeButton from "./SeButton";
 
 // import DisplayFormikState from './helper';
 const SignIn = (props, routeProps) => {
@@ -19,42 +21,53 @@ const SignIn = (props, routeProps) => {
 	if (formIncomplete(props)) {
 		props.history.push('/ServiceRequestForm');
 	}
-	
+
+	const handleLoginFailure = (actions, errors) => {
+		actions.setStatus({
+			success: errors,
+			css: 'error'
+		});
+	};
+
+	const handleLoginSuccess = (actions, results) => {
+		const {
+			Id: contactID,
+			NameFirst,
+			NameLast
+		} = results;
+
+		props.setFieldValue('NameFirst', NameFirst);
+		props.setFieldValue('NameLast', NameLast);
+		props.setFieldValue('ContactID', contactID);
+
+		sessionStorage.setItem('UserLoginID', contactID)
+		sessionStorage.setItem('NameFirst', NameFirst);
+		sessionStorage.setItem('NameLast', NameLast);
+
+		actions.setStatus({
+			success: 'OK',
+			css: 'success'
+		});
+
+		props.history.push('/ProvideDetails');
+	};
+
 	const userLogin = async (values, props, actions) => {
-
 		try {
-
 			const response = await Login(values.Email, values.Password);
+			const  {
+				Results,
+				Errors
+			} = response.data;
 
-			const contactID = response.data.Results.Id;
-			const NameFirst = response.data.Results.NameFirst;
-			const NameLast = response.data.Results.NameLast
-
-			props.setFieldValue('NameFirst', NameFirst);
-			props.setFieldValue('NameLast', NameLast);
-
-			sessionStorage.setItem('UserLoginID', contactID)
-			sessionStorage.setItem('NameFirst', NameFirst);
-			sessionStorage.setItem('NameLast', NameLast);		
-
-			if (response.data.ErrorsCount > 0) {
-				const errorsReturned = ErrorCheck(response);
-
-				actions.setStatus({
-					success: errorsReturned,
-					css: 'error'
-				})
-				throw new Error(errorsReturned);
+			if (Errors.length > 0) {
+				const errors = GetErrorsDetails(response);
+				handleLoginFailure(actions, errors);
+				throw new Error(errors);
 			}
 			else {
-				props.setFieldValue('ContactID', contactID);
-				actions.setStatus({
-					success: 'OK',
-					css: 'success'
-				})
-
+				handleLoginSuccess(actions, Results);
 			}
-			props.history.push('/ProvideDetails');
 		}
 		catch (ex) {
 			if (ex.response) {
@@ -84,10 +97,13 @@ const SignIn = (props, routeProps) => {
 			>
 				{
 					(props) => {
-						const { errors, touched } = props;
+						const { errors = [], touched } = props;
 
 						return (
 							<Form >
+								{errors.length > 0 && <Alert type="danger">
+									{errors}
+								</Alert>}
 								<div className={
 									props.errors.Email && props.touched.Email ? "cs-form-control error" : "cs-form-control"}>
 									<label htmlFor="Email">Email Address</label>
@@ -127,8 +143,12 @@ const SignIn = (props, routeProps) => {
 									<p htmlFor="forgetpassword"> <Link to="ResetPassword" >Forgot password?</Link></p>
 									<p htmlFor="signup"
 									>Don't have an account? <Link to="SignUpForm" >Sign up</Link></p>
-
-									<input className="seButton" type="submit" disabled={props.isSubmitting} value="Sign In and Continue" />
+									<SeButton
+										text="Sign In and Continue"
+										type="submit"
+										isLoading={props.isSubmitting}
+										isLoadingText="Signing In..."
+									/>
 								</div>
 
 							</Form>

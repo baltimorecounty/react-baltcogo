@@ -1,22 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { Form, Field, connect } from "formik";
 import axios from "axios"
-//import ErrorMsg from "./ErrorMessage";
-import { ErrorCheck } from "./CustomErrorHandling";
+import { GetErrorsDetails } from "../utilities/CustomErrorHandling";
 import FormContainer from './FormContainer';
-//import RequestTypeField from "./RequestTypeField";
-//import RequestSubTypeField from "./RequestSubTypeField";
-//import RequestPetTypeField from "./RequestPetTypeField";
 import QueryString from 'query-string';
-//import GenericTypeField from "./genericTypeField";
 import Model from './Modal';
 import { Link } from 'react-router-dom';
 import WaterAndSewerIssue from "./waterAndSewerIssue";
 import TrashAndRecycle from "./trashAndRecycle";
-import { GetContactAddress, GetContactDetails } from './authService';
+import { GetContactDetails } from './authService';
 import RoadsAndSidewalks from "./roadsAndSidewalks";
 import { formIncomplete } from "./checkFormCompletion";
-import { returnJsonFileLocations, returnRequestTypes } from "./returnEnvironmentItems";
+import { returnJsonFileLocations, returnRequestTypes } from "../utilities//returnEnvironmentItems";
 import PetType from "./petType";
 import RequestCategory from "./requestCategory";
 import RequestSubCategory from "./requestSubCategory";
@@ -26,9 +21,8 @@ import AnimalColorType from './animalColorType';
 import AnimalBreedType from './animalBreedType';
 import ServiceDescription from './serviceDescription';
 
-
+//TODO: Capture ID from URl string and pre-populate drop down
 const { categoryId } = QueryString.parse(window.location.search);
-//const contactID = 914151;
 
 const getSubCategories = (categories, categoryName) => {
 	var category = categories.find(category => category.name.toLowerCase() === categoryName);
@@ -80,7 +74,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 	const [animalSubCategories, setAnimalSubCategories] = useState([]);
 	const [animalSex, setAnimalSex] = useState([]);
 	const { ContactID } = localProps.values;
-	const contactID = (ContactID === "") ? sessionStorage.getItem("UserLoginID") : ContactID;
+	const contactID =  (ContactID === "") ? sessionStorage.getItem("UserLoginID") : ContactID;
 	//
 
 	try {
@@ -122,7 +116,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 				localProps.setFieldValue('ContactID', contactID);
 
 
-				if (contactID !== null) {
+				if (contactID) {
 
 					getContactDetails();
 				}
@@ -132,8 +126,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 		}, []);
 	}
 	catch (ex) {
-
-		console.log(ex);
+		console.error('service request form data', ex);
 	}
 
 	const handleServiceRequestChange = (changeEvent) => {
@@ -267,7 +260,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 			const getResponse = await GetContactDetails(contactID);
 
 			if (getResponse.data.HasErrors) {
-				const errorsReturned = ErrorCheck(getResponse);
+				const errorsReturned = GetErrorsDetails(getResponse);
 				throw new Error(errorsReturned);
 			}
 			else {
@@ -283,15 +276,16 @@ const ServiceRequestForm = (props, errors, touched) => {
 			}
 		}
 		catch (ex) {
+			
 		}
 
 	}
 	const goToNextPage = () => {
 
-		if (localProps.values.requiresLocation) {
+		if(localProps.values.requiresLocation){
 			props.history.push('/ProvideDetails');
 		}
-		else {
+		else{
 			props.history.push('/AdditionalInformationForm');
 		}
 	}
@@ -491,7 +485,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 							<input type="button" className="seButton pull-right" onClick={callRegisterForm} disabled={disableButton} value="Register" />
 							<Model />
 						</div>) :
-						<div className="cs-form-control">
+						<div className = "cs-form-control">
 							<p name="userLoggedIn">{pageFieldName.map(name => name.AlreadySignedInLabel)} {sessionStorage.getItem("NameFirst")} {sessionStorage.getItem("NameLast")}</p>
 							<p name="notCorrectUser"><Link to="SignInForm">Not {sessionStorage.getItem("NameFirst")}? Log in to a different account. &nbsp; </Link></p>
 							<input type="button" className="seButton pull-right" onClick={goToNextPage} disabled={disableButton} value="Next" />

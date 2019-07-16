@@ -1,16 +1,10 @@
-export function ErrorCheck(response) {
-	var errors = "";
+export const GetErrorsDetails = (response) => {
+	const {
+		Errors = []
+	} = response.data;
 
-	if (response.data.ErrorsCount > 1) {
-		for (let i = 0; response.data.ErrorsCount; i++) {
-			errors += response.data.Errors[i].ErrorText + ", ";
-		}
-	}
-	else {
-		errors = response.data.Errors[0].ErrorText;
-	}
-	return errors;
-}
+	return Errors.map(error => error.ErrorText).join(', ');
+};
 
 export function formatPhoneNumber(input, format, formattedPhoneNumber, returnBooleanVal) {
 	let error;
@@ -30,7 +24,7 @@ export function formatPhoneNumber(input, format, formattedPhoneNumber, returnBoo
 	}).length;
 
 	var hasOneAsPrefix = numberOfXs + 1 === numbersOnly.length;
-	// 1 has been included in the str, but is not in the desired format 
+	// 1 has been included in the str, but is not in the desired format
 
 	if (hasOneAsPrefix) {
 		numbersOnly.shift();

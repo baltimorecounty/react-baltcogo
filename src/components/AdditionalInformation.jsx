@@ -1,96 +1,24 @@
 import React from "react";
-import { Field, connect } from "formik";
+import {Form, Field, connect } from "formik";
 import ErrorMsg from "./ErrorMessage";
 import FormContainer from './FormContainer';
-import { ErrorCheck } from "./CustomErrorHandling";
-import { CreateReport, VerifyAddress } from './authService';
 import { formIncomplete } from "./checkFormCompletion";
+import ButtonDisplay from "./buttonDisplay";
+import submitReport from "./submitReport";
 
 const AdditionalInformation = props => {
 	const localProps = props.formik.values;
 	const pageFieldName = props.formik.values.AdditionalInfoPage
-	const { errors, touched, handleSubmit, ...rest } = props;
-	const { Longitude, Latitude, ContactID, requestTypeID, requestType,
-		subRequestTypeID, subRequestType, petTypeID, petType, sexTypeID,
-		sexType, animalColorTypeID, animalColorType, otherAnimalTypesID,
-		otherAnimalTypes, requestTypeDescription, requestTypeDescriptionID,
-		requestTypeAddressID, requestTypeCityID, requestTypeZipID, subRequestTypeDescription,
-		subRequestTypeDescriptionID, subRequestTypeAddress, subRequestTypeAddressID,
-		subRequestTypeCity, subRequestTypeCityID, subRequestTypeZip,
-		subRequestTypeZipID } = props.formik.values;
+	const { values, actions, errors, touched, ...rest } = props;
 
 	if(!props.formik.values.ContactID || formIncomplete(props.formik)){
 		props.history.push('/ServiceRequestForm');
 	}
 
-	const SubmitTheForm = async (values, actions, props) => {
-		const reportItems = [
-			{ Id: requestTypeID, Value: requestType },
-			{ Id: subRequestTypeID, Value: subRequestType },
-			{ Id: petTypeID, Value: petType },
-			{ Id: sexTypeID, Value: sexType },
-			{ Id: animalColorTypeID, Value: animalColorType },
-			{ Id: otherAnimalTypesID, Value: otherAnimalTypes },
-			{ Id: requestTypeDescriptionID, Value: requestTypeDescription },
-			{ Id: requestTypeAddressID, requestTypeAddressID },
-			{ Id: requestTypeCityID, Value: requestTypeCityID },
-			{ Id: requestTypeZipID, requestTypeZipID },
-			{ Id: requestTypeAddressID, Value: localProps.streetAddress },
-			{ Id: requestTypeCityID, Value: localProps.city },
-			{ Id: requestTypeZipID, Value: localProps.zipCode },
-			{ Id: subRequestTypeDescriptionID, Value: subRequestTypeDescription },
-			{ Id: subRequestTypeAddressID, Value: subRequestTypeAddress },
-			{ Id: subRequestTypeCityID, Value: subRequestTypeCity },
-			{ Id: subRequestTypeZipID, Value: subRequestTypeZip }
-		].filter(item => !!item.Id);
-
-		var Selections = {
-			AppVersion: "308",
-			Location: {
-				X: Longitude,
-				Y: Latitude
-			},
-			AuthorId: ContactID,
-			IsPrivate: false,
-			Locale: "en",
-			ReportItems: reportItems,
-			SuppressWorkflows: false
-		};
-
-		try {
-			var fullAddress = localProps.streetAddress + ' ' + localProps.city + ',MD ' + localProps.zipCode;
-	
-			const addressResponse = await VerifyAddress(fullAddress);
-			if (addressResponse.data.HasErrors) {
-				const errorsReturned = ErrorCheck(addressResponse);
-				actions.setStatus({
-					success1: errorsReturned,
-					css: 'address'
-				})
-				throw new Error(errorsReturned);
-			}
-			else {
-				try {
-					const response = await CreateReport(Selections);
-					if (response.data.ErrorsCount > 0) {
-						const errorsReturned = ErrorCheck(response);
-						console.log(errorsReturned);
-						props.Field.ErrorMsg = errorsReturned;
-					}
-					props.history.push('/SubmitResponsePage');
-				}
-				catch (ex) {
-					if (ex.response && ex.response.status === 400) {
-						console.log(ex.message);
-					}
-				}
-			}
-		}
-		catch (ex) {
-			console.log(ex.message);
-		}
-		
+	const SubmitTheForm = (clickEvent) => {
+		 submitReport(clickEvent, props);
 	}
+
 	const callPreviousForm = () => {
 		if(localProps.requiresLocation === false){
 			props.history.push("/ServiceRequestForm");
@@ -102,7 +30,7 @@ const AdditionalInformation = props => {
 
 	return (
 		<FormContainer title={pageFieldName.map(name => name.AdditionalInfoTitle)} tabNames = {localProps.Tabs} currentTab = "AdditionalInformation" shouldDisableForm = {localProps.shouldDisableForm} requiresLocation = {localProps.requiresLocation}>
-			<form onSubmit={handleSubmit}>
+			<Form>
 				{(localProps.requiresLocation === false) ?
 					<div name="ContactInfo">
 						<p>
@@ -234,10 +162,18 @@ const AdditionalInformation = props => {
 						</p>
 					</div>}
 				<div className = "cs-form-control" >
-					<input type="button" className="seButton" onClick={callPreviousForm} value="Previous" />
-					<input type="button" className="seButton pull-right" onClick={SubmitTheForm} value="File Your Report" />
+					<ButtonDisplay
+						onClick = {callPreviousForm}
+						disabled={null}
+						buttonName = "Previous" 
+						cssClass = "seButton"/>
+					<ButtonDisplay
+						onClick={SubmitTheForm}
+						disabled={null}
+						buttonName = "File Your Report"
+						cssClass = "seButton pull-right"/>
 				</div>
-			</form>
+			</Form>
 		</FormContainer>
 	);
 }

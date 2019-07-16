@@ -24,7 +24,7 @@ body {
 .Container-bg{
   background-color: #F5F5F5;
   border-radius: 15px;
-  padding: 20px; 
+  padding: 20px;
 }
 
 .input-feedback {
@@ -62,8 +62,5 @@ select.error  {
   z-index: 2;
 }
 .inner-render{
-
   z-index: 999;
 }
-
-

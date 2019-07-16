@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from "react";
-import { Form, Field, connect, ErrorMessage, withFormik } from "formik";
+import { Form, Field, connect, ErrorMessage } from "formik";
 import ErrorMsg from "./ErrorMessage";
 import FormContainer from './FormContainer';
 import Geocode from "react-geocode";
@@ -8,17 +8,20 @@ import Collaspe from './Collaspe'
 import axios from "axios"
 import _ from 'lodash';
 import { formIncomplete } from "./checkFormCompletion";
-import { returnMapEndPoint } from "./returnEnvironmentItems"
+import { returnMapEndPoint } from "../utilities//returnEnvironmentItems"
 import { VerifyAddress } from './authService';
-import { ErrorCheck } from "./CustomErrorHandling";
 import ButtonDisplay from "./buttonDisplay";
 import IssueType from './IssueType';
 import DescribeTheProblem from './describeTheProblem';
+import submitReport from "./submitReport";
+import { GetErrorsDetails } from "../utilities/CustomErrorHandling";
+import SeButton from './SeButton';
 
 Geocode.setApiKey('AIzaSyAqazsw3wPSSxOFVmij32C_LIhBSuyUNi8');
 
 
 const provideDetails = props => {
+	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [Latitude, setLatitude] = useState(39.4001526);
 	const [Longitude, setLongitude] = useState(-76.6074448);
 	const [MarkerLatitude, setMarkerLatitude] = useState(18.5204);
@@ -138,13 +141,13 @@ const provideDetails = props => {
 
 	};
 
-
 	const goToAdditionalPage = async (values) => {
 
 		let fullAddress = rest.formik.values.location;
 		const addressResponse = await VerifyAddress(fullAddress);
 		if (addressResponse.data.HasErrors) {
-			const errorsReturned = ErrorCheck(addressResponse);
+
+			const errorsReturned = GetErrorsDetails(addressResponse);
 			rest.formik.setFieldValue('ShowErrorMsg', 1);
 			rest.formik.errors.location = errorsReturned;
 		}
@@ -158,27 +161,42 @@ const provideDetails = props => {
 		}
 	}
 
-	const goServiceRequestForm = async (values) => {
+	const goServiceRequestForm = (values) => {
 		props.history.push('/ServiceRequestForm');
 	}
 
-	const { values, isSubmitting, errors, touched, setFieldValue, ...rest } = props;
+	const { values, errors, actions, touched, handleSubmit, setFieldValue, ...rest } = props;
 	const items = Address.map((item, index) => ({
 		id: item.Zip,
 		label: `${item.StreetAddress.toUpperCase()}, ${item.City.toUpperCase()}, ${item.Zip}`,
 	}));
 
-	const handleSubmit = (values) => {
-		props.history.push('/SubmitResponsePage');
-	}
+	const SubmitForm = async (clickEvent) => {
+		setIsSubmitting(true);
+		await submitReport(clickEvent, props);
+		setIsSubmitting(false);
+	};
 
 	return (
 
 		<FormContainer title={pageFieldName.map(name => name.DetailsTitle)} tabNames={localProps.Tabs} currentTab="ProvideDetails" shouldDisableForm={localProps.shouldDisableForm} requiresLocation={localProps.requiresLocation}>
-			<Form onSubmit={handleSubmit}>
-				<Field type="hidden" name="Latitude" />
-				<Field type="hidden" name="Longitude" />
-				<Field type="hidden" name="ShowErrorMsg" />
+			<Form>
+				<Field
+					type="hidden"
+					name="Latitude"
+
+				/>
+				<Field
+					type="hidden"
+					name="Longitude"
+
+
+				/>
+				<Field
+					type="hidden"
+					name="ShowErrorMsg"
+
+				/>
 				<label>Add a Location</label>
 				<p>
 					{pageFieldName.map(name => name.DetailsMainLabelExplaination)}
@@ -212,12 +230,25 @@ const provideDetails = props => {
 					pageFieldName={pageFieldName} />
 
 				<div className="cs-form-control" >
-					<input type="button" className="seButton" onClick={goServiceRequestForm} value="Previous" />
-					{<ButtonDisplay
-						handleSubmit={withFormik.handleSubmit}
-						onClick={goToAdditionalPage}
-						disabled={displayButton}
-						requestTypeAddressID={localProps.requestTypeAddressID} />}
+					<ButtonDisplay
+						onClick={goServiceRequestForm}
+						buttonName ="Previous" 
+						cssClass = "seButton"/>
+					{(!rest.formik.values.requestTypeAddressID) ?
+						<SeButton
+							text="File Your Report"
+							onClick={SubmitForm}
+							isDisabled={displayButton}
+							isLoading={isSubmitting}
+							isLoadingText="Submitting Request..."
+							className="pull-right"
+						/>
+						:
+						<ButtonDisplay
+							onClick={goToAdditionalPage}
+							disabled={displayButton}
+							buttonName ="Next" 
+							cssClass = "seButton pull-right"/>}
 				</div>
 			</Form>
 		</FormContainer>
