@@ -11,7 +11,7 @@ const SubmitResponse = (props, routeProps) => {
 						return (
 							<Form >
 								{(props.values.requiresLocation === false) ?
-									<div role="alert" class="bc-citysourced-reporter-alert alert-success">
+									<div role="alert" className="bc-citysourced-reporter-alert alert-success">
 										<h2>Your Submission Has Been Received</h2>
 										<p>
 										Thank you for submitting your report. You will receive an email in a
@@ -24,7 +24,7 @@ const SubmitResponse = (props, routeProps) => {
 										</p>
 									</div>
 									:
-									<div role="alert" class="bc-citysourced-reporter-alert alert-warning">
+									<div role="alert" className="bc-citysourced-reporter-alert alert-warning">
 										<h2>Your Report Was Not Submitted</h2>
 										<p>
             								We're sorry, we encountered a problem processing your submission. We are working to resolve this issue as quickly as possible.

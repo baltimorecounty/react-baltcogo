@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from "react";
-import { Form, Field, connect, ErrorMessage } from "formik";
+import { Form, Field, connect, ErrorMessage, withFormik } from "formik";
 import ErrorMsg from "./ErrorMessage";
 import FormContainer from './FormContainer';
 import Geocode from "react-geocode";
@@ -12,6 +12,9 @@ import { formIncomplete } from "./checkFormCompletion";
 import { returnMapEndPoint } from "./returnEnvironmentItems"
 import { VerifyAddress } from './authService';
 import { ErrorCheck } from "./CustomErrorHandling";
+import ButtonDisplay from "./buttonDisplay";
+import submitReport from "./submitReport";
+
 Geocode.setApiKey('AIzaSyAqazsw3wPSSxOFVmij32C_LIhBSuyUNi8');
 
 
@@ -35,7 +38,7 @@ const provideDetails = props => {
 				const result = await axios(
 					`${mapEndPoint}${query}`,
 				);
-				console.log(result);
+				//console.log(result);
 				if (result.status === 200) {
 					setData(result.data);
 				}
@@ -149,7 +152,6 @@ const provideDetails = props => {
 
 	};
 
-
 	const goToAdditionalPage = async (values) => {
 
 		let fullAddress = rest.formik.values.location;
@@ -170,7 +172,7 @@ const provideDetails = props => {
 		}
 	}
 
-	const goServiceRequestForm = async (values) => {
+	const goServiceRequestForm = (values) => {
 		props.history.push('/ServiceRequestForm');
 	}
 
@@ -180,10 +182,18 @@ const provideDetails = props => {
 		label: `${item.StreetAddress.toUpperCase()}, ${item.City.toUpperCase()}, ${item.Zip}`,
 	}));
 
+	const SubmitTheForm = async (actions, props) => {
+		await submitReport(actions, props);
+	}
+
+	// const handleSubmit = (values) => {
+	// 	props.history.push('/SubmitResponsePage');
+	// }
+
 	return (
 
-		<FormContainer title={pageFieldName.map(name => name.DetailsTitle)} tabNames = {localProps.Tabs} currentTab="ProvideDetails" shouldDisableForm={localProps.shouldDisableForm} requiresLocation = {localProps.requiresLocation}>
-			<Form >
+		<FormContainer title={pageFieldName.map(name => name.DetailsTitle)} tabNames={localProps.Tabs} currentTab="ProvideDetails" shouldDisableForm={localProps.shouldDisableForm} requiresLocation={localProps.requiresLocation}>
+			<Form onSubmit={SubmitTheForm}>
 				<Field
 					type="hidden"
 					name="Latitude"
@@ -265,10 +275,16 @@ const provideDetails = props => {
 				</div>
 				<div className="cs-form-control" >
 					<input type="button" className="seButton" onClick={goServiceRequestForm} value="Previous" />
-					{(rest.formik.values.requestTypeAddressID) ? 
-						<input type="button" className="seButton pull-right" onClick={goToAdditionalPage} disabled={displayButton} value="Next" />
-						:
-						null}
+					{(!rest.formik.values.requestTypeAddressID) ? 
+						<ButtonDisplay
+							disabled={displayButton}
+							buttonName ="File Your Report" />
+						: 
+						<ButtonDisplay
+							handleSubmit={withFormik.handleSubmit}
+							onClick={goToAdditionalPage}
+							disabled={displayButton}
+							buttonName ="Next" />}
 				</div>
 			</Form>
 		</FormContainer>
