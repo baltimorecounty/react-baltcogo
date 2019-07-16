@@ -21,14 +21,11 @@ const SignIn = (props, routeProps) => {
 		props.history.push('/ServiceRequestForm');
 	}
 
-	const handleLoginFailure = (actions, response) => {
-		const errorsReturned = GetErrorsDetails(response);
-
+	const handleLoginFailure = (actions, errors) => {
 		actions.setStatus({
-			success: errorsReturned,
+			success: errors,
 			css: 'error'
-		})
-		throw new Error(errorsReturned);
+		});
 	};
 
 	const handleLoginSuccess = (actions, results) => {
@@ -63,7 +60,9 @@ const SignIn = (props, routeProps) => {
 			} = response.data;
 
 			if (Errors.length > 0) {
-				handleLoginFailure(actions, response);
+				const errors = GetErrorsDetails(response);
+				handleLoginFailure(actions, errors);
+				throw new Error(errors);
 			}
 			else {
 				handleLoginSuccess(actions, Results);
