@@ -8,6 +8,7 @@ import { SignUp } from './authService';
 import { Link } from 'react-router-dom';
 import { formIncomplete } from "./checkFormCompletion";
 import { IsPhoneNumberValid } from '@baltimorecounty/validation';
+import SeButton from "./SeButton";
 
 const CreateAccount = (props, routeProps) => {
 	const [fieldType, setFieldType] = useState('Password');
@@ -182,12 +183,14 @@ const CreateAccount = (props, routeProps) => {
 								</div>
 
 								<div className="cs-form-control" >
-									<p htmlFor="signup"
-									>Already have an account? <Link to="SignInForm" >Sign In</Link> </p>
-									<input className="seButton" type="submit" disabled={isSubmitting} value="Sign Up and Continue" />
-
+									<p htmlFor="signup">Already have an account? <Link to="SignInForm" >Sign In</Link></p>
+									<SeButton
+										text=""
+										type="submit"
+										isLoading={isSubmitting}
+										isLoadingText="Signing Up..."
+									/>
 								</div>
-
 							</Form>
 						)
 					}
