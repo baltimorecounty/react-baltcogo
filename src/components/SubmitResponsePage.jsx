@@ -1,6 +1,7 @@
 import React from 'react';
 import FormContainer from './FormContainer';
 import { Formik, Form } from 'formik';
+import { HasResponseErrors } from '../utilities/CitysourcedResponseHelpers';
 
 const SubmitResponse = (props) => {
 	const {
@@ -8,6 +9,11 @@ const SubmitResponse = (props) => {
 		shouldDisableForm,
 		requiresLocation
 	} = props.values;
+	const {
+		response = {}
+	} = props.history.location.state || {};
+	const isFormSubmissionSuccessful = !HasResponseErrors(response);
+
 	return (
 		<FormContainer
 			title=""
@@ -17,11 +23,11 @@ const SubmitResponse = (props) => {
 			requiresLocation={requiresLocation}
 		>
 			<Formik>
-				{(props) => {
+				{() => {
 					return (
 						<Form>
-							{requiresLocation === false ? (
-								<div role="alert" class="bc-citysourced-reporter-alert alert-success">
+							{isFormSubmissionSuccessful ? (
+								<div role="alert" className="bc-citysourced-reporter-alert alert-success">
 									<h2>Your Submission Has Been Received</h2>
 									<p>
 										Thank you for submitting your report. You will receive an email in a few minutes
@@ -35,7 +41,7 @@ const SubmitResponse = (props) => {
 									</p>
 								</div>
 							) : (
-								<div role="alert" class="bc-citysourced-reporter-alert alert-warning">
+								<div role="alert" className="bc-citysourced-reporter-alert alert-warning">
 									<h2>Your Report Was Not Submitted</h2>
 									<p>
 										We're sorry, we encountered a problem processing your submission. We are working
