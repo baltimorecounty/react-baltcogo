@@ -15,8 +15,8 @@ const AdditionalInformation = props => {
 		props.history.push('/ServiceRequestForm');
 	}
 
-	const SubmitTheForm = async () => {
-		await submitReport(actions, props);
+	const SubmitTheForm = (clickEvent) => {
+		 submitReport(clickEvent, props);
 	}
 
 	const callPreviousForm = () => {

@@ -180,8 +180,8 @@ const provideDetails = props => {
 		label: `${item.StreetAddress.toUpperCase()}, ${item.City.toUpperCase()}, ${item.Zip}`,
 	}));
 
-	const SubmitForm = async() => {
-		await submitReport(actions, props);
+	const SubmitForm = (clickEvent) => {
+		submitReport(clickEvent, props);
 	}
 
 	return (
