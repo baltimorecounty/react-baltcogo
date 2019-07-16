@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Form, Field, connect } from "formik";
 import axios from "axios"
 import ErrorMsg from "./ErrorMessage";
-import { ErrorCheck, formatPhoneNumber } from "./CustomErrorHandling";
+import { GetErrorsDetails, formatPhoneNumber } from "../utilities/CustomErrorHandling";
 import FormContainer from './FormContainer';
 import RequestTypeField from "./RequestTypeField";
 import RequestSubTypeField from "./RequestSubTypeField";
@@ -71,7 +71,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 	const [animalSubCategories, setAnimalSubCategories] = useState([]);
 	const [animalSex, setAnimalSex] = useState([]);
 	const { ContactID } = localProps.values;
-	const contactID = (ContactID === "") ? sessionStorage.getItem("UserLoginID") : ContactID;
+	const contactID =  (ContactID === "") ? sessionStorage.getItem("UserLoginID") : ContactID;
 	//
 
 	try {
@@ -257,7 +257,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 			const getResponse = await GetContactDetails(contactID);
 
 			if (getResponse.data.HasErrors) {
-				const errorsReturned = ErrorCheck(getResponse);
+				const errorsReturned = GetErrorsDetails(getResponse);
 				throw new Error(errorsReturned);
 			}
 			else {
@@ -278,8 +278,13 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 	}
 	const goToNextPage = () => {
-		
-		props.history.push('/ProvideDetails');
+
+		if(localProps.values.requiresLocation){
+			props.history.push('/ProvideDetails');
+		}
+		else{
+			props.history.push('/AdditionalInformationForm');
+		}
 	}
 
 	const callSignInForm = () => {
@@ -580,7 +585,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 							<input type="button" className="seButton pull-right" onClick={callRegisterForm} disabled={disableButton} value="Register" />
 							<Model />
 						</div>) :
-						<div className="cs-form-control">
+						<div className = "cs-form-control">
 							<p name="userLoggedIn">{pageFieldName.map(name => name.AlreadySignedInLabel)} {sessionStorage.getItem("NameFirst")} {sessionStorage.getItem("NameLast")}</p>
 							<p name="notCorrectUser"><Link to="SignInForm">Not {sessionStorage.getItem("NameFirst")}? Log in to a different account. &nbsp; </Link></p>
 							<input type="button" className="seButton pull-right" onClick={goToNextPage} disabled={disableButton} value="Next" />

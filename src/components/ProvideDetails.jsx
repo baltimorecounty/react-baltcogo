@@ -15,6 +15,7 @@ import { ErrorCheck } from "./CustomErrorHandling";
 import ButtonDisplay from "./buttonDisplay";
 import submitReport from "./submitReport";
 
+import { GetErrorsDetails } from "../utilities/CustomErrorHandling";
 Geocode.setApiKey('AIzaSyAqazsw3wPSSxOFVmij32C_LIhBSuyUNi8');
 
 
@@ -158,7 +159,7 @@ const provideDetails = props => {
 		const addressResponse = await VerifyAddress(fullAddress);
 		if (addressResponse.data.HasErrors) {
 
-			const errorsReturned = ErrorCheck(addressResponse);
+			const errorsReturned = GetErrorsDetails(addressResponse);
 			rest.formik.setFieldValue('ShowErrorMsg', 1);
 			rest.formik.errors.location = errorsReturned;
 		}
