@@ -2,11 +2,10 @@ import React, { useState, useEffect } from "react";
 import { Form, Field, connect } from "formik";
 import axios from "axios"
 import ErrorMsg from "./ErrorMessage";
-import { GetErrorsDetails, formatPhoneNumber } from "../utilities/CustomErrorHandling";
+import { GetErrorsDetails } from "../utilities/CustomErrorHandling";
 import FormContainer from './FormContainer';
 import RequestTypeField from "./RequestTypeField";
 import RequestSubTypeField from "./RequestSubTypeField";
-import RequestPetTypeField from "./RequestPetTypeField";
 import QueryString from 'query-string';
 import GenericTypeField from "./genericTypeField";
 import Model from './Modal';
@@ -19,6 +18,7 @@ import { formIncomplete } from "./checkFormCompletion";
 import { returnJsonFileLocations, returnRequestTypes } from "./returnEnvironmentItems";
 import PetType from "./petType";
 
+//TODO: Capture ID from URl string and pre-populate drop down
 const { categoryId } = QueryString.parse(window.location.search);
 
 const getSubCategories = (categories, categoryName) => {

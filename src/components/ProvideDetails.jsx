@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from "react";
-import { Form, Field, connect, ErrorMessage, withFormik } from "formik";
+import { Form, Field, connect, ErrorMessage } from "formik";
 import ErrorMsg from "./ErrorMessage";
 import FormContainer from './FormContainer';
 import Geocode from "react-geocode";
@@ -11,11 +11,10 @@ import AutoCompletTypeField from './AutocompleteTypeField';
 import { formIncomplete } from "./checkFormCompletion";
 import { returnMapEndPoint } from "./returnEnvironmentItems"
 import { VerifyAddress } from './authService';
-import { ErrorCheck } from "./CustomErrorHandling";
 import ButtonDisplay from "./buttonDisplay";
 import submitReport from "./submitReport";
-
 import { GetErrorsDetails } from "../utilities/CustomErrorHandling";
+
 Geocode.setApiKey('AIzaSyAqazsw3wPSSxOFVmij32C_LIhBSuyUNi8');
 
 
@@ -177,23 +176,20 @@ const provideDetails = props => {
 		props.history.push('/ServiceRequestForm');
 	}
 
-	const { values, isSubmitting, errors, touched, handleSubmit, setFieldValue, ...rest } = props;
+	const { values, isSubmitting, errors, actions, touched, handleSubmit, setFieldValue, ...rest } = props;
 	const items = Address.map((item, index) => ({
 		id: item.Zip,
 		label: `${item.StreetAddress.toUpperCase()}, ${item.City.toUpperCase()}, ${item.Zip}`,
 	}));
 
-	const SubmitForm = (values, actions, props) => {
-		console.log('Am I a real boy?')
-		submitReport(actions, props);
-
-		//props.history.push('/SubmitResponsePage');
+	const SubmitForm = async() => {
+		await submitReport(actions, props);
 	}
 
 	return (
 
 		<FormContainer title={pageFieldName.map(name => name.DetailsTitle)} tabNames={localProps.Tabs} currentTab="ProvideDetails" shouldDisableForm={localProps.shouldDisableForm} requiresLocation={localProps.requiresLocation}>
-			<Form onSubmit={handleSubmit}>
+			<Form>
 				<Field
 					type="hidden"
 					name="Latitude"

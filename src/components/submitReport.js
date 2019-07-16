@@ -1,5 +1,5 @@
 import { CreateReport, VerifyAddress } from './authService';
-import { ErrorCheck } from "./CustomErrorHandling";
+import { GetErrorsDetails } from "../utilities/CustomErrorHandling";
 
 export const returnModel = (props, streetAddress, city, zipCode) => {
 	const { Longitude, Latitude, ContactID, requestTypeID, requestType,
@@ -9,7 +9,7 @@ export const returnModel = (props, streetAddress, city, zipCode) => {
 		requestTypeAddressID, requestTypeCityID, requestTypeZipID, subRequestTypeDescription,
 		subRequestTypeDescriptionID, subRequestTypeAddress, subRequestTypeAddressID,
 		subRequestTypeCity, subRequestTypeCityID, subRequestTypeZip,
-		subRequestTypeZipID } = props;
+		subRequestTypeZipID } = props.formik.values;
         
 	const reportItems = [
 		{ Id: requestTypeID, Value: requestType },
@@ -49,12 +49,10 @@ export const returnModel = (props, streetAddress, city, zipCode) => {
 
 
 export const submitReport = async (actions, props ) => {
-	console.log('Yes, I am a real boy?')
-	console.log(props);
+
 	const streetAddress = props.formik.values.streetAddress;
 	const city = props.formik.values.city;
 	const zipCode = props.formik.values.zipCode;
-	
 	const itemsToSubmit = returnModel(props, streetAddress, city, zipCode)
 	
 	try {
@@ -62,7 +60,7 @@ export const submitReport = async (actions, props ) => {
 		if(streetAddress){
 			const addressResponse = await VerifyAddress(fullAddress);
 			if (addressResponse.data.HasErrors) {
-				const errorsReturned = ErrorCheck(addressResponse);
+				const errorsReturned = GetErrorsDetails(addressResponse);
 				actions.setStatus({
 					success1: errorsReturned,
 					css: 'address'
@@ -72,11 +70,12 @@ export const submitReport = async (actions, props ) => {
 			try {
 				const response = await CreateReport(itemsToSubmit);
 				if (response.data.ErrorsCount > 0) {
-					const errorsReturned = ErrorCheck(response);
+					const errorsReturned = GetErrorsDetails(response);
 					console.log(errorsReturned);
 					props.Field.ErrorMsg = errorsReturned;
 				}
-				props.history.push('/SubmitResponsePage');}
+				props.history.push('/SubmitResponsePage');
+			}
 			catch (ex) {
 				if (ex.response && ex.response.status === 400) {
 					console.log(ex.message);}

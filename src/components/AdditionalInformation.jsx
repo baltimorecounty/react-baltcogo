@@ -1,9 +1,7 @@
 import React from "react";
-import { Field, connect } from "formik";
+import {Form, Field, connect } from "formik";
 import ErrorMsg from "./ErrorMessage";
 import FormContainer from './FormContainer';
-import { GetErrorsDetails } from "../utilities/CustomErrorHandling";
-import { CreateReport, VerifyAddress } from './authService';
 import { formIncomplete } from "./checkFormCompletion";
 import ButtonDisplay from "./buttonDisplay";
 import submitReport from "./submitReport";
@@ -11,14 +9,14 @@ import submitReport from "./submitReport";
 const AdditionalInformation = props => {
 	const localProps = props.formik.values;
 	const pageFieldName = props.formik.values.AdditionalInfoPage
-	const { errors, touched, handleSubmit, ...rest } = props;
+	const { values, actions, errors, touched, ...rest } = props;
 	
 	if(!props.formik.values.ContactID || formIncomplete(props.formik)){
 		props.history.push('/ServiceRequestForm');
 	}
 
-	const SubmitTheForm = async (values, actions, props) => {
-		await submitReport(values, actions, props);
+	const SubmitTheForm = async () => {
+		await submitReport(actions, props);
 	}
 
 	const callPreviousForm = () => {
@@ -32,7 +30,7 @@ const AdditionalInformation = props => {
 
 	return (
 		<FormContainer title={pageFieldName.map(name => name.AdditionalInfoTitle)} tabNames = {localProps.Tabs} currentTab = "AdditionalInformation" shouldDisableForm = {localProps.shouldDisableForm} requiresLocation = {localProps.requiresLocation}>
-			<form onSubmit={handleSubmit}>
+			<Form>
 				{(localProps.requiresLocation === false) ?
 					<div name="ContactInfo">
 						<p>
@@ -170,7 +168,7 @@ const AdditionalInformation = props => {
 						disabled={null}
 						buttonName = "File Your Report" />}
 				</div>
-			</form>
+			</Form>
 		</FormContainer>
 	);
 }
