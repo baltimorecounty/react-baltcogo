@@ -62,7 +62,6 @@ const AdditionalInformation = props => {
 
 			const addressResponse = await VerifyAddress(fullAddress);
 			if (addressResponse.data.HasErrors) {
-				// HandleErrorResponse(actions, addressResponse, 'address');
 				const errorsReturned = GetErrorsDetails(addressResponse);
 
 				// TODO: actions are not available at this point, not sure if this intended or not
