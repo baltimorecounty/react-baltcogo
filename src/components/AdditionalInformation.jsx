@@ -23,7 +23,7 @@ const AdditionalInformation = props => {
 		props.history.push('/ServiceRequestForm');
 	}
 
-	const SubmitTheForm = async (values, actions, props) => {
+	const SubmitTheForm = async (clickEvent) => {
 		const reportItems = [
 			{ Id: requestTypeID, Value: requestType },
 			{ Id: subRequestTypeID, Value: subRequestType },
@@ -62,11 +62,15 @@ const AdditionalInformation = props => {
 
 			const addressResponse = await VerifyAddress(fullAddress);
 			if (addressResponse.data.HasErrors) {
+				// HandleErrorResponse(actions, addressResponse, 'address');
 				const errorsReturned = GetErrorsDetails(addressResponse);
-				actions.setStatus({
-					success1: errorsReturned,
-					css: 'address'
-				})
+
+				// TODO: actions are not available at this point, not sure if this intended or not
+				// actions.setStatus({
+				// 	success1: errorsReturned,
+				// 	css: 'address'
+				// })
+
 				throw new Error(errorsReturned);
 			}
 			else {
@@ -74,20 +78,23 @@ const AdditionalInformation = props => {
 					const response = await CreateReport(Selections);
 					if (response.data.ErrorsCount > 0) {
 						const errorsReturned = GetErrorsDetails(response);
-						console.log(errorsReturned);
 						props.Field.ErrorMsg = errorsReturned;
 					}
-					props.history.push('/SubmitResponsePage');
+
+					props.history.push({
+						pathname: '/SubmitResponsePage',
+						state: { response }
+					});
 				}
 				catch (ex) {
-					if (ex.response && ex.response.status === 400) {
-						console.log(ex.message);
+					if (ex.response) {
+						console.error('error saving response', ex.message);
 					}
 				}
 			}
 		}
 		catch (ex) {
-			console.log(ex.message);
+			console.error('error validating address', ex.message);
 		}
 
 	}
@@ -101,7 +108,13 @@ const AdditionalInformation = props => {
 	}
 
 	return (
-		<FormContainer title={pageFieldName.map(name => name.AdditionalInfoTitle)} tabNames = {localProps.Tabs} currentTab = "AdditionalInformation" shouldDisableForm = {localProps.shouldDisableForm} requiresLocation = {localProps.requiresLocation}>
+		<FormContainer
+			title={pageFieldName.map(name => name.AdditionalInfoTitle)}
+			tabNames = {localProps.Tabs}
+			currentTab = "AdditionalInformation"
+			shouldDisableForm = {localProps.shouldDisableForm}
+			requiresLocation = {localProps.requiresLocation}
+		>
 			<form onSubmit={handleSubmit}>
 				{(localProps.requiresLocation === false) ?
 					<div name="ContactInfo">
