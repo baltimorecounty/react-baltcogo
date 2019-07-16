@@ -185,7 +185,7 @@ const CreateAccount = (props, routeProps) => {
 								<div className="cs-form-control" >
 									<p htmlFor="signup">Already have an account? <Link to="SignInForm" >Sign In</Link></p>
 									<SeButton
-										text=""
+										text="Sign Up and Continue"
 										type="submit"
 										isLoading={isSubmitting}
 										isLoadingText="Signing Up..."
