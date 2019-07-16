@@ -3,11 +3,19 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 const SeButton = (props) => {
-	const { text, isLoadingText = 'Loading...', type = 'button', className = '', isLoading, ...rest } = props;
+	const {
+		text,
+		isDisabled,
+		isLoadingText = 'Loading...',
+		type = 'button',
+		className = '',
+		isLoading,
+		...rest
+	} = props;
 	const cssClasses = classNames('seButton', ...className.split(' '), { 'is-loading': isLoading });
 	return (
 		<React.Fragment>
-			<button className={cssClasses} type={type} disabled={isLoading} {...rest}>
+			<button className={cssClasses} type={type} disabled={isDisabled || isLoading} {...rest}>
 				{isLoading && (
 					<React.Fragment>
 						<i className="fa fa-spinner fa-spin fa-fw" />
@@ -23,6 +31,7 @@ const SeButton = (props) => {
 SeButton.propTypes = {
 	text: PropTypes.string.isRequired,
 	type: PropTypes.string,
+	isDisabled: PropTypes.bool,
 	isLoading: PropTypes.bool,
 	isLoadingText: PropTypes.string
 };
