@@ -162,16 +162,16 @@ const AdditionalInformation = props => {
 						</p>
 					</div>}
 				<div className = "cs-form-control" >
-					{<ButtonDisplay
-						onClick={callPreviousForm}
+					<ButtonDisplay
+						onClick = {callPreviousForm}
 						disabled={null}
 						buttonName = "Previous" 
-						cssClass = "seButton"/>}
-					{<ButtonDisplay
+						cssClass = "seButton"/>
+					<ButtonDisplay
 						onClick={SubmitTheForm}
 						disabled={null}
 						buttonName = "File Your Report"
-						cssClass = "seButton pull-right"/>}
+						cssClass = "seButton pull-right"/>
 				</div>
 			</Form>
 		</FormContainer>
