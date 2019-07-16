@@ -280,7 +280,6 @@ const provideDetails = props => {
 							isDisabled={displayButton}
 							isLoading={isSubmitting}
 							isLoadingText="Submitting Request..."
-							isInline
 							className="pull-right"
 						/>
 						:
