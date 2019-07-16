@@ -4,6 +4,7 @@ import { Formik, Form } from 'formik';
 import { HasResponseErrors } from '../utilities/CitysourcedResponseHelpers';
 
 const SubmitResponse = (props) => {
+	console.log(props);
 	const {
 		Tabs,
 		shouldDisableForm,
@@ -14,7 +15,8 @@ const SubmitResponse = (props) => {
 	} = props.history.location.state || {};
 	const isFormSubmissionSuccessful = !HasResponseErrors(response);
 
-	const gotoServicePage = () => {
+	const resetForm = () => {
+		props.resetForm();
 		props.history.push('/ServiceRequestForm');
 	}
 
@@ -49,7 +51,7 @@ const SubmitResponse = (props) => {
 										</a>.
 									</p>
 									<div className="cs-form-control">
-										<input type="button" className="seButton" onClick={gotoServicePage}  value="Create New Report" />
+										<input type="button" className="seButton" onClick={resetForm}  value="Create New Report" />
 										<input type="button" className="seButton pull-right" onClick={logout}  value="Logout" />
 									</div>
 								</div>
@@ -61,11 +63,11 @@ const SubmitResponse = (props) => {
 										to resolve this issue as quickly as possible.
 									</p>
 									<div className="cs-form-control">
-										<input type="button" className="seButton pull-right" onClick={gotoServicePage}  value="Return Home" />
+										<input type="button" className="seButton pull-right" onClick={resetForm}  value="Return Home" />
 									</div>
 								</div>
 							)}
-							
+
 						</Form>
 					);
 				}}
