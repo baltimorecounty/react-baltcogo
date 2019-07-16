@@ -30,9 +30,6 @@ function App(props) {
 				<Route path='/AdditionalInformationForm' component={AdditionalInformationForm} />
 				<Route path='/ProvideDetails' component={ProvideDetails} />
 				<Route path='/GetReport' component={GetReport} />
-				<Route path='/Logout' component={() => { 
-					window.location.href = 'www.baltimorecountymd.gov'; 
-					return null;
 				}}/>
 				
 				<Route path='/' component={ServiceRequestForm} />

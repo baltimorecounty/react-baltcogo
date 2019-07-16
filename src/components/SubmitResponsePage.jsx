@@ -2,6 +2,7 @@ import React from 'react';
 import FormContainer from './FormContainer';
 import { Formik, Form } from 'formik';
 import { HasResponseErrors } from '../utilities/CitysourcedResponseHelpers';
+import ButtonDisplay from "./buttonDisplay";
 
 const SubmitResponse = (props) => {
 	console.log(props);
@@ -20,9 +21,13 @@ const SubmitResponse = (props) => {
 		props.history.push('/ServiceRequestForm');
 	}
 
+	const returnHome = () =>{
+		resetForm();
+	}
+
 	const logout = () => {
 		sessionStorage.clear();
-		props.history.push('/Logout');
+		resetForm();
 	}
 
 	return (
@@ -51,8 +56,14 @@ const SubmitResponse = (props) => {
 										</a>.
 									</p>
 									<div className="cs-form-control">
-										<input type="button" className="seButton" onClick={resetForm}  value="Create New Report" />
-										<input type="button" className="seButton pull-right" onClick={logout}  value="Logout" />
+										<ButtonDisplay
+											onClick={returnHome}
+											buttonName ="Create New Report" 
+											cssClass = "seButton"/>
+										<ButtonDisplay
+											onClick={logout}
+											buttonName ="Logout" 
+											cssClass = "seButton pull-right" />
 									</div>
 								</div>
 							) : (
@@ -63,7 +74,10 @@ const SubmitResponse = (props) => {
 										to resolve this issue as quickly as possible.
 									</p>
 									<div className="cs-form-control">
-										<input type="button" className="seButton pull-right" onClick={resetForm}  value="Return Home" />
+										<ButtonDisplay
+											onClick={returnHome}
+											buttonName ="Return Home" 
+											cssClass = "seButton pull-right" />
 									</div>
 								</div>
 							)}
