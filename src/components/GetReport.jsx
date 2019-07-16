@@ -12,7 +12,6 @@ const GetReport = props => {
 			const response = await GetReportByID(values.ReportID);
 			if (response.data.ErrorsCount > 0) {
 				const errorsReturned = GetErrorsDetails(response);
-				console.log(errorsReturned);
 				props.Field.ErrorMsg = errorsReturned;
 			}
 			else {

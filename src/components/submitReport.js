@@ -10,7 +10,7 @@ export const returnModel = (props, streetAddress, city, zipCode) => {
 		subRequestTypeDescriptionID, subRequestTypeAddress, subRequestTypeAddressID,
 		subRequestTypeCity, subRequestTypeCityID, subRequestTypeZip,
 		subRequestTypeZipID } = props.formik.values;
-        
+
 	const reportItems = [
 		{ Id: requestTypeID, Value: requestType },
 		{ Id: subRequestTypeID, Value: subRequestType },
@@ -43,7 +43,7 @@ export const returnModel = (props, streetAddress, city, zipCode) => {
 		ReportItems: reportItems,
 		SuppressWorkflows: false
 	};
-    
+
 	return itemsToSubmit;
 };
 
@@ -54,7 +54,7 @@ export const submitReport = async (actions, props) => {
 	const city = props.formik.values.city;
 	const zipCode = props.formik.values.zipCode;
 	const itemsToSubmit = returnModel(props, streetAddress, city, zipCode)
-	
+
 	try {
 		var fullAddress = streetAddress + ' ' + city + ',MD ' + zipCode;
 		const addressResponse = await VerifyAddress(fullAddress)
@@ -73,7 +73,11 @@ export const submitReport = async (actions, props) => {
 					props.Field.ErrorMsg = errorsReturned;
 					throw new Error(errorsReturned);
 				}
-				props.history.push('/SubmitResponsePage');
+
+				props.history.push({
+					pathname: '/SubmitResponsePage',
+					state: { response }
+				});
 			}
 			catch (ex) {
 				console.log(ex.message);

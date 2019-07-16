@@ -10,7 +10,7 @@ const AdditionalInformation = props => {
 	const localProps = props.formik.values;
 	const pageFieldName = props.formik.values.AdditionalInfoPage
 	const { values, actions, errors, touched, ...rest } = props;
-	
+
 	if(!props.formik.values.ContactID || formIncomplete(props.formik)){
 		props.history.push('/ServiceRequestForm');
 	}
