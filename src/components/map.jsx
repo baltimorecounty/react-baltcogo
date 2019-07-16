@@ -13,7 +13,10 @@ class Map extends React.Component {
 
 
 	shouldComponentUpdate(nextProps, nextState) {
+		console.log('=+++++++++++++++++++++++++++++=')
 
+		console.log('address1:' + this.props.address);
+		console.log('============================')
 		if (this.props.lat === nextProps.center.lat) {
 			return false;
 		}
@@ -28,15 +31,18 @@ class Map extends React.Component {
 			return true
 		}
 		else {
+			console.log('return value:false')
 			return false;
 		}
+		;
 	}
 
 
 
 	render() {
+		console.log('map render');
 		const { address, lat, lng, markerLat, onMarkerDragEnd, onZoom } = this.props;
-
+		console.log('map address:' + address);
 		const AsyncMap = compose(
 			withProps({
 				googleMapURL: "https://maps.google.com/maps/api/js?key=AIzaSyAqazsw3wPSSxOFVmij32C_LIhBSuyUNi8&libraries=geometry,drawing,places",

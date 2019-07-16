@@ -71,8 +71,9 @@ const provideDetails = props => {
 
 	const handleAddressChange = (e) => {
 		setQuery(e.target.value);
-
+		console.log('query:' + e.target.value);
 		let searchQuery = _.split(e.target.value, ',', 1);
+		console.log('searchQuery:' + searchQuery);
 		if (searchQuery.length > 0) {
 			let filtered = Address.filter(m => m.StreetAddress.toLowerCase().indexOf(searchQuery.toString().toLowerCase()) > -1);
 			filtered.map(item => (splitAddress(item.Latitude, item.Longitude)
@@ -81,9 +82,14 @@ const provideDetails = props => {
 	};
 
 	const handleAddressSelect = (val) => {
+		setQuery(val);
+	
 		let searchQuery = _.split(val, ',', 1);
+		console.log('address selected:' + searchQuery);
 		if (searchQuery.length > 0) {
 			let filtered = Address.filter(m => m.StreetAddress.toLowerCase().indexOf(searchQuery.toString().toLowerCase()) > -1);
+			console.log('filtered');
+			console.log(filtered);
 			filtered.map(item => (splitAddress(item.Latitude, item.Longitude)
 			));
 		}
@@ -191,7 +197,8 @@ const provideDetails = props => {
 						lat={Latitude}
 						lng={Longitude}
 						onZoom={onZoom}
-						markerLat={MarkerLatitude} onMarkerDragEnd={e => (onMarkerDragEnd(e, setFieldValue))} />
+						markerLat={MarkerLatitude}
+						onMarkerDragEnd={e => (onMarkerDragEnd(e, setFieldValue))} />
 					<p role='alert' className="error-message">
 
 						{/* <ErrorMsg

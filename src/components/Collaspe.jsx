@@ -4,7 +4,7 @@ import { UncontrolledCollapse, Button, CardBody, Card } from 'reactstrap';
 import Map from './map';
 
 const Collaspe = ({ address, ZoomValue, lat, lng, onZoom, markerLat, onChange, onMarkerDragEnd }) => {
-
+	//console.log('address:' + address);
 	return (
 		<React.Fragment>
 			<Button type="button" className="small" color="link" id="toggler" align="left" style={{ marginBottom: '1rem' }}>
