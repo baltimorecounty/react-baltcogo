@@ -189,6 +189,7 @@ const CreateAccount = (props, routeProps) => {
 										type="submit"
 										isLoading={isSubmitting}
 										isLoadingText="Signing Up..."
+										className="pull-right"
 									/>
 								</div>
 							</Form>

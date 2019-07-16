@@ -32,13 +32,13 @@ const FormContainer = props => {
 			<ol className="bc-citysourced-reporter-steps">
 				{ tabList.map((tab,index) => {
 					return (
-						<li 
+						<li
 							key={index}
 							className = { selectClassName(tab) }>
 							{tab.description}
 						</li>
 					)
-				})}	
+				})}
 			</ol>
 			<fieldset className="container Container-bg">
 				<legend>{props.title}</legend>{props.children}
