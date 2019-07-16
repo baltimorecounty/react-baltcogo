@@ -2,6 +2,7 @@ import React from 'react';
 import FormContainer from './FormContainer';
 import { Formik, Form } from 'formik';
 import { HasResponseErrors } from '../utilities/CitysourcedResponseHelpers';
+import ButtonDisplay from "./buttonDisplay";
 
 const SubmitResponse = (props) => {
 	const {
@@ -13,6 +14,20 @@ const SubmitResponse = (props) => {
 		response = {}
 	} = props.history.location.state || {};
 	const isFormSubmissionSuccessful = !HasResponseErrors(response);
+
+	const resetForm = () => {
+		props.resetForm();
+		props.history.push('/ServiceRequestForm');
+	}
+
+	const returnHome = () =>{
+		resetForm();
+	}
+
+	const logout = () => {
+		sessionStorage.clear();
+		resetForm();
+	}
 
 	return (
 		<FormContainer
@@ -39,6 +54,16 @@ const SubmitResponse = (props) => {
 											www.baltimorecountymd.gov/followup
 										</a>.
 									</p>
+									<div className="cs-form-control">
+										<ButtonDisplay
+											onClick={returnHome}
+											buttonName ="Create New Report" 
+											cssClass = "seButton"/>
+										<ButtonDisplay
+											onClick={logout}
+											buttonName ="Logout" 
+											cssClass = "seButton pull-right" />
+									</div>
 								</div>
 							) : (
 								<div role="alert" className="bc-citysourced-reporter-alert alert-warning">
@@ -47,8 +72,15 @@ const SubmitResponse = (props) => {
 										We're sorry, we encountered a problem processing your submission. We are working
 										to resolve this issue as quickly as possible.
 									</p>
+									<div className="cs-form-control">
+										<ButtonDisplay
+											onClick={returnHome}
+											buttonName ="Return Home" 
+											cssClass = "seButton pull-right" />
+									</div>
 								</div>
 							)}
+
 						</Form>
 					);
 				}}
