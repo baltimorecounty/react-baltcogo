@@ -6,6 +6,7 @@ const SeButton = (props) => {
 	const {
 		text,
 		isDisabled,
+		isInline = false,
 		isLoadingText = 'Loading...',
 		type = 'button',
 		className = '',
@@ -13,9 +14,17 @@ const SeButton = (props) => {
 		...rest
 	} = props;
 	const cssClasses = classNames('seButton', ...className.split(' '), { 'is-loading': isLoading });
+	const inlineStyles = isInline ? { display: 'inline-block !important', width: 'auto' } : {};
+	const disabledStyles = isDisabled ? { backgroundColor: '#999', border: '1px solid #666' } : {};
 	return (
 		<React.Fragment>
-			<button className={cssClasses} type={type} disabled={isDisabled || isLoading} {...rest}>
+			<button
+				className={cssClasses}
+				type={type}
+				style={{ ...inlineStyles, ...disabledStyles }}
+				disabled={isDisabled || isLoading}
+				{...rest}
+			>
 				{isLoading && (
 					<React.Fragment>
 						<i className="fa fa-spinner fa-spin fa-fw" />
@@ -32,6 +41,7 @@ SeButton.propTypes = {
 	text: PropTypes.string.isRequired,
 	type: PropTypes.string,
 	isDisabled: PropTypes.bool,
+	isInline: PropTypes.bool,
 	isLoading: PropTypes.bool,
 	isLoadingText: PropTypes.string
 };
