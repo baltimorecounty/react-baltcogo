@@ -5,7 +5,7 @@ import ErrorMsg from "./ErrorMessage";
 import { GetErrorsDetails } from "../utilities/CustomErrorHandling";
 import { Link } from 'react-router-dom';
 import FormContainer from './FormContainer';
-import { Login, GetContactAddress } from './authService';
+import { Login } from './authService';
 import { formIncomplete } from "./checkFormCompletion";
 import Alert from './Alert';
 

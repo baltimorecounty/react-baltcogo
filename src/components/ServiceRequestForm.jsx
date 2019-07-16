@@ -2,25 +2,24 @@ import React, { useState, useEffect } from "react";
 import { Form, Field, connect } from "formik";
 import axios from "axios"
 import ErrorMsg from "./ErrorMessage";
-import { GetErrorsDetails, formatPhoneNumber } from "../utilities/CustomErrorHandling";
+import { GetErrorsDetails } from "../utilities/CustomErrorHandling";
 import FormContainer from './FormContainer';
 import RequestTypeField from "./RequestTypeField";
 import RequestSubTypeField from "./RequestSubTypeField";
-import RequestPetTypeField from "./RequestPetTypeField";
 import QueryString from 'query-string';
 import GenericTypeField from "./genericTypeField";
 import Model from './Modal';
 import { Link } from 'react-router-dom';
 import WaterAndSewerIssue from "./waterAndSewerIssue";
 import TrashAndRecycle from "./trashAndRecycle";
-import { GetContactAddress, GetContactDetails } from './authService';
+import { GetContactDetails } from './authService';
 import RoadsAndSidewalks from "./roadsAndSidewalks";
 import { formIncomplete } from "./checkFormCompletion";
 import { returnJsonFileLocations, returnRequestTypes } from "./returnEnvironmentItems";
+import PetType from "./petType";
 
-
+//TODO: Capture ID from URl string and pre-populate drop down
 const { categoryId } = QueryString.parse(window.location.search);
-//const contactID = 914151;
 
 const getSubCategories = (categories, categoryName) => {
 	var category = categories.find(category => category.name.toLowerCase() === categoryName);
@@ -114,7 +113,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 				localProps.setFieldValue('ContactID', contactID);
 
 
-				if (contactID !== null) {
+				if (contactID) {
 
 					getContactDetails();
 				}
@@ -273,6 +272,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 			}
 		}
 		catch (ex) {
+			
 		}
 
 	}
@@ -323,7 +323,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 	return (
 
-		<FormContainer title = {pageFieldName.map(name => name.RequestTitle)} tabNames = {localProps.values.Tabs} currentTab = "ServiceRequestForm" shouldDisableForm = {localProps.values.shouldDisableForm} requiresLocation= {localProps.values.requiresLocation}>
+		<FormContainer title={pageFieldName.map(name => name.RequestTitle)} tabNames={localProps.values.Tabs} currentTab="ServiceRequestForm" shouldDisableForm={localProps.values.shouldDisableForm} requiresLocation={localProps.values.requiresLocation}>
 			<Form>
 				<div className={
 					localProps.errors.requestType && localProps.touched.requestType ? "cs-form-control error" : "cs-form-control"}>
@@ -416,32 +416,17 @@ const ServiceRequestForm = (props, errors, touched) => {
 						&& localProps.values['subRequestType'].toLowerCase() === (returnRequestTypes("subCategory_OtherWebsiteProblem")).toLowerCase()) ? notes
 						: null
 				}
-				{
-					localProps.values['requestType'] === returnRequestTypes("requestType_petAndAnimalIssue") && localProps.values['subRequestType'] !== '' ?
-						<div className={
-							localProps.errors.petType && localProps.touched.petType ? "cs-form-control error" : "cs-form-control"}>
-							<label htmlFor="petType">{pageFieldName.map(name => name.PetType)}</label>
-							<RequestPetTypeField
-								component="select"
-								name="petType"
-								formikProps={rest}
-								onChange={handleServicePetChange}
-								//value={localProps.values.name}
-								className={localProps.errors.petType && localProps.touched.petType ? "text-select error" : null}
-							>
-								<option key='default' value=''>--Please select a pet type--</option>
-								{PetTypes.map(petType => (
-									<option key={petType.id} value={petType.name}>{petType.name}</option>
-								))}
-							</RequestPetTypeField>
-							<p role='alert' className="error-message">
-								{<ErrorMsg
-									errormessage={localProps.errors.petType}
-									touched={localProps.touched.petType} />}
-							</p>
-						</div>
-						: null
-				}
+				<PetType
+					requestType={localProps.values['requestType']}
+					requestType_petAndAnimalIssue={returnRequestTypes("requestType_petAndAnimalIssue")}
+					subRequestType={localProps.values['subRequestType']}
+					errorsPetType={localProps.errors.petType}
+					touchedPetType={localProps.touched.petType}
+					pageFieldName={pageFieldName}
+					handleServicePetChange={handleServicePetChange}
+					rest={rest}
+					PetTypes={PetTypes} />
+
 				{
 					(localProps.values['subRequestType'] !== '' && localProps.values['petType'] === returnRequestTypes("petType_Others")) ?
 						<div className={
