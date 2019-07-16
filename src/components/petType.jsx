@@ -34,7 +34,3 @@ const PetType = ({ requestType, requestType_petAndAnimalIssue, subRequestType, e
 
 export default PetType;
 
-
-{
-
-}

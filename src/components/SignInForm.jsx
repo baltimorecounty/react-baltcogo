@@ -8,6 +8,7 @@ import FormContainer from './FormContainer';
 import { Login } from './authService';
 import { formIncomplete } from "./checkFormCompletion";
 import Alert from './Alert';
+import SeButton from "./SeButton";
 
 // import DisplayFormikState from './helper';
 const SignIn = (props, routeProps) => {
@@ -142,8 +143,12 @@ const SignIn = (props, routeProps) => {
 									<p htmlFor="forgetpassword"> <Link to="ResetPassword" >Forgot password?</Link></p>
 									<p htmlFor="signup"
 									>Don't have an account? <Link to="SignUpForm" >Sign up</Link></p>
-
-									<input className="seButton" type="submit" disabled={props.isSubmitting} value="Sign In and Continue" />
+									<SeButton
+										text="Sign In and Continue"
+										type="submit"
+										isLoading={props.isSubmitting}
+										isLoadingText="Signing In..."
+									/>
 								</div>
 
 							</Form>

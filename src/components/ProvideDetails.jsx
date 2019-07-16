@@ -14,11 +14,13 @@ import { VerifyAddress } from './authService';
 import ButtonDisplay from "./buttonDisplay";
 import submitReport from "./submitReport";
 import { GetErrorsDetails } from "../utilities/CustomErrorHandling";
+import SeButton from './SeButton';
 
 Geocode.setApiKey('AIzaSyAqazsw3wPSSxOFVmij32C_LIhBSuyUNi8');
 
 
 const provideDetails = props => {
+	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [Latitude, setLatitude] = useState(39.4001526);
 	const [Longitude, setLongitude] = useState(-76.6074448);
 	const [MarkerLatitude, setMarkerLatitude] = useState(18.5204);
@@ -174,15 +176,17 @@ const provideDetails = props => {
 		props.history.push('/ServiceRequestForm');
 	}
 
-	const { values, isSubmitting, errors, actions, touched, handleSubmit, setFieldValue, ...rest } = props;
+	const { values, errors, actions, touched, handleSubmit, setFieldValue, ...rest } = props;
 	const items = Address.map((item, index) => ({
 		id: item.Zip,
 		label: `${item.StreetAddress.toUpperCase()}, ${item.City.toUpperCase()}, ${item.Zip}`,
 	}));
 
-	const SubmitForm = (clickEvent) => {
-		submitReport(clickEvent, props);
-	}
+	const SubmitForm = async (clickEvent) => {
+		setIsSubmitting(true);
+		await submitReport(clickEvent, props);
+		setIsSubmitting(false);
+	};
 
 	return (
 
@@ -270,10 +274,15 @@ const provideDetails = props => {
 				<div className="cs-form-control" >
 					<input type="button" className="seButton" onClick={goServiceRequestForm} value="Previous" />
 					{(!rest.formik.values.requestTypeAddressID) ?
-						<ButtonDisplay
+						<SeButton
+							text="File Your Report"
 							onClick={SubmitForm}
-							disabled={displayButton}
-							buttonName ="File Your Report" />
+							isDisabled={displayButton}
+							isLoading={isSubmitting}
+							isLoadingText="Submitting Request..."
+							isInline
+							className="pull-right"
+						/>
 						:
 						<ButtonDisplay
 							onClick={goToAdditionalPage}
