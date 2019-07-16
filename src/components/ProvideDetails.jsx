@@ -176,24 +176,23 @@ const provideDetails = props => {
 		props.history.push('/ServiceRequestForm');
 	}
 
-	const { values, isSubmitting, errors, touched, setFieldValue, ...rest } = props;
+	const { values, isSubmitting, errors, touched, handleSubmit, setFieldValue, ...rest } = props;
 	const items = Address.map((item, index) => ({
 		id: item.Zip,
 		label: `${item.StreetAddress.toUpperCase()}, ${item.City.toUpperCase()}, ${item.Zip}`,
 	}));
 
-	const SubmitTheForm = async (actions, props) => {
-		await submitReport(actions, props);
-	}
+	const SubmitForm = (values, actions, props) => {
+		console.log('Am I a real boy?')
+		submitReport(actions, props);
 
-	// const handleSubmit = (values) => {
-	// 	props.history.push('/SubmitResponsePage');
-	// }
+		//props.history.push('/SubmitResponsePage');
+	}
 
 	return (
 
 		<FormContainer title={pageFieldName.map(name => name.DetailsTitle)} tabNames={localProps.Tabs} currentTab="ProvideDetails" shouldDisableForm={localProps.shouldDisableForm} requiresLocation={localProps.requiresLocation}>
-			<Form onSubmit={SubmitTheForm}>
+			<Form onSubmit={handleSubmit}>
 				<Field
 					type="hidden"
 					name="Latitude"
@@ -277,11 +276,11 @@ const provideDetails = props => {
 					<input type="button" className="seButton" onClick={goServiceRequestForm} value="Previous" />
 					{(!rest.formik.values.requestTypeAddressID) ? 
 						<ButtonDisplay
+							onClick={SubmitForm}
 							disabled={displayButton}
 							buttonName ="File Your Report" />
 						: 
 						<ButtonDisplay
-							handleSubmit={withFormik.handleSubmit}
 							onClick={goToAdditionalPage}
 							disabled={displayButton}
 							buttonName ="Next" />}

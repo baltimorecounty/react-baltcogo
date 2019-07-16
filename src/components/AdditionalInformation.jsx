@@ -1,5 +1,5 @@
 import React from "react";
-import { Field, connect, withFormik } from "formik";
+import { Field, connect } from "formik";
 import ErrorMsg from "./ErrorMessage";
 import FormContainer from './FormContainer';
 import { formIncomplete } from "./checkFormCompletion";
@@ -15,8 +15,8 @@ const AdditionalInformation = props => {
 		props.history.push('/ServiceRequestForm');
 	}
 
-	const SubmitTheForm = async (values, actions, localProps) => {
-		submitReport(values, actions, localProps);
+	const SubmitTheForm = async (values, actions, props) => {
+		await submitReport(values, actions, props);
 	}
 
 	const callPreviousForm = () => {
@@ -164,7 +164,6 @@ const AdditionalInformation = props => {
 				<div className = "cs-form-control" >
 					<input type="button" className="seButton" onClick={callPreviousForm} value="Previous" />
 					{<ButtonDisplay
-						handleSubmit={withFormik.handleSubmit}
 						onClick={SubmitTheForm}
 						disabled={null}
 						buttonName = "File Your Report" />}
