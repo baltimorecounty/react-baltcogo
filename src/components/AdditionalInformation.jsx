@@ -1,84 +1,24 @@
 import React from "react";
-import { Field, connect } from "formik";
+import {Form, Field, connect } from "formik";
 import ErrorMsg from "./ErrorMessage";
 import FormContainer from './FormContainer';
-import { ErrorCheck } from "./CustomErrorHandling";
-import { CreateReport } from './authService';
 import { formIncomplete } from "./checkFormCompletion";
+import ButtonDisplay from "./buttonDisplay";
+import submitReport from "./submitReport";
 
 const AdditionalInformation = props => {
 	const localProps = props.formik.values;
 	const pageFieldName = props.formik.values.AdditionalInfoPage
-	const { errors, touched, handleSubmit, ...rest } = props;
-	const { Longitude, Latitude, ContactID, requestTypeID, requestType,
-		subRequestTypeID, subRequestType, petTypeID, petType, sexTypeID,
-		sexType, animalColorTypeID, animalColorType, otherAnimalTypesID,
-		otherAnimalTypes, requestTypeDescription, requestTypeDescriptionID,
-		requestTypeAddress, requestTypeAddressID, requestTypeCity,
-		requestTypeCityID, requestTypeZip, requestTypeZipID, subRequestTypeDescription,
-		subRequestTypeDescriptionID, subRequestTypeAddress, subRequestTypeAddressID,
-		subRequestTypeCity, subRequestTypeCityID, subRequestTypeZip,
-		subRequestTypeZipID } = props.formik.values;
+	const { values, actions, errors, touched, ...rest } = props;
 
-	if(props.formik.values.ContactID === null || formIncomplete(props.formik)){
+	if(!props.formik.values.ContactID || formIncomplete(props.formik)){
 		props.history.push('/ServiceRequestForm');
-		props.formik.setFieldValue("userNeedsToLoginError", "Please log in to continue");
 	}
 
-	const SubmitTheForm = async values => {
-		const reportItems = [
-			{ Id: requestTypeID, Value: requestType },
-			{ Id: subRequestTypeID, Value: subRequestType },
-			{ Id: petTypeID, Value: petType },
-			{ Id: sexTypeID, Value: sexType },
-			{ Id: animalColorTypeID, Value: animalColorType },
-			{ Id: otherAnimalTypesID, Value: otherAnimalTypes },
-			{ Id: requestTypeDescriptionID, Value: requestTypeDescription },
-			{ Id: requestTypeAddressID, Value: requestTypeAddress },
-			{ Id: requestTypeCityID, Value: requestTypeCity },
-			{ Id: requestTypeZipID, Value: requestTypeZip },
-			{ Id: subRequestTypeDescriptionID, Value: subRequestTypeDescription },
-			{ Id: subRequestTypeAddressID, Value: subRequestTypeAddress },
-			{ Id: subRequestTypeCityID, Value: subRequestTypeCity },
-			{ Id: subRequestTypeZipID, Value: subRequestTypeZip }
-		].filter(item => !!item.Id);
-
-		var Selections = {
-			AppVersion: "308",
-			Location: {
-				X: Longitude,
-				Y: Latitude
-			},
-			AuthorId: ContactID,
-			IsPrivate: false,
-			Locale: "en",
-			ReportItems: reportItems,
-			SuppressWorkflows: false
-		};
-
-		try {
-			if (!sessionStorage.getItem('UserLoginID')) {
-				throw new Error("You are not logged in and cannot submit a request");
-			}
-			try {
-				const response = await CreateReport(Selections);
-				if (response.data.ErrorsCount > 0) {
-					const errorsReturned = ErrorCheck(response);
-					console.log(errorsReturned);
-					props.Field.ErrorMsg = errorsReturned;
-				}
-				props.history.push('/SubmitResponsePage');
-			}
-			catch (ex) {
-				if (ex.response && ex.response.status === 400) {
-					console.log(ex.message);
-				}
-			}
-		}
-		catch (ex) {
-			console.log(ex.message);
-		}
+	const SubmitTheForm = (clickEvent) => {
+		 submitReport(clickEvent, props);
 	}
+
 	const callPreviousForm = () => {
 		if(localProps.requiresLocation === false){
 			props.history.push("/ServiceRequestForm");
@@ -90,7 +30,7 @@ const AdditionalInformation = props => {
 
 	return (
 		<FormContainer title={pageFieldName.map(name => name.AdditionalInfoTitle)} tabNames = {localProps.Tabs} currentTab = "AdditionalInformation" shouldDisableForm = {localProps.shouldDisableForm} requiresLocation = {localProps.requiresLocation}>
-			<form onSubmit={handleSubmit}>
+			<Form>
 				{(localProps.requiresLocation === false) ?
 					<div name="ContactInfo">
 						<p>
@@ -168,18 +108,18 @@ const AdditionalInformation = props => {
 						</p>
 						<label htmlFor="streetAddress"
 							className={
-								rest.formik.errors.streeAddress && rest.formik.touched.streeAddress ? "error-message" : "text-label"}
+								rest.formik.errors.streetAddress && rest.formik.touched.streetAddress ? "error-message" : "text-label"}
 						>{pageFieldName.map(name => name.StreetLabel)}</label>
 						<Field
 							type="text"
 							name="streetAddress"
-							className={`text-input ${rest.formik.errors.streeAddress && rest.formik.touched.streeAddress ? "error" : ""}`}
+							className={`text-input ${rest.formik.errors.streetAddress && rest.formik.touched.streetAddress ? "error" : ""}`}
 						/>
 						<div className="error">
 							<p role='alert' className="error-message">
 								<ErrorMsg
-									errormessage={rest.formik.errors.streeAddress}
-									touched={rest.formik.touched.streeAddress} />
+									errormessage={rest.formik.errors.streetAddress}
+									touched={rest.formik.touched.streetAddress} />
 							</p>
 						</div>
 						<label htmlFor="city"
@@ -223,9 +163,12 @@ const AdditionalInformation = props => {
 					</div>}
 				<div className = "cs-form-control" >
 					<input type="button" className="seButton" onClick={callPreviousForm} value="Previous" />
-					<input type="button" className="seButton pull-right" onClick={SubmitTheForm} value="File Your Report" />
+					{<ButtonDisplay
+						onClick={SubmitTheForm}
+						disabled={null}
+						buttonName = "File Your Report" />}
 				</div>
-			</form>
+			</Form>
 		</FormContainer>
 	);
 }

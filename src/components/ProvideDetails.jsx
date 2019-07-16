@@ -11,7 +11,10 @@ import AutoCompletTypeField from './AutocompleteTypeField';
 import { formIncomplete } from "./checkFormCompletion";
 import { returnMapEndPoint } from "./returnEnvironmentItems"
 import { VerifyAddress } from './authService';
-import { ErrorCheck } from "./CustomErrorHandling";
+import ButtonDisplay from "./buttonDisplay";
+import submitReport from "./submitReport";
+import { GetErrorsDetails } from "../utilities/CustomErrorHandling";
+
 Geocode.setApiKey('AIzaSyAqazsw3wPSSxOFVmij32C_LIhBSuyUNi8');
 
 
@@ -29,22 +32,23 @@ const provideDetails = props => {
 
 		const fetchData = async () => {
 			//	const encodeAddress = encodeURIComponent('400 wa')
-			const mapEndPoint = returnMapEndPoint("mapGISEndPoint");
-			
-			const result = await axios(
-				`${mapEndPoint}${query}`,
-			);
-			if (result.status === 200) {
-				setData(result.data);
-			}
-			else {
-				setData([]);
+			const mapEndPoint = returnMapEndPoint('mapGISEndPoint');
+			if (query !== 'undefined' && query.length > 0) {
+				const result = await axios(
+					`${mapEndPoint}${query}`,
+				);
+				if (result.status === 200) {
+					setData(result.data);
+				}
+				else {
+					setData([]);
+				}
 			}
 		};
+
 		props.formik.setFieldValue('currentTab', 'ProviderDetail');
-		if (props.formik.values.ContactID === null || formIncomplete(props.formik)) {
+		if (!props.formik.values.ContactID || formIncomplete(props.formik)) {
 			props.history.push('/ServiceRequestForm');
-			props.formik.setFieldValue("userNeedsToLoginError", "Please log in to continue");
 		}
 		fetchData();
 	},
@@ -146,14 +150,13 @@ const provideDetails = props => {
 
 	};
 
-
 	const goToAdditionalPage = async (values) => {
 
 		let fullAddress = rest.formik.values.location;
 		const addressResponse = await VerifyAddress(fullAddress);
 		if (addressResponse.data.HasErrors) {
 
-			const errorsReturned = ErrorCheck(addressResponse);
+			const errorsReturned = GetErrorsDetails(addressResponse);
 			rest.formik.setFieldValue('ShowErrorMsg', 1);
 			rest.formik.errors.location = errorsReturned;
 		}
@@ -167,20 +170,24 @@ const provideDetails = props => {
 		}
 	}
 
-	const goServiceRequestForm = async (values) => {
+	const goServiceRequestForm = (values) => {
 		props.history.push('/ServiceRequestForm');
 	}
 
-	const { values, isSubmitting, errors, touched, setFieldValue, ...rest } = props;
+	const { values, isSubmitting, errors, actions, touched, handleSubmit, setFieldValue, ...rest } = props;
 	const items = Address.map((item, index) => ({
 		id: item.Zip,
 		label: `${item.StreetAddress.toUpperCase()}, ${item.City.toUpperCase()}, ${item.Zip}`,
 	}));
 
+	const SubmitForm = (clickEvent) => {
+		submitReport(clickEvent, props);
+	}
+
 	return (
 
-		<FormContainer title={pageFieldName.map(name => name.DetailsTitle)} tabNames = {localProps.Tabs} currentTab="ProvideDetails" shouldDisableForm={localProps.shouldDisableForm} requiresLocation = {localProps.requiresLocation}>
-			<Form >
+		<FormContainer title={pageFieldName.map(name => name.DetailsTitle)} tabNames={localProps.Tabs} currentTab="ProvideDetails" shouldDisableForm={localProps.shouldDisableForm} requiresLocation={localProps.requiresLocation}>
+			<Form>
 				<Field
 					type="hidden"
 					name="Latitude"
@@ -262,7 +269,16 @@ const provideDetails = props => {
 				</div>
 				<div className="cs-form-control" >
 					<input type="button" className="seButton" onClick={goServiceRequestForm} value="Previous" />
-					<input type="button" className="seButton pull-right" onClick={goToAdditionalPage} disabled={displayButton} value="Next" />
+					{(!rest.formik.values.requestTypeAddressID) ?
+						<ButtonDisplay
+							onClick={SubmitForm}
+							disabled={displayButton}
+							buttonName ="File Your Report" />
+						:
+						<ButtonDisplay
+							onClick={goToAdditionalPage}
+							disabled={displayButton}
+							buttonName ="Next" />}
 				</div>
 			</Form>
 		</FormContainer>

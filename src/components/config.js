@@ -114,8 +114,7 @@ export const mapEndPointDevelopment = [
 ];
 
 export const mapEndPointTest = [
-	//{ key: "mapGISEndPoint", value: "https://testservices.baltimorecountymd.gov/api/gis/addressLookup/" }, --value for test but not until HostFile is updated
-	{ key: 'mapGISEndPoint', value: 'https://services.baltimorecountymd.gov/api/gis/addressLookup/' },
+	{ key: "mapGISEndPoint", value: "https://testservices.baltimorecountymd.gov/api/gis/addressLookup/" },
 	{
 		key: 'mapReverseGISEndPoint',
 		value:

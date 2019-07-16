@@ -2,24 +2,24 @@ import React, { useState, useEffect } from "react";
 import { Form, Field, connect } from "formik";
 import axios from "axios"
 import ErrorMsg from "./ErrorMessage";
-import { ErrorCheck } from "./CustomErrorHandling";
+import { GetErrorsDetails } from "../utilities/CustomErrorHandling";
 import FormContainer from './FormContainer';
 import RequestTypeField from "./RequestTypeField";
 import RequestSubTypeField from "./RequestSubTypeField";
-import RequestPetTypeField from "./RequestPetTypeField";
 import QueryString from 'query-string';
 import GenericTypeField from "./genericTypeField";
 import Model from './Modal';
 import { Link } from 'react-router-dom';
 import WaterAndSewerIssue from "./waterAndSewerIssue";
 import TrashAndRecycle from "./trashAndRecycle";
-import { GetContactAddress, GetContactDetails } from './authService';
+import { GetContactDetails } from './authService';
 import RoadsAndSidewalks from "./roadsAndSidewalks";
 import { formIncomplete } from "./checkFormCompletion";
-import { returnJsonFileLocations, returnRequestTypes } from "./returnEnvironmentItems"
+import { returnJsonFileLocations, returnRequestTypes } from "./returnEnvironmentItems";
+import PetType from "./petType";
 
+//TODO: Capture ID from URl string and pre-populate drop down
 const { categoryId } = QueryString.parse(window.location.search);
-//const contactID = 914151;
 
 const getSubCategories = (categories, categoryName) => {
 	var category = categories.find(category => category.name.toLowerCase() === categoryName);
@@ -71,7 +71,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 	const [animalSubCategories, setAnimalSubCategories] = useState([]);
 	const [animalSex, setAnimalSex] = useState([]);
 	const { ContactID } = localProps.values;
-	const contactID =  (ContactID === "") ? sessionStorage.getItem("UserLoginID") : ContactID; 
+	const contactID =  (ContactID === "") ? sessionStorage.getItem("UserLoginID") : ContactID;
 	//
 
 	try {
@@ -109,11 +109,11 @@ const ServiceRequestForm = (props, errors, touched) => {
 				localProps.setFieldValue('SignInPage', resultFormFieldNames.data.SignInPage);
 				localProps.setFieldValue('SignUpPage', resultFormFieldNames.data.SignUpPage);
 				localProps.setFieldValue('ResetPasswordPage', resultFormFieldNames.data.ResetPasswordPage);
-				
+
 				localProps.setFieldValue('ContactID', contactID);
 
 
-				if (contactID !== null) {
+				if (contactID) {
 
 					getContactDetails();
 				}
@@ -123,8 +123,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 		}, []);
 	}
 	catch (ex) {
-
-		console.log(ex);
+		console.error('service request form data', ex);
 	}
 
 	const handleServiceRequestChange = (changeEvent) => {
@@ -161,7 +160,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 		const subInfo = getSubCategoriesIncludedDescription(subCategories, value ? value : value);
 		let ID = getID(subCategories, value);
 		const isDisabled = getshouldDisableForm(subCategories, value);
-		
+
 		const notes = getNote(subCategories, value);
 		setNotes(<div className="alert-information bc_alert" >
 			<i className="fa fa-icon fa-2x fa-info-circle"></i>
@@ -170,7 +169,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 		localProps.setFieldValue('subRequestTypeID', ID);
 		localProps.setFieldValue('shouldDisableForm', (isDisabled === undefined) ? false : isDisabled);
-		
+
 
 		if (subInfo !== undefined) {
 			if (subInfo.description !== undefined) {
@@ -257,7 +256,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 			const getResponse = await GetContactDetails(contactID);
 
 			if (getResponse.data.HasErrors) {
-				const errorsReturned = ErrorCheck(getResponse);
+				const errorsReturned = GetErrorsDetails(getResponse);
 				throw new Error(errorsReturned);
 			}
 			else {
@@ -273,35 +272,17 @@ const ServiceRequestForm = (props, errors, touched) => {
 			}
 		}
 		catch (ex) {
+			
 		}
 
 	}
-	const goToNextPage = async () => {
-		try {
-			const getAddressResponse = await GetContactAddress(contactID);
+	const goToNextPage = () => {
 
-			if (getAddressResponse.data.HasErrors) {
-				const errorsReturned = ErrorCheck(getAddressResponse);
-				throw new Error(errorsReturned);
-			}
-			else {
-				const addressParts = getAddressResponse.data.Results[0].FormattedAddress.split(',');
-				localProps.setFieldValue('requestTypeAddress', addressParts[0]);
-				localProps.setFieldValue('requestTypeCity', addressParts[1]);
-				localProps.setFieldValue('requestTypeZip', addressParts[3]);
-				localProps.setFieldValue('streetAddress', addressParts[0]);
-				localProps.setFieldValue('city', addressParts[1]);
-				localProps.setFieldValue('zipCode', addressParts[3]);
-				if(localProps.values.requiresLocation){
-					props.history.push('/ProvideDetails');
-				}
-				else{
-					props.history.push('/AdditionalInformationForm');
-				}
-				
-			}
+		if(localProps.values.requiresLocation){
+			props.history.push('/ProvideDetails');
 		}
-		catch (ex) {
+		else{
+			props.history.push('/AdditionalInformationForm');
 		}
 	}
 
@@ -339,11 +320,10 @@ const ServiceRequestForm = (props, errors, touched) => {
 	loadSelectedItems(props);
 	let disableButton = buttonDisableValidation();
 	let displayButton = buttonShowHideValidation();
-	
-	//{localProps.RequestPage.RequestTitle}
+
 	return (
 
-		<FormContainer title = {pageFieldName.map(name => name.RequestTitle)} tabNames = {localProps.values.Tabs} currentTab = "ServiceRequestForm" shouldDisableForm = {localProps.values.shouldDisableForm} requiresLocation= {localProps.values.requiresLocation}>
+		<FormContainer title={pageFieldName.map(name => name.RequestTitle)} tabNames={localProps.values.Tabs} currentTab="ServiceRequestForm" shouldDisableForm={localProps.values.shouldDisableForm} requiresLocation={localProps.values.requiresLocation}>
 			<Form>
 				<div className={
 					localProps.errors.requestType && localProps.touched.requestType ? "cs-form-control error" : "cs-form-control"}>
@@ -436,32 +416,17 @@ const ServiceRequestForm = (props, errors, touched) => {
 						&& localProps.values['subRequestType'].toLowerCase() === (returnRequestTypes("subCategory_OtherWebsiteProblem")).toLowerCase()) ? notes
 						: null
 				}
-				{
-					localProps.values['requestType'] === returnRequestTypes("requestType_petAndAnimalIssue") && localProps.values['subRequestType'] !== '' ?
-						<div className={
-							localProps.errors.petType && localProps.touched.petType ? "cs-form-control error" : "cs-form-control"}>
-							<label htmlFor="petType">{pageFieldName.map(name => name.PetType)}</label>
-							<RequestPetTypeField
-								component="select"
-								name="petType"
-								formikProps={rest}
-								onChange={handleServicePetChange}
-								//value={localProps.values.name}
-								className={localProps.errors.petType && localProps.touched.petType ? "text-select error" : null}
-							>
-								<option key='default' value=''>--Please select a pet type--</option>
-								{PetTypes.map(petType => (
-									<option key={petType.id} value={petType.name}>{petType.name}</option>
-								))}
-							</RequestPetTypeField>
-							<p role='alert' className="error-message">
-								{<ErrorMsg
-									errormessage={localProps.errors.petType}
-									touched={localProps.touched.petType} />}
-							</p>
-						</div>
-						: null
-				}
+				<PetType
+					requestType={localProps.values['requestType']}
+					requestType_petAndAnimalIssue={returnRequestTypes("requestType_petAndAnimalIssue")}
+					subRequestType={localProps.values['subRequestType']}
+					errorsPetType={localProps.errors.petType}
+					touchedPetType={localProps.touched.petType}
+					pageFieldName={pageFieldName}
+					handleServicePetChange={handleServicePetChange}
+					rest={rest}
+					PetTypes={PetTypes} />
+
 				{
 					(localProps.values['subRequestType'] !== '' && localProps.values['petType'] === returnRequestTypes("petType_Others")) ?
 						<div className={
@@ -580,7 +545,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 					<div className={
 						localProps.errors.serviceDescription && localProps.touched.serviceDescription ? "cs-form-control error" : "cs-form-control"}>
 						<label htmlFor="serviceDescription">{pageFieldName.map(name => name.Description)}</label>
-						<Field 
+						<Field
 							component="textarea"
 							placeholder="Maximum 2,000 characters."
 							name="serviceDescription"
@@ -618,9 +583,9 @@ const ServiceRequestForm = (props, errors, touched) => {
 							<input type="button" className="seButton" onClick={callSignInForm} disabled={disableButton} value="Sign In" />
 							<input type="button" className="seButton pull-right" onClick={callRegisterForm} disabled={disableButton} value="Register" />
 							<Model />
-						</div>) : 
+						</div>) :
 						<div className = "cs-form-control">
-							<p name="userLoggedIn">{pageFieldName.map(name => name.AlreadySignedInLabel)} {sessionStorage.getItem("NameFirst")} {sessionStorage.getItem("NameLast")}</p> 
+							<p name="userLoggedIn">{pageFieldName.map(name => name.AlreadySignedInLabel)} {sessionStorage.getItem("NameFirst")} {sessionStorage.getItem("NameLast")}</p>
 							<p name="notCorrectUser"><Link to="SignInForm">Not {sessionStorage.getItem("NameFirst")}? Log in to a different account. &nbsp; </Link></p>
 							<input type="button" className="seButton pull-right" onClick={goToNextPage} disabled={disableButton} value="Next" />
 						</div> : ""}

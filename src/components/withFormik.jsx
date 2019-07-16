@@ -14,9 +14,6 @@ export default withFormik({
 		requestTypeAddressID: '',
 		requestTypeCityID: '',
 		requestTypeZipID: '',
-		requestTypeAddress: '',
-		requestTypeCity: '',
-		requestTypeZip: '',
 		requestTypeID: '',
 		requestType: '',
 		subRequestTypeID: '',
@@ -56,7 +53,6 @@ export default withFormik({
 		zipCode: '',
 		shouldDisableForm: false,
 		requiresLocation: true,
-		userNeedsToLoginError: '',
 		Tabs: [''],
 		RequestPage: [''],
 		MapPage: [''],
@@ -79,6 +75,8 @@ export default withFormik({
 		}),
 
 	handleSubmit: values => {
+	
 		console.log(values);
+
 	},
 }); 
