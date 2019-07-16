@@ -30,12 +30,10 @@ const provideDetails = props => {
 		const fetchData = async () => {
 			//	const encodeAddress = encodeURIComponent('400 wa')
 			const mapEndPoint = returnMapEndPoint('mapGISEndPoint');
-			console.log(query);
 			if (query !== 'undefined' && query.length > 0) {
 				const result = await axios(
 					`${mapEndPoint}${query}`,
 				);
-				console.log(result);
 				if (result.status === 200) {
 					setData(result.data);
 				}

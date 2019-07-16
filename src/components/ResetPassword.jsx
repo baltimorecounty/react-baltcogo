@@ -16,7 +16,6 @@ const PasswordReset = (props, routeProps) => {
 			const response = await ResetPassword(values.Email);
 			if (response.data.ErrorsCount > 0) {
 				const errorsReturned = GetErrorsDetails(response);
-				console.log(errorsReturned);
 				props.Field.ErrorMsg = errorsReturned;
 			}
 			else {

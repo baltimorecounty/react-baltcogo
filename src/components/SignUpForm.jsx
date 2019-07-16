@@ -26,12 +26,10 @@ const CreateAccount = (props, routeProps) => {
 
 			if (response.data.HasErrors) {
 				const errorsReturned = GetErrorsDetails(response);
-				//console.log(errorsReturned);
 				actions.setStatus({
 					success2: errorsReturned,
 					css: 'email'
 				})
-				//props.Field.ErrorMsg = errorsReturned;
 				throw new Error(errorsReturned);
 			}
 			else {
@@ -98,12 +96,7 @@ const CreateAccount = (props, routeProps) => {
 
 				})}
 				onSubmit={async (values, actions, setSubmitting) => {
-					//const returnval = window.formatPhoneNumber(values.Telephone);
-					//console.log('----------returnval--------');
-					//console.log(returnval);
-					//	console.log('----------------------');
 					await userCreateAccount(values, actions, props);
-
 					actions.setSubmitting(false);
 				}}
 			>

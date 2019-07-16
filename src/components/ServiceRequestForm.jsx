@@ -124,8 +124,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 		}, []);
 	}
 	catch (ex) {
-
-		console.log(ex);
+		console.error('service request form data', ex);
 	}
 
 	const handleServiceRequestChange = (changeEvent) => {
