@@ -14,6 +14,15 @@ const SubmitResponse = (props) => {
 	} = props.history.location.state || {};
 	const isFormSubmissionSuccessful = !HasResponseErrors(response);
 
+	const gotoServicePage = () => {
+		props.history.push('/ServiceRequestForm');
+	}
+
+	const logout = () => {
+		sessionStorage.clear();
+		props.history.push('/Logout');
+	}
+
 	return (
 		<FormContainer
 			title=""
@@ -39,6 +48,10 @@ const SubmitResponse = (props) => {
 											www.baltimorecountymd.gov/followup
 										</a>.
 									</p>
+									<div className="cs-form-control">
+										<input type="button" className="seButton" onClick={gotoServicePage}  value="Create New Report" />
+										<input type="button" className="seButton pull-right" onClick={logout}  value="Logout" />
+									</div>
 								</div>
 							) : (
 								<div role="alert" className="bc-citysourced-reporter-alert alert-warning">
@@ -47,8 +60,12 @@ const SubmitResponse = (props) => {
 										We're sorry, we encountered a problem processing your submission. We are working
 										to resolve this issue as quickly as possible.
 									</p>
+									<div className="cs-form-control">
+										<input type="button" className="seButton pull-right" onClick={gotoServicePage}  value="Return Home" />
+									</div>
 								</div>
 							)}
+							
 						</Form>
 					);
 				}}

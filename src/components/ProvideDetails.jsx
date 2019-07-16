@@ -9,7 +9,7 @@ import axios from "axios"
 import _ from 'lodash';
 import AutoCompletTypeField from './AutocompleteTypeField';
 import { formIncomplete } from "./checkFormCompletion";
-import { returnMapEndPoint } from "./returnEnvironmentItems"
+import { returnMapEndPoint } from "../utilities//returnEnvironmentItems"
 import { VerifyAddress } from './authService';
 import ButtonDisplay from "./buttonDisplay";
 import submitReport from "./submitReport";

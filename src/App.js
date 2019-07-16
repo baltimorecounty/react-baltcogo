@@ -11,7 +11,7 @@ import DisplayFormikState from './components/helper';
 import ProvideDetails from './components/ProvideDetails';
 import GetReport from './components/GetReport';
 import SubmitResponsePage from './components/SubmitResponsePage';
-import checkEnvironment from './components/returnEnvironmentItems'
+import checkEnvironment from './utilities/returnEnvironmentItems'
 
 function App(props) {
 	var Domain = checkEnvironment();
@@ -30,6 +30,10 @@ function App(props) {
 				<Route path='/AdditionalInformationForm' component={AdditionalInformationForm} />
 				<Route path='/ProvideDetails' component={ProvideDetails} />
 				<Route path='/GetReport' component={GetReport} />
+				<Route path='/Logout' component={() => { 
+					window.location.href = 'www.baltimorecountymd.gov'; 
+					return null;
+				}}/>
 				
 				<Route path='/' component={ServiceRequestForm} />
 			</Switch>
