@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Form, Field, connect } from "formik";
 import axios from "axios"
-import ErrorMsg from "./ErrorMessage";
 import { GetErrorsDetails } from "../utilities/CustomErrorHandling";
 import FormContainer from './FormContainer';
-import RequestTypeField from "./RequestTypeField";
-import RequestSubTypeField from "./RequestSubTypeField";
 import QueryString from 'query-string';
-import GenericTypeField from "./genericTypeField";
 import Model from './Modal';
 import { Link } from 'react-router-dom';
 import WaterAndSewerIssue from "./waterAndSewerIssue";
@@ -17,6 +13,13 @@ import RoadsAndSidewalks from "./roadsAndSidewalks";
 import { formIncomplete } from "./checkFormCompletion";
 import { returnJsonFileLocations, returnRequestTypes } from "./returnEnvironmentItems";
 import PetType from "./petType";
+import RequestCategory from "./requestCategory";
+import RequestSubCategory from "./requestSubCategory";
+import OtherAnimalsTypes from "./otherAnimalTypes";
+import SexType from './sexType';
+import AnimalColorType from './animalColorType';
+import AnimalBreedType from './animalBreedType';
+import ServiceDescription from './serviceDescription';
 
 //TODO: Capture ID from URl string and pre-populate drop down
 const { categoryId } = QueryString.parse(window.location.search);
@@ -138,12 +141,13 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 		const description = getIncludedDescriptions(Categories, value ? value : value);
 		const fields = getIncludedFields(Categories, value ? value : value);
-
 		const requiresLocation = getrequiresLocation(Categories, value ? value : value);
 		localProps.setFieldValue('requestTypeDescriptionID', description);
 		localProps.setFieldValue('requiresLocation', (requiresLocation === undefined) ? true : requiresLocation);
 
+
 		pullServiceRequestFields(fields);
+
 	};
 
 	const pullServiceRequestFields = (fields) => {
@@ -325,85 +329,58 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 		<FormContainer title={pageFieldName.map(name => name.RequestTitle)} tabNames={localProps.values.Tabs} currentTab="ServiceRequestForm" shouldDisableForm={localProps.values.shouldDisableForm} requiresLocation={localProps.values.requiresLocation}>
 			<Form>
-				<div className={
-					localProps.errors.requestType && localProps.touched.requestType ? "cs-form-control error" : "cs-form-control"}>
-					<label htmlFor="requestType">{pageFieldName.map(name => name.CategoryLabel)}</label>
-					<RequestTypeField
-						component="select"
-						name="requestType"
-						formikProps={rest}
-						onChange={handleServiceRequestChange}
-						value={localProps.values.requestType}
-					>
-						<option key='default' value=''>--Please select a category--</option>
-						{Categories.map(category => (
-							<option key={category.id} value={category.name}>{category.name}</option>
-						))}
-					</RequestTypeField>
-					<p role='alert' className="error-message">
-						<ErrorMsg
-							errormessage={localProps.errors.requestType}
-							touched={localProps.touched.requestType} />
-					</p>
-				</div>
-				{
-					localProps.values['requestType'] !== '' ?
-						<div className={
-							localProps.errors.subRequestType && localProps.touched.subRequestType ? "cs-form-control error" : "cs-form-control"}>
-							<label name="subRequestType" htmlFor="subRequestType">{pageFieldName.map(name => name.SubCategoryLabel)}</label>
-							<RequestSubTypeField
-								component="select"
-								name="subRequestType"
-								formikProps={rest}
-								onChange={handleServiceSubRequestChange}
-								value={localProps.values.subRequestType}
-							>
-								<option key='default' value=''>--Please select a sub-category--</option>
-								{subCategories.map(category => (
-									<option key={category.id} value={category.name}>{category.name}</option>
-								))}
 
-							</RequestSubTypeField>
+				<RequestCategory
+					requestType={localProps.values.requestType}
+					errorsRequestType={localProps.errors.requestType}
+					touchedRequestType={localProps.touched.requestType}
+					pageFieldName={pageFieldName}
+					handleServiceRequestChange={handleServiceRequestChange}
+					rest={rest}
+					Categories={Categories} />
 
-							<p role='alert' className="error-message">
-								<ErrorMsg
-									errormessage={localProps.errors.subRequestType}
-									touched={localProps.touched.subRequestType} />
-							</p>
-						</div> : null
-				}
-				{
-					<WaterAndSewerIssue
-						requestType={localProps.values['requestType'].toLowerCase()}
-						subRequestType={localProps.values['subRequestType'].toLowerCase()}
-						WaterandSewerIssues={returnRequestTypes("requestType_WaterandSewerIssues")}
-						SewerIssues={returnRequestTypes("subCategory_SewerIssues")}
-						StormWaterIssues={returnRequestTypes("subCategory_StormWaterIssues")}
-						WaterSupplyIssues={returnRequestTypes("subCategory_WaterSupplyIssues")}
-						notes={notes} />
-				}
-				{
-					<RoadsAndSidewalks
-						requestType={localProps.values['requestType'].toLowerCase()}
-						subRequestType={localProps.values['subRequestType'].toLowerCase()}
-						RoadsAndSidewalks={returnRequestTypes("requestType_RoadsAndSidewalks")}
-						IcyConditions={returnRequestTypes("subCategory_IcyConditions")}
-						notes={notes} />
-				}
-				{
-					<TrashAndRecycle
-						requestType={localProps.values['requestType'].toLowerCase()}
-						subRequestType={localProps.values['subRequestType'].toLowerCase()}
-						TrashRecycleIssue={(returnRequestTypes("requestType_TrashRecycleIssue")).toLowerCase()}
-						CanOrLidLostDamaged={returnRequestTypes("subCategory_CanOrLidLostDamaged")}
-						PropertyDamangeDuringCollection={returnRequestTypes("subCategory_PropertyDamangeDuringCollection")}
-						RecyclingNotCollected={returnRequestTypes("subCategory_RecyclingNotCollected")}
-						RequestToStartNewCollection={returnRequestTypes("subCategory_RequestToStartNewCollection")}
-						TrashNotCollected={returnRequestTypes("subCategory_TrashNotCollected")}
-						YardWasteNotCollected={returnRequestTypes("subCategory_YardWasteNotCollected")}
-						notes={notes}
-					/>
-				}
+				<RequestSubCategory
+					requestType={localProps.values['requestType']}
+					subRequestType={localProps.values.subRequestType}
+					errorsSubRequestType={localProps.errors.subRequestType}
+					touchedSubRequestType={localProps.touched.subRequestType}
+					pageFieldName={pageFieldName}
+					handleServiceSubRequestChange={handleServiceSubRequestChange}
+					rest={rest}
+					subCategories={subCategories} />
+
+
+				<WaterAndSewerIssue
+					requestType={localProps.values['requestType'].toLowerCase()}
+					subRequestType={localProps.values['subRequestType'].toLowerCase()}
+					WaterandSewerIssues={returnRequestTypes("requestType_WaterandSewerIssues")}
+					SewerIssues={returnRequestTypes("subCategory_SewerIssues")}
+					StormWaterIssues={returnRequestTypes("subCategory_StormWaterIssues")}
+					WaterSupplyIssues={returnRequestTypes("subCategory_WaterSupplyIssues")}
+					notes={notes} />
+
+
+				<RoadsAndSidewalks
+					requestType={localProps.values['requestType'].toLowerCase()}
+					subRequestType={localProps.values['subRequestType'].toLowerCase()}
+					RoadsAndSidewalks={returnRequestTypes("requestType_RoadsAndSidewalks")}
+					IcyConditions={returnRequestTypes("subCategory_IcyConditions")}
+					notes={notes} />
+
+
+				<TrashAndRecycle
+					requestType={localProps.values['requestType'].toLowerCase()}
+					subRequestType={localProps.values['subRequestType'].toLowerCase()}
+					TrashRecycleIssue={(returnRequestTypes("requestType_TrashRecycleIssue")).toLowerCase()}
+					CanOrLidLostDamaged={returnRequestTypes("subCategory_CanOrLidLostDamaged")}
+					PropertyDamangeDuringCollection={returnRequestTypes("subCategory_PropertyDamangeDuringCollection")}
+					RecyclingNotCollected={returnRequestTypes("subCategory_RecyclingNotCollected")}
+					RequestToStartNewCollection={returnRequestTypes("subCategory_RequestToStartNewCollection")}
+					TrashNotCollected={returnRequestTypes("subCategory_TrashNotCollected")}
+					YardWasteNotCollected={returnRequestTypes("subCategory_YardWasteNotCollected")}
+					notes={notes}
+				/>
+
 				{/* Pets and Animal Issue - Other animal complaint */
 
 					(localProps.values['requestType'].toLowerCase() === (returnRequestTypes("requestType_petAndAnimalIssue")).toLowerCase()
@@ -427,139 +404,63 @@ const ServiceRequestForm = (props, errors, touched) => {
 					rest={rest}
 					PetTypes={PetTypes} />
 
-				{
-					(localProps.values['subRequestType'] !== '' && localProps.values['petType'] === returnRequestTypes("petType_Others")) ?
-						<div className={
-							localProps.errors.otherAnimalTypes && localProps.touched.otherAnimalTypes ? "cs-form-control error" : "cs-form-control"}>
-							<label htmlFor="otherAnimalTypes">{pageFieldName.map(name => name.PetTypeOther)}</label>
-							<GenericTypeField
-								component="select"
-								name="otherAnimalTypes"
-								formikProps={rest}
-								onChange={handleOtherPetTypeChange}
-								//	value={localProps.values.name}
-								className={localProps.errors.otherAnimalTypes && localProps.touched.otherAnimalTypes ? "text-select error" : null}
-							>
-								<option key='default' value=''>--Please select an "other" pet type--</option>
-								{OtherAnimalTypes.map(OtherAnimalType => (
-									<option key={OtherAnimalType.id} value={OtherAnimalType.name}>{OtherAnimalType.name}</option>
-								))}
+				<OtherAnimalsTypes
+					subRequestType={localProps.values['subRequestType']}
+					petType={localProps.values['petType']}
+					returnRequestTypes={returnRequestTypes("petType_Others")}
+					errorsOtherAnimalTypes={localProps.errors.otherAnimalTypes}
+					touchedOtherAnimalTypes={localProps.touched.otherAnimalTypes}
+					pageFieldName={pageFieldName}
+					rest={rest}
+					handleOtherPetTypeChange={handleOtherPetTypeChange}
+					OtherAnimalTypes={OtherAnimalTypes} />
 
-							</GenericTypeField>
+				<SexType
+					requestType={localProps.values['requestType']}
+					returnRequestTypes={returnRequestTypes("requestType_petAndAnimalIssue")}
+					subRequestType={localProps.values['subRequestType']}
+					checkPetType={checkPetType(localProps.values['petType'])}
+					errorsSexType={localProps.errors.sexType}
+					touchedSexType={localProps.touched.sexType}
+					pageFieldName={pageFieldName}
+					rest={rest}
+					handlePetSexChange={handlePetSexChange}
+					animalSex={animalSex}
+				/>
+				<AnimalColorType
+					requestType={localProps.values['requestType']}
+					requestType_petAndAnimalIssue={returnRequestTypes("requestType_petAndAnimalIssue")}
+					subRequestType={localProps.values['subRequestType']}
+					petType={localProps.values['petType']}
+					petTypeCat={returnRequestTypes("petTypeCat")}
+					petTypeDog={returnRequestTypes("petTypeDog")}
+					errorsAnimalColorType={localProps.errors.animalColorType}
+					touchedAnimalColorType={localProps.touched.animalColorType}
+					pageFieldName={pageFieldName}
+					handleAnimalColorChange={handleAnimalColorChange}
+					rest={rest}
+					AnimalColors={AnimalColors} />
 
-							<p role='alert' className="error-message">
-								{<ErrorMsg
-									errormessage={localProps.errors.otherAnimalTypes}
-									touched={localProps.touched.otherAnimalTypes} />}
-							</p>
-						</div>
-						: null
-				}
-				{
-					(localProps.values['requestType'] === returnRequestTypes("requestType_petAndAnimalIssue") && localProps.values['subRequestType'] !== '') && checkPetType(localProps.values['petType']) ?
-						<div className={
-							localProps.errors.sexType && localProps.touched.sexType ? "cs-form-control error" : "cs-form-control"}>
-							<label htmlFor="sexType">{pageFieldName.map(name => name.PetSex)}</label>
-							<GenericTypeField
-								component="select"
-								name="sexType"
-								formikProps={rest}
-								onChange={handlePetSexChange}
-								//value={localProps.values.name}
-								className={localProps.errors.sexType && localProps.touched.sexType ? "text-select error" : null}
-							>
-								<option key='default' value=''>--Please select a pet sex--</option>
-								{animalSex.map(petSex => (
-									<option key={petSex.id} value={petSex.name}>{petSex.name}</option>
-								))}
-							</GenericTypeField>
+				<AnimalBreedType
+					requestType={localProps.values['requestType']}
+					requestType_petAndAnimalIssue={returnRequestTypes("requestType_petAndAnimalIssue")}
+					subRequestType={localProps.values['subRequestType']}
+					petType={localProps.values['petType']}
+					petTypeCat={returnRequestTypes("petTypeCat")}
+					petTypeDog={returnRequestTypes("petTypeDog")}
+					errorsAnimalBreedType={localProps.errors.animalBreedType}
+					touchedAnimalBreedType={localProps.touched.animalBreedType}
+					pageFieldName={pageFieldName}
+					handleAnimalBreedChange={handleAnimalBreedChange}
+					rest={rest}
+					animalSubCategories={animalSubCategories} />
 
-							<p role='alert' className="error-message">
-								{<ErrorMsg
-									errormessage={localProps.errors.sexType}
-									touched={localProps.touched.sexType} />}
-							</p>
-						</div>
-						: null
-				}
-				{
-					(localProps.values['requestType'] === returnRequestTypes("requestType_petAndAnimalIssue")
-						&& localProps.values['subRequestType'] !== ''
-						&& (localProps.values['petType'] === returnRequestTypes("petTypeCat") || localProps.values['petType'] === returnRequestTypes("petTypeDog"))) ?
-						<div className={
-							localProps.errors.animalColorType && localProps.touched.animalColorType ? "cs-form-control error" : "cs-form-control"}>
-							<label htmlFor="animalColorType">{pageFieldName.map(name => name.PetColor)}</label>
-							<GenericTypeField
-								component="select"
-								name="animalColorType"
-								formikProps={rest}
-								onChange={handleAnimalColorChange}
-								//value={localProps.values.name}
-								className={localProps.errors.animalColorType && localProps.touched.animalColorType ? "text-select error" : null}
-							>
-								<option key='default' value=''>--Please select the primary color of the animal--</option>
+				< ServiceDescription
+					requestType={localProps.values['requestType'].toLowerCase()}
+					errorsServiceDescription={localProps.errors.serviceDescription}
+					touchedServiceDescription={localProps.touched.serviceDescription}
+					pageFieldName={pageFieldName} />
 
-								{AnimalColors.map(animalColorType => (
-									<option key={animalColorType.id} value={animalColorType.name}>{animalColorType.name}</option>
-								))}
-
-							</GenericTypeField>
-							<p role='alert' className="error-message">
-								{<ErrorMsg
-									errormessage={localProps.errors.animalColorType}
-									touched={localProps.touched.animalColorType} />}
-							</p>
-						</div>
-						: null
-
-				}
-				{
-					((localProps.values['requestType'] === returnRequestTypes("requestType_petAndAnimalIssue") && localProps.values['subRequestType'] !== '')
-						&& (localProps.values['petType'] === returnRequestTypes("petTypeCat") || localProps.values['petType'] === returnRequestTypes("petTypeDog"))) ?
-						<div className={
-							localProps.errors.animalBreedType && localProps.touched.animalBreedType ? "cs-form-control error" : "cs-form-control"}>
-							<label htmlFor="animalBreed">{pageFieldName.map(name => name.PetBreed)}</label>
-							<GenericTypeField
-								component="select"
-								name="animalBreedType"
-								formikProps={rest}
-								onChange={handleAnimalBreedChange}
-								//value={localProps.values.animalBreedType}
-								className={localProps.errors.animalBreedType && localProps.touched.animalBreedType ? "text-select error" : null}
-							>
-								<option key='default' value=''>--Please select the primary breed of the animal--</option>
-								{animalSubCategories.map(animalBreedType => (
-									<option key={animalBreedType.id} value={animalBreedType.name}>{animalBreedType.name}</option>
-								))}
-							</GenericTypeField>
-							<p role='alert' className="error-message">
-								{<ErrorMsg
-									errormessage={localProps.errors.animalBreedType}
-									touched={localProps.touched.animalBreedType} />}
-
-							</p>
-						</div>
-						: null
-				}
-				{(localProps.values['requestType'].toLowerCase() === 'website issue') ?
-					<div className={
-						localProps.errors.serviceDescription && localProps.touched.serviceDescription ? "cs-form-control error" : "cs-form-control"}>
-						<label htmlFor="serviceDescription">{pageFieldName.map(name => name.Description)}</label>
-						<Field
-							component="textarea"
-							placeholder="Maximum 2,000 characters."
-							name="serviceDescription"
-							className={localProps.errors.serviceDescription && localProps.touched.serviceDescription ? "text-select error" : null}
-						/>
-
-						<p role='alert' className="error-message">
-							{<ErrorMsg
-								errormessage={localProps.errors.serviceDescription}
-								touched={localProps.touched.serviceDescription} />}
-						</p>
-					</div> : null
-
-				}
 				<Field type="hidden" name="requestTypeID" />
 				<Field type="hidden" name="requestTypeDescriptionID" />
 				<Field type="hidden" name="requestTypeAddressID" />
