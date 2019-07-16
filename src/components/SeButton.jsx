@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 const SeButton = (props) => {
@@ -17,6 +18,13 @@ const SeButton = (props) => {
 			</button>
 		</React.Fragment>
 	);
+};
+
+SeButton.propTypes = {
+	text: PropTypes.string.isRequired,
+	type: PropTypes.string,
+	isLoading: PropTypes.bool,
+	isLoadingText: PropTypes.string
 };
 
 export default SeButton;
