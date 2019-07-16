@@ -5,7 +5,6 @@ import { HasResponseErrors } from '../utilities/CitysourcedResponseHelpers';
 import ButtonDisplay from "./buttonDisplay";
 
 const SubmitResponse = (props) => {
-	console.log(props);
 	const {
 		Tabs,
 		shouldDisableForm,
