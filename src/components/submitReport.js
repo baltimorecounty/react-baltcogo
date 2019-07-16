@@ -48,7 +48,7 @@ export const returnModel = (props, streetAddress, city, zipCode) => {
 };
 
 
-export const submitReport = async (actions, props ) => {
+export const submitReport = async (actions, props) => {
 
 	const streetAddress = props.formik.values.streetAddress;
 	const city = props.formik.values.city;
@@ -57,29 +57,26 @@ export const submitReport = async (actions, props ) => {
 	
 	try {
 		var fullAddress = streetAddress + ' ' + city + ',MD ' + zipCode;
-		if(streetAddress){
-			const addressResponse = await VerifyAddress(fullAddress);
-			if (addressResponse.data.HasErrors) {
-				const errorsReturned = GetErrorsDetails(addressResponse);
-				actions.setStatus({
-					success1: errorsReturned,
-					css: 'address'
-				})
-				throw new Error(errorsReturned);}
-			else {
-				try {
-					const response = await CreateReport(itemsToSubmit);
-					if (response.data.ErrorsCount > 0) {
-						const errorsReturned = GetErrorsDetails(response);
-						console.log(errorsReturned);
-						props.Field.ErrorMsg = errorsReturned;
-					}
-					props.history.push('/SubmitResponsePage');
+		const addressResponse = await VerifyAddress(fullAddress)
+		if (addressResponse.data.HasErrors && (streetAddress)) {
+			const errorsReturned = GetErrorsDetails(addressResponse);
+			actions.setStatus({
+				success1: errorsReturned,
+				css: 'address'
+			})
+			throw new Error(errorsReturned);}
+		else {
+			try {
+				const response = await CreateReport(itemsToSubmit);
+				if (response.data.ErrorsCount > 0) {
+					const errorsReturned = GetErrorsDetails(response);
+					props.Field.ErrorMsg = errorsReturned;
+					throw new Error(errorsReturned);
 				}
-				catch (ex) {
-					if (ex.response && ex.response.status === 400) {
-						console.log(ex.message);}
-				}
+				props.history.push('/SubmitResponsePage');
+			}
+			catch (ex) {
+				console.log(ex.message);
 			}
 		}
 	}
