@@ -33,12 +33,10 @@ const provideDetails = props => {
 		const fetchData = async () => {
 			//	const encodeAddress = encodeURIComponent('400 wa')
 			const mapEndPoint = returnMapEndPoint('mapGISEndPoint');
-			console.log(query);
 			if (query !== 'undefined' && query.length > 0) {
 				const result = await axios(
 					`${mapEndPoint}${query}`,
 				);
-				//console.log(result);
 				if (result.status === 200) {
 					setData(result.data);
 				}
@@ -271,12 +269,12 @@ const provideDetails = props => {
 				</div>
 				<div className="cs-form-control" >
 					<input type="button" className="seButton" onClick={goServiceRequestForm} value="Previous" />
-					{(!rest.formik.values.requestTypeAddressID) ? 
+					{(!rest.formik.values.requestTypeAddressID) ?
 						<ButtonDisplay
 							onClick={SubmitForm}
 							disabled={displayButton}
 							buttonName ="File Your Report" />
-						: 
+						:
 						<ButtonDisplay
 							onClick={goToAdditionalPage}
 							disabled={displayButton}
