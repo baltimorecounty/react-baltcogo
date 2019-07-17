@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import _ from 'lodash';
 import { withGoogleMap, GoogleMap, withScriptjs, InfoWindow, Marker } from "react-google-maps";
 import { compose, withProps, withState, withHandlers } from "recompose";
 import Geocode from "react-geocode";
@@ -14,24 +15,30 @@ class Map extends React.Component {
 
 	shouldComponentUpdate(nextProps, nextState) {
 		console.log('=+++++++++++++++++++++++++++++=')
-
+		console.log('this.props.lat - nextProps:' + this.props.lat +'='+  nextProps.center.lat);
 		console.log('address1:' + this.props.address);
+		let searchQuery = _.split('400 WASHINGTON AVE, TOWSON, 21204', ',', 3);
+		console.log('searchQuery:' + searchQuery);
 		console.log('============================')
 		if (this.props.lat === nextProps.center.lat) {
+			//console.log('return value--first:false');
 			return false;
 		}
 		else if (this.props.lat === this.props.markerLat) {
+		//	console.log('return value--second:true');
 			return true;
 
 		}
 		else if (this.props.center.lat === nextProps.center.lat) {
+			//console.log('return value--third:false');
 			return false;
 		}
 		else if (this.props.lat === this.props.center.lat) {
+			//console.log('return value--fourth:true');
 			return true
 		}
 		else {
-			console.log('return value:false')
+			//console.log('return value:false')
 			return false;
 		}
 		;
