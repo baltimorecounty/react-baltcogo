@@ -10,6 +10,7 @@ const AdditionalInformation = props => {
 	const localProps = props.formik.values;
 	const pageFieldName = props.formik.values.AdditionalInfoPage
 	const { values, actions, errors, touched, ...rest } = props;
+	const isAccelaType = (localProps.requestTypeAddressID) ? true : false;
 
 	if(!props.formik.values.ContactID || formIncomplete(props.formik)){
 		props.history.push('/ServiceRequestForm');
@@ -29,7 +30,12 @@ const AdditionalInformation = props => {
 	}
 
 	return (
-		<FormContainer title={pageFieldName.map(name => name.AdditionalInfoTitle)} tabNames = {localProps.Tabs} currentTab = "AdditionalInformation" shouldDisableForm = {localProps.shouldDisableForm} requiresLocation = {localProps.requiresLocation}>
+		<FormContainer title={pageFieldName.map(name => name.AdditionalInfoTitle)} 
+			tabNames = {localProps.Tabs} 
+			currentTab = "AdditionalInformation" 
+			shouldDisableForm = {localProps.shouldDisableForm} 
+			isAccela = {isAccelaType}
+		>
 			<Form>
 				{(localProps.requiresLocation === false) ?
 					<div name="ContactInfo">

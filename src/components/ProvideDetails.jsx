@@ -27,7 +27,7 @@ const provideDetails = props => {
 	//const [MarkerLongitude, setMarkerLongitude] = useState(73.8567);
 	const [Address, setData] = useState([]);
 	const [query, setQuery] = useState(encodeURIComponent());
-	const pageFieldName = props.formik.values.MapPage;
+	const { MapPage, requiresLocation } = props.formik.values;
 	const localProps = props.formik.values;
 
 	useEffect(() => {
@@ -177,6 +177,7 @@ const provideDetails = props => {
 	}
 
 	const { values, errors, actions, touched, handleSubmit, setFieldValue, ...rest } = props;
+	const isAccelaType = (!localProps.requestTypeAddressID) ? false : true;
 	const items = Address.map((item, index) => ({
 		id: item.Zip,
 		label: `${item.StreetAddress.toUpperCase()}, ${item.City.toUpperCase()}, ${item.Zip}`,
@@ -190,74 +191,76 @@ const provideDetails = props => {
 
 	return (
 
-		<FormContainer title={pageFieldName.map(name => name.DetailsTitle)} tabNames={localProps.Tabs} currentTab="ProvideDetails" shouldDisableForm={localProps.shouldDisableForm} requiresLocation={localProps.requiresLocation}>
+		<FormContainer title={MapPage.map(name => name.DetailsTitle)} 
+			tabNames={localProps.Tabs} 
+			currentTab="ProvideDetails" 
+			shouldDisableForm={localProps.shouldDisableForm} 
+			isAccela={isAccelaType}
+		>
 			<Form>
 				<Field
 					type="hidden"
 					name="Latitude"
-
 				/>
 				<Field
 					type="hidden"
 					name="Longitude"
-
-
 				/>
 				<Field
 					type="hidden"
 					name="ShowErrorMsg"
-
 				/>
-				<label>Add a Location</label>
-				<p>
-					{pageFieldName.map(name => name.DetailsMainLabelExplaination)}
-				</p>
-				<div className={
-					rest.formik.errors.location && rest.formik.touched.location ? "cs-form-control address-search error" : "cs-form-control address-search"}>
-					<div>
-						<label>Issue type</label>
+				{(requiresLocation) ? 
+					<div className={
+						rest.formik.errors.location && rest.formik.touched.location ? "cs-form-control address-search error" : "cs-form-control address-search"}>
+						<label>{MapPage.map(name => name.DetailsMainLabel)}</label>
+						<p>
+							{MapPage.map(name => name.DetailsMainLabelExplaination)}
+						</p>
 						<div>
-							<p className="smallest">{rest.formik.values.requestType} > {rest.formik.values.subRequestType}</p>
+							<label>Issue type</label>
+							<div>
+								<p className="smallest">{rest.formik.values.requestType} > {rest.formik.values.subRequestType}</p>
+							</div>
 						</div>
-					</div>
-					<div className="address-search-wrapper">
-						<label htmlFor="location"
-							className="address">{pageFieldName.map(name => name.AddressHeaderLabel)}
-						</label>
-						<div className="address-input-wrapper">
-							<AutoCompletTypeField
-								items={items}
-								//name="location"
-								formikProps={rest}
-								value={rest.formik.values.location}
-								onChange={handleAddressChange}
-								onSelect={handleAddressSelect}
-							/>
-							<i className="fa fa-search address-search-icon" aria-hidden="true"></i>
+						<div className="address-search-wrapper">
+							<label htmlFor="location"
+								className="address">{MapPage.map(name => name.AddressHeaderLabel)}
+							</label>
+							<div className="address-input-wrapper">
+								<AutoCompletTypeField
+									items={items}
+									//name="location"
+									formikProps={rest}
+									value={rest.formik.values.location}
+									onChange={handleAddressChange}
+									onSelect={handleAddressSelect}
+								/>
+								<i className="fa fa-search address-search-icon" aria-hidden="true"></i>
+							</div>
 						</div>
-					</div>
-					<ErrorMessage name='msg' className='input-feedback' component='div' />
-					<div className={rest.formik.values.ShowErrorMsg === 1 ? "cs-form-control error" : "cs-form-control"}>
-						{rest.formik.values.ShowErrorMsg === 1 ? rest.formik.errors.location : ''}
-					</div>
-					<Collaspe address={rest.formik.values.location}
-						ZoomValue={rest.formik.values.ZoomValue}
-						lat={Latitude}
-						lng={Longitude}
-						onZoom={onZoom}
-						markerLat={MarkerLatitude} onMarkerDragEnd={e => (onMarkerDragEnd(e, setFieldValue))} />
-					<p role='alert' className="error-message">
+						<ErrorMessage name='msg' className='input-feedback' component='div' />
+						<div className={rest.formik.values.ShowErrorMsg === 1 ? "cs-form-control error" : "cs-form-control"}>
+							{rest.formik.values.ShowErrorMsg === 1 ? rest.formik.errors.location : ''}
+						</div>
+						<Collaspe address={rest.formik.values.location}
+							ZoomValue={rest.formik.values.ZoomValue}
+							lat={Latitude}
+							lng={Longitude}
+							onZoom={onZoom}
+							markerLat={MarkerLatitude} onMarkerDragEnd={e => (onMarkerDragEnd(e, setFieldValue))} />
+						<p role='alert' className="error-message">
 
-						{/* <ErrorMsg
+							{/* <ErrorMsg
 							errormessage={rest.formik.errors.location}
 							touched={rest.formik.touched.location} /> */}
-					</p>
-				</div>
+						</p>
+					</div> : null }
 				<div className={
 					rest.formik.errors.describeTheProblem && rest.formik.touched.describeTheProblem ? "cs-form-control address-search error" : "cs-form-control address-search"}>
 					<label htmlFor="describeTheProblem"
 
-					>{pageFieldName.map(name => name.ProblemLabel)}</label>
+					>{MapPage.map(name => name.ProblemLabel)}</label>
 					<Field
 						component="textarea"
 						placeholder="Maximum 2,000 characters."

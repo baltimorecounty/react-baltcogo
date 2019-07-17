@@ -7,33 +7,36 @@ const selectTab = (currentTab, tabList)  => {
 };
 
 const FormContainer = props => {
-
+	
 	const tabList = [
-		{description: props.tabNames.map(name => name.Tab1), key: 'ServiceRequestForm', value: 0, shouldDisableForm: false, requiresLocation: true},
-		{description: props.tabNames.map(name => name.Tab2), key: 'ProvideDetails', value: 1, shouldDisableForm: props.shouldDisableForm, requiresLocation: true},
-		{description: props.tabNames.map(name => name.Tab3), key: 'AdditionalInformation', value: 2, shouldDisableForm: props.shouldDisableForm, requiresLocation: props.requiresLocation},
-		{description: props.tabNames.map(name => name.Tab4), key: 'Blank', value: 3, shouldDisableForm: false, requiresLocation: true},
+		{description: props.tabNames.map(name => name.Tab1), id: 0,  key: 'ServiceRequestForm', shouldDisableForm: false, isAccela: true},
+		{description: props.tabNames.map(name => name.Tab2), id: 1, key: 'ProvideDetails', shouldDisableForm: props.shouldDisableForm, isAccela: true},
+		{description: props.tabNames.map(name => name.Tab3), id: 2, key: 'AdditionalInformation', shouldDisableForm: props.shouldDisableForm, isAccela: props.isAccela},
+		{description: props.tabNames.map(name => name.Tab4), id: 3, key: 'Blank', shouldDisableForm: false, isAccela: true},
 	].filter(item => item.shouldDisableForm === false)
-		.filter(item => item.requiresLocation);
+		.filter(item => item.isAccela);
+
+	const selectTabValue = selectTab(props.currentTab, tabList);
 
 	const selectClassName = (tab) =>{
 		if (props.shouldDisableForm){
 			return 'highlight';
 		}
+		else if (!props.isAccela){
+			return (tab.id <= ((selectTabValue[0].id === 1) ?  3 : selectTabValue[0].id) ?  'highlight' : '');
+		}
 		else{
-			return (tab.value <= ((selectTabValue[0].value === 2) ?  3 : selectTabValue[0].value) ?  'highlight' : '');
+			return (tab.id <= ((selectTabValue[0].id === 2) ?  3 : selectTabValue[0].id) ?  'highlight' : '');
 		}
 	}
-
-	const selectTabValue = selectTab(props.currentTab, tabList);
 
 	return (
 		<div className="bc-citysourced-reporter">
 			<ol className="bc-citysourced-reporter-steps">
-				{ tabList.map((tab,index) => {
+				{ tabList.map((tab,id) => {
 					return (
 						<li
-							key={index}
+							key={id}
 							className = { selectClassName(tab) }>
 							{tab.description}
 						</li>
