@@ -2,7 +2,7 @@ import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import ErrorMsg from "./ErrorMessage";
-import { GetErrorsDetails } from "../utilities/CustomErrorHandling";
+import { GetResponseErrors } from "../utilities/CitysourcedResponseHelpers";
 import { Link } from 'react-router-dom';
 import FormContainer from './FormContainer';
 import { formIncomplete } from "./checkFormCompletion";
@@ -24,7 +24,7 @@ const ResetPasswordForm = (props, routeProps) => {
 		try {
 			const response = await ResetPassword(Email);
 			if (response.data.ErrorsCount > 0) {
-				const errorsReturned = GetErrorsDetails(response);
+				const errorsReturned = GetResponseErrors(response);
 				props.Field.ErrorMsg = errorsReturned;
 			}
 			else {
