@@ -8,8 +8,10 @@ import FormContainer from './FormContainer';
 import { formIncomplete } from "./checkFormCompletion";
 import Alert from './Alert';
 import SeButton from "./SeButton";
+import { ResetPassword } from './authService';
 
-const ResetPassword = (props, routeProps) => {
+
+const ResetPasswordForm = (props, routeProps) => {
 
 	if (formIncomplete(props)) {
 		props.history.push('/ServiceRequestForm');
@@ -18,15 +20,15 @@ const ResetPassword = (props, routeProps) => {
 	const {Tabs} = props.values;
 
 	const userPasswordReset = async (values, props, actions) => {
-		console.log(props.values);
+		const { Email = '' } = values || {};
 		try {
-			const response = await ResetPassword(values.Email);
+			const response = await ResetPassword(Email);
 			if (response.data.ErrorsCount > 0) {
 				const errorsReturned = GetErrorsDetails(response);
 				props.Field.ErrorMsg = errorsReturned;
 			}
 			else {
-				props.values.setFieldValue('Email', props.values.Email);
+				props.values.setFieldValue('Email', Email);
 				props.history.push('/SignInForm');
 			}
 		}
@@ -40,10 +42,10 @@ const ResetPassword = (props, routeProps) => {
 	}
 
 	return (
-		<FormContainer  title="Reset Password" 
-			tabNames = {Tabs} 
-			currentTab = "ServiceRequestForm" 
-			shouldDisableForm = {false} 
+		<FormContainer  title="Reset Password"
+			tabNames = {Tabs}
+			currentTab = "ServiceRequestForm"
+			shouldDisableForm = {false}
 			isPanelRequired={true}
 		>
 			<Formik
@@ -54,8 +56,9 @@ const ResetPassword = (props, routeProps) => {
 				validationSchema={Yup.object().shape({
 					Email: Yup.string().email('Please enter a valid email address.').required('Please enter your email address.')
 				})}
-				onSubmit={async (values, actions, setSubmitting) => {
-					await userPasswordReset(values, props, actions);
+				onSubmit={async (values, actions) => {
+					actions.setSubmitting(true);
+					await userPasswordReset(values, actions);
 					actions.setSubmitting(false);
 				}}
 			>
@@ -110,4 +113,4 @@ const ResetPassword = (props, routeProps) => {
 		</FormContainer >
 	);
 }
-export default ResetPassword;
+export default ResetPasswordForm;
