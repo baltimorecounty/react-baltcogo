@@ -79,31 +79,20 @@ const CreateAccount = (props, routeProps) => {
 					NameLast: '',
 					Telephone: '',
 					Email: '',
-					Password: '',
-					Address: '',
-					City: '',
-					ZipCode: ''
+					Password: ''
 				}}
 
 				validationSchema={Yup.object().shape({
 					NameFirst: Yup.string().required('Please enter your first name.'),
 					NameLast: Yup.string().required('Please enter your last name.'),
 					Email: Yup.string().email('Please enter a valid email address.').required('Please enter your email address.'),
-					Address: Yup.string().required('Please enter your address.'),
-					City: Yup.string().required('Please enter your city.'),
-					ZipCode: Yup.string().matches(/(^\d{5}$)|(^\d{5}-\d{4}$)/, {
-						message: 'Please enter your five-digit ZIP code.',
-						excludeEmptyString: true
-					}).required('Please enter your zip code.'),
 					Telephone: Yup.string().required('Please enter your phone number in the following format: 410-555-1212.').Telephone(),
-
 					Password: Yup.string()
 						.required('Please enter your password.')
 						.max(30, "Maximum 30 characters allowed.")
 						.matches(
 							/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9!@#$%^&*(),.?":{}|<>]{8}/,
 							"Your password must be 8 to 30 characters and contain at least one uppercase letter, one lowercase letter and one number.")
-
 				})}
 				onSubmit={async (values, actions, setSubmitting) => {
 					await userCreateAccount(values, actions, props);
