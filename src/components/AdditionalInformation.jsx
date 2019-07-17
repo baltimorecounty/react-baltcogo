@@ -8,9 +8,8 @@ import submitReport from "./submitReport";
 
 const AdditionalInformation = props => {
 	const localProps = props.formik.values;
-	const pageFieldName = props.formik.values.AdditionalInfoPage
 	const { values, actions, errors, touched, ...rest } = props;
-	const isAccelaType = (localProps.requestTypeAddressID) ? true : false;
+	const { isAccela, shouldDisableForm, Tabs, AdditionalInfoPage } = localProps 
 
 	if(!props.formik.values.ContactID || formIncomplete(props.formik)){
 		props.history.push('/ServiceRequestForm');
@@ -30,22 +29,22 @@ const AdditionalInformation = props => {
 	}
 
 	return (
-		<FormContainer title={pageFieldName.map(name => name.AdditionalInfoTitle)} 
-			tabNames = {localProps.Tabs} 
+		<FormContainer title={AdditionalInfoPage.map(name => name.AdditionalInfoTitle)} 
+			tabNames = {Tabs} 
 			currentTab = "AdditionalInformation" 
-			shouldDisableForm = {localProps.shouldDisableForm} 
-			isAccela = {isAccelaType}
+			shouldDisableForm = {shouldDisableForm} 
+			isAccela = {isAccela}
 		>
 			<Form>
 				{(localProps.requiresLocation === false) ?
 					<div name="ContactInfo">
 						<p>
-							{pageFieldName.map(name => name.DisclaimerLabel)}
+							{AdditionalInfoPage.map(name => name.DisclaimerLabel)}
 						</p>
 						<label htmlFor="NameFirst"
 							className={
 								rest.formik.errors.NameFirst && rest.formik.touched.NameFirst ? "error-message" : "text-label"}
-						>{pageFieldName.map(name => name.FirstNameLabel)}</label>
+						>{AdditionalInfoPage.map(name => name.FirstNameLabel)}</label>
 						<Field
 							type="text"
 							name="NameFirst"
@@ -61,7 +60,7 @@ const AdditionalInformation = props => {
 						<label htmlFor="NameLast"
 							className={
 								rest.formik.errors.NameLast && rest.formik.touched.NameLast ? "error-message" : "text-label"}
-						>{pageFieldName.map(name => name.LastNameLabel)}</label>
+						>{AdditionalInfoPage.map(name => name.LastNameLabel)}</label>
 						<Field
 							type="text"
 							name="NameLast"
@@ -77,7 +76,7 @@ const AdditionalInformation = props => {
 						<label htmlFor="Email"
 							className={
 								rest.formik.errors.Email && rest.formik.touched.Email ? "error-message" : "text-label"}
-						>{pageFieldName.map(name => name.EmailLabel)}</label>
+						>{AdditionalInfoPage.map(name => name.EmailLabel)}</label>
 						<Field
 							type="text"
 							name="Email"
@@ -93,7 +92,7 @@ const AdditionalInformation = props => {
 						<label htmlFor="Telephone"
 							className={
 								rest.formik.errors.Telephone && rest.formik.touched.Telephone ? "error-message" : "text-label"}
-						>{pageFieldName.map(name => name.PhoneLabel)}</label>
+						>{AdditionalInfoPage.map(name => name.PhoneLabel)}</label>
 						<Field
 							type="text"
 							name="Telephone"
@@ -110,12 +109,12 @@ const AdditionalInformation = props => {
 					:
 					<div id="ContactAddress">
 						<p>
-							{pageFieldName.map(name => name.DisclaimerLabel)}
+							{AdditionalInfoPage.map(name => name.DisclaimerLabel)}
 						</p>
 						<label htmlFor="streetAddress"
 							className={
 								rest.formik.errors.streetAddress && rest.formik.touched.streetAddress ? "error-message" : "text-label"}
-						>{pageFieldName.map(name => name.StreetLabel)}</label>
+						>{AdditionalInfoPage.map(name => name.StreetLabel)}</label>
 						<Field
 							type="text"
 							name="streetAddress"
@@ -131,7 +130,7 @@ const AdditionalInformation = props => {
 						<label htmlFor="city"
 							className={
 								rest.formik.errors.city && rest.formik.touched.city ? "error-message" : "text-label"}
-						>{pageFieldName.map(name => name.CityLabel)}</label>
+						>{AdditionalInfoPage.map(name => name.CityLabel)}</label>
 						<Field
 							type="text"
 							name="city"
@@ -149,7 +148,7 @@ const AdditionalInformation = props => {
 								className={
 									rest.formik.errors.zipCode && rest.formik.touched.zipCode ? "error-message" : "text-label"}
 							>
-								{pageFieldName.map(name => name.ZipcodeLabel)}
+								{AdditionalInfoPage.map(name => name.ZipcodeLabel)}
 							</label>
 							<Field type='text'
 								name="zipCode"
@@ -164,7 +163,7 @@ const AdditionalInformation = props => {
 							</div>
 						</div>
 						<p className="smallest">
-							{pageFieldName.map(name => name.LegalDisclamierBottom)}
+							{AdditionalInfoPage.map(name => name.LegalDisclamierBottom)}
 						</p>
 					</div>}
 				<div className = "cs-form-control" >
