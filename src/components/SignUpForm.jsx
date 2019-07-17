@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import ErrorMsg from "./ErrorMessage";
-import { GetErrorsDetails } from "../utilities/CustomErrorHandling";
+import { GetResponseErrors } from "../utilities/CitysourcedResponseHelpers";
 import FormContainer from './FormContainer';
 import { SignUp } from './authService';
 import { Link } from 'react-router-dom';
@@ -11,6 +11,9 @@ import { IsPhoneNumberValid } from '@baltimorecounty/validation';
 import SeButton from "./SeButton";
 
 const CreateAccount = (props, routeProps) => {
+
+	const {Tabs, SignUpPage, shouldDisableForm} = props.values;
+
 	const [fieldType, setFieldType] = useState('Password');
 	const handlePasswordToggleChange = () => {
 		setFieldType(fieldType === 'Password' ? 'text' : 'Password');
@@ -20,13 +23,17 @@ const CreateAccount = (props, routeProps) => {
 		props.history.push('/ServiceRequestForm');
 	}
 
+	const goBack = () =>{
+		props.history.push('/ServiceRequestForm');
+	}
+	
 	const userCreateAccount = async (values, actions, props) => {
 		try {
 			const response = await SignUp(values.NameFirst, values.NameLast, values.Email, values.Password, values.Telephone, values.UniqueId, values.SuppressNotifications);
 			var ContactID = "";
 
 			if (response.data.HasErrors) {
-				const errorsReturned = GetErrorsDetails(response);
+				const errorsReturned = GetResponseErrors(response);
 				actions.setStatus({
 					success2: errorsReturned,
 					css: 'email'
@@ -62,7 +69,12 @@ const CreateAccount = (props, routeProps) => {
 	});
 
 	return (
-		<FormContainer title="Register for an Account" tabNames = {props.values.Tabs} currentTab="ServiceRequestForm" shouldDisableForm={props.values.shouldDisableForm} requiresLocation= {props.values.requiresLocation}>
+		<FormContainer title={SignUpPage.map(name => name.SignUpTitle)}  
+			tabNames = {Tabs} 
+			currentTab="ServiceRequestForm" 
+			shouldDisableForm={shouldDisableForm} 
+			isPanelRequired={true}
+		>
 			<Formik
 
 				initialValues={{
@@ -70,31 +82,20 @@ const CreateAccount = (props, routeProps) => {
 					NameLast: '',
 					Telephone: '',
 					Email: '',
-					Password: '',
-					Address: '',
-					City: '',
-					ZipCode: ''
+					Password: ''
 				}}
 
 				validationSchema={Yup.object().shape({
 					NameFirst: Yup.string().required('Please enter your first name.'),
 					NameLast: Yup.string().required('Please enter your last name.'),
 					Email: Yup.string().email('Please enter a valid email address.').required('Please enter your email address.'),
-					Address: Yup.string().required('Please enter your address.'),
-					City: Yup.string().required('Please enter your city.'),
-					ZipCode: Yup.string().matches(/(^\d{5}$)|(^\d{5}-\d{4}$)/, {
-						message: 'Please enter your five-digit ZIP code.',
-						excludeEmptyString: true
-					}).required('Please enter your zip code.'),
 					Telephone: Yup.string().required('Please enter your phone number in the following format: 410-555-1212.').Telephone(),
-
 					Password: Yup.string()
 						.required('Please enter your password.')
 						.max(30, "Maximum 30 characters allowed.")
 						.matches(
 							/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9!@#$%^&*(),.?":{}|<>]{8}/,
 							"Your password must be 8 to 30 characters and contain at least one uppercase letter, one lowercase letter and one number.")
-
 				})}
 				onSubmit={async (values, actions, setSubmitting) => {
 					await userCreateAccount(values, actions, props);
@@ -109,7 +110,7 @@ const CreateAccount = (props, routeProps) => {
 							<Form >
 								<div className={
 									errors.NameFirst && touched.NameFirst ? "cs-form-control error" : "cs-form-control"}>
-									<label htmlFor="NameFirst">First Name</label>
+									<label htmlFor="NameFirst">{SignUpPage.map(name => name.FirstNameLabel)}  </label>
 									<Field
 										type="text"
 										name="NameFirst"
@@ -122,7 +123,7 @@ const CreateAccount = (props, routeProps) => {
 								</div>
 								<div className={
 									props.errors.NameLast && props.touched.NameLast ? "cs-form-control error" : "cs-form-control"}>
-									<label htmlFor="NameLast">Last Name</label>
+									<label htmlFor="NameLast">{SignUpPage.map(name => name.LastNameLabel)}  </label>
 									<Field
 										type="text"
 										name="NameLast"
@@ -135,9 +136,7 @@ const CreateAccount = (props, routeProps) => {
 								</div>
 								<div className={
 									props.errors.Telephone && props.touched.Telephone ? "cs-form-control error" : "cs-form-control"}>
-									<label htmlFor="Telephone"
-
-									>Phone</label>
+									<label htmlFor="Telephone">{SignUpPage.map(name => name.PhoneLabel)}</label>
 									<Field
 										type="text"
 										name="Telephone"
@@ -152,7 +151,7 @@ const CreateAccount = (props, routeProps) => {
 								</div>
 								<div className={
 									props.errors.Email && props.touched.Email ? "cs-form-control error" : "cs-form-control"}>
-									<label htmlFor="Email">Email Address</label>
+									<label htmlFor="Email">{SignUpPage.map(name => name.EmailLabel)}</label>
 									<Field
 										type="email"
 										name="Email"
@@ -168,7 +167,7 @@ const CreateAccount = (props, routeProps) => {
 								</div>
 								<div className={
 									props.errors.Password && props.touched.Password ? "cs-form-control error" : "cs-form-control"}>
-									<label name="Password" htmlFor="Password">Password</label>
+									<label name="Password" htmlFor="Password">{SignUpPage.map(name => name.PasswordLabel)}</label>
 									<Field type={fieldType === 'Password' ? 'Password' : 'text'}
 										name="Password"
 										value={values.Password}
@@ -183,12 +182,19 @@ const CreateAccount = (props, routeProps) => {
 								</div>
 
 								<div className="cs-form-control" >
-									<p htmlFor="signup">Already have an account? <Link to="SignInForm" >Sign In</Link></p>
+									<p htmlFor="signup">{SignUpPage.map(name => name.HaveAccountLabel)} <Link to="SignInForm" >{SignUpPage.map(name => name.SignInLinkLabel)}</Link></p>
+									<SeButton
+										text="Back"
+										type="button"
+										className = "seButton"
+										onClick = {goBack}
+									/>
 									<SeButton
 										text="Sign Up and Continue"
 										type="submit"
 										isLoading={isSubmitting}
 										isLoadingText="Signing Up..."
+										className = "seButton pull-right"
 									/>
 								</div>
 							</Form>

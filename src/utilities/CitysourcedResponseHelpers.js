@@ -13,6 +13,15 @@ const HasResponseErrors = (response) => {
 	return hasInvalidResponse || ErrorsCount > 0;
 };
 
+const GetResponseErrors = (response) => {
+	const {
+		Errors = []
+	} = response.data;
+
+	return Errors.map(error => error.ErrorText).join(', ');
+};
+
 export {
+	GetResponseErrors,
 	HasResponseErrors
 };

@@ -1,10 +1,4 @@
-export const GetErrorsDetails = (response) => {
-	const {
-		Errors = []
-	} = response.data;
 
-	return Errors.map(error => error.ErrorText).join(', ');
-};
 
 export function formatPhoneNumber(input, format, formattedPhoneNumber, returnBooleanVal) {
 	let error;

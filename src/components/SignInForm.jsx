@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import ErrorMsg from "./ErrorMessage";
-import { GetErrorsDetails } from "../utilities/CustomErrorHandling";
+import { GetResponseErrors } from "../utilities/CitysourcedResponseHelpers";
 import { Link } from 'react-router-dom';
 import FormContainer from './FormContainer';
 import { Login } from './authService';
@@ -12,6 +12,8 @@ import SeButton from "./SeButton";
 
 // import DisplayFormikState from './helper';
 const SignIn = (props, routeProps) => {
+
+	const {Tabs, SignInPage, shouldDisableForm} = props.values;
 
 	const [fieldType, setFieldType] = useState('Password');
 	const handlePasswordToggleChange = () => {
@@ -52,6 +54,10 @@ const SignIn = (props, routeProps) => {
 		props.history.push('/ProvideDetails');
 	};
 
+	const goBack = () =>{
+		props.history.push('/ServiceRequestForm');
+	}
+
 	const userLogin = async (values, props, actions) => {
 		try {
 			const response = await Login(values.Email, values.Password);
@@ -61,7 +67,7 @@ const SignIn = (props, routeProps) => {
 			} = response.data;
 
 			if (Errors.length > 0) {
-				const errors = GetErrorsDetails(response);
+				const errors = GetResponseErrors(response);
 				handleLoginFailure(actions, errors);
 				throw new Error(errors);
 			}
@@ -77,7 +83,12 @@ const SignIn = (props, routeProps) => {
 	}
 
 	return (
-		<FormContainer title="Sign In" tabNames = {props.values.Tabs} currentTab="ServiceRequestForm" shouldDisableForm={props.values.shouldDisableForm} requiresLocation= {props.values.requiresLocation}>
+		<FormContainer title={SignInPage.map(name => name.SignInTitle)} 
+			tabNames = {Tabs} 
+			currentTab="ServiceRequestForm" 
+			shouldDisableForm={shouldDisableForm} 
+			isPanelRequired={true}
+		>
 			<Formik
 				initialValues={{
 					Email: '',
@@ -106,7 +117,7 @@ const SignIn = (props, routeProps) => {
 								</Alert>}
 								<div className={
 									props.errors.Email && props.touched.Email ? "cs-form-control error" : "cs-form-control"}>
-									<label htmlFor="Email">Email Address</label>
+									<label htmlFor="Email">{SignInPage.map(name => name.EmailLabel)}</label>
 									<Field
 										type="email"
 										name="Email"
@@ -124,7 +135,7 @@ const SignIn = (props, routeProps) => {
 								</div>
 								<div className={
 									props.errors.Password && props.touched.Password ? "cs-form-control error" : "cs-form-control"}>
-									<label name="Password" htmlFor="password">Password</label>
+									<label name="Password" htmlFor="password">{SignInPage.map(name => name.PasswordLabel)}</label>
 									<Field
 										type={fieldType === 'Password' ? 'Password' : 'text'}
 										name="Password"
@@ -140,14 +151,21 @@ const SignIn = (props, routeProps) => {
 									</p>
 								</div>
 								<div className="cs-form-control" >
-									<p htmlFor="forgetpassword"> <Link to="ResetPassword" >Forgot password?</Link></p>
+									<p htmlFor="forgetpassword"> <Link to="ResetPassword" >{SignInPage.map(name => name.ForgotPasswordLabel)}</Link></p>
 									<p htmlFor="signup"
-									>Don't have an account? <Link to="SignUpForm" >Sign up</Link></p>
+									>{SignInPage.map(name => name.NoAccountLabel)} <Link to="SignUpForm" >{SignInPage.map(name => name.SignUpLinkLabel)}</Link></p>
+									<SeButton
+										text="Back"
+										type="button"
+										className = "seButton"
+										onClick = {goBack}
+									/>
 									<SeButton
 										text="Sign In and Continue"
 										type="submit"
 										isLoading={props.isSubmitting}
 										isLoadingText="Signing In..."
+										className = "seButton pull-right"
 									/>
 								</div>
 

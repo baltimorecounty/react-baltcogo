@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from "react";
-import { Form, Field, connect, ErrorMessage } from "formik";
-import ErrorMsg from "./ErrorMessage";
+import { Form, Field, connect } from "formik";
+
 import FormContainer from './FormContainer';
 import Geocode from "react-geocode";
 import Collaspe from './Collaspe'
@@ -14,7 +14,7 @@ import ButtonDisplay from "./buttonDisplay";
 import IssueType from './IssueType';
 import DescribeTheProblem from './describeTheProblem';
 import submitReport from "./submitReport";
-import { GetErrorsDetails } from "../utilities/CustomErrorHandling";
+import { GetResponseErrors } from "../utilities/CitysourcedResponseHelpers";
 import SeButton from './SeButton';
 
 Geocode.setApiKey('AIzaSyAqazsw3wPSSxOFVmij32C_LIhBSuyUNi8');
@@ -27,13 +27,12 @@ const provideDetails = props => {
 	const [MarkerLatitude, setMarkerLatitude] = useState(18.5204);
 	const [Address, setData] = useState([]);
 	const [query, setQuery] = useState(encodeURIComponent());
-	const pageFieldName = props.formik.values.MapPage;
-	const localProps = props.formik.values;
+	const { MapPage, requiresLocation, location, ContactID,
+		describeTheProblem, Tabs, shouldDisableForm, isPanelRequired } = props.formik.values;
 
 	useEffect(() => {
 
 		const fetchData = async () => {
-			//	const encodeAddress = encodeURIComponent('400 wa')
 			const mapEndPoint = returnMapEndPoint('mapGISEndPoint');
 
 			if (query !== 'undefined' && query.length > 0) {
@@ -50,7 +49,7 @@ const provideDetails = props => {
 		};
 
 		props.formik.setFieldValue('currentTab', 'ProviderDetail');
-		if (!localProps.ContactID || formIncomplete(props.formik)) {
+		if (!ContactID || formIncomplete(props.formik)) {
 			props.history.push('/ServiceRequestForm');
 		}
 		fetchData();
@@ -67,7 +66,7 @@ const provideDetails = props => {
 	}
 
 	const buttonShowHideValidation = () => {
-		return (localProps.location === "" || localProps.describeTheProblem === '') ? true : false;
+		return (location === "" || describeTheProblem === '') ? true : false;
 	};
 
 	let displayButton = buttonShowHideValidation();
@@ -143,13 +142,13 @@ const provideDetails = props => {
 		const addressResponse = await VerifyAddress(fullAddress);
 		if (addressResponse.data.HasErrors) {
 
-			const errorsReturned = GetErrorsDetails(addressResponse);
+			const errorsReturned = GetResponseErrors(addressResponse);
 			rest.formik.setFieldValue('ShowErrorMsg', 1);
 			rest.formik.errors.location = errorsReturned;
 		}
 		else {
-			const addressParts = localProps.location.split(',');
-			rest.formik.setFieldValue('requestTypeDescription', localProps.describeTheProblem);
+			const addressParts = props.formik.values.location.split(',');
+			rest.formik.setFieldValue('requestTypeDescription', describeTheProblem);
 			rest.formik.setFieldValue('subRequestTypeAddress', addressParts[0]);
 			rest.formik.setFieldValue('subRequestTypeCity', addressParts[1]);
 			rest.formik.setFieldValue('subRequestTypeZip', addressParts[2]);
@@ -175,27 +174,28 @@ const provideDetails = props => {
 
 	return (
 
-		<FormContainer title={pageFieldName.map(name => name.DetailsTitle)} tabNames={localProps.Tabs} currentTab="ProvideDetails" shouldDisableForm={localProps.shouldDisableForm} requiresLocation={localProps.requiresLocation}>
+		<FormContainer title={MapPage.map(name => name.DetailsTitle)}
+			tabNames={Tabs}
+			currentTab="ProvideDetails"
+			shouldDisableForm={shouldDisableForm}
+			isPanelRequired={isPanelRequired}
+		>
 			<Form>
 				<Field
 					type="hidden"
 					name="Latitude"
-
 				/>
 				<Field
 					type="hidden"
 					name="Longitude"
-
-
 				/>
 				<Field
 					type="hidden"
 					name="ShowErrorMsg"
-
 				/>
 				<label>Add a Location</label>
 				<p>
-					{pageFieldName.map(name => name.DetailsMainLabelExplaination)}
+					{MapPage.map(name => name.DetailsMainLabelExplaination)}
 				</p>
 				<div className={
 					rest.formik.errors.location && rest.formik.touched.location ? "cs-form-control address-search error" : "cs-form-control address-search"}>
@@ -204,7 +204,7 @@ const provideDetails = props => {
 						items={items}
 						handleAddressChange={handleAddressChange}
 						handleAddressSelect={handleAddressSelect}
-						pageFieldName={pageFieldName} />
+						pageFieldName={MapPage} />
 
 					<Collaspe address={rest.formik.values.location}
 						ZoomValue={rest.formik.values.ZoomValue}
@@ -213,22 +213,17 @@ const provideDetails = props => {
 						onZoom={onZoom}
 						markerLat={MarkerLatitude}
 						onMarkerDragEnd={e => (onMarkerDragEnd(e, setFieldValue))} />
-					<p role='alert' className="error-message">
-
-						{/* <ErrorMsg
-							errormessage={rest.formik.errors.location}
-							touched={rest.formik.touched.location} /> */}
-					</p>
+				
 				</div>
 				<DescribeTheProblem
 					errorsDescribeTheProblem={rest.formik.errors.describeTheProblem}
 					touchedDescribeTheProblem={rest.formik.touched.describeTheProblem}
-					pageFieldName={pageFieldName} />
+					pageFieldName={MapPage} />
 
 				<div className="cs-form-control" >
 					<ButtonDisplay
 						onClick={goServiceRequestForm}
-						buttonName ="Previous" 
+						buttonName ="Previous"
 						cssClass = "seButton"/>
 					{(!rest.formik.values.requestTypeAddressID) ?
 						<SeButton
@@ -243,7 +238,7 @@ const provideDetails = props => {
 						<ButtonDisplay
 							onClick={goToAdditionalPage}
 							disabled={displayButton}
-							buttonName ="Next" 
+							buttonName ="Next"
 							cssClass = "seButton pull-right"/>}
 				</div>
 			</Form>
