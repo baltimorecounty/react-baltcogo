@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import ErrorMsg from "./ErrorMessage";
-import { GetErrorsDetails } from "../utilities/CustomErrorHandling";
+import { GetResponseErrors } from "../utilities/CitysourcedResponseHelpers";
 import FormContainer from './FormContainer';
 import { SignUp } from './authService';
 import { Link } from 'react-router-dom';
@@ -33,7 +33,7 @@ const CreateAccount = (props, routeProps) => {
 			var ContactID = "";
 
 			if (response.data.HasErrors) {
-				const errorsReturned = GetErrorsDetails(response);
+				const errorsReturned = GetResponseErrors(response);
 				actions.setStatus({
 					success2: errorsReturned,
 					css: 'email'
