@@ -1,5 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
+import { VerifyAddress } from './authService';
 import { withGoogleMap, GoogleMap, withScriptjs, InfoWindow, Marker } from "react-google-maps";
 import { compose, withProps, withState, withHandlers } from "recompose";
 import Geocode from "react-geocode";
@@ -12,44 +13,71 @@ Geocode.setApiKey('AIzaSyAqazsw3wPSSxOFVmij32C_LIhBSuyUNi8');
 //Geocode.enableDebug();
 class Map extends React.Component {
 
+	constructor(props) {
+		super(props);
+		this.state = {
+			flag: 0, incremnetCount: 0
+		}
+	}
 
-	shouldComponentUpdate(nextProps, nextState) {
-		console.log('=+++++++++++++++++++++++++++++=')
-		console.log('this.props.lat - nextProps:' + this.props.lat +'='+  nextProps.center.lat);
-		console.log('address1:' + this.props.address);
-		let searchQuery = _.split('400 WASHINGTON AVE, TOWSON, 21204', ',', 3);
-		console.log('searchQuery:' + searchQuery);
-		console.log('============================')
-		if (this.props.lat === nextProps.center.lat) {
-			//console.log('return value--first:false');
-			return false;
-		}
-		else if (this.props.lat === this.props.markerLat) {
-		//	console.log('return value--second:true');
-			return true;
-
-		}
-		else if (this.props.center.lat === nextProps.center.lat) {
-			//console.log('return value--third:false');
-			return false;
-		}
-		else if (this.props.lat === this.props.center.lat) {
-			//console.log('return value--fourth:true');
-			return true
+	shouldComponentUpdate(nextProps) {
+		const searchQuery = _.takeRight(this.props.address.split(','), 4);
+		const { flag, incremnetCount } = this.state;
+		let fullAddress = '';
+		if (searchQuery[2] !== undefined) {
+			fullAddress = searchQuery[0] + '' + searchQuery[1] + '' + searchQuery[2];
+			this.validateAddress(fullAddress);
+			if (this.props.lat === nextProps.center.lat) {
+				if (flag === 0 && incremnetCount === 0) {
+					this.setState({ flag: 0, incremnetCount: 1 });
+					return true;
+				}
+				else {
+					return false;
+				}
+			}
+			else if (this.props.lat === this.props.markerLat) {
+				return true;
+			}
+			else {
+				return false;
+			}
 		}
 		else {
-			//console.log('return value:false')
+			if (flag === 0 && incremnetCount === 1) {
+				this.setState({ incremnetCount: 0 });
+			}
 			return false;
 		}
-		;
+	}
+	async validateAddress(fullAddress) {
+
+		const addressResponse = await VerifyAddress(fullAddress);
+		var VerificationId = "";
+
+		if (addressResponse.data.HasErrors === true) {
+			const errorsReturned = ErrorCheck(addressResponse);
+			//	console.log(errorsReturned);
+			actions.setStatus({
+				success1: errorsReturned,
+				css: 'address'
+			})
+			//props.Field.ErrorMsg = errorsReturned;
+			throw new Error(errorsReturned);
+
+		}
+		else {
+			VerificationId = addressResponse.data.Results.VerificationID;
+			props.setFieldValue('VerificationId', VerificationId);
+			props.setFieldValue('fullAddress', fullAddress);
+		}
+
 	}
 
 
-
 	render() {
-		console.log('map render');
+
 		const { address, lat, lng, markerLat, onMarkerDragEnd, onZoom } = this.props;
-		console.log('map address:' + address);
 		const AsyncMap = compose(
 			withProps({
 				googleMapURL: "https://maps.google.com/maps/api/js?key=AIzaSyAqazsw3wPSSxOFVmij32C_LIhBSuyUNi8&libraries=geometry,drawing,places",
