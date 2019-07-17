@@ -9,9 +9,9 @@ import submitReport from "./submitReport";
 const AdditionalInformation = props => {
 	const localProps = props.formik.values;
 	const { values, actions, errors, touched, ...rest } = props;
-	const { isAccela, shouldDisableForm, Tabs, AdditionalInfoPage } = localProps 
+	const { isAccela, shouldDisableForm, Tabs, AdditionalInfoPage, ContactID } = localProps 
 
-	if(!props.formik.values.ContactID || formIncomplete(props.formik)){
+	if(!ContactID || formIncomplete(props.formik)){
 		props.history.push('/ServiceRequestForm');
 	}
 
@@ -20,12 +20,7 @@ const AdditionalInformation = props => {
 	}
 
 	const callPreviousForm = () => {
-		if(localProps.requiresLocation === false){
-			props.history.push("/ServiceRequestForm");
-		}
-		else{
-			props.history.push("/ProvideDetails");
-		}
+		props.history.push("/ProvideDetails");
 	}
 
 	return (
