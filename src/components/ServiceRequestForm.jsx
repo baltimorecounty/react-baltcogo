@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Form, Field, connect } from "formik";
 import axios from "axios"
-import { GetErrorsDetails } from "../utilities/CustomErrorHandling";
+import { GetResponseErrors } from "../utilities/CitysourcedResponseHelpers";
 import FormContainer from './FormContainer';
 import QueryString from 'query-string';
 import Model from './Modal';
@@ -73,7 +73,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 	const [animalSubCategories, setAnimalSubCategories] = useState([]);
 	const [animalSex, setAnimalSex] = useState([]);
 
-	const { ContactID, RequestPage, Tabs, shouldDisableForm, 
+	const { ContactID, RequestPage, Tabs, shouldDisableForm,
 		isPanelRequired, requestType, subRequestType, petType } = localProps.values;
 
 	const contactID =  (ContactID === "") ? sessionStorage.getItem("UserLoginID") : ContactID;
@@ -143,7 +143,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 		const description = getIncludedDescriptions(Categories, value ? value : value);
 		const fields = getIncludedFields(Categories, value ? value : value);
 		const requiresLocation = getrequiresLocation(Categories, value ? value : value);
-	
+
 		localProps.setFieldValue('requestTypeDescriptionID', description);
 		localProps.setFieldValue('requiresLocation', (requiresLocation === undefined) ? true : requiresLocation);
 
@@ -165,7 +165,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 		}
 		else{
 			localProps.setFieldValue('isPanelRequired', false);
-		}	
+		}
 	};
 
 	const handleServiceSubRequestChange = (changeEvent) => {
@@ -270,7 +270,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 			const getResponse = await GetContactDetails(contactID);
 
 			if (getResponse.data.HasErrors) {
-				const errorsReturned = GetErrorsDetails(getResponse);
+				const errorsReturned = GetResponseErrors(getResponse);
 				throw new Error(errorsReturned);
 			}
 			else {
@@ -286,7 +286,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 			}
 		}
 		catch (ex) {
-			
+
 		}
 
 	}
@@ -328,12 +328,12 @@ const ServiceRequestForm = (props, errors, touched) => {
 	loadSelectedItems(props);
 	let disableButton = buttonDisableValidation();
 	let displayButton = buttonShowHideValidation();
-	
+
 	return (
 
-		<FormContainer title={RequestPage.map(name => name.RequestTitle)} 
-			tabNames={Tabs} currentTab="ServiceRequestForm" 
-			shouldDisableForm={shouldDisableForm} 
+		<FormContainer title={RequestPage.map(name => name.RequestTitle)}
+			tabNames={Tabs} currentTab="ServiceRequestForm"
+			shouldDisableForm={shouldDisableForm}
 			isPanelRequired={isPanelRequired}
 		>
 			<Form>
