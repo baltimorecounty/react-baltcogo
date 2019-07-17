@@ -20,6 +20,10 @@ const CreateAccount = (props, routeProps) => {
 		props.history.push('/ServiceRequestForm');
 	}
 
+	const goBack = () =>{
+		props.history.push('/ServiceRequestForm');
+	}
+	
 	const userCreateAccount = async (values, actions, props) => {
 		try {
 			const response = await SignUp(values.NameFirst, values.NameLast, values.Email, values.Password, values.Telephone, values.UniqueId, values.SuppressNotifications);
@@ -190,10 +194,17 @@ const CreateAccount = (props, routeProps) => {
 								<div className="cs-form-control" >
 									<p htmlFor="signup">Already have an account? <Link to="SignInForm" >Sign In</Link></p>
 									<SeButton
+										text="Back"
+										type="button"
+										className = "seButton"
+										onClick = {goBack}
+									/>
+									<SeButton
 										text="Sign Up and Continue"
 										type="submit"
 										isLoading={isSubmitting}
 										isLoadingText="Signing Up..."
+										className = "seButton pull-right"
 									/>
 								</div>
 							</Form>

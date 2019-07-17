@@ -1,17 +1,24 @@
 import React from "react";
-import { Formik, Form, Field } from "formik";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { Link } from 'react-router-dom';
 import ErrorMsg from "./ErrorMessage";
 import { GetErrorsDetails } from "../utilities/CustomErrorHandling";
+import { Link } from 'react-router-dom';
 import FormContainer from './FormContainer';
-import { ResetPassword } from './authService';
+import { formIncomplete } from "./checkFormCompletion";
+import Alert from './Alert';
+import SeButton from "./SeButton";
 
-const PasswordReset = (props, routeProps) => {
+const ResetPassword = (props, routeProps) => {
 
-	const userPasswordReset = async (values,actions, props) => {
+	if (formIncomplete(props)) {
+		props.history.push('/ServiceRequestForm');
+	}
 
+	const {Tabs} = props.values;
 
+	const userPasswordReset = async (values, props, actions) => {
+		console.log(props.values);
 		try {
 			const response = await ResetPassword(values.Email);
 			if (response.data.ErrorsCount > 0) {
@@ -19,54 +26,48 @@ const PasswordReset = (props, routeProps) => {
 				props.Field.ErrorMsg = errorsReturned;
 			}
 			else {
-				props.setFieldValue('Email', values.Email);
+				props.values.setFieldValue('Email', props.values.Email);
 				props.history.push('/SignInForm');
 			}
 		}
 		catch (ex) {
-			if (ex.response && ex.response.status === 400) {
-				props.Form.Field.email.errors = ex.response.data
-			}
+			console.log(ex.message);
 		}
 	}
-	return (
-		<FormContainer title="Reset Password" tabNames = {[
-			{
-				"Tab1":"Choose a Report Type"
-			},
-			{
-				"Tab2":"Enter a Location"
-			},
-			{
-				"Tab3":"Provide Your Contact Information"
-			},
-			{
-				"Tab4":""
-			}
 
-		]} currentTab = "ServiceRequestForm" 
-		shouldDisableForm = {false} 
-		isPanelRequired={true}
+	const goBack = () =>{
+		props.history.push('/ServiceRequestForm');
+	}
+
+	return (
+		<FormContainer  title="Reset Password" 
+			tabNames = {Tabs} 
+			currentTab = "ServiceRequestForm" 
+			shouldDisableForm = {false} 
+			isPanelRequired={true}
 		>
 			<Formik
 				initialValues={{
-					Email: ''
+					Email: '',
+
 				}}
 				validationSchema={Yup.object().shape({
-					Email: Yup.string().email('Please enter a valid email address.').required('Please enter your email address.'),
+					Email: Yup.string().email('Please enter a valid email address.').required('Please enter your email address.')
 				})}
-
-				onSubmit={async (values, { setSubmitting }) => {
-					//alert(JSON.stringify(values, null, 2));
-					userPasswordReset(values);
-					setSubmitting(false);
+				onSubmit={async (values, actions, setSubmitting) => {
+					await userPasswordReset(values, props, actions);
+					actions.setSubmitting(false);
 				}}
 			>
 				{
 					(props) => {
-						const { errors, touched, isSubmitting } = props;
+						const { errors = [], touched } = props;
+
 						return (
 							<Form >
+								{errors.length > 0 && <Alert type="danger">
+									{errors}
+								</Alert>}
 								<div className={
 									props.errors.Email && props.touched.Email ? "cs-form-control error" : "cs-form-control"}>
 									<label htmlFor="Email">Email Address</label>
@@ -74,6 +75,10 @@ const PasswordReset = (props, routeProps) => {
 										type="email"
 										name="Email"
 									/>
+									<ErrorMessage name='msg' className='input-feedback' component='div' />
+									<div className={`input-feedback ${props.status ? props.status.css : ''}`}>
+										{props.status ? props.status.success : ''}
+									</div>
 									<p role='alert' className="error-message">
 										<ErrorMsg
 											errormessage={errors.Email}
@@ -85,16 +90,24 @@ const PasswordReset = (props, routeProps) => {
 									>Don't have an account? <Link to="SignUpForm" >Sign up</Link></p>
 									<p htmlFor="signup"
 									>Remember your password? <Link to="SignInForm" >Sign In</Link> </p>
-									<input className="seButton" type="submit" disabled={isSubmitting} value="Submit Reset Request" />
+									<SeButton
+										text="Back"
+										type="button"
+										onClick = {goBack}
+									/>
+									<SeButton
+										text="Submit Reset Request"
+										type="submit"
+										isLoading={props.isSubmitting}
+										className = "pull-right"
+									/>
 								</div>
 							</Form>
 						)
 					}
 				}
 			</Formik>
-		</FormContainer>
-
+		</FormContainer >
 	);
 }
-
-export default PasswordReset;
+export default ResetPassword;

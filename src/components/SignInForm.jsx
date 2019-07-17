@@ -52,6 +52,10 @@ const SignIn = (props, routeProps) => {
 		props.history.push('/ProvideDetails');
 	};
 
+	const goBack = () =>{
+		props.history.push('/ServiceRequestForm');
+	}
+
 	const userLogin = async (values, props, actions) => {
 		try {
 			const response = await Login(values.Email, values.Password);
@@ -149,10 +153,17 @@ const SignIn = (props, routeProps) => {
 									<p htmlFor="signup"
 									>Don't have an account? <Link to="SignUpForm" >Sign up</Link></p>
 									<SeButton
+										text="Back"
+										type="button"
+										className = "seButton"
+										onClick = {goBack}
+									/>
+									<SeButton
 										text="Sign In and Continue"
 										type="submit"
 										isLoading={props.isSubmitting}
 										isLoadingText="Signing In..."
+										className = "seButton pull-right"
 									/>
 								</div>
 
