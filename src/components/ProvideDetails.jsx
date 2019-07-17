@@ -13,7 +13,7 @@ import { returnMapEndPoint } from "../utilities//returnEnvironmentItems"
 import { VerifyAddress } from './authService';
 import ButtonDisplay from "./buttonDisplay";
 import submitReport from "./submitReport";
-import { GetErrorsDetails } from "../utilities/CustomErrorHandling";
+import { GetResponseErrors } from "../utilities/CitysourcedResponseHelpers";
 import SeButton from './SeButton';
 
 Geocode.setApiKey('AIzaSyAqazsw3wPSSxOFVmij32C_LIhBSuyUNi8');
@@ -26,7 +26,7 @@ const provideDetails = props => {
 	const [MarkerLatitude, setMarkerLatitude] = useState(18.5204);
 	const [Address, setData] = useState([]);
 	const [query, setQuery] = useState(encodeURIComponent());
-	const { MapPage, requiresLocation, location, ContactID, 
+	const { MapPage, requiresLocation, location, ContactID,
 		describeTheProblem, Tabs, shouldDisableForm, isPanelRequired } = props.formik.values;
 
 	useEffect(() => {
@@ -152,7 +152,7 @@ const provideDetails = props => {
 		const addressResponse = await VerifyAddress(fullAddress);
 		if (addressResponse.data.HasErrors) {
 
-			const errorsReturned = GetErrorsDetails(addressResponse);
+			const errorsReturned = GetResponseErrors(addressResponse);
 			rest.formik.setFieldValue('ShowErrorMsg', 1);
 			rest.formik.errors.location = errorsReturned;
 		}
@@ -184,10 +184,10 @@ const provideDetails = props => {
 
 	return (
 
-		<FormContainer title={MapPage.map(name => name.DetailsTitle)} 
-			tabNames={Tabs} 
-			currentTab="ProvideDetails" 
-			shouldDisableForm={shouldDisableForm} 
+		<FormContainer title={MapPage.map(name => name.DetailsTitle)}
+			tabNames={Tabs}
+			currentTab="ProvideDetails"
+			shouldDisableForm={shouldDisableForm}
 			isPanelRequired={isPanelRequired}
 		>
 			<Form>
@@ -203,7 +203,7 @@ const provideDetails = props => {
 					type="hidden"
 					name="ShowErrorMsg"
 				/>
-				{(requiresLocation) ? 
+				{(requiresLocation) ?
 					<div className={
 						rest.formik.errors.location && rest.formik.touched.location ? "cs-form-control address-search error" : "cs-form-control address-search"}>
 						<label>{MapPage.map(name => name.DetailsMainLabel)}</label>
@@ -265,7 +265,7 @@ const provideDetails = props => {
 				<div className="cs-form-control" >
 					<ButtonDisplay
 						onClick={goServiceRequestForm}
-						buttonName ="Previous" 
+						buttonName ="Previous"
 						cssClass = "seButton"/>
 					{(!rest.formik.values.requestTypeAddressID) ?
 						<SeButton
@@ -280,7 +280,7 @@ const provideDetails = props => {
 						<ButtonDisplay
 							onClick={goToAdditionalPage}
 							disabled={displayButton}
-							buttonName ="Next" 
+							buttonName ="Next"
 							cssClass = "seButton pull-right"/>}
 				</div>
 			</Form>

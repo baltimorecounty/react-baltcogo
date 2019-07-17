@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import ErrorMsg from "./ErrorMessage";
-import { GetErrorsDetails } from "../utilities/CustomErrorHandling";
+import { GetResponseErrors } from "../utilities/CitysourcedResponseHelpers";
 import { Link } from 'react-router-dom';
 import FormContainer from './FormContainer';
 import { Login } from './authService';
@@ -61,7 +61,7 @@ const SignIn = (props, routeProps) => {
 			} = response.data;
 
 			if (Errors.length > 0) {
-				const errors = GetErrorsDetails(response);
+				const errors = GetResponseErrors(response);
 				handleLoginFailure(actions, errors);
 				throw new Error(errors);
 			}
@@ -77,10 +77,10 @@ const SignIn = (props, routeProps) => {
 	}
 
 	return (
-		<FormContainer title="Sign In" 
-			tabNames = {props.values.Tabs} 
-			currentTab="ServiceRequestForm" 
-			shouldDisableForm={props.values.shouldDisableForm} 
+		<FormContainer title="Sign In"
+			tabNames = {props.values.Tabs}
+			currentTab="ServiceRequestForm"
+			shouldDisableForm={props.values.shouldDisableForm}
 			isPanelRequired={true}
 		>
 			<Formik
