@@ -309,12 +309,12 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 		if (Categories.length > 0 && PetTypes.length > 0
 			&& AnimalBreeds.length > 0 && AnimalColors.length > 0 && OtherAnimalTypes.length > 0) {
-			if (requestType !== '') {
+			if (requestType) {
 				if (subCategories.length === 0) {
 					const value = requestType.toLowerCase();
 					const subCategories = getSubCategories(Categories, value ? value : value);
 					setSubCategories(subCategories);
-					if (petType !== '') {
+					if (petType) {
 						let value = localProps.values['petType'].toLowerCase();
 						const subBreeds = getAnimalSubCategories(AnimalBreeds, value);
 						setAnimalSubCategories(subBreeds.breeds);
