@@ -27,8 +27,8 @@ const provideDetails = props => {
 	//const [MarkerLongitude, setMarkerLongitude] = useState(73.8567);
 	const [Address, setData] = useState([]);
 	const [query, setQuery] = useState(encodeURIComponent());
-	const { MapPage, requiresLocation } = props.formik.values;
-	const localProps = props.formik.values;
+	const { MapPage, requiresLocation, location, ContactID, 
+		describeTheProblem, Tabs, shouldDisableForm, isAccela } = props.formik.values;
 
 	useEffect(() => {
 
@@ -49,7 +49,7 @@ const provideDetails = props => {
 		};
 
 		props.formik.setFieldValue('currentTab', 'ProviderDetail');
-		if (!props.formik.values.ContactID || formIncomplete(props.formik)) {
+		if (!ContactID || formIncomplete(props.formik)) {
 			props.history.push('/ServiceRequestForm');
 		}
 		fetchData();
@@ -66,8 +66,8 @@ const provideDetails = props => {
 	}
 
 	const buttonShowHideValidation = () => {
-		var searchQuery = props.formik.values.location;
-		var description = props.formik.values.describeTheProblem;
+		var searchQuery = location;
+		var description = describeTheProblem;
 
 		if (searchQuery === "" || description === '') {
 			return true;
@@ -164,7 +164,7 @@ const provideDetails = props => {
 		}
 		else {
 			const addressParts = props.formik.values.location.split(',');
-			rest.formik.setFieldValue('requestTypeDescription', props.formik.values.describeTheProblem);
+			rest.formik.setFieldValue('requestTypeDescription', describeTheProblem);
 			rest.formik.setFieldValue('subRequestTypeAddress', addressParts[0]);
 			rest.formik.setFieldValue('subRequestTypeCity', addressParts[1]);
 			rest.formik.setFieldValue('subRequestTypeZip', addressParts[2]);
@@ -177,7 +177,6 @@ const provideDetails = props => {
 	}
 
 	const { values, errors, actions, touched, handleSubmit, setFieldValue, ...rest } = props;
-	const isAccelaType = (!localProps.requestTypeAddressID) ? false : true;
 	const items = Address.map((item, index) => ({
 		id: item.Zip,
 		label: `${item.StreetAddress.toUpperCase()}, ${item.City.toUpperCase()}, ${item.Zip}`,
@@ -192,10 +191,10 @@ const provideDetails = props => {
 	return (
 
 		<FormContainer title={MapPage.map(name => name.DetailsTitle)} 
-			tabNames={localProps.Tabs} 
+			tabNames={Tabs} 
 			currentTab="ProvideDetails" 
-			shouldDisableForm={localProps.shouldDisableForm} 
-			isAccela={isAccelaType}
+			shouldDisableForm={shouldDisableForm} 
+			isAccela={isAccela}
 		>
 			<Form>
 				<Field
@@ -230,7 +229,6 @@ const provideDetails = props => {
 							<div className="address-input-wrapper">
 								<AutoCompletTypeField
 									items={items}
-									//name="location"
 									formikProps={rest}
 									value={rest.formik.values.location}
 									onChange={handleAddressChange}
