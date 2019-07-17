@@ -1,6 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 import { VerifyAddress } from './authService';
+//import { ErrorCheck } from "./CustomErrorHandling";
 import { withGoogleMap, GoogleMap, withScriptjs, InfoWindow, Marker } from "react-google-maps";
 import { compose, withProps, withState, withHandlers } from "recompose";
 import Geocode from "react-geocode";
@@ -24,11 +25,21 @@ class Map extends React.Component {
 		const searchQuery = _.takeRight(this.props.address.split(','), 4);
 		const { flag, incremnetCount } = this.state;
 		let fullAddress = '';
+		//console.log('searchQuery- lenght:' + searchQuery.length);
 		if (searchQuery[2] !== undefined) {
-			fullAddress = searchQuery[0] + '' + searchQuery[1] + '' + searchQuery[2];
-			this.validateAddress(fullAddress);
+
+			//console.log('fullAddress:' + fullAddress);
+
 			if (this.props.lat === nextProps.center.lat) {
 				if (flag === 0 && incremnetCount === 0) {
+					if (searchQuery.length > 3) {
+						fullAddress = searchQuery[0] + ', ' + searchQuery[1] + ', ' + searchQuery[2] + ', ' + searchQuery[3];
+					}
+					else {
+						fullAddress = searchQuery[0] + ', ' + searchQuery[1] + ',MD, ' + searchQuery[2];
+					}
+
+					this.validateAddress(fullAddress);
 					this.setState({ flag: 0, incremnetCount: 1 });
 					return true;
 				}
@@ -54,22 +65,21 @@ class Map extends React.Component {
 
 		const addressResponse = await VerifyAddress(fullAddress);
 		var VerificationId = "";
-
+		console.log('addressResponse');
+		//console.log(addressResponse);
 		if (addressResponse.data.HasErrors === true) {
-			const errorsReturned = ErrorCheck(addressResponse);
+			//const errorsReturned = ErrorCheck(addressResponse);
 			//	console.log(errorsReturned);
-			actions.setStatus({
-				success1: errorsReturned,
-				css: 'address'
-			})
 			//props.Field.ErrorMsg = errorsReturned;
-			throw new Error(errorsReturned);
+			//throw new Error(errorsReturned);
 
 		}
 		else {
 			VerificationId = addressResponse.data.Results.VerificationID;
-			props.setFieldValue('VerificationId', VerificationId);
-			props.setFieldValue('fullAddress', fullAddress);
+			//	props.setFieldValue('VerificationId', VerificationId);
+			//	props.setFieldValue('fullAddress', fullAddress);
+			console.log('VerificationId:' + VerificationId);
+
 		}
 
 	}
