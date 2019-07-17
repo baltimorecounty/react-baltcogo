@@ -7,7 +7,6 @@ import { Link } from 'react-router-dom';
 import FormContainer from './FormContainer';
 import { Login } from './authService';
 import { formIncomplete } from "./checkFormCompletion";
-import Alert from './Alert';
 import SeButton from "./SeButton";
 
 // import DisplayFormikState from './helper';
@@ -97,13 +96,12 @@ const SignIn = (props, routeProps) => {
 			>
 				{
 					(props) => {
-						const { errors = [], touched } = props;
+						const { errors = {}, touched } = props;
+
+						console.log(errors)
 
 						return (
 							<Form >
-								{errors.length > 0 && <Alert type="danger">
-									{errors}
-								</Alert>}
 								<div className={
 									props.errors.Email && props.touched.Email ? "cs-form-control error" : "cs-form-control"}>
 									<label htmlFor="Email">Email Address</label>
@@ -111,7 +109,6 @@ const SignIn = (props, routeProps) => {
 										type="email"
 										name="Email"
 									/>
-
 									<ErrorMessage name='msg' className='input-feedback' component='div' />
 									<div className={`input-feedback ${props.status ? props.status.css : ''}`}>
 										{props.status ? props.status.success : ''}
