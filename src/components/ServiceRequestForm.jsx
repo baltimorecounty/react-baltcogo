@@ -315,7 +315,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 					const subCategories = getSubCategories(Categories, value ? value : value);
 					setSubCategories(subCategories);
 					if (petType) {
-						let value = localProps.values['petType'].toLowerCase();
+						let value = petType.toLowerCase();
 						const subBreeds = getAnimalSubCategories(AnimalBreeds, value);
 						setAnimalSubCategories(subBreeds.breeds);
 						setAnimalSex(subBreeds.sex);
