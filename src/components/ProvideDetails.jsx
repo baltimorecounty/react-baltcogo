@@ -27,7 +27,7 @@ const provideDetails = props => {
 	const [MarkerLatitude, setMarkerLatitude] = useState(18.5204);
 	const [Address, setData] = useState([]);
 	const [query, setQuery] = useState(encodeURIComponent());
-	const { MapPage, requiresLocation, location, ContactID,
+	const { MapPage, location, ContactID,
 		describeTheProblem, Tabs, shouldDisableForm, isPanelRequired } = props.formik.values;
 
 	useEffect(() => {
@@ -84,7 +84,7 @@ const provideDetails = props => {
 
 	const handleAddressSelect = (val) => {
 		setQuery(val);
-	
+
 		let searchQuery = _.split(val, ',', 1);
 		if (searchQuery.length > 0) {
 			let filtered = Address.filter(m => m.StreetAddress.toLowerCase().indexOf(searchQuery.toString().toLowerCase()) > -1);
@@ -213,7 +213,7 @@ const provideDetails = props => {
 						onZoom={onZoom}
 						markerLat={MarkerLatitude}
 						onMarkerDragEnd={e => (onMarkerDragEnd(e, setFieldValue))} />
-				
+
 				</div>
 				<DescribeTheProblem
 					errorsDescribeTheProblem={rest.formik.errors.describeTheProblem}
@@ -223,8 +223,8 @@ const provideDetails = props => {
 				<div className="cs-form-control" >
 					<ButtonDisplay
 						onClick={goServiceRequestForm}
-						buttonName ="Previous"
-						cssClass = "seButton"/>
+						buttonName="Previous"
+						cssClass="seButton" />
 					{(!rest.formik.values.requestTypeAddressID) ?
 						<SeButton
 							text="File Your Report"
@@ -238,8 +238,8 @@ const provideDetails = props => {
 						<ButtonDisplay
 							onClick={goToAdditionalPage}
 							disabled={displayButton}
-							buttonName ="Next"
-							cssClass = "seButton pull-right"/>}
+							buttonName="Next"
+							cssClass="seButton pull-right" />}
 				</div>
 			</Form>
 		</FormContainer>
