@@ -9,7 +9,7 @@ import axios from "axios"
 import _ from 'lodash';
 import AutoCompletTypeField from './AutocompleteTypeField';
 import { formIncomplete } from "./checkFormCompletion";
-import { returnMapEndPoint } from "./returnEnvironmentItems"
+import { returnMapEndPoint } from "../utilities//returnEnvironmentItems"
 import { VerifyAddress } from './authService';
 import ButtonDisplay from "./buttonDisplay";
 import submitReport from "./submitReport";
@@ -272,7 +272,10 @@ const provideDetails = props => {
 					</p>
 				</div>
 				<div className="cs-form-control" >
-					<input type="button" className="seButton" onClick={goServiceRequestForm} value="Previous" />
+					<ButtonDisplay
+						onClick={goServiceRequestForm}
+						buttonName ="Previous" 
+						cssClass = "seButton"/>
 					{(!rest.formik.values.requestTypeAddressID) ?
 						<SeButton
 							text="File Your Report"
@@ -280,14 +283,14 @@ const provideDetails = props => {
 							isDisabled={displayButton}
 							isLoading={isSubmitting}
 							isLoadingText="Submitting Request..."
-							isInline
 							className="pull-right"
 						/>
 						:
 						<ButtonDisplay
 							onClick={goToAdditionalPage}
 							disabled={displayButton}
-							buttonName ="Next" />}
+							buttonName ="Next" 
+							cssClass = "seButton pull-right"/>}
 				</div>
 			</Form>
 		</FormContainer>

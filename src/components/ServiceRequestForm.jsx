@@ -11,7 +11,7 @@ import TrashAndRecycle from "./trashAndRecycle";
 import { GetContactDetails } from './authService';
 import RoadsAndSidewalks from "./roadsAndSidewalks";
 import { formIncomplete } from "./checkFormCompletion";
-import { returnJsonFileLocations, returnRequestTypes } from "./returnEnvironmentItems";
+import { returnJsonFileLocations, returnRequestTypes } from "../utilities//returnEnvironmentItems";
 import PetType from "./petType";
 import RequestCategory from "./requestCategory";
 import RequestSubCategory from "./requestSubCategory";

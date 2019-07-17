@@ -1,5 +1,5 @@
 import http from "./httpService";
-import { returnAPIEndPoint } from "./returnEnvironmentItems"
+import { returnAPIEndPoint } from "../utilities//returnEnvironmentItems"
 
 export function Login(email, password) {
 	const endpointLogin = returnAPIEndPoint("apiLoginUrl");
