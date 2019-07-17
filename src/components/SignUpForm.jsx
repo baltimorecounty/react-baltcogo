@@ -11,6 +11,9 @@ import { IsPhoneNumberValid } from '@baltimorecounty/validation';
 import SeButton from "./SeButton";
 
 const CreateAccount = (props, routeProps) => {
+
+	const {Tabs, SignUpPage, shouldDisableForm} = props.values;
+
 	const [fieldType, setFieldType] = useState('Password');
 	const handlePasswordToggleChange = () => {
 		setFieldType(fieldType === 'Password' ? 'text' : 'Password');
@@ -66,10 +69,10 @@ const CreateAccount = (props, routeProps) => {
 	});
 
 	return (
-		<FormContainer title="Register for an Account" 
-			tabNames = {props.values.Tabs} 
+		<FormContainer title={SignUpPage.map(name => name.SignUpTitle)}  
+			tabNames = {Tabs} 
 			currentTab="ServiceRequestForm" 
-			shouldDisableForm={props.values.shouldDisableForm} 
+			shouldDisableForm={shouldDisableForm} 
 			isPanelRequired={true}
 		>
 			<Formik
@@ -107,7 +110,7 @@ const CreateAccount = (props, routeProps) => {
 							<Form >
 								<div className={
 									errors.NameFirst && touched.NameFirst ? "cs-form-control error" : "cs-form-control"}>
-									<label htmlFor="NameFirst">First Name</label>
+									<label htmlFor="NameFirst">{SignUpPage.map(name => name.FirstNameLabel)}  </label>
 									<Field
 										type="text"
 										name="NameFirst"
@@ -120,7 +123,7 @@ const CreateAccount = (props, routeProps) => {
 								</div>
 								<div className={
 									props.errors.NameLast && props.touched.NameLast ? "cs-form-control error" : "cs-form-control"}>
-									<label htmlFor="NameLast">Last Name</label>
+									<label htmlFor="NameLast">{SignUpPage.map(name => name.LastNameLabel)}  </label>
 									<Field
 										type="text"
 										name="NameLast"
@@ -133,9 +136,7 @@ const CreateAccount = (props, routeProps) => {
 								</div>
 								<div className={
 									props.errors.Telephone && props.touched.Telephone ? "cs-form-control error" : "cs-form-control"}>
-									<label htmlFor="Telephone"
-
-									>Phone</label>
+									<label htmlFor="Telephone">{SignUpPage.map(name => name.PhoneLabel)}</label>
 									<Field
 										type="text"
 										name="Telephone"
@@ -150,7 +151,7 @@ const CreateAccount = (props, routeProps) => {
 								</div>
 								<div className={
 									props.errors.Email && props.touched.Email ? "cs-form-control error" : "cs-form-control"}>
-									<label htmlFor="Email">Email Address</label>
+									<label htmlFor="Email">{SignUpPage.map(name => name.EmailLabel)}</label>
 									<Field
 										type="email"
 										name="Email"
@@ -166,7 +167,7 @@ const CreateAccount = (props, routeProps) => {
 								</div>
 								<div className={
 									props.errors.Password && props.touched.Password ? "cs-form-control error" : "cs-form-control"}>
-									<label name="Password" htmlFor="Password">Password</label>
+									<label name="Password" htmlFor="Password">{SignUpPage.map(name => name.PasswordLabel)}</label>
 									<Field type={fieldType === 'Password' ? 'Password' : 'text'}
 										name="Password"
 										value={values.Password}
@@ -181,7 +182,7 @@ const CreateAccount = (props, routeProps) => {
 								</div>
 
 								<div className="cs-form-control" >
-									<p htmlFor="signup">Already have an account? <Link to="SignInForm" >Sign In</Link></p>
+									<p htmlFor="signup">{SignUpPage.map(name => name.HaveAccountLabel)} <Link to="SignInForm" >{SignUpPage.map(name => name.SignInLinkLabel)}</Link></p>
 									<SeButton
 										text="Back"
 										type="button"

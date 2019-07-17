@@ -55,15 +55,6 @@
             "PasswordLabel":"Password"
         },
         {
-            "StreetLabel":"Street Address"
-        },
-        {
-            "CityLabel":"City"
-        },
-        {
-            "ZipcodeLabel":"ZIP Code"
-        },
-        {
             "HaveAccountLabel": "Already have an account?"
         },
         {

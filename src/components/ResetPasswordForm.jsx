@@ -17,7 +17,7 @@ const ResetPasswordForm = (props, routeProps) => {
 		props.history.push('/ServiceRequestForm');
 	}
 
-	const {Tabs} = props.values;
+	const {Tabs, ResetPasswordPage} = props.values;
 
 	const userPasswordReset = async (values, props, actions) => {
 		const { Email = '' } = values || {};
@@ -28,8 +28,7 @@ const ResetPasswordForm = (props, routeProps) => {
 				props.Field.ErrorMsg = errorsReturned;
 			}
 			else {
-				props.values.setFieldValue('Email', Email);
-				props.history.push('/SignInForm');
+				signIn();
 			}
 		}
 		catch (ex) {
@@ -41,8 +40,12 @@ const ResetPasswordForm = (props, routeProps) => {
 		props.history.push('/ServiceRequestForm');
 	}
 
+	const signIn = () =>{
+		props.history.push('/SignInForm');
+	}
+
 	return (
-		<FormContainer  title="Reset Password"
+		<FormContainer  title={ResetPasswordPage.map(name => name.ResetPasswordTitle)}
 			tabNames = {Tabs}
 			currentTab = "ServiceRequestForm"
 			shouldDisableForm = {false}
@@ -73,7 +76,7 @@ const ResetPasswordForm = (props, routeProps) => {
 								</Alert>}
 								<div className={
 									props.errors.Email && props.touched.Email ? "cs-form-control error" : "cs-form-control"}>
-									<label htmlFor="Email">Email Address</label>
+									<label htmlFor="Email">{ResetPasswordPage.map(name => name.EmailLabel)}</label>
 									<Field
 										type="email"
 										name="Email"
@@ -90,9 +93,9 @@ const ResetPasswordForm = (props, routeProps) => {
 								</div>
 								<div className = "cs-form-control" >
 									<p htmlFor="signup"
-									>Don't have an account? <Link to="SignUpForm" >Sign up</Link></p>
+									>{ResetPasswordPage.map(name => name.NoAccountLabel)} <Link to="SignUpForm" >{ResetPasswordPage.map(name => name.SignUpLinkLabel)}</Link></p>
 									<p htmlFor="signup"
-									>Remember your password? <Link to="SignInForm" >Sign In</Link> </p>
+									>{ResetPasswordPage.map(name => name.RememberPasswordLabel)} <Link to="SignInForm" >{ResetPasswordPage.map(name => name.SignInLinkLabel)}</Link> </p>
 									<SeButton
 										text="Back"
 										type="button"
