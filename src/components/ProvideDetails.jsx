@@ -24,7 +24,6 @@ const provideDetails = props => {
 	const [Latitude, setLatitude] = useState(39.4001526);
 	const [Longitude, setLongitude] = useState(-76.6074448);
 	const [MarkerLatitude, setMarkerLatitude] = useState(18.5204);
-	//const [MarkerLongitude, setMarkerLongitude] = useState(73.8567);
 	const [Address, setData] = useState([]);
 	const [query, setQuery] = useState(encodeURIComponent());
 	const { MapPage, requiresLocation, location, ContactID, 
@@ -33,7 +32,6 @@ const provideDetails = props => {
 	useEffect(() => {
 
 		const fetchData = async () => {
-			//	const encodeAddress = encodeURIComponent('400 wa')
 			const mapEndPoint = returnMapEndPoint('mapGISEndPoint');
 			if (query !== 'undefined' && query.length > 0) {
 				const result = await axios(
@@ -104,9 +102,6 @@ const provideDetails = props => {
 		setLatitude(Latitude);
 		setLongitude(Longitude);
 		setMarkerLatitude(Latitude);
-		//	setMarkerLongitude(Longitude);
-		// setMarkerLatitude(MarkerLatitude);
-		// setMarkerLongitude(MarkerLongitude);
 		rest.formik.setFieldValue('Latitude', Latitude);
 		rest.formik.setFieldValue('Longitude', Longitude);
 	};
@@ -132,7 +127,6 @@ const provideDetails = props => {
 					setLongitude(newLng);
 					setLatitude(newLat);
 					setMarkerLatitude(newLat);
-					//	setMarkerLongitude(newLng);
 					rest.formik.setFieldValue('Latitude', newLat);
 					rest.formik.setFieldValue('Longitude', newLng);
 					rest.formik.setFieldValue('ShowErrorMsg', 0);
@@ -248,10 +242,6 @@ const provideDetails = props => {
 							onZoom={onZoom}
 							markerLat={MarkerLatitude} onMarkerDragEnd={e => (onMarkerDragEnd(e, setFieldValue))} />
 						<p role='alert' className="error-message">
-
-							{/* <ErrorMsg
-							errormessage={rest.formik.errors.location}
-							touched={rest.formik.touched.location} /> */}
 						</p>
 					</div> : null }
 				<div className={
