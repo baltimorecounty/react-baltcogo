@@ -28,7 +28,7 @@ const provideDetails = props => {
 	const [Address, setData] = useState([]);
 	const [query, setQuery] = useState(encodeURIComponent());
 	const { MapPage, location, ContactID,
-		describeTheProblem, Tabs, shouldDisableForm, isPanelRequired } = props.formik.values;
+		describeTheProblem, Tabs, requiresLocation, shouldDisableForm, isPanelRequired } = props.formik.values;
 
 	useEffect(() => {
 
@@ -193,28 +193,30 @@ const provideDetails = props => {
 					type="hidden"
 					name="ShowErrorMsg"
 				/>
-				<label>Add a Location</label>
-				<p>
-					{MapPage.map(name => name.DetailsMainLabelExplaination)}
-				</p>
-				<div className={
-					rest.formik.errors.location && rest.formik.touched.location ? "cs-form-control address-search error" : "cs-form-control address-search"}>
-					<IssueType
-						rest={rest}
-						items={items}
-						handleAddressChange={handleAddressChange}
-						handleAddressSelect={handleAddressSelect}
-						pageFieldName={MapPage} />
+				{(requiresLocation) ? 
+					<div className={
+						rest.formik.errors.location && rest.formik.touched.location ? "cs-form-control address-search error" : "cs-form-control address-search"}>
+						<label>{MapPage.map(name => name.DetailsMainLabel)}</label>
+						<p>
+							{MapPage.map(name => name.DetailsMainLabelExplaination)}
+						</p>
+						<IssueType
+							rest={rest}
+							items={items}
+							handleAddressChange={handleAddressChange}
+							handleAddressSelect={handleAddressSelect}
+							pageFieldName={MapPage} />
 
-					<Collaspe address={rest.formik.values.location}
-						ZoomValue={rest.formik.values.ZoomValue}
-						lat={Latitude}
-						lng={Longitude}
-						onZoom={onZoom}
-						markerLat={MarkerLatitude}
-						onMarkerDragEnd={e => (onMarkerDragEnd(e, setFieldValue))} />
+						<Collaspe address={rest.formik.values.location}
+							ZoomValue={rest.formik.values.ZoomValue}
+							lat={Latitude}
+							lng={Longitude}
+							onZoom={onZoom}
+							markerLat={MarkerLatitude}
+							onMarkerDragEnd={e => (onMarkerDragEnd(e, setFieldValue))} />
 
-				</div>
+					</div> :
+					null}
 				<DescribeTheProblem
 					errorsDescribeTheProblem={rest.formik.errors.describeTheProblem}
 					touchedDescribeTheProblem={rest.formik.touched.describeTheProblem}
