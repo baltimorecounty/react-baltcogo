@@ -36,7 +36,7 @@ const FormContainer = props => {
 				{ tabList.map((tab,id) => {
 					return (
 						<li
-							key={id}
+							key={tab.id}
 							className = { selectClassName(tab) }>
 							{tab.description}
 						</li>
