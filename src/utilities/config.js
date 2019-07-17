@@ -1,7 +1,7 @@
 export const endPointsLocal = [
 	{ key: 'apiLoginUrl', value: 'http://localhost:54727/platform.citysourced.net/login/' },
 	{ key: 'apiSignInUrl', value: 'http://localhost:54727/platform.citysourced.net/SignUp/' },
-	{ ket: 'apiPasswordResetUrl', value: 'http://localhost:54727/platform.citysourced.net/password/' },
+	{ key: 'apiPasswordResetUrl', value: 'http://localhost:54727/platform.citysourced.net/password/' },
 	{ key: 'apiReportUrl', value: 'http://localhost:54727/platform.citysourced.net/servicerequests/' },
 	{ key: 'apiContactUrl', value: 'http://localhost:54727/platform.citysourced.net/contacts/' },
 	{ key: 'apiVerifyAddressUrl', value: 'http://localhost:54727/platform.citysourced.net/contacts/verifyaddress' }
@@ -105,7 +105,7 @@ export const formTypesProd = [
 ];
 
 export const mapEndPointDevelopment = [
-	{ key: "mapGISEndPoint", value: "http://localhost:54727/api/gis/addressLookup/" },
+	{ key: 'mapGISEndPoint', value: 'http://localhost:54727/api/gis/addressLookup/' },
 	{
 		key: 'mapReverseGISEndPoint',
 		value:
@@ -114,7 +114,7 @@ export const mapEndPointDevelopment = [
 ];
 
 export const mapEndPointTest = [
-	{ key: "mapGISEndPoint", value: "https://testservices.baltimorecountymd.gov/api/gis/addressLookup/" },
+	{ key: 'mapGISEndPoint', value: 'https://testservices.baltimorecountymd.gov/api/gis/addressLookup/' },
 	{
 		key: 'mapReverseGISEndPoint',
 		value:

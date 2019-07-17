@@ -151,6 +151,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 		{
 			localProps.setFieldValue('Latitude', 39.40037792)
 			localProps.setFieldValue('Longitude', -76.60651907)
+			localProps.setFieldValue('location', '400 WASHINGTON AVE, TOWSON, 21204')
 		}
 
 		pullServiceRequestFields(fields);
