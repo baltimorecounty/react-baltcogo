@@ -53,7 +53,7 @@ export default withFormik({
 		zipCode: '',
 		shouldDisableForm: false,
 		requiresLocation: true,
-		isAccela: true,
+		isPanelRequired: true,
 		Tabs: [''],
 		RequestPage: [''],
 		MapPage: [''],

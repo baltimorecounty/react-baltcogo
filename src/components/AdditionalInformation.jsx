@@ -9,7 +9,7 @@ import submitReport from "./submitReport";
 const AdditionalInformation = props => {
 	const localProps = props.formik.values;
 	const { values, actions, errors, touched, ...rest } = props;
-	const { isAccela, shouldDisableForm, Tabs, AdditionalInfoPage, ContactID } = localProps 
+	const { isPanelRequired, shouldDisableForm, Tabs, AdditionalInfoPage, ContactID } = localProps 
 
 	if(!ContactID || formIncomplete(props.formik)){
 		props.history.push('/ServiceRequestForm');
@@ -28,7 +28,7 @@ const AdditionalInformation = props => {
 			tabNames = {Tabs} 
 			currentTab = "AdditionalInformation" 
 			shouldDisableForm = {shouldDisableForm} 
-			isAccela = {isAccela}
+			isPanelRequired = {isPanelRequired}
 		>
 			<Form>
 				{(localProps.requiresLocation === false) ?

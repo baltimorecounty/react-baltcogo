@@ -66,7 +66,7 @@ const CreateAccount = (props, routeProps) => {
 			tabNames = {props.values.Tabs} 
 			currentTab="ServiceRequestForm" 
 			shouldDisableForm={props.values.shouldDisableForm} 
-			isAccela={true}
+			isPanelRequired={true}
 		>
 			<Formik
 

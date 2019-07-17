@@ -27,7 +27,7 @@ const provideDetails = props => {
 	const [Address, setData] = useState([]);
 	const [query, setQuery] = useState(encodeURIComponent());
 	const { MapPage, requiresLocation, location, ContactID, 
-		describeTheProblem, Tabs, shouldDisableForm, isAccela } = props.formik.values;
+		describeTheProblem, Tabs, shouldDisableForm, isPanelRequired } = props.formik.values;
 
 	useEffect(() => {
 
@@ -188,7 +188,7 @@ const provideDetails = props => {
 			tabNames={Tabs} 
 			currentTab="ProvideDetails" 
 			shouldDisableForm={shouldDisableForm} 
-			isAccela={isAccela}
+			isPanelRequired={isPanelRequired}
 		>
 			<Form>
 				<Field

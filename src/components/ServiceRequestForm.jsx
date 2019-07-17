@@ -74,7 +74,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 	const [animalSex, setAnimalSex] = useState([]);
 
 	const { ContactID, RequestPage, Tabs, shouldDisableForm, 
-		isAccela, requestType, subRequestType, petType } = localProps.values;
+		isPanelRequired, requestType, subRequestType, petType } = localProps.values;
 
 	const contactID =  (ContactID === "") ? sessionStorage.getItem("UserLoginID") : ContactID;
 
@@ -161,10 +161,10 @@ const ServiceRequestForm = (props, errors, touched) => {
 			localProps.setFieldValue('requestTypeAddressID', fields.streetAddress);
 			localProps.setFieldValue('requestTypeCityID', fields.city);
 			localProps.setFieldValue('requestTypeZipID', fields.zipCode);
-			localProps.setFieldValue('isAccela', true);
+			localProps.setFieldValue('isPanelRequired', true);
 		}
 		else{
-			localProps.setFieldValue('isAccela', false);
+			localProps.setFieldValue('isPanelRequired', false);
 		}	
 	};
 
@@ -334,7 +334,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 		<FormContainer title={RequestPage.map(name => name.RequestTitle)} 
 			tabNames={Tabs} currentTab="ServiceRequestForm" 
 			shouldDisableForm={shouldDisableForm} 
-			isAccela={isAccela}
+			isPanelRequired={isPanelRequired}
 		>
 			<Form>
 
