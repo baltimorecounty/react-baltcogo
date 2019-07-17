@@ -8,7 +8,7 @@ const SubmitResponse = (props) => {
 	const {
 		Tabs,
 		shouldDisableForm,
-		requiresLocation
+		isPanelRequired
 	} = props.values;
 	const {
 		response = {}
@@ -35,7 +35,7 @@ const SubmitResponse = (props) => {
 			tabNames={Tabs}
 			currentTab="ServiceRequestForm"
 			shouldDisableForm={shouldDisableForm}
-			requiresLocation={requiresLocation}
+			isPanelRequired={isPanelRequired}
 		>
 			<Formik>
 				{() => {

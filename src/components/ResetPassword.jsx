@@ -44,7 +44,10 @@ const PasswordReset = (props, routeProps) => {
 				"Tab4":""
 			}
 
-		]} currentTab = "ServiceRequestForm" shouldDisableForm = {false} requiresLocation= {true}>
+		]} currentTab = "ServiceRequestForm" 
+		shouldDisableForm = {false} 
+		isPanelRequired={true}
+		>
 			<Formik
 				initialValues={{
 					Email: ''

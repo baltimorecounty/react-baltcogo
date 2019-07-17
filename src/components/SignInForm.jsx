@@ -77,7 +77,12 @@ const SignIn = (props, routeProps) => {
 	}
 
 	return (
-		<FormContainer title="Sign In" tabNames = {props.values.Tabs} currentTab="ServiceRequestForm" shouldDisableForm={props.values.shouldDisableForm} requiresLocation= {props.values.requiresLocation}>
+		<FormContainer title="Sign In" 
+			tabNames = {props.values.Tabs} 
+			currentTab="ServiceRequestForm" 
+			shouldDisableForm={props.values.shouldDisableForm} 
+			isPanelRequired={true}
+		>
 			<Formik
 				initialValues={{
 					Email: '',
