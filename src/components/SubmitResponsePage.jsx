@@ -40,33 +40,30 @@ const SubmitResponse = (props) => {
 	const { Tabs, shouldDisableForm, requiresLocation } = props.values;
 	const { response = {} } = props.history.location.state || {};
 	const isFormSubmissionSuccessful = !HasResponseErrors(response);
+	const resetForm = () => {
+		props.resetForm();
+		props.history.push('/ServiceRequestForm');
+	};
+	const returnHome = () => {
+		resetForm();
+	};
+	const logout = () => {
+		sessionStorage.clear();
+		resetForm();
+	};
 	const HomeButton = (
 		<React.Fragment>
-			<ButtonDisplay onClick={returnHome} buttonName="Create New Report" cssClass="seButton" />
+			<ButtonDisplay key={1} onClick={returnHome} buttonName="Create New Report" cssClass="seButton" />
 		</React.Fragment>
 	);
 	const LogoutButton = (
 		<React.Fragment>
-			<ButtonDisplay onClick={logout} buttonName="Logout" cssClass="seButton pull-right" />
+			<ButtonDisplay key={2}  onClick={logout} buttonName="Logout" cssClass="seButton pull-right" />
 		</React.Fragment>
 	);
 	const alertInfo = isFormSubmissionSuccessful
 		? getAlertInfo('Your Submission Has Been Received', successBodyContent, 'success', [ HomeButton, LogoutButton ])
 		: getAlertInfo('Your Report Was Not Submitted', failureBodyContent, 'warning', [ HomeButton ]);
-
-	const resetForm = () => {
-		props.resetForm();
-		props.history.push('/ServiceRequestForm');
-	};
-
-	const returnHome = () => {
-		resetForm();
-	};
-
-	const logout = () => {
-		sessionStorage.clear();
-		resetForm();
-	};
 
 	return (
 		<FormContainer
@@ -90,7 +87,7 @@ const SubmitResponse = (props) => {
 								>
 									<h2>{title}</h2>
 									{bodyContent}
-									<div className="cs-form-control">{controls.map((control) => <control />)}</div>
+									<div className="cs-form-control">{controls.map((control) => control)}</div>
 								</Alert>
 							</Form>
 						</React.Fragment>
