@@ -465,15 +465,6 @@ const ServiceRequestForm = (props, errors, touched) => {
 					rest={rest}
 					animalSubCategories={animalSubCategories} />
 
-<<<<<<< HEAD
-=======
-				< ServiceDescription
-					requestType={requestType.toLowerCase()}
-					errorsServiceDescription={localProps.errors.serviceDescription}
-					touchedServiceDescription={localProps.touched.serviceDescription}
-					pageFieldName={RequestPage.Description} />
-
->>>>>>> origin/integration
 				<Field type="hidden" name="requestTypeID" />
 				<Field type="hidden" name="requestTypeDescriptionID" />
 				<Field type="hidden" name="requestTypeAddressID" />
