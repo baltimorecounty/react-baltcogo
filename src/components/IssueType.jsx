@@ -1,12 +1,10 @@
 import React from "react";
 
 import { ErrorMessage } from "formik";
-import AutoCompletTypeField from './AutocompleteTypeField';
+import AutoCompleteTypeField from './AutocompleteTypeField';
 const IssueType = ({ rest, items, handleAddressChange, handleAddressSelect,  pageFieldName }) => {
-
 	return (
 		<React.Fragment>
-
 			<div>
 				<label>Issue type</label>
 				<div>
@@ -18,9 +16,8 @@ const IssueType = ({ rest, items, handleAddressChange, handleAddressSelect,  pag
 					className="address">{pageFieldName.map(name => name.AddressHeaderLabel)}
 				</label>
 				<div className="address-input-wrapper">
-					<AutoCompletTypeField
+					<AutoCompleteTypeField
 						items={items}
-						//name="location"
 						formikProps={rest}
 						value={rest.formik.values.location}
 						onChange={handleAddressChange}
