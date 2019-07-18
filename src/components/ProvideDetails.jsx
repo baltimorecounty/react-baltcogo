@@ -163,7 +163,7 @@ const provideDetails = props => {
 
 	const { values, errors, actions, touched, handleSubmit, setFieldValue, ...rest } = props;
 	const items = Address.map((item, index) => ({
-		id: item.Zip,
+		id: item.Latitude + item.Longitude,
 		label: `${item.StreetAddress.toUpperCase()}, ${item.City.toUpperCase()}, ${item.Zip}`,
 	}));
 
