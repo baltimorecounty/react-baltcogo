@@ -74,10 +74,4 @@ export default withFormik({
 			location: Yup.string().required('You must select a location inside Baltimore County.'),
 			describeTheProblem: Yup.string().required('Please enter a description for your report.'),
 		}),
-
-	handleSubmit: values => {
-
-		console.log(values);
-
-	},
 }); 

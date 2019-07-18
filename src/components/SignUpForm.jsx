@@ -6,7 +6,7 @@ import { GetResponseErrors } from "../utilities/CitysourcedResponseHelpers";
 import FormContainer from './FormContainer';
 import { SignUp } from './authService';
 import { Link } from 'react-router-dom';
-import { formIncomplete } from "./checkFormCompletion";
+import { formIncomplete } from "../utilities/checkFormCompletion";
 import { IsPhoneNumberValid } from '@baltimorecounty/validation';
 import SeButton from "./SeButton";
 

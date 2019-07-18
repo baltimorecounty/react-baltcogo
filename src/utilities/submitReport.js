@@ -1,4 +1,4 @@
-import { CreateReport } from './authService';
+import { CreateReport } from '../components/authService';
 import { GetResponseErrors, HasResponseErrors } from '../utilities/CitysourcedResponseHelpers';
 
 

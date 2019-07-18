@@ -2,9 +2,9 @@ import React from "react";
 import {Form, Field, connect } from "formik";
 import ErrorMsg from "./ErrorMessage";
 import FormContainer from './FormContainer';
-import { formIncomplete } from "./checkFormCompletion";
+import { formIncomplete } from "../utilities/checkFormCompletion";
 import ButtonDisplay from "./buttonDisplay";
-import submitReport from "./submitReport";
+import submitReport from "../utilities/submitReport";
 
 const AdditionalInformation = props => {
 	const localProps = props.formik.values;

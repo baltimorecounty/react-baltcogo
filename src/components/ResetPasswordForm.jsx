@@ -5,7 +5,7 @@ import ErrorMsg from "./ErrorMessage";
 import { GetResponseErrors } from "../utilities/CitysourcedResponseHelpers";
 import { Link } from 'react-router-dom';
 import FormContainer from './FormContainer';
-import { formIncomplete } from "./checkFormCompletion";
+import { formIncomplete } from "../utilities/checkFormCompletion";
 import Alert from './Alert';
 import SeButton from "./SeButton";
 import { ResetPassword } from './authService';

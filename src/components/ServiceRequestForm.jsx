@@ -10,7 +10,7 @@ import WaterAndSewerIssue from "./waterAndSewerIssue";
 import TrashAndRecycle from "./trashAndRecycle";
 import { GetContactDetails } from './authService';
 import RoadsAndSidewalks from "./roadsAndSidewalks";
-import { formIncomplete } from "./checkFormCompletion";
+import { formIncomplete } from "../utilities/checkFormCompletion";
 import { returnJsonFileLocations, returnRequestTypes } from "../utilities//returnEnvironmentItems";
 import PetType from "./petType";
 import RequestCategory from "./requestCategory";

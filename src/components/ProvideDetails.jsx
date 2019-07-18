@@ -7,13 +7,13 @@ import Geocode from "react-geocode";
 import Collaspe from './Collaspe'
 import axios from "axios"
 import _ from 'lodash';
-import { formIncomplete } from "./checkFormCompletion";
+import { formIncomplete } from "../utilities/checkFormCompletion";
 import { returnMapEndPoint } from "../utilities//returnEnvironmentItems"
 import { VerifyAddress } from './authService';
 import ButtonDisplay from "./buttonDisplay";
 import IssueType from './IssueType';
 import DescribeTheProblem from './describeTheProblem';
-import submitReport from "./submitReport";
+import submitReport from "../utilities/submitReport";
 import { GetResponseErrors } from "../utilities/CitysourcedResponseHelpers";
 import SeButton from './SeButton';
 
@@ -147,11 +147,11 @@ const provideDetails = props => {
 			rest.formik.errors.location = errorsReturned;
 		}
 		else {
-			const addressParts = props.formik.values.location.split(',');
+			const addressParts = location.split(',');
 			rest.formik.setFieldValue('requestTypeDescription', describeTheProblem);
 			rest.formik.setFieldValue('subRequestTypeAddress', addressParts[0]);
 			rest.formik.setFieldValue('subRequestTypeCity', addressParts[1]);
-			rest.formik.setFieldValue('subRequestTypeZip', addressParts[2]);
+			rest.formik.setFieldValue('subRequestTypeZip', (addressParts.length === 3) ? addressParts[2] : addressParts[3]);
 			props.history.push('/AdditionalInformationForm');
 		}
 	}
