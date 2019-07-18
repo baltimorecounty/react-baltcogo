@@ -76,8 +76,6 @@ export default withFormik({
 		}),
 
 	handleSubmit: values => {
-
-		console.log(values);
-
+		console.log('form submission', values);
 	},
-}); 
+});

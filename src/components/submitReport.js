@@ -89,7 +89,7 @@ export const submitReport = async (actions, props) => {
 			state: { response }
 		});
 	} catch (ex) {
-		console.log(ex.message);
+		console.error(ex.message);
 	}
 };
 
