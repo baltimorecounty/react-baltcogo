@@ -8,7 +8,7 @@ const SubCategory = ({ requestType, subRequestType, errorsSubRequestType, touche
 			{requestType !== '' ?
 				<div className={
 					errorsSubRequestType && touchedSubRequestType ? "cs-form-control error" : "cs-form-control"}>
-					<label name="subRequestType" htmlFor="subRequestType">{pageFieldName.map(name => name.SubCategoryLabel)}</label>
+					<label name="subRequestType" htmlFor="subRequestType">{pageFieldName}</label>
 					<RequestSubTypeField
 						component="select"
 						name="subRequestType"

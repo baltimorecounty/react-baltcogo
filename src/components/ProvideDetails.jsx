@@ -175,7 +175,7 @@ const provideDetails = props => {
 
 	return (
 
-		<FormContainer title={MapPage.map(name => name.DetailsTitle)}
+		<FormContainer title={MapPage.DetailsTitle}
 			tabNames={Tabs}
 			currentTab="ProvideDetails"
 			shouldDisableForm={shouldDisableForm}
@@ -197,16 +197,16 @@ const provideDetails = props => {
 				{(requiresLocation) ?
 					<div className={
 						rest.formik.errors.location && rest.formik.touched.location ? "cs-form-control address-search error" : "cs-form-control address-search"}>
-						<label>{MapPage.map(name => name.DetailsMainLabel)}</label>
+						<label>{MapPage.DetailsMainLabel}</label>
 						<p>
-							{MapPage.map(name => name.DetailsMainLabelExplaination)}
+							{MapPage.DetailsMainLabelExplanation}
 						</p>
 						<IssueType
 							rest={rest}
 							items={items}
 							handleAddressChange={handleAddressChange}
 							handleAddressSelect={handleAddressSelect}
-							pageFieldName={MapPage} />
+							pageFieldName={MapPage.AddressHeaderLabel} />
 
 						<Collaspe address={rest.formik.values.location}
 							ZoomValue={rest.formik.values.ZoomValue}
@@ -221,7 +221,7 @@ const provideDetails = props => {
 				<DescribeTheProblem
 					errorsDescribeTheProblem={rest.formik.errors.describeTheProblem}
 					touchedDescribeTheProblem={rest.formik.touched.describeTheProblem}
-					pageFieldName={MapPage} />
+					pageFieldName={MapPage.ProblemLabel} />
 
 				<div className="cs-form-control" >
 					<ButtonDisplay

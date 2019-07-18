@@ -9,7 +9,7 @@ const AnimalBreedType = ({ requestType, requestType_petAndAnimalIssue, subReques
                 && (petType === petTypeCat || petType === petTypeDog)) ?
 				<div className={
 					errorsAnimalBreedType && touchedAnimalBreedType ? "cs-form-control error" : "cs-form-control"}>
-					<label htmlFor="animalBreed">{pageFieldName.map(name => name.PetBreed)}</label>
+					<label htmlFor="animalBreed">{pageFieldName}</label>
 					<GenericTypeField
 						component="select"
 						name="animalBreedType"

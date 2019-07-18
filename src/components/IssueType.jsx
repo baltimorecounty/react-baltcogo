@@ -13,7 +13,7 @@ const IssueType = ({ rest, items, handleAddressChange, handleAddressSelect,  pag
 			</div>
 			<div className="address-search-wrapper">
 				<label htmlFor="location"
-					className="address">{pageFieldName.map(name => name.AddressHeaderLabel)}
+					className="address">{pageFieldName}
 				</label>
 				<div className="address-input-wrapper">
 					<AutoCompleteTypeField
