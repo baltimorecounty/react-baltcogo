@@ -1,5 +1,5 @@
 import { returnRequestTypes } from "../utilities//returnEnvironmentItems"
-export const formIncomplete = (props) => {
+export const IsFormComplete = (props) => {
 
 	let requestType = props.values['requestType'].toLowerCase();
 	let subRequestType = props.values['subRequestType'].toLowerCase();
@@ -61,4 +61,4 @@ export const formIncomplete = (props) => {
 }
 
 
-export default formIncomplete
+export default IsFormComplete

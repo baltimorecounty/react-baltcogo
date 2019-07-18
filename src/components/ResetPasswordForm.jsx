@@ -6,9 +6,9 @@ import { GetResponseErrors } from "../utilities/CitysourcedResponseHelpers";
 import { Link } from 'react-router-dom';
 import FormContainer from './FormContainer';
 import { IsFormComplete } from "../utilities/FormHelpers";
-import Alert from '../utilities/Alert';
+import Alert from './Alert';
 import SeButton from "./SeButton";
-import { ResetPassword } from './authService';
+import { ResetPassword } from '../services/authService';
 import { GoBack, Go, Routes, GoHome } from "../Routing";
 
 

@@ -5,7 +5,7 @@ import ErrorMsg from "./ErrorMessage";
 import { GetResponseErrors } from "../utilities/CitysourcedResponseHelpers";
 import { Link } from 'react-router-dom';
 import FormContainer from './FormContainer';
-import { Login } from './authService';
+import { Login } from '../services/authService';
 import { IsFormComplete } from "../utilities/FormHelpers";
 import SeButton from "./SeButton";
 import { GoBack, GoHome, Go, Routes } from "../Routing";

@@ -9,11 +9,11 @@ import axios from "axios"
 import _ from 'lodash';
 import { IsFormComplete } from "../utilities/FormHelpers";
 import { returnMapEndPoint } from "../utilities//returnEnvironmentItems"
-import { VerifyAddress } from './authService';
+import { VerifyAddress } from '../services/authService';
 import ButtonDisplay from "./buttonDisplay";
 import IssueType from './IssueType';
 import DescribeTheProblem from './describeTheProblem';
-import { SubmitReport} from "../utilities/ReportService";
+import { SubmitReport} from "../services/ReportService";
 import { GetResponseErrors } from "../utilities/CitysourcedResponseHelpers";
 import SeButton from './SeButton';
 import { GoHome, Go, Routes } from "../Routing";

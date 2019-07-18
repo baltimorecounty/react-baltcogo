@@ -1,5 +1,5 @@
 import React from 'react';
-import Alert from '../utilities/Alert';
+import Alert from './Alert';
 import FormContainer from './FormContainer';
 import { Formik, Form } from 'formik';
 import { HasResponseErrors } from '../utilities/CitysourcedResponseHelpers';

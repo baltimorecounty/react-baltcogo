@@ -4,7 +4,7 @@ import ErrorMsg from "./ErrorMessage";
 import FormContainer from './FormContainer';
 import { IsFormComplete } from "../utilities/FormHelpers";
 import ButtonDisplay from "./buttonDisplay";
-import { SubmitReport} from "../utilities/ReportService";
+import { SubmitReport} from "../services/ReportService";
 import { GoHome, GoBack } from '../Routing';
 
 const AdditionalInformation = props => {

@@ -8,7 +8,7 @@ import Model from './Modal';
 import { Link } from 'react-router-dom';
 import WaterAndSewerIssue from "./waterAndSewerIssue";
 import TrashAndRecycle from "./trashAndRecycle";
-import { GetContactDetails } from './authService';
+import { GetContactDetails } from '../services/authService';
 import RoadsAndSidewalks from "./roadsAndSidewalks";
 import { IsFormComplete } from "../utilities/FormHelpers";
 import { returnJsonFileLocations, returnRequestTypes } from "../utilities//returnEnvironmentItems";
