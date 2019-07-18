@@ -32,7 +32,7 @@ const ResetPasswordForm = (props, routeProps) => {
 			}
 		}
 		catch (ex) {
-			console.log(ex.message);
+			console.error(ex.message);
 		}
 	}
 

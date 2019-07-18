@@ -26,7 +26,7 @@ const CreateAccount = (props, routeProps) => {
 	const goBack = () =>{
 		props.history.push('/ServiceRequestForm');
 	}
-	
+
 	const userCreateAccount = async (values, actions, props) => {
 		try {
 			const response = await SignUp(values.NameFirst, values.NameLast, values.Email, values.Password, values.Telephone, values.UniqueId, values.SuppressNotifications);
@@ -57,7 +57,7 @@ const CreateAccount = (props, routeProps) => {
 			}
 		}
 		catch (ex) {
-			console.log(ex.message);
+			console.error(ex.message);
 		}
 	}
 	Yup.addMethod(Yup.string, "Telephone", function (value) {
@@ -69,10 +69,10 @@ const CreateAccount = (props, routeProps) => {
 	});
 
 	return (
-		<FormContainer title={SignUpPage.map(name => name.SignUpTitle)}  
-			tabNames = {Tabs} 
-			currentTab="ServiceRequestForm" 
-			shouldDisableForm={shouldDisableForm} 
+		<FormContainer title={SignUpPage.map(name => name.SignUpTitle)}
+			tabNames = {Tabs}
+			currentTab="ServiceRequestForm"
+			shouldDisableForm={shouldDisableForm}
 			isPanelRequired={true}
 		>
 			<Formik

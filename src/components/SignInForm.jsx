@@ -82,10 +82,10 @@ const SignIn = (props, routeProps) => {
 	}
 
 	return (
-		<FormContainer title={SignInPage.map(name => name.SignInTitle)} 
-			tabNames = {Tabs} 
-			currentTab="ServiceRequestForm" 
-			shouldDisableForm={shouldDisableForm} 
+		<FormContainer title={SignInPage.map(name => name.SignInTitle)}
+			tabNames = {Tabs}
+			currentTab="ServiceRequestForm"
+			shouldDisableForm={shouldDisableForm}
 			isPanelRequired={true}
 		>
 			<Formik
@@ -108,8 +108,6 @@ const SignIn = (props, routeProps) => {
 				{
 					(props) => {
 						const { errors = {}, touched } = props;
-
-						console.log(errors)
 
 						return (
 							<Form >
