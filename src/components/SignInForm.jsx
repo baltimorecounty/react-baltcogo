@@ -8,6 +8,7 @@ import FormContainer from './FormContainer';
 import { Login } from './authService';
 import { formIncomplete } from "./checkFormCompletion";
 import SeButton from "./SeButton";
+import { GoBack, GoHome, Go, Routes } from "../Routing";
 
 // import DisplayFormikState from './helper';
 const SignIn = (props, routeProps) => {
@@ -20,7 +21,7 @@ const SignIn = (props, routeProps) => {
 	};
 
 	if (formIncomplete(props)) {
-		props.history.push('/ServiceRequestForm');
+		GoHome(props);
 	}
 
 	const handleLoginFailure = (actions, errors) => {
@@ -50,11 +51,11 @@ const SignIn = (props, routeProps) => {
 			css: 'success'
 		});
 
-		props.history.push('/ProvideDetails');
+		Go(props, Routes.ProvideDetails);
 	};
 
 	const goBack = () =>{
-		props.history.push('/ServiceRequestForm');
+		GoBack(props);
 	}
 
 	const userLogin = async (values, props, actions) => {

@@ -5,14 +5,15 @@ import FormContainer from './FormContainer';
 import { formIncomplete } from "./checkFormCompletion";
 import ButtonDisplay from "./buttonDisplay";
 import submitReport from "./submitReport";
+import { GoHome, GoBack } from '../Routing';
 
 const AdditionalInformation = props => {
 	const localProps = props.formik.values;
 	const { values, actions, errors, touched, ...rest } = props;
-	const { isPanelRequired, shouldDisableForm, Tabs, AdditionalInfoPage, ContactID } = localProps 
+	const { isPanelRequired, shouldDisableForm, Tabs, AdditionalInfoPage, ContactID } = localProps
 
-	if(!ContactID || formIncomplete(props.formik)){
-		props.history.push('/ServiceRequestForm');
+	if(!ContactID || formIncomplete(props.formik)) {
+		GoHome(props);
 	}
 
 	const SubmitTheForm = (clickEvent) => {
@@ -20,14 +21,14 @@ const AdditionalInformation = props => {
 	}
 
 	const callPreviousForm = () => {
-		props.history.push("/ProvideDetails");
+		GoBack(props);
 	}
 
 	return (
-		<FormContainer title={AdditionalInfoPage.map(name => name.AdditionalInfoTitle)} 
-			tabNames = {Tabs} 
-			currentTab = "AdditionalInformation" 
-			shouldDisableForm = {shouldDisableForm} 
+		<FormContainer title={AdditionalInfoPage.map(name => name.AdditionalInfoTitle)}
+			tabNames = {Tabs}
+			currentTab = "AdditionalInformation"
+			shouldDisableForm = {shouldDisableForm}
 			isPanelRequired = {isPanelRequired}
 		>
 			<Form>
@@ -165,7 +166,7 @@ const AdditionalInformation = props => {
 					<ButtonDisplay
 						onClick = {callPreviousForm}
 						disabled={null}
-						buttonName = "Previous" 
+						buttonName = "Previous"
 						cssClass = "seButton"/>
 					<ButtonDisplay
 						onClick={SubmitTheForm}

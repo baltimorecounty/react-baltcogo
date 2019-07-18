@@ -9,12 +9,13 @@ import { formIncomplete } from "./checkFormCompletion";
 import Alert from './Alert';
 import SeButton from "./SeButton";
 import { ResetPassword } from './authService';
+import { GoBack, Go, Routes, GoHome } from "../Routing";
 
 
 const ResetPasswordForm = (props, routeProps) => {
 
 	if (formIncomplete(props)) {
-		props.history.push('/ServiceRequestForm');
+		GoHome(props);
 	}
 
 	const {Tabs, ResetPasswordPage} = props.values;
@@ -37,12 +38,12 @@ const ResetPasswordForm = (props, routeProps) => {
 	}
 
 	const goBack = () =>{
-		props.history.push('/ServiceRequestForm');
-	}
+		GoBack(props);
+	};
 
 	const signIn = () =>{
-		props.history.push('/SignInForm');
-	}
+		Go(props, Routes.SignIn);
+	};
 
 	return (
 		<FormContainer  title={ResetPasswordPage.map(name => name.ResetPasswordTitle)}
