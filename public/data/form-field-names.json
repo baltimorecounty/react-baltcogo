@@ -5,26 +5,14 @@
 		"Tab3": "Provide Your Contact Information",
 		"Tab4": ""
 	},
-	"SignInPage": [
-		{
-			"SignInTitle": "Sign In"
-		},
-		{
-			"EmailLabel": "Email Address"
-		},
-		{
-			"PasswordLabel": "Password"
-		},
-		{
-			"ForgotPasswordLabel": "Forgot password?"
-		},
-		{
-			"NoAccountLabel": "Don't have an account?"
-		},
-		{
-			"SignUpLinkLabel": "Sign up"
-		}
-	],
+	"SignInPage": {
+		"SignInTitle": "Sign In",
+		"EmailLabel": "Email Address",
+		"PasswordLabel": "Password",
+		"ForgotPasswordLabel": "Forgot password?",
+		"NoAccountLabel": "Don't have an account?",
+		"SignUpLinkLabel": "Sign up"
+	},
 	"SignUpPage": [
 		{
 			"SignUpTitle": "Register for an Account"
