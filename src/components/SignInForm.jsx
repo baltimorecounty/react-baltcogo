@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import FormContainer from './FormContainer';
 import { Login } from './authService';
 import { formIncomplete } from "../utilities/checkFormCompletion";
-import Alert from './Alert';
+import Alert from '../utilities/Alert';
 import SeButton from "./SeButton";
 
 // import DisplayFormikState from './helper';

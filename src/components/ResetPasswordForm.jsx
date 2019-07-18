@@ -6,7 +6,7 @@ import { GetResponseErrors } from "../utilities/CitysourcedResponseHelpers";
 import { Link } from 'react-router-dom';
 import FormContainer from './FormContainer';
 import { formIncomplete } from "../utilities/checkFormCompletion";
-import Alert from './Alert';
+import Alert from '../utilities/Alert';
 import SeButton from "./SeButton";
 import { ResetPassword } from './authService';
 
