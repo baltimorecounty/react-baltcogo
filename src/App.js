@@ -20,9 +20,9 @@ function App(props) {
 
 		<main className="container" >
 			<Switch>
-				<Route path={Routes.SignInForm}
+				<Route path={Routes.SignIn}
 					render={(routeProps) => <SignInForm {...routeProps}{...props} />} />
-				<Route path={Routes.SignUpForm}
+				<Route path={Routes.SignUp}
 					render={(routeProps) => <SignUpForm {...routeProps}{...props} />} />
 				<Route path={Routes.ResetPassword}
 					render={(routeProps) => <ResetPasswordForm {...routeProps}{...props} />} />
@@ -31,7 +31,7 @@ function App(props) {
 				<Route path={Routes.AdditionalInformation} component={AdditionalInformationForm} />
 				<Route path={Routes.ProvideDetails} component={ProvideDetails} />
 				<Route path={Routes.GetReport} component={GetReport} />
-				<Route path={Routes.Root}  component={ServiceRequestForm} />
+				<Route path={Routes.Root} component={ServiceRequestForm} />
 			</Switch>
 			{/* This is used for debugging purposes.  */}
 			{ Domain === "localhost:3000" ?  <DisplayFormikState {...props} /> : null}
