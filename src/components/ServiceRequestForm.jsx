@@ -10,7 +10,7 @@ import WaterAndSewerIssue from "./waterAndSewerIssue";
 import TrashAndRecycle from "./trashAndRecycle";
 import { GetContactDetails } from './authService';
 import RoadsAndSidewalks from "./roadsAndSidewalks";
-import { formIncomplete } from "../utilities/checkFormCompletion";
+import { IsFormComplete } from "../utilities/FormHelpers";
 import { returnJsonFileLocations, returnRequestTypes } from "../utilities//returnEnvironmentItems";
 import PetType from "./petType";
 import RequestCategory from "./requestCategory";
@@ -264,7 +264,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 	const buttonDisableValidation = () => {
 
-		return formIncomplete(props.formik);
+		return IsFormComplete(props.formik);
 	}
 
 	const getContactDetails = async () => {

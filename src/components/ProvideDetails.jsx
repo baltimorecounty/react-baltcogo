@@ -7,7 +7,7 @@ import Geocode from "react-geocode";
 import Collaspe from './Collaspe'
 import axios from "axios"
 import _ from 'lodash';
-import { formIncomplete } from "../utilities/checkFormCompletion";
+import { IsFormComplete } from "../utilities/FormHelpers";
 import { returnMapEndPoint } from "../utilities//returnEnvironmentItems"
 import { VerifyAddress } from './authService';
 import ButtonDisplay from "./buttonDisplay";
@@ -50,7 +50,7 @@ const provideDetails = props => {
 		};
 
 		props.formik.setFieldValue('currentTab', 'ProviderDetail');
-		if (!ContactID || formIncomplete(props.formik)) {
+		if (!ContactID || IsFormComplete(props.formik)) {
 			GoHome(props);
 		}
 		fetchData();
