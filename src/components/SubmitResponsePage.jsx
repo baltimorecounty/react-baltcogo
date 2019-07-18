@@ -37,8 +37,14 @@ const getAlertInfo = (title, bodyContent, type, controls) => ({
 });
 
 const SubmitResponse = (props) => {
-	const { Tabs, shouldDisableForm, requiresLocation } = props.values;
-	const { response = {} } = props.history.location.state || {};
+	const {
+		Tabs,
+		shouldDisableForm,
+		isPanelRequired
+	} = props.values;
+	const {
+		response = {}
+	} = props.history.location.state || {};
 	const isFormSubmissionSuccessful = !HasResponseErrors(response);
 	const resetForm = () => {
 		props.resetForm();
@@ -71,7 +77,7 @@ const SubmitResponse = (props) => {
 			tabNames={Tabs}
 			currentTab="ServiceRequestForm"
 			shouldDisableForm={shouldDisableForm}
-			requiresLocation={requiresLocation}
+			isPanelRequired={isPanelRequired}
 		>
 			<Formik>
 				{() => {

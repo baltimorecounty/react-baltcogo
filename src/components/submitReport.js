@@ -1,15 +1,38 @@
-import { CreateReport, VerifyAddress } from './authService';
-import { GetErrorsDetails } from "../utilities/CustomErrorHandling";
+import { CreateReport } from './authService';
+import { GetResponseErrors, HasResponseErrors } from '../utilities/CitysourcedResponseHelpers';
+
 
 export const returnModel = (props, streetAddress, city, zipCode) => {
-	const { Longitude, Latitude, ContactID, requestTypeID, requestType,
-		subRequestTypeID, subRequestType, petTypeID, petType, sexTypeID,
-		sexType, animalColorTypeID, animalColorType, otherAnimalTypesID,
-		otherAnimalTypes, requestTypeDescription, requestTypeDescriptionID,
-		requestTypeAddressID, requestTypeCityID, requestTypeZipID, subRequestTypeDescription,
-		subRequestTypeDescriptionID, subRequestTypeAddress, subRequestTypeAddressID,
-		subRequestTypeCity, subRequestTypeCityID, subRequestTypeZip,
-		subRequestTypeZipID } = props.formik.values;
+	const {
+		Longitude,
+		Latitude,
+		ContactID,
+		requestTypeID,
+		requestType,
+		subRequestTypeID,
+		subRequestType,
+		petTypeID,
+		petType,
+		sexTypeID,
+		sexType,
+		animalColorTypeID,
+		animalColorType,
+		otherAnimalTypesID,
+		otherAnimalTypes,
+		requestTypeDescription,
+		requestTypeDescriptionID,
+		requestTypeAddressID,
+		requestTypeCityID,
+		requestTypeZipID,
+		subRequestTypeDescription,
+		subRequestTypeDescriptionID,
+		subRequestTypeAddress,
+		subRequestTypeAddressID,
+		subRequestTypeCity,
+		subRequestTypeCityID,
+		subRequestTypeZip,
+		subRequestTypeZipID
+	} = props.formik.values;
 
 	const reportItems = [
 		{ Id: requestTypeID, Value: requestType },
@@ -29,17 +52,17 @@ export const returnModel = (props, streetAddress, city, zipCode) => {
 		{ Id: subRequestTypeAddressID, Value: subRequestTypeAddress },
 		{ Id: subRequestTypeCityID, Value: subRequestTypeCity },
 		{ Id: subRequestTypeZipID, Value: subRequestTypeZip }
-	].filter(item => !!item.Id);
+	].filter((item) => !!item.Id);
 
 	var itemsToSubmit = {
-		AppVersion: "308",
+		AppVersion: '308',
 		Location: {
 			X: Longitude,
 			Y: Latitude
 		},
 		AuthorId: ContactID,
 		IsPrivate: false,
-		Locale: "en",
+		Locale: 'en',
 		ReportItems: reportItems,
 		SuppressWorkflows: false
 	};
@@ -47,47 +70,27 @@ export const returnModel = (props, streetAddress, city, zipCode) => {
 	return itemsToSubmit;
 };
 
-
 export const submitReport = async (actions, props) => {
-
 	const streetAddress = props.formik.values.streetAddress;
 	const city = props.formik.values.city;
 	const zipCode = props.formik.values.zipCode;
-	const itemsToSubmit = returnModel(props, streetAddress, city, zipCode)
+	const itemsToSubmit = returnModel(props, streetAddress, city, zipCode);
 
 	try {
-		var fullAddress = streetAddress + ' ' + city + ',MD ' + zipCode;
-		const addressResponse = await VerifyAddress(fullAddress)
-		if (addressResponse.data.HasErrors && (streetAddress)) {
-			const errorsReturned = GetErrorsDetails(addressResponse);
-			actions.setStatus({
-				success1: errorsReturned,
-				css: 'address'
-			})
-			throw new Error(errorsReturned);}
-		else {
-			try {
-				const response = await CreateReport(itemsToSubmit);
-				if (response.data.ErrorsCount > 0) {
-					const errorsReturned = GetErrorsDetails(response);
-					props.Field.ErrorMsg = errorsReturned;
-					throw new Error(errorsReturned);
-				}
-
-				props.history.push({
-					pathname: '/SubmitResponsePage',
-					state: { response }
-				});
-			}
-			catch (ex) {
-				console.log(ex.message);
-			}
+		const response = await CreateReport(itemsToSubmit);
+		if (HasResponseErrors(response)) {
+			const errorsReturned = GetResponseErrors(response);
+			props.Field.ErrorMsg = errorsReturned;
+			throw new Error(errorsReturned);
 		}
-	}
-	catch (ex) {
+
+		props.history.push({
+			pathname: '/SubmitResponsePage',
+			state: { response }
+		});
+	} catch (ex) {
 		console.log(ex.message);
 	}
-}
-
+};
 
 export default submitReport;

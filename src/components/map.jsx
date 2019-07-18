@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import _ from 'lodash';
 import { withGoogleMap, GoogleMap, withScriptjs, InfoWindow, Marker } from "react-google-maps";
 import { compose, withProps, withState, withHandlers } from "recompose";
 import Geocode from "react-geocode";
@@ -11,32 +12,46 @@ Geocode.setApiKey('AIzaSyAqazsw3wPSSxOFVmij32C_LIhBSuyUNi8');
 //Geocode.enableDebug();
 class Map extends React.Component {
 
-
-	shouldComponentUpdate(nextProps, nextState) {
-
-		if (this.props.lat === nextProps.center.lat) {
-			return false;
+	constructor(props) {
+		super(props);
+		this.state = {
+			flag: 0, incremnetCount: 0
 		}
-		else if (this.props.lat === this.props.markerLat) {
-			return true;
+	}
 
-		}
-		else if (this.props.center.lat === nextProps.center.lat) {
-			return false;
-		}
-		else if (this.props.lat === this.props.center.lat) {
-			return true
+	shouldComponentUpdate(nextProps) {
+		const searchQuery = _.takeRight(this.props.address.split(','), 4);
+		const { flag, incremnetCount } = this.state;
+		if (searchQuery[2] !== undefined) {
+
+			if (this.props.lat === nextProps.center.lat) {
+				if (flag === 0 && incremnetCount === 0) {
+					this.setState({ flag: 0, incremnetCount: 1 });
+					return true;
+				}
+				else {
+					return false;
+				}
+			}
+			else if (this.props.lat === this.props.markerLat) {
+				return true;
+			}
+			else {
+				return false;
+			}
 		}
 		else {
+			if (flag === 0 && incremnetCount === 1) {
+				this.setState({ incremnetCount: 0 });
+			}
 			return false;
 		}
 	}
 
 
-
 	render() {
-		const { address, lat, lng, markerLat, onMarkerDragEnd, onZoom } = this.props;
 
+		const { address, lat, lng, markerLat, onMarkerDragEnd, onZoom } = this.props;
 		const AsyncMap = compose(
 			withProps({
 				googleMapURL: "https://maps.google.com/maps/api/js?key=AIzaSyAqazsw3wPSSxOFVmij32C_LIhBSuyUNi8&libraries=geometry,drawing,places",

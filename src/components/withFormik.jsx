@@ -53,6 +53,7 @@ export default withFormik({
 		zipCode: '',
 		shouldDisableForm: false,
 		requiresLocation: true,
+		isPanelRequired: true,
 		Tabs: [''],
 		RequestPage: [''],
 		MapPage: [''],
@@ -75,7 +76,7 @@ export default withFormik({
 		}),
 
 	handleSubmit: values => {
-	
+
 		console.log(values);
 
 	},
