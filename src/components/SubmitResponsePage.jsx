@@ -4,6 +4,7 @@ import FormContainer from './FormContainer';
 import { Formik, Form } from 'formik';
 import { HasResponseErrors } from '../utilities/CitysourcedResponseHelpers';
 import ButtonDisplay from './buttonDisplay';
+import { GoHome } from '../Routing';
 
 const successBodyContent = (
 	<React.Fragment>
@@ -43,12 +44,12 @@ const SubmitResponse = (props) => {
 		isPanelRequired
 	} = props.values;
 	const {
-		response = {}
-	} = props.history.location.state || {};
+		state: response = {}
+	} = props.history.location || {};
 	const isFormSubmissionSuccessful = !HasResponseErrors(response);
 	const resetForm = () => {
 		props.resetForm();
-		props.history.push('/ServiceRequestForm');
+		GoHome(props);
 	};
 	const returnHome = () => {
 		resetForm();

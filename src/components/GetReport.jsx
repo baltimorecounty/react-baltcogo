@@ -3,6 +3,7 @@ import { Formik, Form, Field } from "formik";
 import { GetResponseErrors } from "../utilities/CitysourcedResponseHelpers";
 import FormContainer from './FormContainer';
 import { GetReportByID } from './authService';
+import { Go, Routes } from "../Routing";
 
 const GetReport = props => {
 	const userGetReport = async (values) => {
@@ -15,7 +16,7 @@ const GetReport = props => {
 				props.Field.ErrorMsg = errorsReturned;
 			}
 			else {
-				props.history.push('/AdditionalInformationForm');
+				Go(props, Routes.AdditionalInformation);
 			}
 		}
 		catch (ex) {
