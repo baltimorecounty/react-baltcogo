@@ -8,7 +8,7 @@ const PetType = ({ requestType, requestType_petAndAnimalIssue, subRequestType, e
 			{requestType === requestType_petAndAnimalIssue && subRequestType !== '' ?
 				<div className={
 					errorsPetType && touchedPetType ? "cs-form-control error" : "cs-form-control"}>
-					<label htmlFor="petType">{pageFieldName.map(name => name.PetType)}</label>
+					<label htmlFor="petType">{pageFieldName}</label>
 					<RequestPetTypeField
 						component="select"
 						name="petType"

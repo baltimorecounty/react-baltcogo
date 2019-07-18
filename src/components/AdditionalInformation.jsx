@@ -25,7 +25,7 @@ const AdditionalInformation = props => {
 	}
 
 	return (
-		<FormContainer title={AdditionalInfoPage.map(name => name.AdditionalInfoTitle)}
+		<FormContainer title={AdditionalInfoPage.AdditionalInfoTitle}
 			tabNames = {Tabs}
 			currentTab = "AdditionalInformation"
 			shouldDisableForm = {shouldDisableForm}
@@ -35,12 +35,12 @@ const AdditionalInformation = props => {
 				{(localProps.requiresLocation === false) ?
 					<div name="ContactInfo">
 						<p>
-							{AdditionalInfoPage.map(name => name.DisclaimerLabel)}
+							{AdditionalInfoPage.DisclaimerLabel}
 						</p>
 						<label htmlFor="NameFirst"
 							className={
 								rest.formik.errors.NameFirst && rest.formik.touched.NameFirst ? "error-message" : "text-label"}
-						>{AdditionalInfoPage.map(name => name.FirstNameLabel)}</label>
+						>{AdditionalInfoPage.FirstNameLabel}</label>
 						<Field
 							type="text"
 							name="NameFirst"
@@ -56,7 +56,7 @@ const AdditionalInformation = props => {
 						<label htmlFor="NameLast"
 							className={
 								rest.formik.errors.NameLast && rest.formik.touched.NameLast ? "error-message" : "text-label"}
-						>{AdditionalInfoPage.map(name => name.LastNameLabel)}</label>
+						>{AdditionalInfoPage.LastNameLabel}</label>
 						<Field
 							type="text"
 							name="NameLast"
@@ -72,7 +72,7 @@ const AdditionalInformation = props => {
 						<label htmlFor="Email"
 							className={
 								rest.formik.errors.Email && rest.formik.touched.Email ? "error-message" : "text-label"}
-						>{AdditionalInfoPage.map(name => name.EmailLabel)}</label>
+						>{AdditionalInfoPage.EmailLabel}</label>
 						<Field
 							type="text"
 							name="Email"
@@ -88,7 +88,7 @@ const AdditionalInformation = props => {
 						<label htmlFor="Telephone"
 							className={
 								rest.formik.errors.Telephone && rest.formik.touched.Telephone ? "error-message" : "text-label"}
-						>{AdditionalInfoPage.map(name => name.PhoneLabel)}</label>
+						>{AdditionalInfoPage.PhoneLabel}</label>
 						<Field
 							type="text"
 							name="Telephone"
@@ -105,12 +105,12 @@ const AdditionalInformation = props => {
 					:
 					<div id="ContactAddress">
 						<p>
-							{AdditionalInfoPage.map(name => name.DisclaimerLabel)}
+							{AdditionalInfoPage.DisclaimerLabel}
 						</p>
 						<label htmlFor="streetAddress"
 							className={
 								rest.formik.errors.streetAddress && rest.formik.touched.streetAddress ? "error-message" : "text-label"}
-						>{AdditionalInfoPage.map(name => name.StreetLabel)}</label>
+						>{AdditionalInfoPage.StreetLabel}</label>
 						<Field
 							type="text"
 							name="streetAddress"
@@ -126,7 +126,7 @@ const AdditionalInformation = props => {
 						<label htmlFor="city"
 							className={
 								rest.formik.errors.city && rest.formik.touched.city ? "error-message" : "text-label"}
-						>{AdditionalInfoPage.map(name => name.CityLabel)}</label>
+						>{AdditionalInfoPage.CityLabel}</label>
 						<Field
 							type="text"
 							name="city"
@@ -144,7 +144,7 @@ const AdditionalInformation = props => {
 								className={
 									rest.formik.errors.zipCode && rest.formik.touched.zipCode ? "error-message" : "text-label"}
 							>
-								{AdditionalInfoPage.map(name => name.ZipcodeLabel)}
+								{AdditionalInfoPage.ZipCodeLabel}
 							</label>
 							<Field type='text'
 								name="zipCode"
@@ -159,7 +159,7 @@ const AdditionalInformation = props => {
 							</div>
 						</div>
 						<p className="smallest">
-							{AdditionalInfoPage.map(name => name.LegalDisclamierBottom)}
+							{AdditionalInfoPage.LegalDisclaimerBottom}
 						</p>
 					</div>}
 				<div className = "cs-form-control" >

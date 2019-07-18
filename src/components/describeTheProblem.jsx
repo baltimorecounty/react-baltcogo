@@ -10,7 +10,7 @@ const DescribeTheProblem = ({ errorsDescribeTheProblem, touchedDescribeTheProble
 				errorsDescribeTheProblem && touchedDescribeTheProblem ? "cs-form-control address-search error" : "cs-form-control address-search"}>
 				<label htmlFor="describeTheProblem"
 
-				>{pageFieldName.map(name => name.ProblemLabel)}</label>
+				>{pageFieldName}</label>
 				<Field
 					component="textarea"
 					placeholder="Maximum 2,000 characters."
