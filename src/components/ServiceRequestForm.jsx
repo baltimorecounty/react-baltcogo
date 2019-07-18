@@ -469,7 +469,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 					requestType={requestType.toLowerCase()}
 					errorsServiceDescription={localProps.errors.serviceDescription}
 					touchedServiceDescription={localProps.touched.serviceDescription}
-					pageFieldName={RequestPage} />
+					pageFieldName={RequestPage.Description} />
 
 				<Field type="hidden" name="requestTypeID" />
 				<Field type="hidden" name="requestTypeDescriptionID" />

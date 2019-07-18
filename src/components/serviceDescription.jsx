@@ -9,7 +9,7 @@ const ServiceDescription = ({ requestType, errorsServiceDescription, touchedServ
 			{(requestType === 'website issue') ?
 				<div className={
 					errorsServiceDescription && touchedServiceDescription ? "cs-form-control error" : "cs-form-control"}>
-					<label htmlFor="serviceDescription">{pageFieldName.map(name => name.Description)}</label>
+					<label htmlFor="serviceDescription">{pageFieldName}</label>
 					<Field
 						component="textarea"
 						placeholder="Maximum 2,000 characters."
