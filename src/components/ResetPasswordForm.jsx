@@ -5,7 +5,7 @@ import ErrorMsg from "./ErrorMessage";
 import { GetResponseErrors } from "../utilities/CitysourcedResponseHelpers";
 import { Link } from 'react-router-dom';
 import FormContainer from './FormContainer';
-import { IsFormComplete } from "../utilities/FormHelpers";
+import { IsFormInComplete } from "../utilities/FormHelpers";
 import Alert from './Alert';
 import SeButton from "./SeButton";
 import { ResetPassword } from '../services/authService';
@@ -14,7 +14,7 @@ import { GoBack, Go, Routes, GoHome } from "../Routing";
 
 const ResetPasswordForm = (props, routeProps) => {
 
-	if (IsFormComplete(props)) {
+	if (IsFormInComplete(props)) {
 		GoHome(props);
 	}
 

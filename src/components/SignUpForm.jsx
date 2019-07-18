@@ -6,7 +6,7 @@ import { GetResponseErrors } from "../utilities/CitysourcedResponseHelpers";
 import FormContainer from './FormContainer';
 import { SignUp } from '../services/authService';
 import { Link } from 'react-router-dom';
-import { IsFormComplete } from "../utilities/FormHelpers";
+import { IsFormInComplete } from "../utilities/FormHelpers";
 import { IsPhoneNumberValid } from '@baltimorecounty/validation';
 import SeButton from "./SeButton";
 import { GoHome, Go, Routes } from "../Routing";
@@ -20,7 +20,7 @@ const CreateAccount = (props, routeProps) => {
 		setFieldType(fieldType === 'Password' ? 'text' : 'Password');
 	};
 
-	if(IsFormComplete(props)){
+	if(IsFormInComplete(props)){
 		GoHome(props);
 	}
 
