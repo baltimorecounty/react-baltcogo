@@ -11,7 +11,8 @@ import DisplayFormikState from './components/helper';
 import ProvideDetails from './components/ProvideDetails';
 import GetReport from './components/GetReport';
 import SubmitResponsePage from './components/SubmitResponsePage';
-import checkEnvironment from './utilities/returnEnvironmentItems'
+import checkEnvironment from './utilities/returnEnvironmentItems';
+import { Routes } from './Routing';
 
 function App(props) {
 	var Domain = checkEnvironment();
@@ -19,20 +20,18 @@ function App(props) {
 
 		<main className="container" >
 			<Switch>
-				<Route path='/SignInForm'
+				<Route path={Routes.SignInForm}
 					render={(routeProps) => <SignInForm {...routeProps}{...props} />} />
-				<Route path='/SignUpForm'
+				<Route path={Routes.SignUpForm}
 					render={(routeProps) => <SignUpForm {...routeProps}{...props} />} />
-				<Route path='/ResetPassword'
+				<Route path={Routes.ResetPassword}
 					render={(routeProps) => <ResetPasswordForm {...routeProps}{...props} />} />
-				<Route path='/SubmitResponsePage'
+				<Route path={Routes.SubmitForm}
 					 render={(routeProps) => <SubmitResponsePage {...routeProps}{...props} />} />
-				<Route path='/AdditionalInformationForm' component={AdditionalInformationForm} />
-				<Route path='/ProvideDetails' component={ProvideDetails} />
-				<Route path='/GetReport' component={GetReport} />
-				}}/>
-
-				<Route path='/' component={ServiceRequestForm} />
+				<Route path={Routes.AdditionalInformation} component={AdditionalInformationForm} />
+				<Route path={Routes.ProvideDetails} component={ProvideDetails} />
+				<Route path={Routes.GetReport} component={GetReport} />
+				<Route path={Routes.Root}  component={ServiceRequestForm} />
 			</Switch>
 			{/* This is used for debugging purposes.  */}
 			{ Domain === "localhost:3000" ?  <DisplayFormikState {...props} /> : null}
