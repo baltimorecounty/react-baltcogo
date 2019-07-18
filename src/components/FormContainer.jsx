@@ -7,12 +7,12 @@ const selectTab = (currentTab, tabList)  => {
 };
 
 const FormContainer = props => {
-	
+
 	const tabList = [
-		{description: props.tabNames.map(name => name.Tab1), id: 0,  key: 'ServiceRequestForm', shouldDisableForm: false, isPanelRequired: true},
-		{description: props.tabNames.map(name => name.Tab2), id: 1, key: 'ProvideDetails', shouldDisableForm: props.shouldDisableForm, isPanelRequired: true},
-		{description: props.tabNames.map(name => name.Tab3), id: 2, key: 'AdditionalInformation', shouldDisableForm: props.shouldDisableForm, isPanelRequired: props.isPanelRequired},
-		{description: props.tabNames.map(name => name.Tab4), id: 3, key: 'Blank', shouldDisableForm: false, isPanelRequired: true},
+		{description: props.tabNamesTab1, id: 0,  key: 'ServiceRequestForm', shouldDisableForm: false, isPanelRequired: true},
+		{description: props.tabNames.Tab2, id: 1, key: 'ProvideDetails', shouldDisableForm: props.shouldDisableForm, isPanelRequired: true},
+		{description: props.tabNames.Tab3, id: 2, key: 'AdditionalInformation', shouldDisableForm: props.shouldDisableForm, isPanelRequired: props.isPanelRequired},
+		{description: props.tabNames.Tab4, id: 3, key: 'Blank', shouldDisableForm: false, isPanelRequired: true},
 	].filter(item => item.shouldDisableForm === false)
 		.filter(item => item.isPanelRequired);
 
