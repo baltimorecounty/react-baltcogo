@@ -26,26 +26,14 @@
 		"HaveAccountLabel": "Already have an account?",
 		"SignInLinkLabel": "Sign in"
 	},
-	"ResetPasswordPage": [
-		{
-			"ResetPasswordTitle": "Reset Password"
-		},
-		{
-			"EmailLabel": "Email Address"
-		},
-		{
-			"NoAccountLabel": "Don't have an account?"
-		},
-		{
-			"SignUpLinkLabel": "Sign up"
-		},
-		{
-			"RememberPasswordLabel": "Remember your password?"
-		},
-		{
-			"SignInLinkLabel": "Sign in"
-		}
-	],
+	"ResetPasswordPage": {
+		"ResetPasswordTitle": "Reset Password",
+		"EmailLabel": "Email Address",
+		"NoAccountLabel": "Don't have an account?",
+		"SignUpLinkLabel": "Sign up",
+		"RememberPasswordLabel": "Remember your password?",
+		"SignInLinkLabel": "Sign in"
+	},
 	"RequestPage": [
 		{
 			"RequestTitle": "How Can We Help?"

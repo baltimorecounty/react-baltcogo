@@ -46,7 +46,7 @@ const ResetPasswordForm = (props, routeProps) => {
 	};
 
 	return (
-		<FormContainer  title={ResetPasswordPage.map(name => name.ResetPasswordTitle)}
+		<FormContainer  title={ResetPasswordPage.ResetPasswordTitle}
 			tabNames = {Tabs}
 			currentTab = "ServiceRequestForm"
 			shouldDisableForm = {false}
@@ -77,7 +77,7 @@ const ResetPasswordForm = (props, routeProps) => {
 								</Alert>}
 								<div className={
 									props.errors.Email && props.touched.Email ? "cs-form-control error" : "cs-form-control"}>
-									<label htmlFor="Email">{ResetPasswordPage.map(name => name.EmailLabel)}</label>
+									<label htmlFor="Email">{ResetPasswordPage.EmailLabel}</label>
 									<Field
 										type="email"
 										name="Email"
@@ -94,9 +94,9 @@ const ResetPasswordForm = (props, routeProps) => {
 								</div>
 								<div className = "cs-form-control" >
 									<p htmlFor="signup"
-									>{ResetPasswordPage.map(name => name.NoAccountLabel)} <Link to="SignUpForm" >{ResetPasswordPage.map(name => name.SignUpLinkLabel)}</Link></p>
+									>{ResetPasswordPage.NoAccountLabel} <Link to="SignUpForm" >{ResetPasswordPage.SignUpLinkLabel}</Link></p>
 									<p htmlFor="signup"
-									>{ResetPasswordPage.map(name => name.RememberPasswordLabel)} <Link to="SignInForm" >{ResetPasswordPage.map(name => name.SignInLinkLabel)}</Link> </p>
+									>{ResetPasswordPage.RememberPasswordLabel} <Link to="SignInForm" >{ResetPasswordPage.SignInLinkLabel}</Link> </p>
 									<SeButton
 										text="Back"
 										type="button"
