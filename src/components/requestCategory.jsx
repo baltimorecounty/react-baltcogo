@@ -8,7 +8,7 @@ const RequestCategory = ({  requestType,errorsRequestType, touchedRequestType, p
 		<React.Fragment>
 			<div className={
 				errorsRequestType && touchedRequestType ? "cs-form-control error" : "cs-form-control"}>
-				<label htmlFor="requestType">{pageFieldName.CategoryLabel}</label>
+				<label htmlFor="requestType">{pageFieldName}</label>
 				<RequestTypeField
 					component="select"
 					name="requestType"

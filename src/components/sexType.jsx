@@ -8,7 +8,7 @@ const SexType = ({ requestType, returnRequestTypes,  subRequestType, checkPetTyp
 			{(requestType === returnRequestTypes && subRequestType !== '') && checkPetType ?
 				<div className={
 					errorsSexType && touchedSexType ? "cs-form-control error" : "cs-form-control"}>
-					<label htmlFor="sexType">{pageFieldName.map(name => name.PetSex)}</label>
+					<label htmlFor="sexType">{pageFieldName}</label>
 					<GenericTypeField
 						component="select"
 						name="sexType"

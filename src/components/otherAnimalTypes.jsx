@@ -8,7 +8,7 @@ const OtherAnimalTypes = ({ subRequestType, petType, returnRequestTypes, errorsO
 			{(subRequestType !== '' && petType === returnRequestTypes) ?
 				<div className={
 					errorsOtherAnimalTypes && touchedOtherAnimalTypes ? "cs-form-control error" : "cs-form-control"}>
-					<label htmlFor="otherAnimalTypes">{pageFieldName.map(name => name.PetTypeOther)}</label>
+					<label htmlFor="otherAnimalTypes">{pageFieldName}</label>
 					<GenericTypeField
 						component="select"
 						name="otherAnimalTypes"

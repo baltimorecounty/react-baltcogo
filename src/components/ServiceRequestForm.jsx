@@ -333,7 +333,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 	return (
 
-		<FormContainer title={RequestPage.map(name => name.RequestTitle)}
+		<FormContainer title={RequestPage.RequestTitle}
 			tabNames={Tabs} currentTab="ServiceRequestForm"
 			shouldDisableForm={shouldDisableForm}
 			isPanelRequired={isPanelRequired}
@@ -344,7 +344,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 					requestType={requestType}
 					errorsRequestType={localProps.errors.requestType}
 					touchedRequestType={localProps.touched.requestType}
-					pageFieldName={RequestPage}
+					pageFieldName={RequestPage.CategoryLabel}
 					handleServiceRequestChange={handleServiceRequestChange}
 					rest={rest}
 					Categories={Categories} />
@@ -354,7 +354,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 					subRequestType={subRequestType}
 					errorsSubRequestType={localProps.errors.subRequestType}
 					touchedSubRequestType={localProps.touched.subRequestType}
-					pageFieldName={RequestPage}
+					pageFieldName={RequestPage.SubCategoryLabel}
 					handleServiceSubRequestChange={handleServiceSubRequestChange}
 					rest={rest}
 					subCategories={subCategories} />
@@ -409,7 +409,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 					subRequestType={subRequestType}
 					errorsPetType={localProps.errors.petType}
 					touchedPetType={localProps.touched.petType}
-					pageFieldName={RequestPage}
+					pageFieldName={RequestPage.PetType}
 					handleServicePetChange={handleServicePetChange}
 					rest={rest}
 					PetTypes={PetTypes} />
@@ -420,7 +420,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 					returnRequestTypes={returnRequestTypes("petType_Others")}
 					errorsOtherAnimalTypes={localProps.errors.otherAnimalTypes}
 					touchedOtherAnimalTypes={localProps.touched.otherAnimalTypes}
-					pageFieldName={RequestPage}
+					pageFieldName={RequestPage.PetTypeOther}
 					rest={rest}
 					handleOtherPetTypeChange={handleOtherPetTypeChange}
 					OtherAnimalTypes={OtherAnimalTypes} />
@@ -432,7 +432,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 					checkPetType={checkPetType(petType)}
 					errorsSexType={localProps.errors.sexType}
 					touchedSexType={localProps.touched.sexType}
-					pageFieldName={RequestPage}
+					pageFieldName={RequestPage.PetSex}
 					rest={rest}
 					handlePetSexChange={handlePetSexChange}
 					animalSex={animalSex}
@@ -446,7 +446,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 					petTypeDog={returnRequestTypes("petTypeDog")}
 					errorsAnimalColorType={localProps.errors.animalColorType}
 					touchedAnimalColorType={localProps.touched.animalColorType}
-					pageFieldName={RequestPage}
+					pageFieldName={RequestPage.PetColor}
 					handleAnimalColorChange={handleAnimalColorChange}
 					rest={rest}
 					AnimalColors={AnimalColors} />
@@ -460,7 +460,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 					petTypeDog={returnRequestTypes("petTypeDog")}
 					errorsAnimalBreedType={localProps.errors.animalBreedType}
 					touchedAnimalBreedType={localProps.touched.animalBreedType}
-					pageFieldName={RequestPage}
+					pageFieldName={RequestPage.PetBreed}
 					handleAnimalBreedChange={handleAnimalBreedChange}
 					rest={rest}
 					animalSubCategories={animalSubCategories} />
@@ -496,7 +496,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 							<Model />
 						</div>) :
 						<div className = "cs-form-control">
-							<p name="userLoggedIn">{RequestPage.map(name => name.AlreadySignedInLabel)} {sessionStorage.getItem("NameFirst")} {sessionStorage.getItem("NameLast")}</p>
+							<p name="userLoggedIn">{RequestPage.AlreadySignedInLabel} {sessionStorage.getItem("NameFirst")} {sessionStorage.getItem("NameLast")}</p>
 							<p name="notCorrectUser"><Link to="SignInForm">Not {sessionStorage.getItem("NameFirst")}? Log in to a different account. &nbsp; </Link></p>
 							<input type="button" className="seButton pull-right" onClick={goToNextPage} disabled={disableButton} value="Next" />
 						</div> : ""}

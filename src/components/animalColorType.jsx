@@ -10,7 +10,7 @@ const AnimalColorType = ({ requestType,requestType_petAndAnimalIssue, subRequest
                 && (petType === petTypeCat || petType === petTypeDog)) ?
 				<div className={
 					errorsAnimalColorType && touchedAnimalColorType ? "cs-form-control error" : "cs-form-control"}>
-					<label htmlFor="animalColorType">{pageFieldName.map(name => name.PetColor)}</label>
+					<label htmlFor="animalColorType">{pageFieldName}</label>
 					<GenericTypeField
 						component="select"
 						name="animalColorType"

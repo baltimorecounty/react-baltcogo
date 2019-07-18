@@ -34,41 +34,19 @@
 		"RememberPasswordLabel": "Remember your password?",
 		"SignInLinkLabel": "Sign in"
 	},
-	"RequestPage": [
-		{
-			"RequestTitle": "How Can We Help?"
-		},
-		{
-			"CategoryLabel": "Request Category"
-		},
-		{
-			"SubCategoryLabel": "Request Sub-Category"
-		},
-		{
-			"AlreadySignedInLabel": "You're signed in as"
-		},
-		{
-			"PetType": "Pet Type"
-		},
-		{
-			"PetTypeOther": "Other pet type"
-		},
-		{
-			"PetSex": "Pet Sex (optional)"
-		},
-		{
-			"PetColor": "Primary Animal Color"
-		},
-		{
-			"PetBreed": "Primary Animal Breed(optional)"
-		},
-		{
-			"Description": "Service Request Description"
-		},
-		{
+	"RequestPage": 		{
+			"RequestTitle": "How Can We Help?",
+			"CategoryLabel": "Request Category",
+			"SubCategoryLabel": "Request Sub-Category",
+			"AlreadySignedInLabel": "You're signed in as",
+			"PetType": "Pet Type",
+			"PetTypeOther": "Other pet type",
+			"PetSex": "Pet Sex (optional)",
+			"PetColor": "Primary Animal Color",	
+			"PetBreed": "Primary Animal Breed(optional)",
+			"Description": "Service Request Description",
 			"ModalLabel": "Why do I need to do this?"
-		}
-	],
+		},
 	"MapPage": {
 		"DetailsTitle": "Provide Details",
 		"DetailsMainLabel": "Add a location",
