@@ -13,7 +13,7 @@ import { VerifyAddress } from './authService';
 import ButtonDisplay from "./buttonDisplay";
 import IssueType from './IssueType';
 import DescribeTheProblem from './describeTheProblem';
-import submitReport from "../utilities/submitReport";
+import { SubmitReport} from "../utilities/ReportService";
 import { GetResponseErrors } from "../utilities/CitysourcedResponseHelpers";
 import SeButton from './SeButton';
 import { GoHome, Go, Routes } from "../Routing";
@@ -169,7 +169,7 @@ const provideDetails = props => {
 
 	const SubmitForm = async (clickEvent) => {
 		setIsSubmitting(true);
-		await submitReport(clickEvent, props);
+		await SubmitReport(clickEvent, props);
 		setIsSubmitting(false);
 	};
 
