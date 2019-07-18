@@ -2,9 +2,9 @@ import React from "react";
 import {Form, Field, connect } from "formik";
 import ErrorMsg from "./ErrorMessage";
 import FormContainer from './FormContainer';
-import { formIncomplete } from "./checkFormCompletion";
+import { IsFormInComplete } from "../utilities/FormHelpers";
 import ButtonDisplay from "./buttonDisplay";
-import submitReport from "./submitReport";
+import { SubmitReport} from "../services/ReportService";
 import { GoHome, GoBack } from '../Routing';
 
 const AdditionalInformation = props => {
@@ -12,12 +12,12 @@ const AdditionalInformation = props => {
 	const { values, actions, errors, touched, ...rest } = props;
 	const { isPanelRequired, shouldDisableForm, Tabs, AdditionalInfoPage, ContactID } = localProps
 
-	if(!ContactID || formIncomplete(props.formik)) {
+	if(!ContactID || IsFormInComplete(props.formik)) {
 		GoHome(props);
 	}
 
 	const SubmitTheForm = (clickEvent) => {
-		 submitReport(clickEvent, props);
+		SubmitReport(clickEvent, props);
 	}
 
 	const callPreviousForm = () => {

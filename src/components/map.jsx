@@ -51,7 +51,7 @@ class Map extends React.Component {
 
 	render() {
 
-		const { address, lat, lng, markerLat, onMarkerDragEnd, onZoom } = this.props;
+		const { address, lat, lng, onMarkerDragEnd, onZoom } = this.props;
 		const AsyncMap = compose(
 			withProps({
 				googleMapURL: "https://maps.google.com/maps/api/js?key=AIzaSyAqazsw3wPSSxOFVmij32C_LIhBSuyUNi8&libraries=geometry,drawing,places",

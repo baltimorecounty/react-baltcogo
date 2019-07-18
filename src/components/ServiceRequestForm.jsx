@@ -8,9 +8,9 @@ import Model from './Modal';
 import { Link } from 'react-router-dom';
 import WaterAndSewerIssue from "./waterAndSewerIssue";
 import TrashAndRecycle from "./trashAndRecycle";
-import { GetContactDetails } from './authService';
+import { GetContactDetails } from '../services/authService';
 import RoadsAndSidewalks from "./roadsAndSidewalks";
-import { formIncomplete } from "./checkFormCompletion";
+import { IsFormInComplete } from "../utilities/FormHelpers";
 import { returnJsonFileLocations, returnRequestTypes } from "../utilities//returnEnvironmentItems";
 import PetType from "./petType";
 import RequestCategory from "./requestCategory";
@@ -264,7 +264,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 	const buttonDisableValidation = () => {
 
-		return formIncomplete(props.formik);
+		return IsFormInComplete(props.formik);
 	}
 
 	const getContactDetails = async () => {

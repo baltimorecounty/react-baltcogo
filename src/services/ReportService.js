@@ -1,4 +1,4 @@
-import { CreateReport } from './authService';
+import { CreateReport } from '../services/authService';
 import { GetResponseErrors, HasResponseErrors } from '../utilities/CitysourcedResponseHelpers';
 import { Go, Routes } from '../Routing';
 
@@ -71,7 +71,7 @@ export const returnModel = (props, streetAddress, city, zipCode) => {
 	return itemsToSubmit;
 };
 
-export const submitReport = async (actions, props) => {
+export const SubmitReport = async (actions, props) => {
 	const streetAddress = props.formik.values.streetAddress;
 	const city = props.formik.values.city;
 	const zipCode = props.formik.values.zipCode;
@@ -91,4 +91,4 @@ export const submitReport = async (actions, props) => {
 	}
 };
 
-export default submitReport;
+export default SubmitReport;

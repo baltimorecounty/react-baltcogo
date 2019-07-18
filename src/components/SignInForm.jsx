@@ -5,8 +5,8 @@ import ErrorMsg from "./ErrorMessage";
 import { GetResponseErrors } from "../utilities/CitysourcedResponseHelpers";
 import { Link } from 'react-router-dom';
 import FormContainer from './FormContainer';
-import { Login } from './authService';
-import { formIncomplete } from "./checkFormCompletion";
+import { Login } from '../services/authService';
+import { IsFormInComplete } from "../utilities/FormHelpers";
 import SeButton from "./SeButton";
 import { GoBack, GoHome, Go, Routes } from "../Routing";
 
@@ -20,7 +20,7 @@ const SignIn = (props, routeProps) => {
 		setFieldType(fieldType === 'Password' ? 'text' : 'Password');
 	};
 
-	if (formIncomplete(props)) {
+	if (IsFormInComplete(props)) {
 		GoHome(props);
 	}
 

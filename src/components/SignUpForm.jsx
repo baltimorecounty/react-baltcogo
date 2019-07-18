@@ -4,9 +4,9 @@ import * as Yup from "yup";
 import ErrorMsg from "./ErrorMessage";
 import { GetResponseErrors } from "../utilities/CitysourcedResponseHelpers";
 import FormContainer from './FormContainer';
-import { SignUp } from './authService';
+import { SignUp } from '../services/authService';
 import { Link } from 'react-router-dom';
-import { formIncomplete } from "./checkFormCompletion";
+import { IsFormInComplete } from "../utilities/FormHelpers";
 import { IsPhoneNumberValid } from '@baltimorecounty/validation';
 import SeButton from "./SeButton";
 import { GoHome, Go, Routes } from "../Routing";
@@ -20,7 +20,7 @@ const CreateAccount = (props, routeProps) => {
 		setFieldType(fieldType === 'Password' ? 'text' : 'Password');
 	};
 
-	if(formIncomplete(props)){
+	if(IsFormInComplete(props)){
 		GoHome(props);
 	}
 

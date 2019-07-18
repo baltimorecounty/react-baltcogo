@@ -2,7 +2,7 @@ import React from "react";
 import { Formik, Form, Field } from "formik";
 import { GetResponseErrors } from "../utilities/CitysourcedResponseHelpers";
 import FormContainer from './FormContainer';
-import { GetReportByID } from './authService';
+import { GetReportByID } from '../services/authService';
 import { Go, Routes } from "../Routing";
 
 const GetReport = props => {

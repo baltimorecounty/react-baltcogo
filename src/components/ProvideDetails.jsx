@@ -7,13 +7,13 @@ import Geocode from "react-geocode";
 import Collaspe from './Collaspe'
 import axios from "axios"
 import _ from 'lodash';
-import { formIncomplete } from "./checkFormCompletion";
+import { IsFormInComplete } from "../utilities/FormHelpers";
 import { returnMapEndPoint } from "../utilities//returnEnvironmentItems"
-import { VerifyAddress } from './authService';
+import { VerifyAddress } from '../services/authService';
 import ButtonDisplay from "./buttonDisplay";
 import IssueType from './IssueType';
 import DescribeTheProblem from './describeTheProblem';
-import submitReport from "./submitReport";
+import { SubmitReport} from "../services/ReportService";
 import { GetResponseErrors } from "../utilities/CitysourcedResponseHelpers";
 import SeButton from './SeButton';
 import { GoHome, Go, Routes } from "../Routing";
@@ -50,7 +50,7 @@ const provideDetails = props => {
 		};
 
 		props.formik.setFieldValue('currentTab', 'ProviderDetail');
-		if (!ContactID || formIncomplete(props.formik)) {
+		if (!ContactID || IsFormInComplete(props.formik)) {
 			GoHome(props);
 		}
 		fetchData();
@@ -148,11 +148,11 @@ const provideDetails = props => {
 			rest.formik.errors.location = errorsReturned;
 		}
 		else {
-			const addressParts = props.formik.values.location.split(',');
+			const addressParts = location.split(',');
 			rest.formik.setFieldValue('requestTypeDescription', describeTheProblem);
 			rest.formik.setFieldValue('subRequestTypeAddress', addressParts[0]);
 			rest.formik.setFieldValue('subRequestTypeCity', addressParts[1]);
-			rest.formik.setFieldValue('subRequestTypeZip', addressParts[2]);
+			rest.formik.setFieldValue('subRequestTypeZip', (addressParts.length === 3) ? addressParts[2] : addressParts[3]);
 			Go(props, Routes.AdditionalInformation);
 		}
 	}
@@ -169,7 +169,7 @@ const provideDetails = props => {
 
 	const SubmitForm = async (clickEvent) => {
 		setIsSubmitting(true);
-		await submitReport(clickEvent, props);
+		await SubmitReport(clickEvent, props);
 		setIsSubmitting(false);
 	};
 
