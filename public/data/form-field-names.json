@@ -69,23 +69,13 @@
 			"ModalLabel": "Why do I need to do this?"
 		}
 	],
-	"MapPage": [
-		{
-			"DetailsTitle": "Provide Details"
-		},
-		{
-			"DetailsMainLabel": "Add a location"
-		},
-		{
-			"DetailsMainLabelExplaination": "Tell us where the issue is located. You can enter an address or mark the location on the map."
-		},
-		{
-			"AddressHeaderLabel": "Enter the closest street address to your service request"
-		},
-		{
-			"ProblemLabel": "Describe the Problem"
-		}
-	],
+	"MapPage": {
+		"DetailsTitle": "Provide Details",
+		"DetailsMainLabel": "Add a location",
+		"DetailsMainLabelExplanation": "Tell us where the issue is located. You can enter an address or mark the location on the map.",
+		"AddressHeaderLabel": "Enter the closest street address to your service request",
+		"ProblemLabel": "Describe the Problem"
+	},
 	"AdditionalInfoPage": [
 		{
 			"AdditionalInfoTitle": "Additional Information"
