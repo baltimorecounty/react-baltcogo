@@ -20,6 +20,21 @@ const Routes = {
 	SubmitForm: '/SubmitResponsePage'
 };
 
+const Go = (props, route, state = null) => {
+	props.history.push({
+		pathname: route,
+		state
+	});
+};
+
+const GoBack = (props) => {
+	props.history.goBack();
+};
+
+const GoHome = (props) => {
+	Go(props, Routes.Root);
+};
+
 const Router = (props) => (
 	<Switch>
 		<Route path={Routes.SignIn} render={(routeProps) => <SignInForm {...routeProps} {...props} />} />
@@ -33,4 +48,4 @@ const Router = (props) => (
 	</Switch>
 );
 
-export { Routes, Router };
+export { Go, GoBack, GoHome, Routes, Router };
