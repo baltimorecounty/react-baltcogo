@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 import { formIncomplete } from "../utilities/checkFormCompletion";
 import { IsPhoneNumberValid } from '@baltimorecounty/validation';
 import SeButton from "./SeButton";
+import { GoHome, Go, Routes } from "../Routing";
 
 const CreateAccount = (props, routeProps) => {
 
@@ -20,13 +21,13 @@ const CreateAccount = (props, routeProps) => {
 	};
 
 	if(formIncomplete(props)){
-		props.history.push('/ServiceRequestForm');
+		GoHome(props);
 	}
 
 	const goBack = () =>{
-		props.history.push('/ServiceRequestForm');
+		GoHome(props);
 	}
-	
+
 	const userCreateAccount = async (values, actions, props) => {
 		try {
 			const response = await SignUp(values.NameFirst, values.NameLast, values.Email, values.Password, values.Telephone, values.UniqueId, values.SuppressNotifications);
@@ -53,11 +54,11 @@ const CreateAccount = (props, routeProps) => {
 				sessionStorage.setItem('NameFirst', NameFirst);
 				sessionStorage.setItem('NameLast', NameLast);
 
-				props.history.push('/ProvideDetails');
+				Go(props, Routes.ProvideDetails);
 			}
 		}
 		catch (ex) {
-			console.log(ex.message);
+			console.error(ex.message);
 		}
 	}
 	Yup.addMethod(Yup.string, "Telephone", function (value) {
@@ -69,10 +70,10 @@ const CreateAccount = (props, routeProps) => {
 	});
 
 	return (
-		<FormContainer title={SignUpPage.map(name => name.SignUpTitle)}  
-			tabNames = {Tabs} 
-			currentTab="ServiceRequestForm" 
-			shouldDisableForm={shouldDisableForm} 
+		<FormContainer title={SignUpPage.map(name => name.SignUpTitle)}
+			tabNames = {Tabs}
+			currentTab="ServiceRequestForm"
+			shouldDisableForm={shouldDisableForm}
 			isPanelRequired={true}
 		>
 			<Formik

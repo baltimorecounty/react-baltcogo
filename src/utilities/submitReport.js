@@ -1,5 +1,6 @@
 import { CreateReport } from '../components/authService';
 import { GetResponseErrors, HasResponseErrors } from '../utilities/CitysourcedResponseHelpers';
+import { Go, Routes } from '../Routing';
 
 
 export const returnModel = (props, streetAddress, city, zipCode) => {
@@ -84,12 +85,9 @@ export const submitReport = async (actions, props) => {
 			throw new Error(errorsReturned);
 		}
 
-		props.history.push({
-			pathname: '/SubmitResponsePage',
-			state: { response }
-		});
+		Go(props, Routes.SubmitForm, response);
 	} catch (ex) {
-		console.log(ex.message);
+		console.error(ex.message);
 	}
 };
 

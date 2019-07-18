@@ -7,8 +7,8 @@ import { Link } from 'react-router-dom';
 import FormContainer from './FormContainer';
 import { Login } from './authService';
 import { formIncomplete } from "../utilities/checkFormCompletion";
-import Alert from '../utilities/Alert';
 import SeButton from "./SeButton";
+import { GoBack, GoHome, Go, Routes } from "../Routing";
 
 // import DisplayFormikState from './helper';
 const SignIn = (props, routeProps) => {
@@ -21,7 +21,7 @@ const SignIn = (props, routeProps) => {
 	};
 
 	if (formIncomplete(props)) {
-		props.history.push('/ServiceRequestForm');
+		GoHome(props);
 	}
 
 	const handleLoginFailure = (actions, errors) => {
@@ -51,11 +51,11 @@ const SignIn = (props, routeProps) => {
 			css: 'success'
 		});
 
-		props.history.push('/ProvideDetails');
+		Go(props, Routes.ProvideDetails);
 	};
 
 	const goBack = () =>{
-		props.history.push('/ServiceRequestForm');
+		GoBack(props);
 	}
 
 	const userLogin = async (values, props, actions) => {
@@ -83,10 +83,10 @@ const SignIn = (props, routeProps) => {
 	}
 
 	return (
-		<FormContainer title={SignInPage.map(name => name.SignInTitle)} 
-			tabNames = {Tabs} 
-			currentTab="ServiceRequestForm" 
-			shouldDisableForm={shouldDisableForm} 
+		<FormContainer title={SignInPage.map(name => name.SignInTitle)}
+			tabNames = {Tabs}
+			currentTab="ServiceRequestForm"
+			shouldDisableForm={shouldDisableForm}
 			isPanelRequired={true}
 		>
 			<Formik
@@ -108,13 +108,10 @@ const SignIn = (props, routeProps) => {
 			>
 				{
 					(props) => {
-						const { errors = [], touched } = props;
+						const { errors = {}, touched } = props;
 
 						return (
 							<Form >
-								{errors.length > 0 && <Alert type="danger">
-									{errors}
-								</Alert>}
 								<div className={
 									props.errors.Email && props.touched.Email ? "cs-form-control error" : "cs-form-control"}>
 									<label htmlFor="Email">{SignInPage.map(name => name.EmailLabel)}</label>
@@ -122,7 +119,6 @@ const SignIn = (props, routeProps) => {
 										type="email"
 										name="Email"
 									/>
-
 									<ErrorMessage name='msg' className='input-feedback' component='div' />
 									<div className={`input-feedback ${props.status ? props.status.css : ''}`}>
 										{props.status ? props.status.success : ''}

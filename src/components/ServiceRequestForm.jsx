@@ -20,6 +20,7 @@ import SexType from './sexType';
 import AnimalColorType from './animalColorType';
 import AnimalBreedType from './animalBreedType';
 import ServiceDescription from './serviceDescription';
+import { Go, Routes } from "../Routing";
 
 //TODO: Capture ID from URl string and pre-populate drop down
 const { categoryId } = QueryString.parse(window.location.search);
@@ -292,16 +293,16 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 	}
 	const goToNextPage = () => {
-		props.history.push('/ProvideDetails');
-	}
+		Go(props, Routes.ProvideDetails);
+	};
 
 	const callSignInForm = () => {
-		props.history.push("/SignInForm");
-	}
+		Go(props, Routes.SignIn);
+	};
 
 	const callRegisterForm = () => {
-		props.history.push("/SignUpForm");
-	}
+		Go(props, Routes.SignUp);
+	};
 
 	const { values, isSubmitting, ...rest } = props;
 

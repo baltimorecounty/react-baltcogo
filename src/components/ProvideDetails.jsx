@@ -16,6 +16,7 @@ import DescribeTheProblem from './describeTheProblem';
 import submitReport from "../utilities/submitReport";
 import { GetResponseErrors } from "../utilities/CitysourcedResponseHelpers";
 import SeButton from './SeButton';
+import { GoHome, Go, Routes } from "../Routing";
 
 Geocode.setApiKey('AIzaSyAqazsw3wPSSxOFVmij32C_LIhBSuyUNi8');
 
@@ -50,7 +51,7 @@ const provideDetails = props => {
 
 		props.formik.setFieldValue('currentTab', 'ProviderDetail');
 		if (!ContactID || formIncomplete(props.formik)) {
-			props.history.push('/ServiceRequestForm');
+			GoHome(props);
 		}
 		fetchData();
 	},
@@ -152,13 +153,13 @@ const provideDetails = props => {
 			rest.formik.setFieldValue('subRequestTypeAddress', addressParts[0]);
 			rest.formik.setFieldValue('subRequestTypeCity', addressParts[1]);
 			rest.formik.setFieldValue('subRequestTypeZip', (addressParts.length === 3) ? addressParts[2] : addressParts[3]);
-			props.history.push('/AdditionalInformationForm');
+			Go(props, Routes.AdditionalInformation);
 		}
 	}
 
 	const goServiceRequestForm = (values) => {
-		props.history.push('/ServiceRequestForm');
-	}
+		GoHome(props);
+	};
 
 	const { values, errors, actions, touched, handleSubmit, setFieldValue, ...rest } = props;
 	const items = Address.map((item, index) => ({
@@ -193,7 +194,7 @@ const provideDetails = props => {
 					type="hidden"
 					name="ShowErrorMsg"
 				/>
-				{(requiresLocation) ? 
+				{(requiresLocation) ?
 					<div className={
 						rest.formik.errors.location && rest.formik.touched.location ? "cs-form-control address-search error" : "cs-form-control address-search"}>
 						<label>{MapPage.map(name => name.DetailsMainLabel)}</label>
