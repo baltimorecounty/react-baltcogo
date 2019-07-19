@@ -1,28 +1,29 @@
 import React from "react";
+import Alert from './Alert';
 import { Field } from "formik";
 
-import ErrorMsg from "./ErrorMessage";
-const DescribeTheProblem = ({ errorsDescribeTheProblem, touchedDescribeTheProblem, pageFieldName }) => {
-
+const DescribeTheProblem = ({ name, formik, pageFieldName }) => {
+	const { errors = {}, status = {}, values = {} } = formik;
+	const error = errors[name];
+	const statusMessage = status[name];
+	const errorMessage = error || statusMessage;
 	return (
 		<React.Fragment>
 			<div className={
-				errorsDescribeTheProblem && touchedDescribeTheProblem ? "cs-form-control address-search error" : "cs-form-control address-search"}>
-				<label htmlFor="describeTheProblem"
+				errorMessage ? "cs-form-control address-search error" : "cs-form-control address-search"}>
+				<label htmlFor={name}
 
 				>{pageFieldName}</label>
 				<Field
 					component="textarea"
 					placeholder="Maximum 2,000 characters."
-					name="describeTheProblem"
-					className={`text-input ${errorsDescribeTheProblem && touchedDescribeTheProblem ? "error" : ""}`}
+					name={name}
+					className={`text-input ${errorMessage ? "error" : ""}`}
+					value={values[name]}
 				/>
-
-				<p role='alert' className="error-message">
-					<ErrorMsg
-						errormessage={errorsDescribeTheProblem}
-						touched={touchedDescribeTheProblem} />
-				</p>
+				{errorMessage && <Alert>
+					{errorMessage}
+				</Alert>}
 			</div>
 
 
