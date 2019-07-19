@@ -383,7 +383,8 @@
 			},
 			{
 				"name": "Other website problem",
-				"id": 1024591
+				"id": 1024591,
+				"note": "In the description below, please include the URL of the page where you encountered the problem."
 			}
 		],
 		"description": 1024813
