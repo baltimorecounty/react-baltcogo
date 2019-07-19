@@ -153,14 +153,6 @@ const provideDetails = props => {
 		label: `${item.StreetAddress.toUpperCase()}, ${item.City.toUpperCase()}, ${item.Zip}`,
 	}));
 
-	const verifyProblemComment = () => {
-		if (!describeTheProblem) {
-			formik.setStatus({ "describeTheProblem": "Please enter a comment describing your problem." });
-			return false;
-		}
-		return true;
-	};
-
 	/**
 	 * Determine if the given address is a valid Baltimore County address.
 	 * Handles Errors in addition to returning whether or not the address is valid.
@@ -170,6 +162,7 @@ const provideDetails = props => {
 	 * @returns {bool} returns true if address is valid.
 	 */
 	const verifyAddress = async (address, addressProperty = 'location') => {
+		formik.setFieldTouched(addressProperty, true); // Hack since we aren't using default validation and submit
 		try {
 			const addressResponse = await VerifyAddress(address);
 			if (HasResponseErrors(addressResponse)) {
@@ -184,11 +177,27 @@ const provideDetails = props => {
 		return true;
 	};
 
+	const verifyProblemComment = (problem) => {
+		const fieldName = 'describeTheProblem';
+		formik.setFieldTouched(fieldName, true); // Hack since we aren't using default validation and submit
+		if (!problem) {
+			formik.setStatus({ [fieldName]: "Please enter a comment describing your problem." });
+			return false;
+		}
+		return true;
+	};
+
+	const validateDetails = async (values) => {
+		var isValidProblem = verifyProblemComment(values.describeTheProblem);
+		var isValidAddress = await verifyAddress(values.location || '1');
+		return isValidAddress && isValidProblem;
+	};
+
 	const SubmitForm = async (clickEvent) => {
 		formik.setSubmitting(true);
-		var isValidAddress = await verifyAddress(location || '1');
+		const isDetailsFormValid = validateDetails(formik.values);
 
-		if (isValidAddress) {
+		if (isDetailsFormValid) {
 			await SubmitReport(clickEvent, props);
 		}
 		formik.setSubmitting(false);
@@ -241,7 +250,7 @@ const provideDetails = props => {
 					</div> :
 					null}
 				<DescribeTheProblem
-					name={describeTheProblem}
+					name="describeTheProblem"
 					formik={formik}
 					errorsDescribeTheProblem={rest.formik.errors.describeTheProblem}
 					touchedDescribeTheProblem={rest.formik.touched.describeTheProblem}

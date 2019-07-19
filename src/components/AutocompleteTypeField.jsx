@@ -3,16 +3,17 @@ import Autocomplete from 'react-autocomplete';
 import '../css/Autocomplete.css';
 
 const AutoCompleteTypeField = (props) => {
-	const { items, formik, onChange, onSelect, value } = props;
+	const { name, items, formik, onChange, onSelect, value } = props;
 
 	const handleChange = (changeEvent) => {
 		const { value } = changeEvent.target;
-		formik.setFieldValue('location', value);
+		formik.setFieldValue(name, value);
+		formik.setFieldTouched(name, true);
 		onChange(changeEvent);
 	};
 
 	const handleSelect = (val) => {
-		formik.setFieldValue('location', val);
+		formik.setFieldValue(name, val);
 		onSelect(val);
 	};
 

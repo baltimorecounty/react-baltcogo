@@ -1,12 +1,16 @@
 import React from "react";
 import Alert from './Alert';
+import { GetErrorDetails } from '../utilities/FormikHelpers';
 import { Field } from "formik";
 
 const DescribeTheProblem = ({ name, formik, pageFieldName }) => {
-	const { errors = {}, status = {}, values = {} } = formik;
-	const error = errors[name];
-	const statusMessage = status[name];
-	const errorMessage = error || statusMessage;
+	const { values = {} } = formik;
+	const {
+		isTouched,
+		hasError,
+		message: errorMessage
+	} = GetErrorDetails(name, formik);
+
 	return (
 		<React.Fragment>
 			<div className={
@@ -21,12 +25,10 @@ const DescribeTheProblem = ({ name, formik, pageFieldName }) => {
 					className={`text-input ${errorMessage ? "error" : ""}`}
 					value={values[name]}
 				/>
-				{errorMessage && <Alert>
+				{isTouched && hasError && <Alert>
 					{errorMessage}
 				</Alert>}
 			</div>
-
-
 		</React.Fragment>
 	);
 };

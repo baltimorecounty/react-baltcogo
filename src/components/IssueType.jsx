@@ -1,12 +1,15 @@
 import React from "react";
+import { GetErrorDetails } from '../utilities/FormikHelpers';
 import Alert from './Alert';
 import AutoCompleteTypeField from './AutocompleteTypeField';
 
 const IssueType = ({ name, formik = {}, items, handleAddressChange, handleAddressSelect,  pageFieldName }) => {
-	const { errors = {}, status = {}, values = {} } = formik;
-	const error = errors[name];
-	const statusMessage = status[name];
-	const errorMessage = error || statusMessage;
+	const { values = {} } = formik;
+	const {
+		isTouched,
+		hasError,
+		message: errorMessage
+	} = GetErrorDetails(name, formik);
 
 	return (
 		<React.Fragment>
@@ -24,6 +27,7 @@ const IssueType = ({ name, formik = {}, items, handleAddressChange, handleAddres
 					<AutoCompleteTypeField
 						items={items}
 						formik={formik}
+						name={name}
 						value={values.location}
 						onChange={handleAddressChange}
 						onSelect={handleAddressSelect}
@@ -31,7 +35,7 @@ const IssueType = ({ name, formik = {}, items, handleAddressChange, handleAddres
 					<i className="fa fa-search address-search-icon" aria-hidden="true"></i>
 				</div>
 			</div>
-			{errorMessage && <Alert>
+			{isTouched && hasError && <Alert>
 				{errorMessage}
 			</Alert>}
 
