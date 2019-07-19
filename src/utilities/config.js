@@ -48,7 +48,7 @@ export const jsonFileLocationsTest = [
 	{ key: 'resultAnimalBreeds', value: '//dev.baltimorecountymd.gov/sebin/y/c/animal-breeds.json' },
 	{ key: 'resultAnimalColors', value: '//dev.baltimorecountymd.gov/sebin/u/w/animal-colors.json' },
 	{ key: 'resultAnimalTypes', value: '//dev.baltimorecountymd.gov/sebin/a/g/animal-types.json' },
-	{ key: 'resultFormFieldNames', value: '//dev.baltimorecountymd.gov/sebin/s/u/form-field-names.json' }
+	{ key: 'resultFormFieldNames', value: '//dev.baltimorecountymd.gov/sebin/c/w/form-field-names.json' }
 ];
 
 export const jsonFileLocationsProd = [
