@@ -7,10 +7,7 @@ import FormContainer from './FormContainer';
 import QueryString from 'query-string';
 import Model from './Modal';
 import { Link } from 'react-router-dom';
-import WaterAndSewerIssue from "./waterAndSewerIssue";
-import TrashAndRecycle from "./trashAndRecycle";
 import { GetContactDetails } from '../services/authService';
-import RoadsAndSidewalks from "./roadsAndSidewalks";
 import { IsFormInComplete } from "../utilities/FormHelpers";
 import { returnJsonFileLocations, returnRequestTypes } from "../utilities//returnEnvironmentItems";
 import PetType from "./petType";
@@ -20,7 +17,6 @@ import OtherAnimalsTypes from "./otherAnimalTypes";
 import SexType from './sexType';
 import AnimalColorType from './animalColorType';
 import AnimalBreedType from './animalBreedType';
-import ServiceDescription from './serviceDescription';
 import { Go, Routes } from "../Routing";
 
 //TODO: Capture ID from URl string and pre-populate drop down
