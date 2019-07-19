@@ -1,6 +1,6 @@
 import React from 'react';
 import Autocomplete from 'react-autocomplete';
-import '../css/Autocomplete.css';
+import '../CSS/Autocomplete.css';
 
 const AutoCompleteTypeField = (props) => {
 	const { items, formikProps, onChange, onSelect, value } = props;
@@ -28,7 +28,7 @@ const AutoCompleteTypeField = (props) => {
 					{item.label}
 				</div>
 			)}
-			renderMenu={(items, value, style) => <div className="autocomplete-results" style={{ ...style }} children={items}/>}
+			renderMenu={(items, value, style) => <div className="autocomplete-results" style={{ ...style }} children={items} />}
 			value={value}
 			onChange={handleChange}
 			onSelect={handleSelect}
