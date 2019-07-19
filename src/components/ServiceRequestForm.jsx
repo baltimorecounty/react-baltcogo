@@ -241,18 +241,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 	};
 
 	const buttonShowHideValidation = () => {
-		let subRequestType = rest.formik.values['subRequestType'].toLowerCase();
-
-		if (subRequestType === returnRequestTypes("subCategory_SewerIssues").toLowerCase() ||
-			subRequestType === returnRequestTypes("subCategory_StormWaterIssues").toLowerCase() ||
-			subRequestType === returnRequestTypes("subCategory_WaterSupplyIssues").toLowerCase() ||
-			subRequestType === returnRequestTypes("subCategory_IcyConditions").toLowerCase()
-		) {
-			return false;
-		}
-		else {
-			return true;
-		}
+		return !localProps.values.shouldDisableForm;
 	}
 
 	const buttonDisableValidation = () => {
