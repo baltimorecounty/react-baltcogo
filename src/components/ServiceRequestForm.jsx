@@ -358,36 +358,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 					subCategories={subCategories} />
 
 
-				<WaterAndSewerIssue
-					requestType={requestType.toLowerCase()}
-					subRequestType={subRequestType.toLowerCase()}
-					WaterandSewerIssues={returnRequestTypes("requestType_WaterandSewerIssues")}
-					SewerIssues={returnRequestTypes("subCategory_SewerIssues")}
-					StormWaterIssues={returnRequestTypes("subCategory_StormWaterIssues")}
-					WaterSupplyIssues={returnRequestTypes("subCategory_WaterSupplyIssues")}
-					notes={notes} />
-
-
-				<RoadsAndSidewalks
-					requestType={requestType.toLowerCase()}
-					subRequestType={subRequestType.toLowerCase()}
-					RoadsAndSidewalks={returnRequestTypes("requestType_RoadsAndSidewalks")}
-					IcyConditions={returnRequestTypes("subCategory_IcyConditions")}
-					notes={notes} />
-
-
-				<TrashAndRecycle
-					requestType={requestType.toLowerCase()}
-					subRequestType={subRequestType.toLowerCase()}
-					TrashRecycleIssue={(returnRequestTypes("requestType_TrashRecycleIssue")).toLowerCase()}
-					CanOrLidLostDamaged={returnRequestTypes("subCategory_CanOrLidLostDamaged")}
-					PropertyDamangeDuringCollection={returnRequestTypes("subCategory_PropertyDamangeDuringCollection")}
-					RecyclingNotCollected={returnRequestTypes("subCategory_RecyclingNotCollected")}
-					RequestToStartNewCollection={returnRequestTypes("subCategory_RequestToStartNewCollection")}
-					TrashNotCollected={returnRequestTypes("subCategory_TrashNotCollected")}
-					YardWasteNotCollected={returnRequestTypes("subCategory_YardWasteNotCollected")}
-					notes={notes}
-				/>
+				{localProps.values.shouldDisableForm && notes}
 
 				{/* Pets and Animal Issue - Other animal complaint */
 
