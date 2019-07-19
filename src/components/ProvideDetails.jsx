@@ -13,7 +13,7 @@ import { VerifyAddress } from '../services/authService';
 import ButtonDisplay from "./buttonDisplay";
 import IssueType from './IssueType';
 import DescribeTheProblem from './describeTheProblem';
-import { SubmitReport} from "../services/ReportService";
+import { SubmitReport } from "../services/ReportService";
 import { GetResponseErrors } from "../utilities/CitysourcedResponseHelpers";
 import SeButton from './SeButton';
 import { GoHome, Go, Routes } from "../Routing";
@@ -22,14 +22,15 @@ Geocode.setApiKey('AIzaSyAqazsw3wPSSxOFVmij32C_LIhBSuyUNi8');
 
 
 const provideDetails = props => {
+	const { MapPage, location, ContactID,
+		describeTheProblem, Tabs, requiresLocation, shouldDisableForm, isPanelRequired, Latitude, Longitude } = props.formik.values;
+
 	const [isSubmitting, setIsSubmitting] = useState(false);
-	const [Latitude, setLatitude] = useState(39.4001526);
-	const [Longitude, setLongitude] = useState(-76.6074448);
+	const [updatedLatitude, setLatitude] = useState(Latitude);
+	const [updatedLongitude, setLongitude] = useState(Longitude);
 	const [MarkerLatitude, setMarkerLatitude] = useState(18.5204);
 	const [Address, setData] = useState([]);
 	const [query, setQuery] = useState(encodeURIComponent());
-	const { MapPage, location, ContactID,
-		describeTheProblem, Tabs, requiresLocation, shouldDisableForm, isPanelRequired } = props.formik.values;
 
 	useEffect(() => {
 
@@ -182,18 +183,9 @@ const provideDetails = props => {
 			isPanelRequired={isPanelRequired}
 		>
 			<Form>
-				<Field
-					type="hidden"
-					name="Latitude"
-				/>
-				<Field
-					type="hidden"
-					name="Longitude"
-				/>
-				<Field
-					type="hidden"
-					name="ShowErrorMsg"
-				/>
+				<Field type="hidden" name="Latitude" />
+				<Field type="hidden" name="Longitude" />
+				<Field type="hidden" name="ShowErrorMsg" />
 				{(requiresLocation) ?
 					<div className={
 						rest.formik.errors.location && rest.formik.touched.location ? "cs-form-control address-search error" : "cs-form-control address-search"}>
@@ -210,8 +202,8 @@ const provideDetails = props => {
 
 						<Collaspe address={rest.formik.values.location}
 							ZoomValue={rest.formik.values.ZoomValue}
-							lat={Latitude}
-							lng={Longitude}
+							lat={updatedLatitude}
+							lng={updatedLongitude}
 							onZoom={onZoom}
 							markerLat={MarkerLatitude}
 							onMarkerDragEnd={e => (onMarkerDragEnd(e, setFieldValue))} />
