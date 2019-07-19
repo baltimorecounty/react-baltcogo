@@ -131,9 +131,9 @@ const provideDetails = props => {
 	};
 
 	const goToAdditionalPage = async (values) => {
-		var isValidAddress = await verifyAddress(location || '1');
+		const isDetailsFormValid = validateDetails(values);
 
-		if (isValidAddress) {
+		if (isDetailsFormValid) {
 			const addressParts = location.split(',');
 			rest.formik.setFieldValue('requestTypeDescription', describeTheProblem);
 			rest.formik.setFieldValue('subRequestTypeAddress', addressParts[0]);
@@ -156,6 +156,8 @@ const provideDetails = props => {
 	/**
 	 * Determine if the given address is a valid Baltimore County address.
 	 * Handles Errors in addition to returning whether or not the address is valid.
+	 * TODO: // https://github.com/baltimorecounty/react-baltcogo/issues/80
+	 *
 	 * @param {string} address - address to validate
 	 * @param {function} errorFunc - function to handle errors
 	 * @param {string} errorMessage - string that displays a meaningful message to the user
@@ -169,14 +171,16 @@ const provideDetails = props => {
 				formik.setStatus({ [addressProperty]: "Please enter a valid Baltimore County address." });
 				return false;
 			}
+			return true;
 		}
 		catch(ex) {
 			formik.setStatus({ [addressProperty]: 'Something went wrong please try again in a few moments.' });
-			return false;
 		}
-		return true;
+		return false;
 	};
 
+	// TODO: This should be moved to a Yup.js schema and handled accordingly.
+	// https://github.com/baltimorecounty/react-baltcogo/issues/80
 	const verifyProblemComment = (problem) => {
 		const fieldName = 'describeTheProblem';
 		formik.setFieldTouched(fieldName, true); // Hack since we aren't using default validation and submit
@@ -187,6 +191,14 @@ const provideDetails = props => {
 		return true;
 	};
 
+	/**
+	 * Validates the provide details panel's form
+	 * TODO: This should be moved to a Yup.js schema and handled accordingly.
+	 * https://github.com/baltimorecounty/react-baltcogo/issues/80
+	 *
+	 * @param {array} values - formik form values
+	 * @returns {bool} - true if the provide details form is valid
+	 */
 	const validateDetails = async (values) => {
 		var isValidProblem = verifyProblemComment(values.describeTheProblem);
 		var isValidAddress = await verifyAddress(values.location || '1');
