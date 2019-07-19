@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Form, Field, connect } from "formik";
 import axios from "axios"
+import Note from './Note';
 import { GetResponseErrors } from "../utilities/CitysourcedResponseHelpers";
 import FormContainer from './FormContainer';
 import QueryString from 'query-string';
@@ -102,6 +103,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 				);
 
 				setData(result.data);
+				localProps.setFieldValue('Categories', result.data);
 				setPetTypes(resultPetTypes.data);
 				setAnimalBreeds(resultAnimalBreeds.data);
 				setAnimalColors(resultAnimalColors.data);
@@ -177,11 +179,8 @@ const ServiceRequestForm = (props, errors, touched) => {
 		let ID = getID(subCategories, value);
 		const isDisabled = getshouldDisableForm(subCategories, value);
 
-		const notes = isDisabled ? getNote(subCategories, value) : null;
-		setNotes(<div className="alert-information bc_alert" >
-			<i className="fa fa-icon fa-2x fa-info-circle"></i>
-			<p dangerouslySetInnerHTML={{ __html: notes }}></p>
-		</div>);
+		const notes = isDisabled ? <Note>{getNote(subCategories, value)}</Note> : null;
+		setNotes(notes);
 
 		localProps.setFieldValue('subRequestTypeID', ID);
 		localProps.setFieldValue('shouldDisableForm', (isDisabled === undefined) ? false : isDisabled);
