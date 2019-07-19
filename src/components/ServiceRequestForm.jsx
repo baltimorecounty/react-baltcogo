@@ -243,7 +243,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 		else {
 			return false;
 		}
-	}
+	};
 
 	const buttonShowHideValidation = () => {
 		let subRequestType = rest.formik.values['subRequestType'].toLowerCase();
