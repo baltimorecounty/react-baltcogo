@@ -26,8 +26,8 @@ const provideDetails = props => {
 		describeTheProblem, Tabs, requiresLocation, shouldDisableForm, isPanelRequired, Latitude, Longitude } = props.formik.values;
 
 	const [isSubmitting, setIsSubmitting] = useState(false);
-	const [updatedLatitude, setLatitude] = useState(parseFloat(Latitude));
-	const [updatedLongitude, setLongitude] = useState(parseFloat(Longitude));
+	const [updatedLatitude, setLatitude] = useState(Latitude);
+	const [updatedLongitude, setLongitude] = useState(Longitude);
 	const [MarkerLatitude, setMarkerLatitude] = useState(18.5204);
 	const [Address, setData] = useState([]);
 	const [query, setQuery] = useState(encodeURIComponent());
