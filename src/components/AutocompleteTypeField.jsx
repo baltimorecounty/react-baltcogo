@@ -30,7 +30,7 @@ const AutoCompleteTypeField = (props) => {
 					{item.label}
 				</div>
 			)}
-			renderMenu={(items, value, style) => <div className="autocomplete-results" style={{ ...style }} children={items}/>}
+			renderMenu={(items, value, style) => <div className="autocomplete-results" style={{ ...style }} children={items} />}
 			value={value}
 			onChange={handleChange}
 			onSelect={handleSelect}

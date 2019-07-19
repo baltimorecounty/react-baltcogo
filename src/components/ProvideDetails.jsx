@@ -19,19 +19,17 @@ import { GoHome, Go, Routes } from "../Routing";
 
 Geocode.setApiKey('AIzaSyAqazsw3wPSSxOFVmij32C_LIhBSuyUNi8');
 
-
 const provideDetails = props => {
 	const { formik = {} } = props;
-	const [Latitude, setLatitude] = useState(39.4001526);
-	const [Longitude, setLongitude] = useState(-76.6074448);
+	const { MapPage, location, ContactID,
+		describeTheProblem, Tabs, requiresLocation, shouldDisableForm, isPanelRequired, Latitude, Longitude  } = formik.values;
+	const [updatedLatitude, setLatitude] = useState(Latitude);
+	const [updatedLongitude, setLongitude] = useState(Longitude);
 	const [MarkerLatitude, setMarkerLatitude] = useState(18.5204);
 	const [Address, setData] = useState([]);
 	const [query, setQuery] = useState(encodeURIComponent());
-	const { MapPage, location, ContactID,
-		describeTheProblem, Tabs, requiresLocation, shouldDisableForm, isPanelRequired } = formik.values;
 
 	useEffect(() => {
-
 		const fetchData = async () => {
 			const mapEndPoint = returnMapEndPoint('mapGISEndPoint');
 
@@ -224,18 +222,9 @@ const provideDetails = props => {
 			isPanelRequired={isPanelRequired}
 		>
 			<Form>
-				<Field
-					type="hidden"
-					name="Latitude"
-				/>
-				<Field
-					type="hidden"
-					name="Longitude"
-				/>
-				<Field
-					type="hidden"
-					name="ShowErrorMsg"
-				/>
+				<Field type="hidden" name="Latitude" />
+				<Field type="hidden" name="Longitude" />
+				<Field type="hidden" name="ShowErrorMsg" />
 				{(requiresLocation) ?
 					<div className={
 						formik.errors.location && formik.touched.location ? "cs-form-control address-search error" : "cs-form-control address-search"}>
@@ -253,8 +242,8 @@ const provideDetails = props => {
 
 						<Collaspe address={rest.formik.values.location}
 							ZoomValue={rest.formik.values.ZoomValue}
-							lat={Latitude}
-							lng={Longitude}
+							lat={updatedLatitude}
+							lng={updatedLongitude}
 							onZoom={onZoom}
 							markerLat={MarkerLatitude}
 							onMarkerDragEnd={e => (onMarkerDragEnd(e, setFieldValue))} />
