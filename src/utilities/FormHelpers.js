@@ -47,9 +47,6 @@ export const IsFormInComplete = (props) => {
 					&& props.values['otherAnimalTypes'] === ""))) {
 			return true;
 		}
-		else if (requestType === 'website issue' && props.values['serviceDescription'].trim() === "") {
-			return true;
-		}
 		else {
 
 			return false;
