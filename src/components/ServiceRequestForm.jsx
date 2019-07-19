@@ -19,7 +19,7 @@ import OtherAnimalsTypes from "./otherAnimalTypes";
 import SexType from './sexType';
 import AnimalColorType from './animalColorType';
 import AnimalBreedType from './animalBreedType';
-import ServiceDescription from './serviceDescription';
+import { URLRouting } from '../utilities/FormHelpers';
 import { Go, Routes } from "../Routing";
 
 //TODO: Capture ID from URl string and pre-populate drop down
@@ -326,6 +326,10 @@ const ServiceRequestForm = (props, errors, touched) => {
 			}
 		}
 	};
+
+	const SelectedValue = () =>{
+		return URLRouting(Categories, subCategories, categoryId);
+	}
 
 	loadSelectedItems(props);
 	let disableButton = buttonDisableValidation();

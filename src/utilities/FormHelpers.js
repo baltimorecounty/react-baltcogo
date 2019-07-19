@@ -57,5 +57,16 @@ export const IsFormInComplete = (props) => {
 	}
 }
 
+export const URLRouting = (requestTypes, subRequestTypes, categoryId) =>{
+
+
+	const Categories = [
+		{ name: '' },
+		{ id: '' }
+	]
+	return Categories
+
+}
+
 
 export default IsFormInComplete
