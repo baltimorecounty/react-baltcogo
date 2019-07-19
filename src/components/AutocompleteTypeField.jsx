@@ -10,6 +10,7 @@ const AutoCompleteTypeField = (props) => {
 		formik.setFieldValue('location', value);
 		onChange(changeEvent);
 	};
+
 	const handleSelect = (val) => {
 		formik.setFieldValue('location', val);
 		onSelect(val);
