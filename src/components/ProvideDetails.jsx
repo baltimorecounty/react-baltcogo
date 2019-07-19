@@ -216,10 +216,13 @@ const provideDetails = props => {
 					pageFieldName={MapPage.ProblemLabel} />
 
 				<div className="cs-form-control" >
-					<ButtonDisplay
+					<SeButton
+						text="Previous"
 						onClick={goServiceRequestForm}
-						buttonName="Previous"
-						cssClass="seButton" />
+						isLoading={isSubmitting}
+						isLoadingText="Submitting Request..."
+						className="seButton"
+					/>
 					{(!rest.formik.values.requestTypeAddressID) ?
 						<SeButton
 							text="File Your Report"
