@@ -10,11 +10,10 @@ import _ from 'lodash';
 import { IsFormInComplete } from "../utilities/FormHelpers";
 import { returnMapEndPoint } from "../utilities//returnEnvironmentItems"
 import { VerifyAddress } from '../services/authService';
-import ButtonDisplay from "./buttonDisplay";
 import IssueType from './IssueType';
 import DescribeTheProblem from './describeTheProblem';
 import { SubmitReport} from "../services/ReportService";
-import { GetResponseErrors } from "../utilities/CitysourcedResponseHelpers";
+import { HasResponseErrors } from "../utilities/CitysourcedResponseHelpers";
 import SeButton from './SeButton';
 import { GoHome, Go, Routes } from "../Routing";
 
@@ -22,14 +21,14 @@ Geocode.setApiKey('AIzaSyAqazsw3wPSSxOFVmij32C_LIhBSuyUNi8');
 
 
 const provideDetails = props => {
-	const [isSubmitting, setIsSubmitting] = useState(false);
+	const { formik = {} } = props;
 	const [Latitude, setLatitude] = useState(39.4001526);
 	const [Longitude, setLongitude] = useState(-76.6074448);
 	const [MarkerLatitude, setMarkerLatitude] = useState(18.5204);
 	const [Address, setData] = useState([]);
 	const [query, setQuery] = useState(encodeURIComponent());
 	const { MapPage, location, ContactID,
-		describeTheProblem, Tabs, requiresLocation, shouldDisableForm, isPanelRequired } = props.formik.values;
+		describeTheProblem, Tabs, requiresLocation, shouldDisableForm, isPanelRequired } = formik.values;
 
 	useEffect(() => {
 
@@ -49,8 +48,8 @@ const provideDetails = props => {
 			}
 		};
 
-		props.formik.setFieldValue('currentTab', 'ProviderDetail');
-		if (!ContactID || IsFormInComplete(props.formik)) {
+		formik.setFieldValue('currentTab', 'ProviderDetail');
+		if (!ContactID || IsFormInComplete(formik)) {
 			GoHome(props);
 		}
 		fetchData();
@@ -64,13 +63,7 @@ const provideDetails = props => {
 		);
 		return result;
 
-	}
-
-	const buttonShowHideValidation = () => {
-		return (location === "" || describeTheProblem === '') ? true : false;
 	};
-
-	let displayButton = buttonShowHideValidation();
 
 	const handleAddressChange = (e) => {
 		setQuery(e.target.value);
@@ -138,16 +131,9 @@ const provideDetails = props => {
 	};
 
 	const goToAdditionalPage = async (values) => {
+		var isValidAddress = await verifyAddress(location || '1');
 
-		let fullAddress = rest.formik.values.location;
-		const addressResponse = await VerifyAddress(fullAddress);
-		if (addressResponse.data.HasErrors) {
-
-			const errorsReturned = GetResponseErrors(addressResponse);
-			rest.formik.setFieldValue('ShowErrorMsg', 1);
-			rest.formik.errors.location = errorsReturned;
-		}
-		else {
+		if (isValidAddress) {
 			const addressParts = location.split(',');
 			rest.formik.setFieldValue('requestTypeDescription', describeTheProblem);
 			rest.formik.setFieldValue('subRequestTypeAddress', addressParts[0]);
@@ -167,10 +153,45 @@ const provideDetails = props => {
 		label: `${item.StreetAddress.toUpperCase()}, ${item.City.toUpperCase()}, ${item.Zip}`,
 	}));
 
+	const verifyProblemComment = () => {
+		if (!describeTheProblem) {
+			formik.setStatus({ "describeTheProblem": "Please enter a comment describing your problem." });
+			return false;
+		}
+		return true;
+	};
+
+	/**
+	 * Determine if the given address is a valid Baltimore County address.
+	 * Handles Errors in addition to returning whether or not the address is valid.
+	 * @param {string} address - address to validate
+	 * @param {function} errorFunc - function to handle errors
+	 * @param {string} errorMessage - string that displays a meaningful message to the user
+	 * @returns {bool} returns true if address is valid.
+	 */
+	const verifyAddress = async (address, addressProperty = 'location') => {
+		try {
+			const addressResponse = await VerifyAddress(address);
+			if (HasResponseErrors(addressResponse)) {
+				formik.setStatus({ [addressProperty]: "Please enter a valid Baltimore County address." });
+				return false;
+			}
+		}
+		catch(ex) {
+			formik.setStatus({ [addressProperty]: 'Something went wrong please try again in a few moments.' });
+			return false;
+		}
+		return true;
+	};
+
 	const SubmitForm = async (clickEvent) => {
-		setIsSubmitting(true);
-		await SubmitReport(clickEvent, props);
-		setIsSubmitting(false);
+		formik.setSubmitting(true);
+		var isValidAddress = await verifyAddress(location || '1');
+
+		if (isValidAddress) {
+			await SubmitReport(clickEvent, props);
+		}
+		formik.setSubmitting(false);
 	};
 
 	return (
@@ -196,13 +217,14 @@ const provideDetails = props => {
 				/>
 				{(requiresLocation) ?
 					<div className={
-						rest.formik.errors.location && rest.formik.touched.location ? "cs-form-control address-search error" : "cs-form-control address-search"}>
+						formik.errors.location && formik.touched.location ? "cs-form-control address-search error" : "cs-form-control address-search"}>
 						<label>{MapPage.DetailsMainLabel}</label>
 						<p>
 							{MapPage.DetailsMainLabelExplanation}
 						</p>
 						<IssueType
-							rest={rest}
+							name="location"
+							formik={formik}
 							items={items}
 							handleAddressChange={handleAddressChange}
 							handleAddressSelect={handleAddressSelect}
@@ -219,30 +241,31 @@ const provideDetails = props => {
 					</div> :
 					null}
 				<DescribeTheProblem
+					name={describeTheProblem}
+					formik={formik}
 					errorsDescribeTheProblem={rest.formik.errors.describeTheProblem}
 					touchedDescribeTheProblem={rest.formik.touched.describeTheProblem}
 					pageFieldName={MapPage.ProblemLabel} />
 
 				<div className="cs-form-control" >
-					<ButtonDisplay
+					<SeButton
 						onClick={goServiceRequestForm}
-						buttonName="Previous"
-						cssClass="seButton" />
+						text="Previous"
+					/>
 					{(!rest.formik.values.requestTypeAddressID) ?
 						<SeButton
 							text="File Your Report"
 							onClick={SubmitForm}
-							isDisabled={displayButton}
-							isLoading={isSubmitting}
+							isLoading={formik.isSubmitting}
 							isLoadingText="Submitting Request..."
 							className="pull-right"
 						/>
 						:
-						<ButtonDisplay
+						<SeButton
+							text="Next"
 							onClick={goToAdditionalPage}
-							disabled={displayButton}
-							buttonName="Next"
-							cssClass="seButton pull-right" />}
+							className="pull-right"
+						/>}
 				</div>
 			</Form>
 		</FormContainer>
