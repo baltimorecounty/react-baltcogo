@@ -177,7 +177,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 		let ID = getID(subCategories, value);
 		const isDisabled = getshouldDisableForm(subCategories, value);
 
-		const notes = getNote(subCategories, value);
+		const notes = isDisabled ? getNote(subCategories, value) : null;
 		setNotes(<div className="alert-information bc_alert" >
 			<i className="fa fa-icon fa-2x fa-info-circle"></i>
 			<p dangerouslySetInnerHTML={{ __html: notes }}></p>
@@ -212,29 +212,27 @@ const ServiceRequestForm = (props, errors, touched) => {
 		localProps.setFieldValue('petTypeID', ID);
 	};
 
+	const handleFieldChange = (changeEvent, lookupItems, propertyName) => {
+		const value = changeEvent.currentTarget.value.toLowerCase();
+		const id = getID(lookupItems, value);
+		localProps.setFieldValue(propertyName, id);
+	};
+
 	const handleAnimalColorChange = (changeEvent) => {
-		let value = changeEvent.currentTarget.value.toLowerCase();
-		let ID = getID(AnimalColors, value);
-		localProps.setFieldValue('animalColorTypeID', ID);
-	}
+		handleFieldChange(changeEvent, AnimalColors, 'animalColorTypeID');
+	};
 
 	const handleOtherPetTypeChange = (changeEvent) => {
-		let value = changeEvent.currentTarget.value.toLowerCase();
-		let ID = getID(OtherAnimalTypes, value);
-		localProps.setFieldValue('otherAnimalTypesID', ID);
-	}
+		handleFieldChange(changeEvent, OtherAnimalTypes, 'otherAnimalTypesID');
+	};
 
 	const handlePetSexChange = (changeEvent) => {
-		let value = changeEvent.currentTarget.value.toLowerCase();
-		let ID = getID(animalSex, value);
-		localProps.setFieldValue('sexTypeID', ID);
-	}
+		handleFieldChange(changeEvent, animalSex, 'sexTypeID');
+	};
 
 	const handleAnimalBreedChange = (changeEvent) => {
-		let value = changeEvent.currentTarget.value.toLowerCase();
-		let ID = getID(animalSubCategories, value);
-		localProps.setFieldValue('animalBreedID', ID);
-	}
+		handleFieldChange(changeEvent, animalSubCategories, 'animalBreedID');
+	};
 
 	const checkPetType = (value) => {
 		value = value.toLowerCase();
