@@ -1,4 +1,6 @@
 import { returnRequestTypes } from "../utilities//returnEnvironmentItems"
+import _ from 'lodash';
+
 export const IsFormInComplete = (props) => {
 
 	let requestType = props.values['requestType'].toLowerCase();
@@ -57,15 +59,41 @@ export const IsFormInComplete = (props) => {
 	}
 }
 
-export const URLRouting = (requestTypes, subRequestTypes, categoryId) =>{
+export const URLRouting = (requestTypes, categoryId) =>{
+	if(requestTypes.length > 0 && categoryId){
 
+		let nameSubCat = '';
+		let idSubCat = '';
+		let nameCat = '';
+		let idCat = '';
 
-	const Categories = [
-		{ name: '' },
-		{ id: '' }
-	]
-	return Categories
+		const getSelectedSubCategory = requestTypes.find(items => (items.types.find(type => type.id === categoryId)));
 
+		if (getSelectedSubCategory){
+			nameCat = getSelectedSubCategory.name;
+			idCat = getSelectedSubCategory.id;
+			nameSubCat = getSelectedSubCategory.types.find(type => type.id === categoryId).name;
+			idSubCat = getSelectedSubCategory.types.find(type => type.id === categoryId).id;
+		}
+		else
+		{
+			const getSelectedCategory = _.filter(requestTypes, { id: categoryId });
+			nameCat = (getSelectedCategory.length > 0) ? getSelectedCategory[0].name : '' ; 
+			idCat =  (getSelectedCategory.length > 0) ? getSelectedCategory[0].id : '' ;
+		}
+		
+		const Selections = {
+			"nameCategory":  nameCat ,
+			"idCategory": idCat ,
+			"nameSubCategory": nameSubCat ,
+			"idSubCategory": idSubCat 
+		}
+
+		return Selections
+	}
+	else{
+		return null;
+	}
 }
 
 

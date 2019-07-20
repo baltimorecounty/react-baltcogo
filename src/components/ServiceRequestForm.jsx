@@ -22,7 +22,6 @@ import AnimalBreedType from './animalBreedType';
 import { URLRouting } from '../utilities/FormHelpers';
 import { Go, Routes } from "../Routing";
 
-//TODO: Capture ID from URl string and pre-populate drop down
 const { categoryId } = QueryString.parse(window.location.search);
 
 const getSubCategories = (categories, categoryName) => {
@@ -117,9 +116,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 				localProps.setFieldValue('ContactID', contactID);
 
-
 				if (contactID) {
-
 					getContactDetails();
 				}
 			};
@@ -129,6 +126,10 @@ const ServiceRequestForm = (props, errors, touched) => {
 	}
 	catch (ex) {
 		console.error('service request form data', ex);
+	}
+
+	const SelectedValue = () =>{
+		return URLRouting(Categories, parseInt(categoryId));
 	}
 
 	const handleServiceRequestChange = (changeEvent) => {
@@ -327,13 +328,13 @@ const ServiceRequestForm = (props, errors, touched) => {
 		}
 	};
 
-	const SelectedValue = () =>{
-		return URLRouting(Categories, subCategories, categoryId);
-	}
-
 	loadSelectedItems(props);
+	
 	let disableButton = buttonDisableValidation();
 	let displayButton = buttonShowHideValidation();
+	const preSelectedTypes = SelectedValue();
+	const selectedType =  (preSelectedTypes) ? preSelectedTypes.nameCategory : requestType ;
+	const selectedSubType = (preSelectedTypes) ? preSelectedTypes.nameSubCategory : subRequestType ;
 
 	return (
 
@@ -355,7 +356,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 				<RequestSubCategory
 					requestType={requestType}
-					subRequestType={subRequestType}
+					subRequestType={subRequestType }
 					errorsSubRequestType={localProps.errors.subRequestType}
 					touchedSubRequestType={localProps.touched.subRequestType}
 					pageFieldName={RequestPage.SubCategoryLabel}
