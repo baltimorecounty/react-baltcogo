@@ -10,22 +10,19 @@ import _ from 'lodash';
 import { IsFormInComplete } from "../utilities/FormHelpers";
 import { returnMapEndPoint } from "../utilities//returnEnvironmentItems"
 import { VerifyAddress } from '../services/authService';
-import ButtonDisplay from "./buttonDisplay";
 import IssueType from './IssueType';
 import DescribeTheProblem from './describeTheProblem';
-import { SubmitReport } from "../services/ReportService";
-import { GetResponseErrors } from "../utilities/CitysourcedResponseHelpers";
+import { SubmitReport} from "../services/ReportService";
+import { HasResponseErrors } from "../utilities/CitysourcedResponseHelpers";
 import SeButton from './SeButton';
 import { GoHome, Go, Routes } from "../Routing";
 
 Geocode.setApiKey('AIzaSyAqazsw3wPSSxOFVmij32C_LIhBSuyUNi8');
 
-
 const provideDetails = props => {
+	const { formik = {} } = props;
 	const { MapPage, location, ContactID,
-		describeTheProblem, Tabs, requiresLocation, shouldDisableForm, isPanelRequired, Latitude, Longitude } = props.formik.values;
-
-	const [isSubmitting, setIsSubmitting] = useState(false);
+		describeTheProblem, Tabs, requiresLocation, shouldDisableForm, isPanelRequired, Latitude, Longitude  } = formik.values;
 	const [updatedLatitude, setLatitude] = useState(Latitude);
 	const [updatedLongitude, setLongitude] = useState(Longitude);
 	const [MarkerLatitude, setMarkerLatitude] = useState(18.5204);
@@ -33,7 +30,6 @@ const provideDetails = props => {
 	const [query, setQuery] = useState(encodeURIComponent());
 
 	useEffect(() => {
-
 		const fetchData = async () => {
 			const mapEndPoint = returnMapEndPoint('mapGISEndPoint');
 
@@ -50,8 +46,8 @@ const provideDetails = props => {
 			}
 		};
 
-		props.formik.setFieldValue('currentTab', 'ProviderDetail');
-		if (!ContactID || IsFormInComplete(props.formik)) {
+		formik.setFieldValue('currentTab', 'ProviderDetail');
+		if (!ContactID || IsFormInComplete(formik)) {
 			GoHome(props);
 		}
 		fetchData();
@@ -65,13 +61,7 @@ const provideDetails = props => {
 		);
 		return result;
 
-	}
-
-	const buttonShowHideValidation = () => {
-		return (location === "" || describeTheProblem === '') ? true : false;
 	};
-
-	let displayButton = buttonShowHideValidation();
 
 	const handleAddressChange = (e) => {
 		setQuery(e.target.value);
@@ -139,16 +129,9 @@ const provideDetails = props => {
 	};
 
 	const goToAdditionalPage = async (values) => {
+		const isDetailsFormValid = validateDetails(values);
 
-		let fullAddress = rest.formik.values.location;
-		const addressResponse = await VerifyAddress(fullAddress);
-		if (addressResponse.data.HasErrors) {
-
-			const errorsReturned = GetResponseErrors(addressResponse);
-			rest.formik.setFieldValue('ShowErrorMsg', 1);
-			rest.formik.errors.location = errorsReturned;
-		}
-		else {
+		if (isDetailsFormValid) {
 			const addressParts = location.split(',');
 			rest.formik.setFieldValue('requestTypeDescription', describeTheProblem);
 			rest.formik.setFieldValue('subRequestTypeAddress', addressParts[0]);
@@ -168,10 +151,66 @@ const provideDetails = props => {
 		label: `${item.StreetAddress.toUpperCase()}, ${item.City.toUpperCase()}, ${item.Zip}`,
 	}));
 
+	/**
+	 * Determine if the given address is a valid Baltimore County address.
+	 * Handles Errors in addition to returning whether or not the address is valid.
+	 * TODO: // https://github.com/baltimorecounty/react-baltcogo/issues/80
+	 *
+	 * @param {string} address - address to validate
+	 * @param {function} errorFunc - function to handle errors
+	 * @param {string} errorMessage - string that displays a meaningful message to the user
+	 * @returns {bool} returns true if address is valid.
+	 */
+	const verifyAddress = async (address, addressProperty = 'location') => {
+		formik.setFieldTouched(addressProperty, true); // Hack since we aren't using default validation and submit
+		try {
+			const addressResponse = await VerifyAddress(address);
+			if (HasResponseErrors(addressResponse)) {
+				formik.setStatus({ [addressProperty]: "Please enter a valid Baltimore County address." });
+				return false;
+			}
+			return true;
+		}
+		catch(ex) {
+			formik.setStatus({ [addressProperty]: 'Something went wrong please try again in a few moments.' });
+		}
+		return false;
+	};
+
+	// TODO: This should be moved to a Yup.js schema and handled accordingly.
+	// https://github.com/baltimorecounty/react-baltcogo/issues/80
+	const verifyProblemComment = (problem) => {
+		const fieldName = 'describeTheProblem';
+		formik.setFieldTouched(fieldName, true); // Hack since we aren't using default validation and submit
+		if (!problem) {
+			formik.setStatus({ [fieldName]: "Please enter a comment describing your problem." });
+			return false;
+		}
+		return true;
+	};
+
+	/**
+	 * Validates the provide details panel's form
+	 * TODO: This should be moved to a Yup.js schema and handled accordingly.
+	 * https://github.com/baltimorecounty/react-baltcogo/issues/80
+	 *
+	 * @param {array} values - formik form values
+	 * @returns {bool} - true if the provide details form is valid
+	 */
+	const validateDetails = async (values) => {
+		var isValidProblem = verifyProblemComment(values.describeTheProblem);
+		var isValidAddress = await verifyAddress(values.location || '1');
+		return isValidAddress && isValidProblem;
+	};
+
 	const SubmitForm = async (clickEvent) => {
-		setIsSubmitting(true);
-		await SubmitReport(clickEvent, props);
-		setIsSubmitting(false);
+		formik.setSubmitting(true);
+		const isDetailsFormValid = validateDetails(formik.values);
+
+		if (isDetailsFormValid) {
+			await SubmitReport(clickEvent, props);
+		}
+		formik.setSubmitting(false);
 	};
 
 	return (
@@ -188,13 +227,14 @@ const provideDetails = props => {
 				<Field type="hidden" name="ShowErrorMsg" />
 				{(requiresLocation) ?
 					<div className={
-						rest.formik.errors.location && rest.formik.touched.location ? "cs-form-control address-search error" : "cs-form-control address-search"}>
+						formik.errors.location && formik.touched.location ? "cs-form-control address-search error" : "cs-form-control address-search"}>
 						<label>{MapPage.DetailsMainLabel}</label>
 						<p>
 							{MapPage.DetailsMainLabelExplanation}
 						</p>
 						<IssueType
-							rest={rest}
+							name="location"
+							formik={formik}
 							items={items}
 							handleAddressChange={handleAddressChange}
 							handleAddressSelect={handleAddressSelect}
@@ -211,33 +251,31 @@ const provideDetails = props => {
 					</div> :
 					null}
 				<DescribeTheProblem
+					name="describeTheProblem"
+					formik={formik}
 					errorsDescribeTheProblem={rest.formik.errors.describeTheProblem}
 					touchedDescribeTheProblem={rest.formik.touched.describeTheProblem}
 					pageFieldName={MapPage.ProblemLabel} />
 
 				<div className="cs-form-control" >
 					<SeButton
-						text="Previous"
 						onClick={goServiceRequestForm}
-						isLoading={isSubmitting}
-						isLoadingText="Submitting Request..."
-						className="seButton"
+						text="Previous"
 					/>
 					{(!rest.formik.values.requestTypeAddressID) ?
 						<SeButton
 							text="File Your Report"
 							onClick={SubmitForm}
-							isDisabled={displayButton}
-							isLoading={isSubmitting}
+							isLoading={formik.isSubmitting}
 							isLoadingText="Submitting Request..."
 							className="pull-right"
 						/>
 						:
-						<ButtonDisplay
+						<SeButton
+							text="Next"
 							onClick={goToAdditionalPage}
-							disabled={displayButton}
-							buttonName="Next"
-							cssClass="seButton pull-right" />}
+							className="pull-right"
+						/>}
 				</div>
 			</Form>
 		</FormContainer>
