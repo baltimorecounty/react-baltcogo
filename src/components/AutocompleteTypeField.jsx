@@ -1,19 +1,17 @@
 import React from 'react';
 import Autocomplete from 'react-autocomplete';
-import '../css/Autocomplete.css';
+import '../CSS/Autocomplete.css';
 
 const AutoCompleteTypeField = (props) => {
-	const { name, items, formik, onChange, onSelect, value } = props;
+	const { items, formikProps, onChange, onSelect, value } = props;
 
 	const handleChange = (changeEvent) => {
 		const { value } = changeEvent.target;
-		formik.setFieldValue(name, value);
-		formik.setFieldTouched(name, true);
+		formikProps.formik.setFieldValue('location', value);
 		onChange(changeEvent);
 	};
-
 	const handleSelect = (val) => {
-		formik.setFieldValue(name, val);
+		formikProps.formik.setFieldValue('location', val);
 		onSelect(val);
 	};
 
@@ -34,7 +32,7 @@ const AutoCompleteTypeField = (props) => {
 			value={value}
 			onChange={handleChange}
 			onSelect={handleSelect}
-			className={`text-input ${formik.errors.location && formik.touched.location
+			className={`text-input ${formikProps.formik.errors.location && formikProps.formik.touched.location
 				? 'error'
 				: ''}`}
 			wrapperStyle={{}}
