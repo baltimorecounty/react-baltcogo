@@ -24,7 +24,7 @@ const DescribeTheProblem = ({ name, formik, pageFieldName }) => {
 					name={name}
 					className={`text-input ${errorMessage ? "error" : ""}`}
 					value={values[name]}
-					maxlength="2000"
+					maxLength="2000"
 				/>
 				{isTouched && hasError && <Alert>
 					{errorMessage}
