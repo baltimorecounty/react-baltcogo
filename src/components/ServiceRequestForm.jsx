@@ -346,7 +346,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 			<Form>
 
 				<RequestCategory
-					requestType={requestType}
+					requestType={selectedType}
 					errorsRequestType={localProps.errors.requestType}
 					touchedRequestType={localProps.touched.requestType}
 					pageFieldName={RequestPage.CategoryLabel}
@@ -355,8 +355,8 @@ const ServiceRequestForm = (props, errors, touched) => {
 					Categories={Categories} />
 
 				<RequestSubCategory
-					requestType={requestType}
-					subRequestType={subRequestType }
+					requestType={selectedType}
+					subRequestType={selectedSubType }
 					errorsSubRequestType={localProps.errors.subRequestType}
 					touchedSubRequestType={localProps.touched.subRequestType}
 					pageFieldName={RequestPage.SubCategoryLabel}

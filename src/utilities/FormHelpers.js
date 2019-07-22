@@ -59,15 +59,15 @@ export const IsFormInComplete = (props) => {
 	}
 }
 
-export const URLRouting = (requestTypes, categoryId) =>{
-	if(requestTypes.length > 0 && categoryId){
+export const URLRouting = (categories, categoryId) =>{
+	if(categories.length > 0 && categoryId){
 
 		let nameSubCat = '';
 		let idSubCat = '';
 		let nameCat = '';
 		let idCat = '';
 
-		const getSelectedSubCategory = requestTypes.find(items => (items.types.find(type => type.id === categoryId)));
+		const getSelectedSubCategory = categories.find(items => (items.types.find(type => type.id === categoryId)));
 
 		if (getSelectedSubCategory){
 			nameCat = getSelectedSubCategory.name;
@@ -77,7 +77,7 @@ export const URLRouting = (requestTypes, categoryId) =>{
 		}
 		else
 		{
-			const getSelectedCategory = _.filter(requestTypes, { id: categoryId });
+			const getSelectedCategory = _.filter(categories, { id: categoryId });
 			nameCat = (getSelectedCategory.length > 0) ? getSelectedCategory[0].name : '' ; 
 			idCat =  (getSelectedCategory.length > 0) ? getSelectedCategory[0].id : '' ;
 		}
