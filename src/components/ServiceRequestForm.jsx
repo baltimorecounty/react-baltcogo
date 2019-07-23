@@ -61,7 +61,7 @@ const getID = (categories, categoryName) => {
 
 const ServiceRequestForm = (props, errors, touched) => {
 	const localProps = props.formik;
-	const [Categories, setData] = useState([]);
+	const [Categories, setCategories] = useState([]);
 	const [PetTypes, setPetTypes] = useState([]);
 	const [AnimalBreeds, setAnimalBreeds] = useState([]);
 	const [AnimalColors, setAnimalColors] = useState([]);
@@ -98,8 +98,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 					returnJsonFileLocations("resultFormFieldNames"),
 				);
 
-				setData(result.data);
-				localProps.setFieldValue('Categories', result.data);
+				setCategories(result.data);
 				setPetTypes(resultPetTypes.data);
 				setAnimalBreeds(resultAnimalBreeds.data);
 				setAnimalColors(resultAnimalColors.data);
@@ -112,7 +111,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 				const selectedType = () =>{
 					 requestCategory = (preSelectedTypes) ? preSelectedTypes.nameCategory : requestType ;
-					if(requestCategory){
+					if(requestCategory){		
 						addSelectedValueOptions(result.data, requestCategory.toLowerCase());
 					}
 					return requestCategory;
@@ -151,8 +150,6 @@ const ServiceRequestForm = (props, errors, touched) => {
 	const SelectedValue = (Categories) =>{
 		return URLRouting(Categories, parseInt(categoryId));
 	}
-
-	let  routedSubCategories = '';
 	
 	const addSelectedValueOptions = (Categories, value)=>{
 		let ID = getID(Categories, value)
@@ -160,7 +157,6 @@ const ServiceRequestForm = (props, errors, touched) => {
 		localProps.setFieldValue('requestTypeID', ID);
 
 		const subCategories = getSubCategories(Categories, value);
-		routedSubCategories = subCategories;
 		setSubCategories(subCategories);
 
 		const description = getIncludedDescriptions(Categories, value);
@@ -181,7 +177,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 	}
 
 	const addSelectedSubValueOptions = (Categories, value)=>{
-
+		const subCategories = Categories.flatMap(x => x.types);
 		const subInfo = getSubCategoriesIncludedDescription(subCategories, value);
 		let ID = getID(subCategories, value);
 		const isDisabled = getshouldDisableForm(subCategories, value);
@@ -210,6 +206,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 			}
 		}
 	}
+
 	const handleServiceRequestChange = (changeEvent) => {
 		const value = changeEvent.currentTarget.value.toLowerCase();
 		addSelectedValueOptions(Categories, value);
@@ -231,67 +228,6 @@ const ServiceRequestForm = (props, errors, touched) => {
 			localProps.setFieldValue('isPanelRequired', false);
 		}
 	};
-
-	// const handleServiceRequestChange = (changeEvent) => {
-
-	// 	const value = changeEvent.currentTarget.value.toLowerCase();
-	// 	let ID = getID(Categories, value)
-
-	// 	localProps.setFieldValue('requestTypeID', ID);
-
-	// 	const subCategories = getSubCategories(Categories, value ? value : value);
-	// 	setSubCategories(subCategories);
-
-	// 	const description = getIncludedDescriptions(Categories, value ? value : value);
-	// 	const fields = getIncludedFields(Categories, value ? value : value);
-	// 	const requiresLocation = getrequiresLocation(Categories, value ? value : value);
-
-	// 	localProps.setFieldValue('requestTypeDescriptionID', description);
-	// 	localProps.setFieldValue('requiresLocation', (requiresLocation === undefined) ? true : requiresLocation);
-
-	// 	if (value === 'website issue')
-	// 	{
-	// 		localProps.setFieldValue('Latitude', 39.40037792)
-	// 		localProps.setFieldValue('Longitude', -76.60651907)
-	// 		localProps.setFieldValue('location', '400 WASHINGTON AVE, TOWSON, 21204')
-	// 	}
-
-	// 	pullServiceRequestFields(fields);
-	// };
-
-	
-	// const handleServiceSubRequestChange = (changeEvent) => {
-
-	// 	const value = changeEvent.currentTarget.value.toLowerCase();
-	// 	const subInfo = getSubCategoriesIncludedDescription(subCategories, value ? value : value);
-	// 	let ID = getID(subCategories, value);
-	// 	const isDisabled = getshouldDisableForm(subCategories, value);
-
-	// 	const notes = getNote(subCategories, value);
-	// 	setNotes(<div className="alert-information bc_alert" >
-	// 		<i className="fa fa-icon fa-2x fa-info-circle"></i>
-	// 		<p dangerouslySetInnerHTML={{ __html: notes }}></p>
-	// 	</div>);
-
-	// 	localProps.setFieldValue('subRequestTypeID', ID);
-	// 	localProps.setFieldValue('shouldDisableForm', (isDisabled === undefined) ? false : isDisabled);
-
-
-	// 	if (subInfo !== undefined) {
-	// 		if (subInfo.description !== undefined) {
-	// 			localProps.setFieldValue('subRequestTypeDescriptionID', subInfo.description);
-	// 		}
-	// 		if (subInfo.streetAddress !== undefined) {
-	// 			localProps.setFieldValue('subRequestTypeAddressID', subInfo.streetAddress);
-	// 		}
-	// 		if (subInfo.city !== undefined) {
-	// 			localProps.setFieldValue('subRequestTypeCityID', subInfo.city);
-	// 		}
-	// 		if (subInfo.zipCode !== undefined) {
-	// 			localProps.setFieldValue('subRequestTypeZipID', subInfo.zipCode);
-	// 		}
-	// 	}
-	// };
 
 	const handleServicePetChange = (changeEvent) => {
 		let value = changeEvent.currentTarget.value.toLowerCase();
