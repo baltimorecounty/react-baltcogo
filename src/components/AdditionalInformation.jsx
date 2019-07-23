@@ -1,15 +1,15 @@
 import React from "react";
+import SeButton from './SeButton';
 import { Form, Field, connect } from "formik";
 import ErrorMsg from "./ErrorMessage";
 import FormContainer from './FormContainer';
 import { IsFormInComplete } from "../utilities/FormHelpers";
-import ButtonDisplay from "./buttonDisplay";
 import { SubmitReport } from "../services/ReportService";
 import { GoHome, GoBack } from '../Routing';
 
 const AdditionalInformation = props => {
 	const localProps = props.formik.values;
-	//const { formik = {} } = props;
+	const { formik = {} } = props;
 	const { values, actions, errors, touched, ...rest } = props;
 	const { isPanelRequired, shouldDisableForm, Tabs, AdditionalInfoPage, ContactID } = localProps
 
@@ -18,13 +18,14 @@ const AdditionalInformation = props => {
 	}
 
 	const SubmitTheForm = (clickEvent) => {
+		formik.setSubmitting(true);
 		SubmitReport(clickEvent, props);
+		formik.setSubmitting(false);
 	}
 
 	const callPreviousForm = () => {
 		GoBack(props);
 	}
-
 	return (
 		<FormContainer title={AdditionalInfoPage.AdditionalInfoTitle}
 			tabNames={Tabs}
@@ -164,16 +165,17 @@ const AdditionalInformation = props => {
 						</p>
 					</div>}
 				<div className="cs-form-control" >
-					<ButtonDisplay
+					<SeButton
+						text="Previous"
 						onClick={callPreviousForm}
-						disabled={null}
-						buttonName="Previous"
-						cssClass="seButton" />
-					<ButtonDisplay
+					/>
+					<SeButton
+						text="File Your Report"
 						onClick={SubmitTheForm}
-						disabled={null}
-						buttonName="File Your Report"
-						cssClass="seButton pull-right" />
+						isLoading={formik.isSubmitting}
+						isLoadingText="Submitting Request..."
+						className="seButton pull-right"
+					/>
 				</div>
 			</Form>
 		</FormContainer>
