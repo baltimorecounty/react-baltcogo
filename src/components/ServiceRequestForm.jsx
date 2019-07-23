@@ -152,11 +152,17 @@ const ServiceRequestForm = (props, errors, touched) => {
 		return URLRouting(Categories, parseInt(categoryId));
 	}
 
+	let  routedSubCategories = '';
+	
 	const addSelectedValueOptions = (Categories, value)=>{
-		const subCategories = getSubCategories(Categories, value);
-		setSubCategories(subCategories);
 		let ID = getID(Categories, value)
+
 		localProps.setFieldValue('requestTypeID', ID);
+
+		const subCategories = getSubCategories(Categories, value);
+		routedSubCategories = subCategories;
+		setSubCategories(subCategories);
+
 		const description = getIncludedDescriptions(Categories, value);
 		const fields = getIncludedFields(Categories, value);
 		const requiresLocation = getrequiresLocation(Categories, value);
@@ -170,25 +176,24 @@ const ServiceRequestForm = (props, errors, touched) => {
 			localProps.setFieldValue('Longitude', -76.60651907)
 			localProps.setFieldValue('location', '400 WASHINGTON AVE, TOWSON, 21204')
 		}
-		//addSelectedSubValueOptions(Categories, value);
+
 		pullServiceRequestFields(fields);
 	}
 
-	const addSelectedSubValueOptions = (Categories, value, subValue)=>{
-
-		const subCategories = getSubCategories(Categories, value);
-		setSubCategories(subCategories);
+	const addSelectedSubValueOptions = (Categories, value)=>{
 
 		const subInfo = getSubCategoriesIncludedDescription(subCategories, value);
 		let ID = getID(subCategories, value);
 		const isDisabled = getshouldDisableForm(subCategories, value);
 
-		const notes = isDisabled ? <Note>{getNote(subCategories, value)}</Note> : null;
-		setNotes(notes);
+		const notes = getNote(subCategories, value);
+		setNotes(<div className="alert-information bc_alert" >
+			<i className="fa fa-icon fa-2x fa-info-circle"></i>
+			<p dangerouslySetInnerHTML={{ __html: notes }}></p>
+		</div>);
 
 		localProps.setFieldValue('subRequestTypeID', ID);
 		localProps.setFieldValue('shouldDisableForm', (isDisabled === undefined) ? false : isDisabled);
-
 
 		if (subInfo !== undefined) {
 			if (subInfo.description !== undefined) {
@@ -210,6 +215,11 @@ const ServiceRequestForm = (props, errors, touched) => {
 		addSelectedValueOptions(Categories, value);
 	};
 
+	const handleServiceSubRequestChange = (changeEvent) => {
+		const value = changeEvent.currentTarget.value.toLowerCase();
+		addSelectedSubValueOptions(Categories, value);
+	};
+
 	const pullServiceRequestFields = (fields) => {
 		if (fields !== undefined) {
 			localProps.setFieldValue('requestTypeAddressID', fields.streetAddress);
@@ -222,10 +232,66 @@ const ServiceRequestForm = (props, errors, touched) => {
 		}
 	};
 
-	const handleServiceSubRequestChange = (changeEvent) => {
-		const value = changeEvent.currentTarget.value.toLowerCase();
-		addSelectedSubValueOptions(Categories, value);
-	};
+	// const handleServiceRequestChange = (changeEvent) => {
+
+	// 	const value = changeEvent.currentTarget.value.toLowerCase();
+	// 	let ID = getID(Categories, value)
+
+	// 	localProps.setFieldValue('requestTypeID', ID);
+
+	// 	const subCategories = getSubCategories(Categories, value ? value : value);
+	// 	setSubCategories(subCategories);
+
+	// 	const description = getIncludedDescriptions(Categories, value ? value : value);
+	// 	const fields = getIncludedFields(Categories, value ? value : value);
+	// 	const requiresLocation = getrequiresLocation(Categories, value ? value : value);
+
+	// 	localProps.setFieldValue('requestTypeDescriptionID', description);
+	// 	localProps.setFieldValue('requiresLocation', (requiresLocation === undefined) ? true : requiresLocation);
+
+	// 	if (value === 'website issue')
+	// 	{
+	// 		localProps.setFieldValue('Latitude', 39.40037792)
+	// 		localProps.setFieldValue('Longitude', -76.60651907)
+	// 		localProps.setFieldValue('location', '400 WASHINGTON AVE, TOWSON, 21204')
+	// 	}
+
+	// 	pullServiceRequestFields(fields);
+	// };
+
+	
+	// const handleServiceSubRequestChange = (changeEvent) => {
+
+	// 	const value = changeEvent.currentTarget.value.toLowerCase();
+	// 	const subInfo = getSubCategoriesIncludedDescription(subCategories, value ? value : value);
+	// 	let ID = getID(subCategories, value);
+	// 	const isDisabled = getshouldDisableForm(subCategories, value);
+
+	// 	const notes = getNote(subCategories, value);
+	// 	setNotes(<div className="alert-information bc_alert" >
+	// 		<i className="fa fa-icon fa-2x fa-info-circle"></i>
+	// 		<p dangerouslySetInnerHTML={{ __html: notes }}></p>
+	// 	</div>);
+
+	// 	localProps.setFieldValue('subRequestTypeID', ID);
+	// 	localProps.setFieldValue('shouldDisableForm', (isDisabled === undefined) ? false : isDisabled);
+
+
+	// 	if (subInfo !== undefined) {
+	// 		if (subInfo.description !== undefined) {
+	// 			localProps.setFieldValue('subRequestTypeDescriptionID', subInfo.description);
+	// 		}
+	// 		if (subInfo.streetAddress !== undefined) {
+	// 			localProps.setFieldValue('subRequestTypeAddressID', subInfo.streetAddress);
+	// 		}
+	// 		if (subInfo.city !== undefined) {
+	// 			localProps.setFieldValue('subRequestTypeCityID', subInfo.city);
+	// 		}
+	// 		if (subInfo.zipCode !== undefined) {
+	// 			localProps.setFieldValue('subRequestTypeZipID', subInfo.zipCode);
+	// 		}
+	// 	}
+	// };
 
 	const handleServicePetChange = (changeEvent) => {
 		let value = changeEvent.currentTarget.value.toLowerCase();
@@ -446,23 +512,6 @@ const ServiceRequestForm = (props, errors, touched) => {
 					handleAnimalBreedChange={handleAnimalBreedChange}
 					rest={rest}
 					animalSubCategories={animalSubCategories} />
-
-				{/* <Field type="hidden" name="requestTypeID" />
-				<Field type="hidden" name="requestTypeDescriptionID" />
-				<Field type="hidden" name="requestTypeAddressID" />
-				<Field type="hidden" name="requestTypeCityID" />
-				<Field type="hidden" name="requestTypeZipID" />
-				<Field type="hidden" name="subRequestTypeID" />
-				<Field type="hidden" name="subRequestTypeDescriptionID" />
-				<Field type="hidden" name="subRequestTypeAddressID" />
-				<Field type="hidden" name="subRequestTypeCityID" />
-				<Field type="hidden" name="subRequestTypeZipID" />
-				<Field type="hidden" name="petTypeID" />
-				<Field type="hidden" name="animalBreedID" />
-				<Field type="hidden" name="sexTypeID" />
-				<Field type="hidden" name="animalColorTypeID" />
-				<Field type="hidden" name="otherAnimalTypesID" />
-				<Field type="hidden" name="shouldDisableForm" /> */}
 
 				{(displayButton) ?
 					(!contactID) ?
