@@ -80,9 +80,11 @@ export const SubmitReport = async (actions, props) => {
 		const response = await CreateReport(itemsToSubmit);
 		if (HasResponseErrors(response)) {
 			const errorsReturned = GetResponseErrors(response);
-			props.formik.setStatus({ responseError: errorsReturned})
+			props.formik.setStatus({ responseError: errorsReturned});
 			throw new Error(errorsReturned);
 		}
+
+		props.formik.setStatus({ responseError: null});
 
 		Go(props, Routes.SubmitForm, response);
 	} catch (ex) {
