@@ -29,7 +29,13 @@ const FormContainer = (props) => {
 			shouldDisableForm: props.shouldDisableForm,
 			isPanelRequired: props.isPanelRequired
 		},
-		{ description: props.tabNames.Tab4, id: 3, key: 'Blank', shouldDisableForm: false, isPanelRequired: true }
+		{ 
+			description: props.tabNames.Tab4, 
+			id: 3, 
+			key: 'Blank', 
+			shouldDisableForm: false, 
+			isPanelRequired: true 
+		}
 	]
 		.filter((item) => item.shouldDisableForm === false)
 		.filter((item) => item.isPanelRequired);

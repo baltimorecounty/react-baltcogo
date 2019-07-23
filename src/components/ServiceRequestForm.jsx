@@ -106,6 +106,27 @@ const ServiceRequestForm = (props, errors, touched) => {
 				setAnimalColors(resultAnimalColors.data);
 				setOtherAnimalTypes(resultAnimalTypes.data);
 
+				const preSelectedTypes = SelectedValue(result.data);
+
+				let requestCategory ='';
+				let requestSubCategory = ''
+
+				const selectedType = () =>{
+					 requestCategory = (preSelectedTypes) ? preSelectedTypes.nameCategory : requestType ;
+					if(requestCategory){
+						addSelectedValueOptions(result.data, requestCategory);
+					}
+					return requestCategory;
+				} 
+
+				const selectedSubType = () =>{
+					 requestSubCategory = (preSelectedTypes) ? preSelectedTypes.nameSubCategory : subRequestType ;
+					if(requestSubCategory){
+						addSelectedSubValueOptions(result.data, requestCategory)
+					}
+					return requestSubCategory;
+				} 
+			
 				localProps.setFieldValue('Tabs', resultFormFieldNames.data.Tabs);
 				localProps.setFieldValue('RequestPage', resultFormFieldNames.data.RequestPage);
 				localProps.setFieldValue('MapPage', resultFormFieldNames.data.MapPage);
@@ -113,7 +134,8 @@ const ServiceRequestForm = (props, errors, touched) => {
 				localProps.setFieldValue('SignInPage', resultFormFieldNames.data.SignInPage);
 				localProps.setFieldValue('SignUpPage', resultFormFieldNames.data.SignUpPage);
 				localProps.setFieldValue('ResetPasswordPage', resultFormFieldNames.data.ResetPasswordPage);
-
+				localProps.setFieldValue('requestType', selectedType());
+				localProps.setFieldValue('subRequestType', selectedSubType());
 				localProps.setFieldValue('ContactID', contactID);
 
 				if (contactID) {
@@ -127,21 +149,13 @@ const ServiceRequestForm = (props, errors, touched) => {
 	catch (ex) {
 		console.error('service request form data', ex);
 	}
-
-	const SelectedValue = () =>{
+	const SelectedValue = (Categories) =>{
 		return URLRouting(Categories, parseInt(categoryId));
 	}
 
-	const handleServiceRequestChange = (changeEvent) => {
-
-		const value = changeEvent.currentTarget.value.toLowerCase();
+	const addSelectedValueOptions = (Categories, value)=>{
 		let ID = getID(Categories, value)
-
 		localProps.setFieldValue('requestTypeID', ID);
-
-		const subCategories = getSubCategories(Categories, value ? value : value);
-		setSubCategories(subCategories);
-
 		const description = getIncludedDescriptions(Categories, value ? value : value);
 		const fields = getIncludedFields(Categories, value ? value : value);
 		const requiresLocation = getrequiresLocation(Categories, value ? value : value);
@@ -157,23 +171,13 @@ const ServiceRequestForm = (props, errors, touched) => {
 		}
 
 		pullServiceRequestFields(fields);
-	};
+	}
 
-	const pullServiceRequestFields = (fields) => {
-		if (fields !== undefined) {
-			localProps.setFieldValue('requestTypeAddressID', fields.streetAddress);
-			localProps.setFieldValue('requestTypeCityID', fields.city);
-			localProps.setFieldValue('requestTypeZipID', fields.zipCode);
-			localProps.setFieldValue('isPanelRequired', true);
-		}
-		else{
-			localProps.setFieldValue('isPanelRequired', false);
-		}
-	};
+	const addSelectedSubValueOptions = (Categories, value)=>{
 
-	const handleServiceSubRequestChange = (changeEvent) => {
+		const subCategories = getSubCategories(Categories, value ? value : value);
+		setSubCategories(subCategories);
 
-		const value = changeEvent.currentTarget.value.toLowerCase();
 		const subInfo = getSubCategoriesIncludedDescription(subCategories, value ? value : value);
 		let ID = getID(subCategories, value);
 		const isDisabled = getshouldDisableForm(subCategories, value);
@@ -202,6 +206,27 @@ const ServiceRequestForm = (props, errors, touched) => {
 				localProps.setFieldValue('subRequestTypeZipID', subInfo.zipCode);
 			}
 		}
+	}
+	const handleServiceRequestChange = (changeEvent) => {
+		const value = changeEvent.currentTarget.value.toLowerCase();
+		addSelectedValueOptions(Categories, value);
+	};
+
+	const pullServiceRequestFields = (fields) => {
+		if (fields !== undefined) {
+			localProps.setFieldValue('requestTypeAddressID', fields.streetAddress);
+			localProps.setFieldValue('requestTypeCityID', fields.city);
+			localProps.setFieldValue('requestTypeZipID', fields.zipCode);
+			localProps.setFieldValue('isPanelRequired', true);
+		}
+		else{
+			localProps.setFieldValue('isPanelRequired', false);
+		}
+	};
+
+	const handleServiceSubRequestChange = (changeEvent) => {
+		const value = changeEvent.currentTarget.value.toLowerCase();
+		addSelectedSubValueOptions(Categories, value);
 	};
 
 	const handleServicePetChange = (changeEvent) => {
@@ -328,13 +353,9 @@ const ServiceRequestForm = (props, errors, touched) => {
 		}
 	};
 
-	loadSelectedItems(props);
-	
 	let disableButton = buttonDisableValidation();
 	let displayButton = buttonShowHideValidation();
-	const preSelectedTypes = SelectedValue();
-	const selectedType =  (preSelectedTypes) ? preSelectedTypes.nameCategory : requestType ;
-	const selectedSubType = (preSelectedTypes) ? preSelectedTypes.nameSubCategory : subRequestType ;
+	loadSelectedItems(props);
 
 	return (
 
@@ -346,7 +367,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 			<Form>
 
 				<RequestCategory
-					requestType={selectedType}
+					requestType={requestType}
 					errorsRequestType={localProps.errors.requestType}
 					touchedRequestType={localProps.touched.requestType}
 					pageFieldName={RequestPage.CategoryLabel}
@@ -355,8 +376,8 @@ const ServiceRequestForm = (props, errors, touched) => {
 					Categories={Categories} />
 
 				<RequestSubCategory
-					requestType={selectedType}
-					subRequestType={selectedSubType }
+					requestType={requestType}
+					subRequestType={subRequestType }
 					errorsSubRequestType={localProps.errors.subRequestType}
 					touchedSubRequestType={localProps.touched.subRequestType}
 					pageFieldName={RequestPage.SubCategoryLabel}
@@ -470,7 +491,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 					rest={rest}
 					animalSubCategories={animalSubCategories} />
 
-				<Field type="hidden" name="requestTypeID" />
+				{/* <Field type="hidden" name="requestTypeID" />
 				<Field type="hidden" name="requestTypeDescriptionID" />
 				<Field type="hidden" name="requestTypeAddressID" />
 				<Field type="hidden" name="requestTypeCityID" />
@@ -485,7 +506,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 				<Field type="hidden" name="sexTypeID" />
 				<Field type="hidden" name="animalColorTypeID" />
 				<Field type="hidden" name="otherAnimalTypesID" />
-				<Field type="hidden" name="shouldDisableForm" />
+				<Field type="hidden" name="shouldDisableForm" /> */}
 
 				{(displayButton) ?
 					(!contactID) ?
