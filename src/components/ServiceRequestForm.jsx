@@ -114,7 +114,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 				const selectedType = () =>{
 					 requestCategory = (preSelectedTypes) ? preSelectedTypes.nameCategory : requestType ;
 					if(requestCategory){
-						addSelectedValueOptions(result.data, requestCategory);
+						addSelectedValueOptions(result.data, requestCategory.toLowerCase());
 					}
 					return requestCategory;
 				} 
@@ -122,7 +122,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 				const selectedSubType = () =>{
 					 requestSubCategory = (preSelectedTypes) ? preSelectedTypes.nameSubCategory : subRequestType ;
 					if(requestSubCategory){
-						addSelectedSubValueOptions(result.data, requestCategory)
+						addSelectedSubValueOptions(result.data, requestSubCategory.toLowerCase())
 					}
 					return requestSubCategory;
 				} 
@@ -154,11 +154,13 @@ const ServiceRequestForm = (props, errors, touched) => {
 	}
 
 	const addSelectedValueOptions = (Categories, value)=>{
+		const subCategories = getSubCategories(Categories, value);
+		setSubCategories(subCategories);
 		let ID = getID(Categories, value)
 		localProps.setFieldValue('requestTypeID', ID);
-		const description = getIncludedDescriptions(Categories, value ? value : value);
-		const fields = getIncludedFields(Categories, value ? value : value);
-		const requiresLocation = getrequiresLocation(Categories, value ? value : value);
+		const description = getIncludedDescriptions(Categories, value);
+		const fields = getIncludedFields(Categories, value);
+		const requiresLocation = getrequiresLocation(Categories, value);
 
 		localProps.setFieldValue('requestTypeDescriptionID', description);
 		localProps.setFieldValue('requiresLocation', (requiresLocation === undefined) ? true : requiresLocation);
@@ -169,16 +171,16 @@ const ServiceRequestForm = (props, errors, touched) => {
 			localProps.setFieldValue('Longitude', -76.60651907)
 			localProps.setFieldValue('location', '400 WASHINGTON AVE, TOWSON, 21204')
 		}
-
+		//addSelectedSubValueOptions(Categories, value);
 		pullServiceRequestFields(fields);
 	}
 
-	const addSelectedSubValueOptions = (Categories, value)=>{
+	const addSelectedSubValueOptions = (Categories, value, subValue)=>{
 
-		const subCategories = getSubCategories(Categories, value ? value : value);
+		const subCategories = getSubCategories(Categories, value);
 		setSubCategories(subCategories);
 
-		const subInfo = getSubCategoriesIncludedDescription(subCategories, value ? value : value);
+		const subInfo = getSubCategoriesIncludedDescription(subCategories, value);
 		let ID = getID(subCategories, value);
 		const isDisabled = getshouldDisableForm(subCategories, value);
 
