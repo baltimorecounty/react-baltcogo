@@ -16,6 +16,8 @@ import { SubmitReport} from "../services/ReportService";
 import { HasResponseErrors } from "../utilities/CitysourcedResponseHelpers";
 import SeButton from './SeButton';
 import { GoHome, Go, Routes } from "../Routing";
+import Note from "./Note";
+import { GetSubCategory } from '../utilities/CategoryHelpers';
 
 Geocode.setApiKey('AIzaSyAqazsw3wPSSxOFVmij32C_LIhBSuyUNi8');
 
@@ -50,9 +52,15 @@ const provideDetails = props => {
 		if (!ContactID || IsFormInComplete(formik)) {
 			GoHome(props);
 		}
+
 		fetchData();
 	},
 	[query]);
+
+	const { Categories = [] } = formik.values;
+	const subCategoryId = formik.values.subRequestTypeID;
+	const subCategory = GetSubCategory(Categories, subCategoryId);
+
 
 	const reverseGeocode = async (latitude, longitude) => {
 		const mapReverseEndPoint = returnMapEndPoint("mapReverseGISEndPoint");
@@ -250,6 +258,7 @@ const provideDetails = props => {
 
 					</div> :
 					null}
+				{subCategory && !subCategory.shouldDisableForm && subCategory.note && <Note>{subCategory.note}</Note>}
 				<DescribeTheProblem
 					name="describeTheProblem"
 					formik={formik}
