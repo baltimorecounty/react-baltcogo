@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Form, Field, connect } from "formik";
 import axios from "axios"
+import Note from './Note';
 import { GetResponseErrors } from "../utilities/CitysourcedResponseHelpers";
 import FormContainer from './FormContainer';
 import QueryString from 'query-string';
 import Model from './Modal';
 import { Link } from 'react-router-dom';
-import WaterAndSewerIssue from "./waterAndSewerIssue";
-import TrashAndRecycle from "./trashAndRecycle";
 import { GetContactDetails } from '../services/authService';
-import RoadsAndSidewalks from "./roadsAndSidewalks";
 import { IsFormInComplete } from "../utilities/FormHelpers";
 import { returnJsonFileLocations, returnRequestTypes } from "../utilities//returnEnvironmentItems";
 import PetType from "./petType";
@@ -101,6 +99,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 				);
 
 				setData(result.data);
+				localProps.setFieldValue('Categories', result.data);
 				setPetTypes(resultPetTypes.data);
 				setAnimalBreeds(resultAnimalBreeds.data);
 				setAnimalColors(resultAnimalColors.data);
@@ -184,11 +183,8 @@ const ServiceRequestForm = (props, errors, touched) => {
 		let ID = getID(subCategories, value);
 		const isDisabled = getshouldDisableForm(subCategories, value);
 
-		const notes = getNote(subCategories, value);
-		setNotes(<div className="alert-information bc_alert" >
-			<i className="fa fa-icon fa-2x fa-info-circle"></i>
-			<p dangerouslySetInnerHTML={{ __html: notes }}></p>
-		</div>);
+		const notes = isDisabled ? <Note>{getNote(subCategories, value)}</Note> : null;
+		setNotes(notes);
 
 		localProps.setFieldValue('subRequestTypeID', ID);
 		localProps.setFieldValue('shouldDisableForm', (isDisabled === undefined) ? false : isDisabled);
@@ -240,29 +236,27 @@ const ServiceRequestForm = (props, errors, touched) => {
 		localProps.setFieldValue('petTypeID', ID);
 	};
 
+	const handleFieldChange = (changeEvent, lookupItems, propertyName) => {
+		const value = changeEvent.currentTarget.value.toLowerCase();
+		const id = getID(lookupItems, value);
+		localProps.setFieldValue(propertyName, id);
+	};
+
 	const handleAnimalColorChange = (changeEvent) => {
-		let value = changeEvent.currentTarget.value.toLowerCase();
-		let ID = getID(AnimalColors, value);
-		localProps.setFieldValue('animalColorTypeID', ID);
-	}
+		handleFieldChange(changeEvent, AnimalColors, 'animalColorTypeID');
+	};
 
 	const handleOtherPetTypeChange = (changeEvent) => {
-		let value = changeEvent.currentTarget.value.toLowerCase();
-		let ID = getID(OtherAnimalTypes, value);
-		localProps.setFieldValue('otherAnimalTypesID', ID);
-	}
+		handleFieldChange(changeEvent, OtherAnimalTypes, 'otherAnimalTypesID');
+	};
 
 	const handlePetSexChange = (changeEvent) => {
-		let value = changeEvent.currentTarget.value.toLowerCase();
-		let ID = getID(animalSex, value);
-		localProps.setFieldValue('sexTypeID', ID);
-	}
+		handleFieldChange(changeEvent, animalSex, 'sexTypeID');
+	};
 
 	const handleAnimalBreedChange = (changeEvent) => {
-		let value = changeEvent.currentTarget.value.toLowerCase();
-		let ID = getID(animalSubCategories, value);
-		localProps.setFieldValue('animalBreedID', ID);
-	}
+		handleFieldChange(changeEvent, animalSubCategories, 'animalBreedID');
+	};
 
 	const checkPetType = (value) => {
 		value = value.toLowerCase();
@@ -273,21 +267,10 @@ const ServiceRequestForm = (props, errors, touched) => {
 		else {
 			return false;
 		}
-	}
+	};
 
 	const buttonShowHideValidation = () => {
-		let subRequestType = rest.formik.values['subRequestType'].toLowerCase();
-
-		if (subRequestType === returnRequestTypes("subCategory_SewerIssues").toLowerCase() ||
-			subRequestType === returnRequestTypes("subCategory_StormWaterIssues").toLowerCase() ||
-			subRequestType === returnRequestTypes("subCategory_WaterSupplyIssues").toLowerCase() ||
-			subRequestType === returnRequestTypes("subCategory_IcyConditions").toLowerCase()
-		) {
-			return false;
-		}
-		else {
-			return true;
-		}
+		return !localProps.values.shouldDisableForm;
 	}
 
 	const buttonDisableValidation = () => {
@@ -388,36 +371,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 					subCategories={subCategories} />
 
 
-				<WaterAndSewerIssue
-					requestType={requestType.toLowerCase()}
-					subRequestType={subRequestType.toLowerCase()}
-					WaterandSewerIssues={returnRequestTypes("requestType_WaterandSewerIssues")}
-					SewerIssues={returnRequestTypes("subCategory_SewerIssues")}
-					StormWaterIssues={returnRequestTypes("subCategory_StormWaterIssues")}
-					WaterSupplyIssues={returnRequestTypes("subCategory_WaterSupplyIssues")}
-					notes={notes} />
-
-
-				<RoadsAndSidewalks
-					requestType={requestType.toLowerCase()}
-					subRequestType={subRequestType.toLowerCase()}
-					RoadsAndSidewalks={returnRequestTypes("requestType_RoadsAndSidewalks")}
-					IcyConditions={returnRequestTypes("subCategory_IcyConditions")}
-					notes={notes} />
-
-
-				<TrashAndRecycle
-					requestType={requestType.toLowerCase()}
-					subRequestType={subRequestType.toLowerCase()}
-					TrashRecycleIssue={(returnRequestTypes("requestType_TrashRecycleIssue")).toLowerCase()}
-					CanOrLidLostDamaged={returnRequestTypes("subCategory_CanOrLidLostDamaged")}
-					PropertyDamangeDuringCollection={returnRequestTypes("subCategory_PropertyDamangeDuringCollection")}
-					RecyclingNotCollected={returnRequestTypes("subCategory_RecyclingNotCollected")}
-					RequestToStartNewCollection={returnRequestTypes("subCategory_RequestToStartNewCollection")}
-					TrashNotCollected={returnRequestTypes("subCategory_TrashNotCollected")}
-					YardWasteNotCollected={returnRequestTypes("subCategory_YardWasteNotCollected")}
-					notes={notes}
-				/>
+				{localProps.values.shouldDisableForm && notes}
 
 				{/* Pets and Animal Issue - Other animal complaint */
 
