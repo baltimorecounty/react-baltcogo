@@ -44,7 +44,7 @@ const getNote = (subCategories, name) => {
 };
 const getshouldDisableForm = (subCategories, name) => {
 	var type = subCategories.find(subcategoryname => subcategoryname.name.toLowerCase() === name);
-	return type ? type.shouldDisableForm : [];
+	return type && !!type.shouldDisableForm;
 };
 const getrequiresLocation = (categories, name) => {
 	var category = categories.find(category => category.name.toLowerCase() === name);
@@ -116,7 +116,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 						addSelectedValueOptions(result.data, requestCategory.toLowerCase());
 					}
 					return requestCategory;
-				} 
+				}
 
 				const selectedSubType = () =>{
 					 requestSubCategory = (preSelectedTypes) ? preSelectedTypes.nameSubCategory : subRequestType ;
@@ -124,8 +124,8 @@ const ServiceRequestForm = (props, errors, touched) => {
 						addSelectedSubValueOptions(result.data, requestSubCategory.toLowerCase())
 					}
 					return requestSubCategory;
-				} 
-			
+				}
+
 				localProps.setFieldValue('Tabs', resultFormFieldNames.data.Tabs);
 				localProps.setFieldValue('RequestPage', resultFormFieldNames.data.RequestPage);
 				localProps.setFieldValue('MapPage', resultFormFieldNames.data.MapPage);
@@ -153,7 +153,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 	}
 
 	let  routedSubCategories = '';
-	
+
 	const addSelectedValueOptions = (Categories, value)=>{
 		let ID = getID(Categories, value)
 
@@ -181,11 +181,10 @@ const ServiceRequestForm = (props, errors, touched) => {
 	}
 
 	const addSelectedSubValueOptions = (Categories, value)=>{
-
+		const subCategories = Categories.flatMap(x => x.types);
 		const subInfo = getSubCategoriesIncludedDescription(subCategories, value);
 		let ID = getID(subCategories, value);
 		const isDisabled = getshouldDisableForm(subCategories, value);
-
 		const notes = getNote(subCategories, value);
 		setNotes(<div className="alert-information bc_alert" >
 			<i className="fa fa-icon fa-2x fa-info-circle"></i>
@@ -193,7 +192,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 		</div>);
 
 		localProps.setFieldValue('subRequestTypeID', ID);
-		localProps.setFieldValue('shouldDisableForm', (isDisabled === undefined) ? false : isDisabled);
+		localProps.setFieldValue('shouldDisableForm', isDisabled);
 
 		if (subInfo !== undefined) {
 			if (subInfo.description !== undefined) {
@@ -259,7 +258,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 	// 	pullServiceRequestFields(fields);
 	// };
 
-	
+
 	// const handleServiceSubRequestChange = (changeEvent) => {
 
 	// 	const value = changeEvent.currentTarget.value.toLowerCase();
@@ -436,8 +435,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 					rest={rest}
 					subCategories={subCategories} />
 
-
-				{localProps.values.shouldDisableForm && notes}
+				{localProps.values.shouldDisableForm === true && notes}
 
 				{/* Pets and Animal Issue - Other animal complaint */
 
@@ -451,6 +449,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 						&& subRequestType.toLowerCase() === (returnRequestTypes("subCategory_OtherWebsiteProblem")).toLowerCase()) ? notes
 						: null
 				}
+
 				<PetType
 					requestType={requestType}
 					requestType_petAndAnimalIssue={returnRequestTypes("requestType_petAndAnimalIssue")}
