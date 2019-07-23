@@ -65,12 +65,12 @@ const SubmitResponse = (props) => {
 	);
 	const LogoutButton = (
 		<React.Fragment>
-			<ButtonDisplay key={2}  onClick={logout} buttonName="Logout" cssClass="seButton pull-right" />
+			<ButtonDisplay key={2} onClick={logout} buttonName="Logout" cssClass="seButton pull-right" />
 		</React.Fragment>
 	);
 	const alertInfo = isFormSubmissionSuccessful
-		? getAlertInfo('Your Submission Has Been Received', successBodyContent, 'success', [ HomeButton, LogoutButton ])
-		: getAlertInfo('Your Report Was Not Submitted', failureBodyContent, 'warning', [ HomeButton ]);
+		? getAlertInfo('Your Submission Has Been Received', successBodyContent, 'success', [HomeButton, LogoutButton])
+		: getAlertInfo('Your Report Was Not Submitted', failureBodyContent, 'warning', [HomeButton]);
 
 	return (
 		<FormContainer

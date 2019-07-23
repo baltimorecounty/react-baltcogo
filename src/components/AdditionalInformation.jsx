@@ -1,35 +1,37 @@
 import React from "react";
-import {Form, Field, connect } from "formik";
+import SeButton from './SeButton';
+import { Form, Field, connect } from "formik";
 import ErrorMsg from "./ErrorMessage";
 import FormContainer from './FormContainer';
 import { IsFormInComplete } from "../utilities/FormHelpers";
-import ButtonDisplay from "./buttonDisplay";
-import { SubmitReport} from "../services/ReportService";
+import { SubmitReport } from "../services/ReportService";
 import { GoHome, GoBack } from '../Routing';
 
 const AdditionalInformation = props => {
 	const localProps = props.formik.values;
+	const { formik = {} } = props;
 	const { values, actions, errors, touched, ...rest } = props;
 	const { isPanelRequired, shouldDisableForm, Tabs, AdditionalInfoPage, ContactID } = localProps
 
-	if(!ContactID || IsFormInComplete(props.formik)) {
+	if (!ContactID || IsFormInComplete(props.formik)) {
 		GoHome(props);
 	}
 
 	const SubmitTheForm = (clickEvent) => {
+		formik.setSubmitting(true);
 		SubmitReport(clickEvent, props);
+		formik.setSubmitting(false);
 	}
 
 	const callPreviousForm = () => {
 		GoBack(props);
 	}
-
 	return (
 		<FormContainer title={AdditionalInfoPage.AdditionalInfoTitle}
-			tabNames = {Tabs}
-			currentTab = "AdditionalInformation"
-			shouldDisableForm = {shouldDisableForm}
-			isPanelRequired = {isPanelRequired}
+			tabNames={Tabs}
+			currentTab="AdditionalInformation"
+			shouldDisableForm={shouldDisableForm}
+			isPanelRequired={isPanelRequired}
 		>
 			<Form>
 				{(localProps.requiresLocation === false) ?
@@ -162,17 +164,18 @@ const AdditionalInformation = props => {
 							{AdditionalInfoPage.LegalDisclaimerBottom}
 						</p>
 					</div>}
-				<div className = "cs-form-control" >
-					<ButtonDisplay
-						onClick = {callPreviousForm}
-						disabled={null}
-						buttonName = "Previous"
-						cssClass = "seButton"/>
-					<ButtonDisplay
+				<div className="cs-form-control" >
+					<SeButton
+						text="Previous"
+						onClick={callPreviousForm}
+					/>
+					<SeButton
+						text="File Your Report"
 						onClick={SubmitTheForm}
-						disabled={null}
-						buttonName = "File Your Report"
-						cssClass = "seButton pull-right"/>
+						isLoading={formik.isSubmitting}
+						isLoadingText="Submitting Request..."
+						className="seButton pull-right"
+					/>
 				</div>
 			</Form>
 		</FormContainer>
