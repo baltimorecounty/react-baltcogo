@@ -1,18 +1,19 @@
 import React from "react";
-import {Form, Field, connect } from "formik";
+import { Form, Field, connect } from "formik";
 import ErrorMsg from "./ErrorMessage";
 import FormContainer from './FormContainer';
 import { IsFormInComplete } from "../utilities/FormHelpers";
 import ButtonDisplay from "./buttonDisplay";
-import { SubmitReport} from "../services/ReportService";
+import { SubmitReport } from "../services/ReportService";
 import { GoHome, GoBack } from '../Routing';
 
 const AdditionalInformation = props => {
 	const localProps = props.formik.values;
+	//const { formik = {} } = props;
 	const { values, actions, errors, touched, ...rest } = props;
 	const { isPanelRequired, shouldDisableForm, Tabs, AdditionalInfoPage, ContactID } = localProps
 
-	if(!ContactID || IsFormInComplete(props.formik)) {
+	if (!ContactID || IsFormInComplete(props.formik)) {
 		GoHome(props);
 	}
 
@@ -26,10 +27,10 @@ const AdditionalInformation = props => {
 
 	return (
 		<FormContainer title={AdditionalInfoPage.AdditionalInfoTitle}
-			tabNames = {Tabs}
-			currentTab = "AdditionalInformation"
-			shouldDisableForm = {shouldDisableForm}
-			isPanelRequired = {isPanelRequired}
+			tabNames={Tabs}
+			currentTab="AdditionalInformation"
+			shouldDisableForm={shouldDisableForm}
+			isPanelRequired={isPanelRequired}
 		>
 			<Form>
 				{(localProps.requiresLocation === false) ?
@@ -162,17 +163,17 @@ const AdditionalInformation = props => {
 							{AdditionalInfoPage.LegalDisclaimerBottom}
 						</p>
 					</div>}
-				<div className = "cs-form-control" >
+				<div className="cs-form-control" >
 					<ButtonDisplay
-						onClick = {callPreviousForm}
+						onClick={callPreviousForm}
 						disabled={null}
-						buttonName = "Previous"
-						cssClass = "seButton"/>
+						buttonName="Previous"
+						cssClass="seButton" />
 					<ButtonDisplay
 						onClick={SubmitTheForm}
 						disabled={null}
-						buttonName = "File Your Report"
-						cssClass = "seButton pull-right"/>
+						buttonName="File Your Report"
+						cssClass="seButton pull-right" />
 				</div>
 			</Form>
 		</FormContainer>
