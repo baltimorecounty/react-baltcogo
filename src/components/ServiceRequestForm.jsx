@@ -16,7 +16,7 @@ import OtherAnimalsTypes from "./otherAnimalTypes";
 import SexType from './sexType';
 import AnimalColorType from './animalColorType';
 import AnimalBreedType from './animalBreedType';
-import { URLRouting, setFieldValues } from '../utilities/FormHelpers';
+import { URLRouting, SetFieldNames } from '../utilities/FormHelpers';
 import { Go, Routes } from "../Routing";
 
 const { categoryId } = QueryString.parse(window.location.search);
@@ -134,9 +134,9 @@ const ServiceRequestForm = (props, errors, touched) => {
 					ContactID: contactID,
 					requestType: selectedType(),
 					subRequestType: selectedSubType()
-				}
+				};
 				
-				setFieldValues(localProps, fields);
+				SetFieldNames(localProps, fields);
 
 				if (contactID) {
 					getContactDetails();
@@ -169,7 +169,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 			requiresLocation: (requiresLocation === undefined) ? true : requiresLocation
 		}
 
-		setFieldValues(localProps, requestFields);
+		SetFieldNames(localProps, requestFields);
 
 		if (value === 'website issue')
 		{
@@ -178,7 +178,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 				Longitude: -76.60651907,
 				location: '400 WASHINGTON AVE, TOWSON, 21204'
 			}
-			setFieldValues(localProps, addressFields);
+			SetFieldNames(localProps, addressFields);
 		}
 
 		pullServiceRequestFields(fields);
@@ -200,20 +200,20 @@ const ServiceRequestForm = (props, errors, touched) => {
 			shouldDisableForm: isDisabled
 		}
 
-		setFieldValues(localProps, requestSubFields);
+		SetFieldNames(localProps, requestSubFields);
 
 		if (subInfo !== undefined) {
 			if (subInfo.description !== undefined) {
-				setFieldValues(localProps, {subRequestTypeDescriptionID: subInfo.description});
+				SetFieldNames(localProps, {subRequestTypeDescriptionID: subInfo.description});
 			}
 			if (subInfo.streetAddress !== undefined) {
-				setFieldValues(localProps, {subRequestTypeAddressID: subInfo.streetAddress});
+				SetFieldNames(localProps, {subRequestTypeAddressID: subInfo.streetAddress});
 			}
 			if (subInfo.city !== undefined) {
-				setFieldValues(localProps, {subRequestTypeCityID: subInfo.city});
+				SetFieldNames(localProps, {subRequestTypeCityID: subInfo.city});
 			}
 			if (subInfo.zipCode !== undefined) {
-				setFieldValues(localProps, {subRequestTypeZipID: subInfo.zipCode});
+				SetFieldNames(localProps, {subRequestTypeZipID: subInfo.zipCode});
 			}
 		}
 	}
@@ -236,10 +236,10 @@ const ServiceRequestForm = (props, errors, touched) => {
 				requestTypeZipID: fields.zipCode,
 				isPanelRequired: true
 			}
-			setFieldValues(localProps, addressFields);
+			SetFieldNames(localProps, addressFields);
 		}
 		else{
-			setFieldValues(localProps, {isPanelRequired: false});
+			SetFieldNames(localProps, {isPanelRequired: false});
 		}
 	};
 
@@ -249,7 +249,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 		const subBreeds = getAnimalSubCategories(AnimalBreeds, value);
 		setAnimalSubCategories(subBreeds.breeds);
 		setAnimalSex(subBreeds.sex);
-		setFieldValues(localProps, {petTypeID: ID});
+		SetFieldNames(localProps, {petTypeID: ID});
 	};
 
 	const handleFieldChange = (changeEvent, lookupItems, propertyName) => {
@@ -316,7 +316,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 					Telephone: Phone
 				}
 				
-				setFieldValues(localProps, fields);
+				SetFieldNames(localProps, fields);
 			}
 		}
 		catch (ex) {
@@ -338,7 +338,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 	const logOutUser = () =>{
 		sessionStorage.clear();
-		setFieldValues(localProps, {ignoreFormCompletion: true});
+		SetFieldNames(localProps, {ignoreFormCompletion: true});
 	}
 
 	const { values, isSubmitting, ...rest } = props;
