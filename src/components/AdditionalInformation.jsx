@@ -40,7 +40,7 @@ const AdditionalInformation = props => {
 		formik.setSubmitting(true);
 
 		if (isFormValid) {
-			SubmitReport(clickEvent, props);
+			await SubmitReport(clickEvent, props);
 		}
 
 		formik.setSubmitting(false);
