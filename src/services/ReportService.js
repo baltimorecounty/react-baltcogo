@@ -76,20 +76,20 @@ export const SubmitReport = async (actions, props) => {
 	const city = props.formik.values.city;
 	const zipCode = props.formik.values.zipCode;
 	const itemsToSubmit = returnModel(props, streetAddress, city, zipCode);
+	let response = null;
 	try {
-		const response = await CreateReport(itemsToSubmit);
+		response = await CreateReport(itemsToSubmit);
 		if (HasResponseErrors(response)) {
 			const errorsReturned = GetResponseErrors(response);
 			props.formik.setStatus({ responseError: errorsReturned});
-			throw new Error(errorsReturned);
 		}
 
 		props.formik.setStatus({ responseError: null});
-
-		Go(props, Routes.SubmitForm, response);
 	} catch (ex) {
 		console.error(ex.message);
 	}
+
+	Go(props, Routes.SubmitForm, response);
 };
 
 export default SubmitReport;
