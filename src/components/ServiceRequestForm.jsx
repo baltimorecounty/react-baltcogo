@@ -371,6 +371,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 	let disableButton = buttonDisableValidation();
 	let displayButton = buttonShowHideValidation();
 	loadSelectedItems(props);
+	const isAnimalCategory = activeCategory ? activeCategory.isAnimal : false;
 
 	return (
 
@@ -403,7 +404,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 				{localProps.values.shouldDisableForm && notes}
 
 				<PetType
-					shouldShow={activeCategory.isAnimal}
+					shouldShow={isAnimalCategory}
 					requestType={requestType}
 					requestType_petAndAnimalIssue={returnRequestTypes("requestType_petAndAnimalIssue")}
 					subRequestType={subRequestType}
@@ -415,7 +416,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 					PetTypes={PetTypes} />
 
 				<OtherAnimalsTypes
-					shouldShow={activeCategory.isAnimal}
+					shouldShow={isAnimalCategory}
 					subRequestType={subRequestType}
 					petType={petType}
 					returnRequestTypes={returnRequestTypes("petType_Others")}
@@ -427,7 +428,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 					OtherAnimalTypes={OtherAnimalTypes} />
 
 				<SexType
-					shouldShow={activeCategory.isAnimal}
+					shouldShow={isAnimalCategory}
 					requestType={requestType}
 					returnRequestTypes={returnRequestTypes("requestType_petAndAnimalIssue")}
 					subRequestType={subRequestType}
@@ -440,7 +441,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 					animalSex={animalSex}
 				/>
 				<AnimalColorType
-					shouldShow={activeCategory.isAnimal}
+					shouldShow={isAnimalCategory}
 					requestType={requestType}
 					requestType_petAndAnimalIssue={returnRequestTypes("requestType_petAndAnimalIssue")}
 					subRequestType={subRequestType}
@@ -455,7 +456,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 					AnimalColors={AnimalColors} />
 
 				<AnimalBreedType
-					shouldShow={activeCategory.isAnimal}
+					shouldShow={isAnimalCategory}
 					requestType={requestType}
 					requestType_petAndAnimalIssue={returnRequestTypes("requestType_petAndAnimalIssue")}
 					subRequestType={subRequestType}
