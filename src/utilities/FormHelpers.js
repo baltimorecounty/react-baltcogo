@@ -1,41 +1,41 @@
 import { returnRequestTypes } from "../utilities//returnEnvironmentItems"
 import _ from 'lodash';
 
-export const IsFormInComplete = (props) => {
+export const IsFormInComplete = (props, category) => {
+	const {
+		isAnimal: isAnimalCategory
+	} = category || {};
+	const {
+		otherAnimalTypes,
+		animalColorType,
+		petType,
+		requestType,
+		subRequestType
+	} = props.values;
 
-	let requestType = props.values['requestType'].toLowerCase();
-	let subRequestType = props.values['subRequestType'].toLowerCase();
-
-	if (requestType !== ""
-		&& subRequestType !== "") {
-		if (requestType === returnRequestTypes("requestType_petAndAnimalIssue").toLowerCase()
-			&& subRequestType !== ""
-			&& props.values['petType'] === "") {
-			return true;
-		}
-		else if (requestType === returnRequestTypes("requestType_petAndAnimalIssue").toLowerCase()
-			&& subRequestType !== ""
-			&& props.values['petType'] !== ""
-			&& (props.values['petType'].toLowerCase() === returnRequestTypes("petTypeCat").toLowerCase()
-				|| props.values['petType'].toLowerCase() === returnRequestTypes("petTypeDog").toLowerCase())
-			&& props.values['animalColorType'] === "") {
-			return true;
-		}
-		else if (requestType === returnRequestTypes("requestType_petAndAnimalIssue").toLowerCase()
-			&& subRequestType !== ""
-			&& (props.values['petType'] !== ""
-				&& (props.values['petType'].toLowerCase() === returnRequestTypes("petType_Others").toLowerCase()
-					&& props.values['otherAnimalTypes'] === ""))) {
-			return true;
-		}
-		else {
-
-			return false;
-		}
-	}
-	else {
+	if (!requestType || !subRequestType) {
 		return true;
 	}
+
+	if (isAnimalCategory) {
+		if (!petType) {
+			return true;
+		}
+
+		const isCatOrDog = petType.toLowerCase() === 'cat' || petType.toLowerCase() === 'dog';
+
+		if (isCatOrDog && !animalColorType) {
+			return true;
+		}
+
+		const isOtherPetType = petType.toLowerCase() === 'other';
+
+		if (isOtherPetType && !otherAnimalTypes) {
+			return true;
+		}
+	};
+
+	return false;
 }
 
 export const URLRouting = (categories, categoryId) =>{
