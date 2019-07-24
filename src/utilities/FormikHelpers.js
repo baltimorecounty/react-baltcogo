@@ -15,7 +15,7 @@ const GetErrorDetails = (name, formikBag) => {
 /**
  *
  * @param {object} props - formik bag
-* @param {object} fields - An object thats key specified the field name, \
+ * @param {object} fields - An object thats key specified the field name, \
  * and value to set, based on the formik set function name
  * @param {string} setFuncName - name of the formik set function you want to use
  * Ex: setFieldValue, setFieldTouched
