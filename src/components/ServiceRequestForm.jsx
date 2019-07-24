@@ -177,7 +177,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 				Latitude: 39.40037792,
 				Longitude: -76.60651907,
 				location: '400 WASHINGTON AVE, TOWSON, 21204'
-			}
+			};
 			SetFieldNames(localProps, addressFields);
 		}
 
@@ -235,7 +235,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 				requestTypeCityID: fields.city,
 				requestTypeZipID: fields.zipCode,
 				isPanelRequired: true
-			}
+			};
 			SetFieldNames(localProps, addressFields);
 		}
 		else{
@@ -314,7 +314,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 					NameLast: NameLast,
 					Email: Email,
 					Telephone: Phone
-				}
+				};
 				
 				SetFieldNames(localProps, fields);
 			}
