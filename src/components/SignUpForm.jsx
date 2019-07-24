@@ -35,8 +35,12 @@ const CreateAccount = (props, routeProps) => {
 
 			if (response.data.HasErrors) {
 				const errorsReturned = GetResponseErrors(response);
+				const error = errorsReturned === "Sorry! The email address submitted is already taken."
+					? <p>The email address you entered is already registered in this system. <Link to="SignInForm">Log in to your account</Link> or <Link to="ResetPassword">reset your password</Link>.</p>
+				 : errorsReturned;
+
 				actions.setStatus({
-					success2: errorsReturned,
+					success2: error,
 					css: 'email'
 				})
 				throw new Error(errorsReturned);
