@@ -78,15 +78,15 @@ export const URLRouting = (categories, categoryId) =>{
 		else
 		{
 			const getSelectedCategory = _.filter(categories, { id: categoryId });
-			nameCat = (getSelectedCategory.length > 0) ? getSelectedCategory[0].name : '' ; 
+			nameCat = (getSelectedCategory.length > 0) ? getSelectedCategory[0].name : '' ;
 			idCat =  (getSelectedCategory.length > 0) ? getSelectedCategory[0].id : '' ;
 		}
-		
+
 		const Selections = {
 			"nameCategory":  nameCat ,
 			"idCategory": idCat ,
 			"nameSubCategory": nameSubCat ,
-			"idSubCategory": idSubCat 
+			"idSubCategory": idSubCat
 		}
 
 		return Selections
@@ -96,7 +96,7 @@ export const URLRouting = (categories, categoryId) =>{
 	}
 }
 
-export const setFieldValues = (props, fields) => {
+export const SetFieldValues = (props, fields) => {
 	Object.entries(fields).forEach(field => {
 	  props.setFieldValue(field[0], field[1]);
 	});
