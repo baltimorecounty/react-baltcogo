@@ -1,4 +1,5 @@
 import React from "react";
+import classNames from 'classnames';
 import Alert from './Alert';
 import { GetErrorDetails } from '../utilities/FormikHelpers';
 import { Field } from "formik";
@@ -10,11 +11,13 @@ const DescribeTheProblem = ({ name, formik, pageFieldName }) => {
 		hasError,
 		message: errorMessage
 	} = GetErrorDetails(name, formik);
+	const shouldDisplayValidation = isTouched && hasError;
+	const containerCssClasses = classNames('cs-form-control', 'address-search', { 'error': shouldDisplayValidation });
+	const fieldCssClasses = classNames('text-input', { 'error': shouldDisplayValidation });
 
 	return (
 		<React.Fragment>
-			<div className={
-				errorMessage ? "cs-form-control address-search error" : "cs-form-control address-search"}>
+			<div className={containerCssClasses}>
 				<label htmlFor={name}
 
 				>{pageFieldName}</label>
@@ -22,11 +25,11 @@ const DescribeTheProblem = ({ name, formik, pageFieldName }) => {
 					component="textarea"
 					placeholder="Maximum 2,000 characters."
 					name={name}
-					className={`text-input ${errorMessage ? "error" : ""}`}
+					className={fieldCssClasses}
 					value={values[name]}
 					maxLength="2000"
 				/>
-				{isTouched && hasError && <Alert>
+				{shouldDisplayValidation && <Alert>
 					{errorMessage}
 				</Alert>}
 			</div>
