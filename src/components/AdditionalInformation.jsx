@@ -6,6 +6,7 @@ import FormContainer from './FormContainer';
 import { IsFormInComplete } from "../utilities/FormHelpers";
 import { SubmitReport } from "../services/ReportService";
 import { GoHome, GoBack } from '../Routing';
+import { SetFieldsTouched } from "../utilities/FormikHelpers";
 
 const AdditionalInformation = props => {
 	const localProps = props.formik.values;
@@ -17,9 +18,31 @@ const AdditionalInformation = props => {
 		GoHome(props);
 	}
 
-	const SubmitTheForm = (clickEvent) => {
+	const validateForm = (values) => {
+		const {
+			streetAddress,
+			city,
+			zipCode
+		} = values;
+
+		SetFieldsTouched(formik, {
+			streetAddress: true,
+			city: true,
+			zipCode: true
+		});
+
+		return streetAddress && city && zipCode;
+	};
+
+	const SubmitTheForm = async (clickEvent) => {
+		const isFormValid = validateForm(formik.values);
+
 		formik.setSubmitting(true);
-		SubmitReport(clickEvent, props);
+
+		if (isFormValid) {
+			SubmitReport(clickEvent, props);
+		}
+
 		formik.setSubmitting(false);
 	}
 
