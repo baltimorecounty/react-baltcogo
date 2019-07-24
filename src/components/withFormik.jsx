@@ -52,6 +52,7 @@ export default withFormik({
 		city: '',
 		zipCode: '',
 		shouldDisableForm: false,
+		shouldDisplayNotes:false,
 		requiresLocation: true,
 		isPanelRequired: true,
 		Tabs: [''],

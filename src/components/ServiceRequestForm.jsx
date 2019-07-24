@@ -109,9 +109,9 @@ const ServiceRequestForm = (props, errors, touched) => {
 				let requestCategory = '';
 				let requestSubCategory = ''
 
-				const selectedType = () =>{
-					 requestCategory = (preSelectedTypes) ? preSelectedTypes.nameCategory : requestType ;
-					if(requestCategory){
+				const selectedType = () => {
+					requestCategory = (preSelectedTypes) ? preSelectedTypes.nameCategory : requestType;
+					if (requestCategory) {
 						addSelectedValueOptions(result.data, requestCategory.toLowerCase());
 					}
 					return requestCategory;
@@ -152,11 +152,11 @@ const ServiceRequestForm = (props, errors, touched) => {
 		return URLRouting(Categories, parseInt(categoryId));
 	}
 
-	const addSelectedValueOptions = (Categories, value)=>{
+	const addSelectedValueOptions = (Categories, value) => {
 		let ID = getID(Categories, value)
 
 		localProps.setFieldValue('requestTypeID', ID);
-
+		setNotes('');
 		const subCategories = getSubCategories(Categories, value);
 		setSubCategories(subCategories);
 
@@ -177,15 +177,13 @@ const ServiceRequestForm = (props, errors, touched) => {
 	}
 
 	const addSelectedSubValueOptions = (Categories, value) => {
+
 		const subCategories = Categories.flatMap(x => x.types);
 		const subInfo = getSubCategoriesIncludedDescription(subCategories, value);
 		let ID = getID(subCategories, value);
 		const isDisabled = getshouldDisableForm(subCategories, value);
-		console.log('value:' + value);
-		console.log(subCategories);
-
 		const notes = getNote(subCategories, value);
-		console.log('notes:' + notes);
+
 		setNotes(<div className="alert-information bc_alert" >
 			<i className="fa fa-icon fa-2x fa-info-circle"></i>
 			<p dangerouslySetInnerHTML={{ __html: notes }}></p>
@@ -193,7 +191,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 		localProps.setFieldValue('subRequestTypeID', ID);
 		localProps.setFieldValue('shouldDisableForm', isDisabled);
-
+		localProps.setFieldValue('shouldDisplayNotes', notes ? true : false);
 		if (subInfo !== undefined) {
 			if (subInfo.description !== undefined) {
 				localProps.setFieldValue('subRequestTypeDescriptionID', subInfo.description);
@@ -375,8 +373,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 					rest={rest}
 					subCategories={subCategories} />
 
-				{localProps.values.shouldDisableForm && notes}
-
+				{localProps.values.shouldDisplayNotes && notes}
 				<PetType
 					requestType={requestType}
 					requestType_petAndAnimalIssue={returnRequestTypes("requestType_petAndAnimalIssue")}
