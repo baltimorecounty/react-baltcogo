@@ -33,7 +33,7 @@ const DescribeTheProblem = ({ name, formik, pageFieldName }) => {
 					maxLength="2000"
 					onChange={handleChange}
 				/>
-				{shouldDisplayValidation && <Alert>
+				{shouldDisplayValidation && <Alert className="error-message">
 					{errorMessage}
 				</Alert>}
 			</div>
