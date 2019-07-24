@@ -297,8 +297,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 	}
 
 	const buttonDisableValidation = () => {
-
-		return IsFormInComplete(props.formik);
+		return IsFormInComplete(props.formik, activeCategory);
 	}
 
 	const getContactDetails = async () => {
