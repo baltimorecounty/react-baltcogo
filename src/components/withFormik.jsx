@@ -9,7 +9,6 @@ export default withFormik({
 		ContactID: '',
 		fullAddress: '',
 		VerificationId: '',
-		requestTypeDescription: '',
 		requestTypeDescriptionID: '',
 		requestTypeAddressID: '',
 		requestTypeCityID: '',
@@ -74,5 +73,8 @@ export default withFormik({
 			serviceDescription: Yup.string().required('Service Description is required'),
 			location: Yup.string().required('You must select a location inside Baltimore County.'),
 			describeTheProblem: Yup.string().required('Please enter a description for your report.'),
+			streetAddress: Yup.string().required('Please enter your street address.'),
+			city: Yup.string().required('Please enter your city.'),
+			zipCode: Yup.string().required('Please enter your ZIP code.')
 		}),
-}); 
+});

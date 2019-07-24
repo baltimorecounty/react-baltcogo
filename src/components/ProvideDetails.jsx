@@ -151,7 +151,7 @@ const provideDetails = props => {
 
 		if (isDetailsFormValid) {
 			const addressParts = location.split(',');
-			rest.formik.setFieldValue('requestTypeDescription', describeTheProblem);
+			rest.formik.setFieldValue('describeTheProblem', describeTheProblem);
 			rest.formik.setFieldValue('subRequestTypeAddress', addressParts[0]);
 			rest.formik.setFieldValue('subRequestTypeCity', addressParts[1]);
 			rest.formik.setFieldValue('subRequestTypeZip', (addressParts.length === 3) ? addressParts[2] : addressParts[3]);
@@ -221,7 +221,6 @@ const provideDetails = props => {
 	 * @returns {bool} - true if the provide details form is valid
 	 */
 	const validateDetails = async (values) => {
-		console.log(values)
 		var isValidProblem = verifyProblemComment(values.describeTheProblem);
 		var isValidAddress = await verifyAddress(values.location);
 		return isValidAddress && isValidProblem;

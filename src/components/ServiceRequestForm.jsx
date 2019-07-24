@@ -5,6 +5,7 @@ import { GetResponseErrors } from "../utilities/CitysourcedResponseHelpers";
 import FormContainer from './FormContainer';
 import QueryString from 'query-string';
 import Model from './Modal';
+import Note from './Note';
 import { Link } from 'react-router-dom';
 import { GetContactDetails } from '../services/authService';
 import { IsFormInComplete } from "../utilities/FormHelpers";
@@ -18,7 +19,7 @@ import AnimalColorType from './animalColorType';
 import AnimalBreedType from './animalBreedType';
 import { URLRouting, SetFieldValues } from '../utilities/FormHelpers';
 import { Go, Routes } from "../Routing";
-import { GetCategory } from '../utilities/CategoryHelpers';
+import { GetCategory, GetSubCategory } from '../utilities/CategoryHelpers';
 
 const { categoryId } = QueryString.parse(window.location.search);
 
@@ -62,6 +63,7 @@ const getID = (categories, categoryName) => {
 const ServiceRequestForm = (props, errors, touched) => {
 	const localProps = props.formik;
 	const [activeCategory, setActiveCategory] = useState({});
+	const [activeSubCategory, setActiveSubCategory] = useState({});
 	const [Categories, setCategories] = useState([]);
 	const [PetTypes, setPetTypes] = useState([]);
 	const [AnimalBreeds, setAnimalBreeds] = useState([]);
@@ -126,6 +128,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 					return requestSubCategory;
 				}
 				const fields = {
+					Categories: result.data,
 					Tabs: resultFormFieldNames.data.Tabs,
 					RequestPage: resultFormFieldNames.data.RequestPage,
 					MapPage: resultFormFieldNames.data.MapPage,
@@ -192,12 +195,11 @@ const ServiceRequestForm = (props, errors, touched) => {
 		const subCategories = Categories.flatMap(x => x.types);
 		const subInfo = getSubCategoriesIncludedDescription(subCategories, value);
 		let ID = getID(subCategories, value);
+		const subCategory = GetSubCategory(Categories, ID);
+		setActiveSubCategory(subCategory);
 		const isDisabled = getshouldDisableForm(subCategories, value);
-		const notes = getNote(subCategories, value);
-		setNotes(<div className="alert-information bc_alert" >
-			<i className="fa fa-icon fa-2x fa-info-circle"></i>
-			<p dangerouslySetInnerHTML={{ __html: notes }}></p>
-		</div>);
+		const notes = subCategory ? subCategory.note : null;
+		setNotes(<Note>{notes}</Note>);
 
 		const requestSubFields = {
 			subRequestTypeID: ID,
@@ -295,8 +297,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 	}
 
 	const buttonDisableValidation = () => {
-
-		return IsFormInComplete(props.formik);
+		return IsFormInComplete(props.formik, activeCategory);
 	}
 
 	const getContactDetails = async () => {
@@ -372,6 +373,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 	let disableButton = buttonDisableValidation();
 	let displayButton = buttonShowHideValidation();
 	loadSelectedItems(props);
+	const isAnimalCategory = activeCategory ? activeCategory.isAnimal : false;
 
 	return (
 
@@ -401,10 +403,12 @@ const ServiceRequestForm = (props, errors, touched) => {
 					rest={rest}
 					subCategories={subCategories} />
 
+				{activeSubCategory && activeSubCategory.warning && <Note>{activeSubCategory.warning}</Note>}
+
 				{localProps.values.shouldDisableForm && notes}
 
 				<PetType
-					shouldShow={activeCategory.isAnimal}
+					shouldShow={isAnimalCategory}
 					requestType={requestType}
 					requestType_petAndAnimalIssue={returnRequestTypes("requestType_petAndAnimalIssue")}
 					subRequestType={subRequestType}
@@ -416,7 +420,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 					PetTypes={PetTypes} />
 
 				<OtherAnimalsTypes
-					shouldShow={activeCategory.isAnimal}
+					shouldShow={isAnimalCategory}
 					subRequestType={subRequestType}
 					petType={petType}
 					returnRequestTypes={returnRequestTypes("petType_Others")}
@@ -428,7 +432,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 					OtherAnimalTypes={OtherAnimalTypes} />
 
 				<SexType
-					shouldShow={activeCategory.isAnimal}
+					shouldShow={isAnimalCategory}
 					requestType={requestType}
 					returnRequestTypes={returnRequestTypes("requestType_petAndAnimalIssue")}
 					subRequestType={subRequestType}
@@ -441,7 +445,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 					animalSex={animalSex}
 				/>
 				<AnimalColorType
-					shouldShow={activeCategory.isAnimal}
+					shouldShow={isAnimalCategory}
 					requestType={requestType}
 					requestType_petAndAnimalIssue={returnRequestTypes("requestType_petAndAnimalIssue")}
 					subRequestType={subRequestType}
@@ -456,7 +460,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 					AnimalColors={AnimalColors} />
 
 				<AnimalBreedType
-					shouldShow={activeCategory.isAnimal}
+					shouldShow={isAnimalCategory}
 					requestType={requestType}
 					requestType_petAndAnimalIssue={returnRequestTypes("requestType_petAndAnimalIssue")}
 					subRequestType={subRequestType}
