@@ -5,6 +5,7 @@ import { GetResponseErrors } from "../utilities/CitysourcedResponseHelpers";
 import FormContainer from './FormContainer';
 import QueryString from 'query-string';
 import Model from './Modal';
+import Note from './Note';
 import { Link } from 'react-router-dom';
 import { GetContactDetails } from '../services/authService';
 import { IsFormInComplete } from "../utilities/FormHelpers";
@@ -18,7 +19,7 @@ import AnimalColorType from './animalColorType';
 import AnimalBreedType from './animalBreedType';
 import { URLRouting, SetFieldValues } from '../utilities/FormHelpers';
 import { Go, Routes } from "../Routing";
-import { GetCategory } from '../utilities/CategoryHelpers';
+import { GetCategory, GetSubCategory } from '../utilities/CategoryHelpers';
 
 const { categoryId } = QueryString.parse(window.location.search);
 
@@ -62,6 +63,7 @@ const getID = (categories, categoryName) => {
 const ServiceRequestForm = (props, errors, touched) => {
 	const localProps = props.formik;
 	const [activeCategory, setActiveCategory] = useState({});
+	const [activeSubCategory, setActiveSubCategory] = useState({});
 	const [Categories, setCategories] = useState([]);
 	const [PetTypes, setPetTypes] = useState([]);
 	const [AnimalBreeds, setAnimalBreeds] = useState([]);
@@ -193,12 +195,11 @@ const ServiceRequestForm = (props, errors, touched) => {
 		const subCategories = Categories.flatMap(x => x.types);
 		const subInfo = getSubCategoriesIncludedDescription(subCategories, value);
 		let ID = getID(subCategories, value);
+		const subCategory = GetSubCategory(Categories, ID);
+		setActiveSubCategory(subCategory);
 		const isDisabled = getshouldDisableForm(subCategories, value);
-		const notes = getNote(subCategories, value);
-		setNotes(<div className="alert-information bc_alert" >
-			<i className="fa fa-icon fa-2x fa-info-circle"></i>
-			<p dangerouslySetInnerHTML={{ __html: notes }}></p>
-		</div>);
+		const notes = subCategory ? subCategory.note : null;
+		setNotes(<Note>{notes}</Note>);
 
 		const requestSubFields = {
 			subRequestTypeID: ID,
@@ -401,6 +402,8 @@ const ServiceRequestForm = (props, errors, touched) => {
 					handleServiceSubRequestChange={handleServiceSubRequestChange}
 					rest={rest}
 					subCategories={subCategories} />
+
+				{activeSubCategory && activeSubCategory.warning && <Note>{activeSubCategory.warning}</Note>}
 
 				{localProps.values.shouldDisableForm && notes}
 
