@@ -1,7 +1,6 @@
 
 import React, { useState, useEffect } from "react";
 import { Form, Field, connect } from "formik";
-
 import FormContainer from './FormContainer';
 import Geocode from "react-geocode";
 import Collaspe from './Collaspe'

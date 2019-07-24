@@ -1,4 +1,6 @@
 import { returnRequestTypes } from "../utilities//returnEnvironmentItems"
+import _ from 'lodash';
+
 export const IsFormInComplete = (props) => {
 
 	let requestType = props.values['requestType'].toLowerCase();
@@ -54,6 +56,43 @@ export const IsFormInComplete = (props) => {
 	}
 	else {
 		return true;
+	}
+}
+
+export const URLRouting = (categories, categoryId) =>{
+	if(categories.length > 0 && categoryId){
+
+		let nameSubCat = '';
+		let idSubCat = '';
+		let nameCat = '';
+		let idCat = '';
+
+		const getSelectedSubCategory = categories.find(items => (items.types.find(type => type.id === categoryId)));
+
+		if (getSelectedSubCategory){
+			nameCat = getSelectedSubCategory.name;
+			idCat = getSelectedSubCategory.id;
+			nameSubCat = getSelectedSubCategory.types.find(type => type.id === categoryId).name;
+			idSubCat = getSelectedSubCategory.types.find(type => type.id === categoryId).id;
+		}
+		else
+		{
+			const getSelectedCategory = _.filter(categories, { id: categoryId });
+			nameCat = (getSelectedCategory.length > 0) ? getSelectedCategory[0].name : '' ; 
+			idCat =  (getSelectedCategory.length > 0) ? getSelectedCategory[0].id : '' ;
+		}
+		
+		const Selections = {
+			"nameCategory":  nameCat ,
+			"idCategory": idCat ,
+			"nameSubCategory": nameSubCat ,
+			"idSubCategory": idSubCat 
+		}
+
+		return Selections
+	}
+	else{
+		return null;
 	}
 }
 
