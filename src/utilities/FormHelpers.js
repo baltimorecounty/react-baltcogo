@@ -100,7 +100,7 @@ export const SetFieldValues = (props, fields) => {
 	Object.entries(fields).forEach(field => {
 	  props.setFieldValue(field[0], field[1]);
 	});
-}
+};
 
 
 export default IsFormInComplete

@@ -221,7 +221,6 @@ const provideDetails = props => {
 	 * @returns {bool} - true if the provide details form is valid
 	 */
 	const validateDetails = async (values) => {
-		console.log(values)
 		var isValidProblem = verifyProblemComment(values.describeTheProblem);
 		var isValidAddress = await verifyAddress(values.location);
 		return isValidAddress && isValidProblem;
