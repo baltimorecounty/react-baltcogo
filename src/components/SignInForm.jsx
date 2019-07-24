@@ -13,18 +13,17 @@ import { GoBack, GoHome, Go, Routes } from "../Routing";
 // import DisplayFormikState from './helper';
 const SignIn = (props, routeProps) => {
 
-	const {Tabs, SignInPage, shouldDisableForm, ignoreFormCompletion} = props.values;
+	const {Tabs, SignInPage, shouldDisableForm} = props.values;
 
 	const [fieldType, setFieldType] = useState('Password');
 	const handlePasswordToggleChange = () => {
 		setFieldType(fieldType === 'Password' ? 'text' : 'Password');
 	};
 
-	if (IsFormInComplete(props) && !ignoreFormCompletion) {
+	if (IsFormInComplete(props)) {
 		GoHome(props);
 	}
-	
-	
+
 	const handleLoginFailure = (actions, errors) => {
 		actions.setStatus({
 			success: errors,

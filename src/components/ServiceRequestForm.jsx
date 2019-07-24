@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Form, connect } from "formik";
+import { Form, Field, connect } from "formik";
 import axios from "axios"
+import Note from './Note';
 import { GetResponseErrors } from "../utilities/CitysourcedResponseHelpers";
 import FormContainer from './FormContainer';
 import QueryString from 'query-string';
@@ -16,7 +17,7 @@ import OtherAnimalsTypes from "./otherAnimalTypes";
 import SexType from './sexType';
 import AnimalColorType from './animalColorType';
 import AnimalBreedType from './animalBreedType';
-import { URLRouting, SetFieldNames } from '../utilities/FormHelpers';
+import { URLRouting } from '../utilities/FormHelpers';
 import { Go, Routes } from "../Routing";
 
 const { categoryId } = QueryString.parse(window.location.search);
@@ -123,20 +124,18 @@ const ServiceRequestForm = (props, errors, touched) => {
 					}
 					return requestSubCategory;
 				}
-				const fields = {
-					Tabs: resultFormFieldNames.data.Tabs,
-					RequestPage: resultFormFieldNames.data.RequestPage,
-					MapPage: resultFormFieldNames.data.MapPage,
-					AdditionalInfoPage: resultFormFieldNames.data.AdditionalInfoPage,
-					SignInPage: resultFormFieldNames.data.SignInPage,
-					SignUpPage: resultFormFieldNames.data.SignUpPage,
-					ResetPasswordPage: resultFormFieldNames.data.ResetPasswordPage,
-					ContactID: contactID,
-					requestType: selectedType(),
-					subRequestType: selectedSubType()
-				};
-				
-				SetFieldNames(localProps, fields);
+
+				localProps.setFieldValue('Categories', result.data);
+				localProps.setFieldValue('Tabs', resultFormFieldNames.data.Tabs);
+				localProps.setFieldValue('RequestPage', resultFormFieldNames.data.RequestPage);
+				localProps.setFieldValue('MapPage', resultFormFieldNames.data.MapPage);
+				localProps.setFieldValue('AdditionalInfoPage', resultFormFieldNames.data.AdditionalInfoPage);
+				localProps.setFieldValue('SignInPage', resultFormFieldNames.data.SignInPage);
+				localProps.setFieldValue('SignUpPage', resultFormFieldNames.data.SignUpPage);
+				localProps.setFieldValue('ResetPasswordPage', resultFormFieldNames.data.ResetPasswordPage);
+				localProps.setFieldValue('requestType', selectedType());
+				localProps.setFieldValue('subRequestType', selectedSubType());
+				localProps.setFieldValue('ContactID', contactID);
 
 				if (contactID) {
 					getContactDetails();
@@ -156,6 +155,8 @@ const ServiceRequestForm = (props, errors, touched) => {
 	const addSelectedValueOptions = (Categories, value)=>{
 		let ID = getID(Categories, value)
 
+		localProps.setFieldValue('requestTypeID', ID);
+
 		const subCategories = getSubCategories(Categories, value);
 		setSubCategories(subCategories);
 
@@ -163,22 +164,14 @@ const ServiceRequestForm = (props, errors, touched) => {
 		const fields = getIncludedFields(Categories, value);
 		const requiresLocation = getrequiresLocation(Categories, value);
 
-		const requestFields = {
-			requestTypeID: ID,
-			requestTypeDescriptionID: description,
-			requiresLocation: (requiresLocation === undefined) ? true : requiresLocation
-		}
-
-		SetFieldNames(localProps, requestFields);
+		localProps.setFieldValue('requestTypeDescriptionID', description);
+		localProps.setFieldValue('requiresLocation', (requiresLocation === undefined) ? true : requiresLocation);
 
 		if (value === 'website issue')
 		{
-			const addressFields = {
-				Latitude: 39.40037792,
-				Longitude: -76.60651907,
-				location: '400 WASHINGTON AVE, TOWSON, 21204'
-			};
-			SetFieldNames(localProps, addressFields);
+			localProps.setFieldValue('Latitude', 39.40037792)
+			localProps.setFieldValue('Longitude', -76.60651907)
+			localProps.setFieldValue('location', '400 WASHINGTON AVE, TOWSON, 21204')
 		}
 
 		pullServiceRequestFields(fields);
@@ -195,25 +188,21 @@ const ServiceRequestForm = (props, errors, touched) => {
 			<p dangerouslySetInnerHTML={{ __html: notes }}></p>
 		</div>);
 
-		const requestSubFields = {
-			subRequestTypeID: ID,
-			shouldDisableForm: isDisabled
-		}
-
-		SetFieldNames(localProps, requestSubFields);
+		localProps.setFieldValue('subRequestTypeID', ID);
+		localProps.setFieldValue('shouldDisableForm', isDisabled);
 
 		if (subInfo !== undefined) {
 			if (subInfo.description !== undefined) {
-				SetFieldNames(localProps, {subRequestTypeDescriptionID: subInfo.description});
+				localProps.setFieldValue('subRequestTypeDescriptionID', subInfo.description);
 			}
 			if (subInfo.streetAddress !== undefined) {
-				SetFieldNames(localProps, {subRequestTypeAddressID: subInfo.streetAddress});
+				localProps.setFieldValue('subRequestTypeAddressID', subInfo.streetAddress);
 			}
 			if (subInfo.city !== undefined) {
-				SetFieldNames(localProps, {subRequestTypeCityID: subInfo.city});
+				localProps.setFieldValue('subRequestTypeCityID', subInfo.city);
 			}
 			if (subInfo.zipCode !== undefined) {
-				SetFieldNames(localProps, {subRequestTypeZipID: subInfo.zipCode});
+				localProps.setFieldValue('subRequestTypeZipID', subInfo.zipCode);
 			}
 		}
 	}
@@ -230,16 +219,13 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 	const pullServiceRequestFields = (fields) => {
 		if (fields !== undefined) {
-			const addressFields = {
-				requestTypeAddressID: fields.streetAddress,
-				requestTypeCityID: fields.city,
-				requestTypeZipID: fields.zipCode,
-				isPanelRequired: true
-			};
-			SetFieldNames(localProps, addressFields);
+			localProps.setFieldValue('requestTypeAddressID', fields.streetAddress);
+			localProps.setFieldValue('requestTypeCityID', fields.city);
+			localProps.setFieldValue('requestTypeZipID', fields.zipCode);
+			localProps.setFieldValue('isPanelRequired', true);
 		}
 		else{
-			SetFieldNames(localProps, {isPanelRequired: false});
+			localProps.setFieldValue('isPanelRequired', false);
 		}
 	};
 
@@ -249,13 +235,12 @@ const ServiceRequestForm = (props, errors, touched) => {
 		const subBreeds = getAnimalSubCategories(AnimalBreeds, value);
 		setAnimalSubCategories(subBreeds.breeds);
 		setAnimalSex(subBreeds.sex);
-		SetFieldNames(localProps, {petTypeID: ID});
+		localProps.setFieldValue('petTypeID', ID);
 	};
 
 	const handleFieldChange = (changeEvent, lookupItems, propertyName) => {
 		const value = changeEvent.currentTarget.value.toLowerCase();
 		const id = getID(lookupItems, value);
-
 		localProps.setFieldValue(propertyName, id);
 	};
 
@@ -309,14 +294,10 @@ const ServiceRequestForm = (props, errors, touched) => {
 				const Email = getResponse.data.Results.Email;
 				const Phone = getResponse.data.Results.Telephone;
 
-				const fields = {
-					NameFirst: NameFirst,
-					NameLast: NameLast,
-					Email: Email,
-					Telephone: Phone
-				};
-				
-				SetFieldNames(localProps, fields);
+				localProps.setFieldValue('NameFirst', NameFirst);
+				localProps.setFieldValue('NameLast', NameLast);
+				localProps.setFieldValue('Email', Email);
+				localProps.setFieldValue('Telephone', Phone);
 			}
 		}
 		catch (ex) {
@@ -335,11 +316,6 @@ const ServiceRequestForm = (props, errors, touched) => {
 	const callRegisterForm = () => {
 		Go(props, Routes.SignUp);
 	};
-
-	const logOutUser = () =>{
-		sessionStorage.clear();
-		SetFieldNames(localProps, {ignoreFormCompletion: true});
-	}
 
 	const { values, isSubmitting, ...rest } = props;
 
@@ -469,7 +445,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 						</div>) :
 						<div className = "cs-form-control">
 							<p name="userLoggedIn">{RequestPage.AlreadySignedInLabel} {sessionStorage.getItem("NameFirst")} {sessionStorage.getItem("NameLast")}</p>
-							<p name="notCorrectUser"><Link to="SignInForm" onClick={logOutUser}>Not {sessionStorage.getItem("NameFirst")}? Log in to a different account. &nbsp; </Link></p>
+							<p name="notCorrectUser"><Link to="SignInForm">Not {sessionStorage.getItem("NameFirst")}? Log in to a different account. &nbsp; </Link></p>
 							<input type="button" className="seButton pull-right" onClick={goToNextPage} disabled={disableButton} value="Next" />
 						</div> : ""}
 			</Form>
