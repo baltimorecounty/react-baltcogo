@@ -11,7 +11,7 @@ const AdditionalInformation = props => {
 	const localProps = props.formik.values;
 	const { formik = {} } = props;
 	const { values, actions, errors, touched, ...rest } = props;
-	const { isPanelRequired, shouldDisableForm, Tabs, AdditionalInfoPage, ContactID } = localProps
+	const { isPanelRequired, shouldDisableForm, Tabs, AdditionalInfoPage, ContactID } = localProps;
 
 	if (!ContactID || IsFormInComplete(props.formik)) {
 		GoHome(props);
@@ -160,9 +160,6 @@ const AdditionalInformation = props => {
 								</p>
 							</div>
 						</div>
-						<p className="smallest">
-							{AdditionalInfoPage.LegalDisclaimerBottom}
-						</p>
 					</div>}
 				<div className="cs-form-control" >
 					<SeButton

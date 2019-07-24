@@ -109,9 +109,9 @@ const ServiceRequestForm = (props, errors, touched) => {
 				let requestCategory = '';
 				let requestSubCategory = ''
 
-				const selectedType = () => {
-					requestCategory = (preSelectedTypes) ? preSelectedTypes.nameCategory : requestType;
-					if (requestCategory) {
+				const selectedType = () =>{
+					 requestCategory = (preSelectedTypes) ? preSelectedTypes.nameCategory : requestType ;
+					if(requestCategory){
 						addSelectedValueOptions(result.data, requestCategory.toLowerCase());
 					}
 					return requestCategory;
@@ -125,6 +125,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 					return requestSubCategory;
 				}
 
+				localProps.setFieldValue('Categories', result.data);
 				localProps.setFieldValue('Tabs', resultFormFieldNames.data.Tabs);
 				localProps.setFieldValue('RequestPage', resultFormFieldNames.data.RequestPage);
 				localProps.setFieldValue('MapPage', resultFormFieldNames.data.MapPage);
@@ -151,7 +152,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 		return URLRouting(Categories, parseInt(categoryId));
 	}
 
-	const addSelectedValueOptions = (Categories, value) => {
+	const addSelectedValueOptions = (Categories, value)=>{
 		let ID = getID(Categories, value)
 
 		localProps.setFieldValue('requestTypeID', ID);
@@ -374,20 +375,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 					rest={rest}
 					subCategories={subCategories} />
 
-				{localProps.values.shouldDisableForm === true && notes}
-
-				{/* Pets and Animal Issue - Other animal complaint */
-
-					(requestType.toLowerCase() === (returnRequestTypes("requestType_petAndAnimalIssue")).toLowerCase()
-						&& subRequestType.toLowerCase() === (returnRequestTypes("petAndAnimalIssueID_OtherAnimalComplaint")).toLowerCase()) ? notes
-						: null
-				}
-				{/* Website Issue - Other website problem */
-
-					(requestType.toLowerCase() === (returnRequestTypes("requestType_WebSiteIssue")).toLowerCase()
-						&& subRequestType.toLowerCase() === (returnRequestTypes("subCategory_OtherWebsiteProblem")).toLowerCase()) ? notes
-						: null
-				}
+				{localProps.values.shouldDisableForm && notes}
 
 				<PetType
 					requestType={requestType}
