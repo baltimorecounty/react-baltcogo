@@ -137,7 +137,7 @@ const provideDetails = props => {
 	};
 
 	const goToAdditionalPage = async (values) => {
-		const isDetailsFormValid = validateDetails(values);
+		const isDetailsFormValid = await validateDetails(values);
 
 		if (isDetailsFormValid) {
 			const addressParts = location.split(',');
@@ -171,6 +171,11 @@ const provideDetails = props => {
 	 */
 	const verifyAddress = async (address, addressProperty = 'location') => {
 		formik.setFieldTouched(addressProperty, true); // Hack since we aren't using default validation and submit
+
+		if (!address) {
+			return false;
+		}
+
 		try {
 			const addressResponse = await VerifyAddress(address);
 			if (HasResponseErrors(addressResponse)) {
@@ -207,13 +212,13 @@ const provideDetails = props => {
 	 */
 	const validateDetails = async (values) => {
 		var isValidProblem = verifyProblemComment(values.describeTheProblem);
-		var isValidAddress = await verifyAddress(values.location || '1');
+		var isValidAddress = await verifyAddress(values.location);
 		return isValidAddress && isValidProblem;
 	};
 
 	const SubmitForm = async (clickEvent) => {
 		formik.setSubmitting(true);
-		const isDetailsFormValid = validateDetails(formik.values);
+		const isDetailsFormValid = await validateDetails(formik.values);
 
 		if (isDetailsFormValid) {
 			await SubmitReport(clickEvent, props);
