@@ -206,9 +206,9 @@ const provideDetails = props => {
 		const fieldName = 'describeTheProblem';
 		formik.setFieldTouched(fieldName, true); // Hack since we aren't using default validation and submit
 		if (!problem) {
-			formik.setStatus({ [fieldName]: "Please enter a comment describing your problem." });
 			return false;
 		}
+
 		return true;
 	};
 

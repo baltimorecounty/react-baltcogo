@@ -14,6 +14,9 @@ const DescribeTheProblem = ({ name, formik, pageFieldName }) => {
 	const shouldDisplayValidation = isTouched && hasError;
 	const containerCssClasses = classNames('cs-form-control', 'address-search', { 'error': shouldDisplayValidation });
 	const fieldCssClasses = classNames('text-input', { 'error': shouldDisplayValidation });
+	const handleChange = changeEvent => {
+		formik.setFieldValue(name, changeEvent.target.value);
+	};
 
 	return (
 		<React.Fragment>
@@ -28,6 +31,7 @@ const DescribeTheProblem = ({ name, formik, pageFieldName }) => {
 					className={fieldCssClasses}
 					value={values[name]}
 					maxLength="2000"
+					onChange={handleChange}
 				/>
 				{shouldDisplayValidation && <Alert>
 					{errorMessage}
