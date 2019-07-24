@@ -10,11 +10,12 @@ const PetType = ({
 	pageFieldName,
 	handleServicePetChange,
 	rest,
-	PetTypes
+	PetTypes,
+	shouldShow
 }) => {
 	return (
 		<React.Fragment>
-			{requestType === requestType_petAndAnimalIssue && subRequestType !== '' ? (
+			{shouldShow && subRequestType !== '' ? (
 				<div className={errorsPetType && touchedPetType ? 'cs-form-control error' : 'cs-form-control'}>
 					<label htmlFor="petType">{pageFieldName}</label>
 					<RequestPetTypeField
