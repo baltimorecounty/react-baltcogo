@@ -342,6 +342,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 	const logOutUser = () =>{
 		sessionStorage.clear();
+		SetFieldValues(localProps, {ContactID: ''});
 		SetFieldValues(localProps, {ignoreFormCompletion: true});
 	}
 

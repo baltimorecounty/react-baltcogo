@@ -45,6 +45,10 @@ const ResetPasswordForm = (props, routeProps) => {
 		Go(props, Routes.SignIn);
 	};
 
+	const handleChange = changeEvent => {
+		props.setFieldValue('Email', changeEvent.target.value);
+	};
+
 	return (
 		<FormContainer  title={ResetPasswordPage.ResetPasswordTitle}
 			tabNames = {Tabs}
@@ -61,7 +65,6 @@ const ResetPasswordForm = (props, routeProps) => {
 					Email: Yup.string().email('Please enter a valid email address.').required('Please enter your email address.')
 				})}
 				onSubmit={async (values, actions) => {
-					actions.setSubmitting(true);
 					await userPasswordReset(values, actions);
 					actions.setSubmitting(false);
 				}}
@@ -75,8 +78,9 @@ const ResetPasswordForm = (props, routeProps) => {
 								{errors.length > 0 && <Alert type="danger">
 									{errors}
 								</Alert>}
-								<div className={
-									props.errors.Email && props.touched.Email ? "cs-form-control error" : "cs-form-control"}>
+								<div onChange={handleChange}
+									className={
+										props.errors.Email && props.touched.Email ? "cs-form-control error" : "cs-form-control"}>
 									<label htmlFor="Email">{ResetPasswordPage.EmailLabel}</label>
 									<Field
 										type="email"
