@@ -96,5 +96,11 @@ export const URLRouting = (categories, categoryId) =>{
 	}
 }
 
+export const setFieldValues = (props, fields) => {
+	Object.entries(fields).forEach(field => {
+	  props.setFieldValue(field[0], field[1]);
+	});
+}
+
 
 export default IsFormInComplete
