@@ -255,7 +255,8 @@ const ServiceRequestForm = (props, errors, touched) => {
 	const handleFieldChange = (changeEvent, lookupItems, propertyName) => {
 		const value = changeEvent.currentTarget.value.toLowerCase();
 		const id = getID(lookupItems, value);
-		setFieldValues(localProps, {propertyName: id});
+
+		localProps.setFieldValue(propertyName, id);
 	};
 
 	const handleAnimalColorChange = (changeEvent) => {
