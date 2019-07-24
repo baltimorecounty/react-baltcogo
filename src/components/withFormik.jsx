@@ -9,7 +9,6 @@ export default withFormik({
 		ContactID: '',
 		fullAddress: '',
 		VerificationId: '',
-		requestTypeDescription: '',
 		requestTypeDescriptionID: '',
 		requestTypeAddressID: '',
 		requestTypeCityID: '',
