@@ -18,6 +18,7 @@ import AnimalColorType from './animalColorType';
 import AnimalBreedType from './animalBreedType';
 import { URLRouting, SetFieldValues } from '../utilities/FormHelpers';
 import { Go, Routes } from "../Routing";
+import { GetCategory } from '../utilities/CategoryHelpers';
 
 const { categoryId } = QueryString.parse(window.location.search);
 
@@ -60,6 +61,7 @@ const getID = (categories, categoryName) => {
 
 const ServiceRequestForm = (props, errors, touched) => {
 	const localProps = props.formik;
+	const [activeCategory, setActiveCategory] = useState({});
 	const [Categories, setCategories] = useState([]);
 	const [PetTypes, setPetTypes] = useState([]);
 	const [AnimalBreeds, setAnimalBreeds] = useState([]);
@@ -109,7 +111,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 				let requestSubCategory = ''
 
 				const selectedType = () =>{
-					 requestCategory = (preSelectedTypes) ? preSelectedTypes.nameCategory : requestType ;
+					 requestCategory = (preSelectedTypes) ? preSelectedTypes.nameCategory : requestType;
 					if(requestCategory){
 						addSelectedValueOptions(result.data, requestCategory.toLowerCase());
 					}
@@ -154,7 +156,9 @@ const ServiceRequestForm = (props, errors, touched) => {
 	}
 
 	const addSelectedValueOptions = (Categories, value)=>{
-		let ID = getID(Categories, value)
+		let ID = getID(Categories, value);
+		const category = GetCategory(Categories, ID);
+		setActiveCategory(category);
 
 		const subCategories = getSubCategories(Categories, value);
 		setSubCategories(subCategories);
@@ -399,6 +403,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 				{localProps.values.shouldDisableForm && notes}
 
 				<PetType
+					shouldShow={activeCategory.isAnimal}
 					requestType={requestType}
 					requestType_petAndAnimalIssue={returnRequestTypes("requestType_petAndAnimalIssue")}
 					subRequestType={subRequestType}
@@ -410,6 +415,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 					PetTypes={PetTypes} />
 
 				<OtherAnimalsTypes
+					shouldShow={activeCategory.isAnimal}
 					subRequestType={subRequestType}
 					petType={petType}
 					returnRequestTypes={returnRequestTypes("petType_Others")}
@@ -421,6 +427,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 					OtherAnimalTypes={OtherAnimalTypes} />
 
 				<SexType
+					shouldShow={activeCategory.isAnimal}
 					requestType={requestType}
 					returnRequestTypes={returnRequestTypes("requestType_petAndAnimalIssue")}
 					subRequestType={subRequestType}
@@ -433,6 +440,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 					animalSex={animalSex}
 				/>
 				<AnimalColorType
+					shouldShow={activeCategory.isAnimal}
 					requestType={requestType}
 					requestType_petAndAnimalIssue={returnRequestTypes("requestType_petAndAnimalIssue")}
 					subRequestType={subRequestType}
@@ -447,6 +455,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 					AnimalColors={AnimalColors} />
 
 				<AnimalBreedType
+					shouldShow={activeCategory.isAnimal}
 					requestType={requestType}
 					requestType_petAndAnimalIssue={returnRequestTypes("requestType_petAndAnimalIssue")}
 					subRequestType={subRequestType}
