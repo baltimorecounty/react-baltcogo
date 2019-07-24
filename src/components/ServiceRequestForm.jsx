@@ -74,7 +74,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 	const { ContactID, RequestPage, Tabs, shouldDisableForm,
 		isPanelRequired, requestType, subRequestType, petType } = localProps.values;
 
-	const contactID =  (ContactID === "") ? sessionStorage.getItem("UserLoginID") : ContactID;
+	const contactID = (ContactID === "") ? sessionStorage.getItem("UserLoginID") : ContactID;
 
 	try {
 		useEffect(() => {
@@ -106,20 +106,20 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 				const preSelectedTypes = SelectedValue(result.data);
 
-				let requestCategory ='';
+				let requestCategory = '';
 				let requestSubCategory = ''
 
-				const selectedType = () =>{
-					 requestCategory = (preSelectedTypes) ? preSelectedTypes.nameCategory : requestType ;
-					if(requestCategory){		
+				const selectedType = () => {
+					requestCategory = (preSelectedTypes) ? preSelectedTypes.nameCategory : requestType;
+					if (requestCategory) {
 						addSelectedValueOptions(result.data, requestCategory.toLowerCase());
 					}
 					return requestCategory;
 				}
 
-				const selectedSubType = () =>{
-					 requestSubCategory = (preSelectedTypes) ? preSelectedTypes.nameSubCategory : subRequestType ;
-					if(requestSubCategory){
+				const selectedSubType = () => {
+					requestSubCategory = (preSelectedTypes) ? preSelectedTypes.nameSubCategory : subRequestType;
+					if (requestSubCategory) {
 						addSelectedSubValueOptions(result.data, requestSubCategory.toLowerCase())
 					}
 					return requestSubCategory;
@@ -147,11 +147,11 @@ const ServiceRequestForm = (props, errors, touched) => {
 	catch (ex) {
 		console.error('service request form data', ex);
 	}
-	const SelectedValue = (Categories) =>{
+	const SelectedValue = (Categories) => {
 		return URLRouting(Categories, parseInt(categoryId));
 	}
-	
-	const addSelectedValueOptions = (Categories, value)=>{
+
+	const addSelectedValueOptions = (Categories, value) => {
 		let ID = getID(Categories, value)
 
 		localProps.setFieldValue('requestTypeID', ID);
@@ -166,8 +166,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 		localProps.setFieldValue('requestTypeDescriptionID', description);
 		localProps.setFieldValue('requiresLocation', (requiresLocation === undefined) ? true : requiresLocation);
 
-		if (value === 'website issue')
-		{
+		if (value === 'website issue') {
 			localProps.setFieldValue('Latitude', 39.40037792)
 			localProps.setFieldValue('Longitude', -76.60651907)
 			localProps.setFieldValue('location', '400 WASHINGTON AVE, TOWSON, 21204')
@@ -176,12 +175,16 @@ const ServiceRequestForm = (props, errors, touched) => {
 		pullServiceRequestFields(fields);
 	}
 
-	const addSelectedSubValueOptions = (Categories, value)=>{
+	const addSelectedSubValueOptions = (Categories, value) => {
 		const subCategories = Categories.flatMap(x => x.types);
 		const subInfo = getSubCategoriesIncludedDescription(subCategories, value);
 		let ID = getID(subCategories, value);
 		const isDisabled = getshouldDisableForm(subCategories, value);
+		console.log('value:' + value);
+		console.log(subCategories);
+
 		const notes = getNote(subCategories, value);
+		console.log('notes:' + notes);
 		setNotes(<div className="alert-information bc_alert" >
 			<i className="fa fa-icon fa-2x fa-info-circle"></i>
 			<p dangerouslySetInnerHTML={{ __html: notes }}></p>
@@ -223,7 +226,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 			localProps.setFieldValue('requestTypeZipID', fields.zipCode);
 			localProps.setFieldValue('isPanelRequired', true);
 		}
-		else{
+		else {
 			localProps.setFieldValue('isPanelRequired', false);
 		}
 	};
@@ -363,7 +366,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 				<RequestSubCategory
 					requestType={requestType}
-					subRequestType={subRequestType }
+					subRequestType={subRequestType}
 					errorsSubRequestType={localProps.errors.subRequestType}
 					touchedSubRequestType={localProps.touched.subRequestType}
 					pageFieldName={RequestPage.SubCategoryLabel}
@@ -455,7 +458,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 							<input type="button" className="seButton pull-right" onClick={callRegisterForm} disabled={disableButton} value="Register" />
 							<Model />
 						</div>) :
-						<div className = "cs-form-control">
+						<div className="cs-form-control">
 							<p name="userLoggedIn">{RequestPage.AlreadySignedInLabel} {sessionStorage.getItem("NameFirst")} {sessionStorage.getItem("NameLast")}</p>
 							<p name="notCorrectUser"><Link to="SignInForm">Not {sessionStorage.getItem("NameFirst")}? Log in to a different account. &nbsp; </Link></p>
 							<input type="button" className="seButton pull-right" onClick={goToNextPage} disabled={disableButton} value="Next" />

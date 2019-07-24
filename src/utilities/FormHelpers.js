@@ -12,6 +12,7 @@ export const IsFormInComplete = (props) => {
 			&& subRequestType === returnRequestTypes("subCategory_IcyConditions").toLowerCase()) {
 			return true;
 		}
+
 		else if ((requestType === returnRequestTypes("requestType_WaterandSewerIssues").toLowerCase())
 			&& (subRequestType === returnRequestTypes("subCategory_SewerIssues").toLowerCase() ||
 				subRequestType === returnRequestTypes("subCategory_StormWaterIssues").toLowerCase() ||
@@ -21,7 +22,7 @@ export const IsFormInComplete = (props) => {
 		}
 		else if ((requestType === returnRequestTypes("requestType_TrashRecycleIssue").toLowerCase())
 			&& (subRequestType === returnRequestTypes("subCategory_CanOrLidLostDamaged").toLowerCase() ||
-				subRequestType === returnRequestTypes("subCategory_PropertyDamangeDuringCollecttion").toLowerCase() ||
+				subRequestType === returnRequestTypes("subCategory_PropertyDamangeDuringCollection").toLowerCase() ||
 				subRequestType === returnRequestTypes("subCategory_RecyclingNotCollected").toLowerCase() ||
 				subRequestType === returnRequestTypes("subCategory_RequestToStartNewCollection").toLowerCase() ||
 				subRequestType === returnRequestTypes("subCategory_TrashNotCollected").toLowerCase() ||
@@ -50,7 +51,6 @@ export const IsFormInComplete = (props) => {
 			return true;
 		}
 		else {
-
 			return false;
 		}
 	}
@@ -59,8 +59,8 @@ export const IsFormInComplete = (props) => {
 	}
 }
 
-export const URLRouting = (categories, categoryId) =>{
-	if(categories.length > 0 && categoryId){
+export const URLRouting = (categories, categoryId) => {
+	if (categories.length > 0 && categoryId) {
 
 		let nameSubCat = '';
 		let idSubCat = '';
@@ -69,29 +69,28 @@ export const URLRouting = (categories, categoryId) =>{
 
 		const getSelectedSubCategory = categories.find(items => (items.types.find(type => type.id === categoryId)));
 
-		if (getSelectedSubCategory){
+		if (getSelectedSubCategory) {
 			nameCat = getSelectedSubCategory.name;
 			idCat = getSelectedSubCategory.id;
 			nameSubCat = getSelectedSubCategory.types.find(type => type.id === categoryId).name;
 			idSubCat = getSelectedSubCategory.types.find(type => type.id === categoryId).id;
 		}
-		else
-		{
+		else {
 			const getSelectedCategory = _.filter(categories, { id: categoryId });
-			nameCat = (getSelectedCategory.length > 0) ? getSelectedCategory[0].name : '' ; 
-			idCat =  (getSelectedCategory.length > 0) ? getSelectedCategory[0].id : '' ;
+			nameCat = (getSelectedCategory.length > 0) ? getSelectedCategory[0].name : '';
+			idCat = (getSelectedCategory.length > 0) ? getSelectedCategory[0].id : '';
 		}
-		
+
 		const Selections = {
-			"nameCategory":  nameCat ,
-			"idCategory": idCat ,
-			"nameSubCategory": nameSubCat ,
-			"idSubCategory": idSubCat 
+			"nameCategory": nameCat,
+			"idCategory": idCat,
+			"nameSubCategory": nameSubCat,
+			"idSubCategory": idSubCat
 		}
 
 		return Selections
 	}
-	else{
+	else {
 		return null;
 	}
 }

@@ -35,7 +35,7 @@ export const endPointsProd = [
 	}
 ];
 export const jsonFileLocationsLocal = [
-	{ key: 'results', value: '/data/categories.json' },
+	{ key: 'results', value: '/data/categories-Prod.json' },
 	{ key: 'resultPetTypes', value: '/data/pet-types.json' },
 	{ key: 'resultAnimalBreeds', value: '/data/animal-breeds.json' },
 	{ key: 'resultAnimalColors', value: '/data/animal-colors.json' },
@@ -60,7 +60,7 @@ export const jsonFileLocationsProd = [
 	{ key: 'resultFormFieldNames', value: '' }
 ];
 export const formTypesTest = [
-	{ key: 'requestType_petAndAnimalIssue', value: 'Pets and Animals' },
+	{ key: 'requestType_petAndAnimalIssue', value: 'Pets and Animals Issue' },
 	{ key: 'petAndAnimalIssueID_OtherAnimalComplaint', value: 'Other animal complaint' },
 	{ key: 'requestType_WebSiteIssue', value: 'Website Issue' },
 	{ key: 'subCategory_OtherWebsiteProblem', value: 'Other website problem' },
