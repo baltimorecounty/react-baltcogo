@@ -54,6 +54,7 @@ export default withFormik({
 		requiresLocation: true,
 		isPanelRequired: true,
 		ignoreFormCompletion: false,
+		hasPasswordReset: false,
 		Tabs: [''],
 		RequestPage: [''],
 		MapPage: [''],

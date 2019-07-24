@@ -42,6 +42,7 @@ const ResetPasswordForm = (props, routeProps) => {
 	};
 
 	const signIn = () =>{
+		props.setFieldValue('hasPasswordReset', true);
 		Go(props, Routes.SignIn);
 	};
 

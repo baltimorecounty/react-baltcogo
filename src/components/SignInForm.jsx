@@ -8,12 +8,13 @@ import FormContainer from './FormContainer';
 import { Login } from '../services/authService';
 import { IsFormInComplete } from "../utilities/FormHelpers";
 import SeButton from "./SeButton";
+import Alert from './Alert';
 import { GoBack, GoHome, Go, Routes } from "../Routing";
 
 // import DisplayFormikState from './helper';
 const SignIn = (props, routeProps) => {
 
-	const {Tabs, SignInPage, shouldDisableForm, ignoreFormCompletion} = props.values;
+	const {Tabs, SignInPage, shouldDisableForm, ignoreFormCompletion, hasPasswordReset} = props.values;
 
 	const [fieldType, setFieldType] = useState('Password');
 	const handlePasswordToggleChange = () => {
@@ -110,9 +111,14 @@ const SignIn = (props, routeProps) => {
 				{
 					(props) => {
 						const { errors = {}, touched } = props;
-
+						console.log(props.values.Email);
 						return (
 							<Form >
+								{(hasPasswordReset)?
+									<Alert className="error-message">
+										{SignInPage.ResetPasswordAlert.replace('{email address}', props.values.Email)}
+									</Alert>:
+								 null}
 								<div className={
 									props.errors.Email && props.touched.Email ? "cs-form-control error" : "cs-form-control"}>
 									<label htmlFor="Email">{SignInPage.EmailLabel}</label>
