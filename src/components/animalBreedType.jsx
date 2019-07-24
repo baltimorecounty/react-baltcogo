@@ -18,7 +18,7 @@ const AnimalBreedType = ({ requestType, requestType_petAndAnimalIssue, subReques
 						//value={localProps.values.animalBreedType}
 						className={errorsAnimalBreedType && touchedAnimalBreedType ? "text-select error" : null}
 					>
-						<option key='default' value=''>--Please select the primary breed of the animal--</option>
+						<option key='default' value=''>-- Please select the primary breed of the animal --</option>
 						{animalSubCategories.map(animalBreedType => (
 							<option key={animalBreedType.id} value={animalBreedType.name}>{animalBreedType.name}</option>
 						))}

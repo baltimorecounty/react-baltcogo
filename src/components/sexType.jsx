@@ -16,7 +16,7 @@ const SexType = ({ requestType, returnRequestTypes,  subRequestType, checkPetTyp
 						onChange={handlePetSexChange}
 						className={errorsSexType && touchedSexType ? "text-select error" : null}
 					>
-						<option key='default' value=''>--Please select a pet sex--</option>
+						<option key='default' value=''>-- Please select a pet sex --</option>
 						{animalSex.map(petSex => (
 							<option key={petSex.id} value={petSex.name}>{petSex.name}</option>
 						))}

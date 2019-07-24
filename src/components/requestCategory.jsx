@@ -16,7 +16,7 @@ const RequestCategory = ({  requestType,errorsRequestType, touchedRequestType, p
 					onChange={handleServiceRequestChange}
 					value={requestType}
 				>
-					<option key='default' value=''>--Please select a category--</option>
+					<option key='default' value=''>-- Please select a category --</option>
 					{Categories.map(category => (
 						<option key={category.id} value={category.name}>{category.name}</option>
 					))}
