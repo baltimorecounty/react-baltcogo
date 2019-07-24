@@ -126,6 +126,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 					return requestSubCategory;
 				}
 				const fields = {
+					Categories: result.data,
 					Tabs: resultFormFieldNames.data.Tabs,
 					RequestPage: resultFormFieldNames.data.RequestPage,
 					MapPage: resultFormFieldNames.data.MapPage,
