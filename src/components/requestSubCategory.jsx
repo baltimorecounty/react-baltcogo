@@ -16,7 +16,7 @@ const SubCategory = ({ requestType, subRequestType, errorsSubRequestType, touche
 						onChange={handleServiceSubRequestChange}
 						value={subRequestType}
 					>
-						<option key='default' value=''>--Please select a sub-category--</option>
+						<option key='default' value=''>-- Please select a sub-category --</option>
 						{subCategories.map(category => (
 							<option key={category.id} value={category.name}>{category.name}</option>
 						))}

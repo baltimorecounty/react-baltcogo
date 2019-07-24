@@ -16,7 +16,7 @@ const PetType = ({ requestType, requestType_petAndAnimalIssue, subRequestType, e
 						onChange={handleServicePetChange}
 						className={errorsPetType && touchedPetType ? "text-select error" : null}
 					>
-						<option key='default' value=''>--Please select a pet type--</option>
+						<option key='default' value=''>-- Please select a pet type --</option>
 						{PetTypes.map(petType => (
 							<option key={petType.id} value={petType.name}>{petType.name}</option>
 						))}

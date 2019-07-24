@@ -22,8 +22,19 @@ Geocode.setApiKey('AIzaSyAqazsw3wPSSxOFVmij32C_LIhBSuyUNi8');
 
 const provideDetails = props => {
 	const { formik = {} } = props;
-	const { MapPage, location, ContactID,
-		describeTheProblem, Tabs, requiresLocation, shouldDisableForm, isPanelRequired, Latitude, Longitude  } = formik.values;
+	const {
+		MapPage,
+		location,
+		ContactID,
+		describeTheProblem,
+		Tabs,
+		requiresLocation,
+		shouldDisableForm,
+		isPanelRequired,
+		Latitude,
+		Longitude,
+		AdditionalInfoPage
+	} = formik.values;
 	const [updatedLatitude, setLatitude] = useState(Latitude);
 	const [updatedLongitude, setLongitude] = useState(Longitude);
 	const [MarkerLatitude, setMarkerLatitude] = useState(18.5204);
@@ -269,6 +280,10 @@ const provideDetails = props => {
 					errorsDescribeTheProblem={rest.formik.errors.describeTheProblem}
 					touchedDescribeTheProblem={rest.formik.touched.describeTheProblem}
 					pageFieldName={MapPage.ProblemLabel} />
+
+				<p className="smallest">
+					{AdditionalInfoPage.LegalDisclaimerBottom}
+				</p>
 
 				<div className="cs-form-control" >
 					<SeButton

@@ -19,7 +19,7 @@ const AnimalColorType = ({ requestType,requestType_petAndAnimalIssue, subRequest
 						//value={localProps.values.name}
 						className={errorsAnimalColorType && touchedAnimalColorType ? "text-select error" : null}
 					>
-						<option key='default' value=''>--Please select the primary color of the animal--</option>
+						<option key='default' value=''>-- Please select the primary color of the animal --</option>
 
 						{AnimalColors.map(animalColorType => (
 							<option key={animalColorType.id} value={animalColorType.name}>{animalColorType.name}</option>
