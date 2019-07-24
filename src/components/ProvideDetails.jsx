@@ -146,8 +146,8 @@ const provideDetails = props => {
 
 	};
 
-	const goToAdditionalPage = async (values) => {
-		const isDetailsFormValid = await validateDetails(values);
+	const goToAdditionalPage = async () => {
+		const isDetailsFormValid = await validateDetails(formik.values);
 
 		if (isDetailsFormValid) {
 			const addressParts = location.split(',');
@@ -206,9 +206,9 @@ const provideDetails = props => {
 		const fieldName = 'describeTheProblem';
 		formik.setFieldTouched(fieldName, true); // Hack since we aren't using default validation and submit
 		if (!problem) {
-			formik.setStatus({ [fieldName]: "Please enter a comment describing your problem." });
 			return false;
 		}
+
 		return true;
 	};
 
@@ -221,6 +221,7 @@ const provideDetails = props => {
 	 * @returns {bool} - true if the provide details form is valid
 	 */
 	const validateDetails = async (values) => {
+		console.log(values)
 		var isValidProblem = verifyProblemComment(values.describeTheProblem);
 		var isValidAddress = await verifyAddress(values.location);
 		return isValidAddress && isValidProblem;

@@ -77,14 +77,14 @@ export const URLRouting = (categories, categoryId) => {
 		}
 		else {
 			const getSelectedCategory = _.filter(categories, { id: categoryId });
-			nameCat = (getSelectedCategory.length > 0) ? getSelectedCategory[0].name : '';
-			idCat = (getSelectedCategory.length > 0) ? getSelectedCategory[0].id : '';
+			nameCat = (getSelectedCategory.length > 0) ? getSelectedCategory[0].name : '' ;
+			idCat =  (getSelectedCategory.length > 0) ? getSelectedCategory[0].id : '' ;
 		}
 
 		const Selections = {
-			"nameCategory": nameCat,
-			"idCategory": idCat,
-			"nameSubCategory": nameSubCat,
+			"nameCategory":  nameCat ,
+			"idCategory": idCat ,
+			"nameSubCategory": nameSubCat ,
 			"idSubCategory": idSubCat
 		}
 
@@ -93,6 +93,12 @@ export const URLRouting = (categories, categoryId) => {
 	else {
 		return null;
 	}
+}
+
+export const SetFieldValues = (props, fields) => {
+	Object.entries(fields).forEach(field => {
+	  props.setFieldValue(field[0], field[1]);
+	});
 }
 
 
