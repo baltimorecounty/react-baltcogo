@@ -11,7 +11,7 @@ export const IsFormInComplete = (props, category) => {
 		petType,
 		requestType,
 		subRequestType
-	} = props.values;
+	} = props.values || {};
 
 	if (!requestType || !subRequestType) {
 		return true;
