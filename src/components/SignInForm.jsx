@@ -31,12 +31,10 @@ const SignIn = (props, routeProps) => {
 				
 		if(hasPasswordReset){
 			message =<Note className='bc_alert alert-success'>{SignInPage.ResetPasswordAlert.replace('{email address}', userEmail) }</Note>
-			return message;
 		}
 		else if (props.status)
 		{
 			message =<Note icon = 'Nothing' className='bc_alert alert-warning'>{props.status.incorrectEmail ? props.status.incorrectEmail : null}</Note>
-			return message;
 		}
 				
 		return message;
@@ -91,7 +89,7 @@ const SignIn = (props, routeProps) => {
 
 			if (Errors.length > 0) {
 				const errors = GetResponseErrors(response);
-				props.setStatus({ incorrectEmail: errors });
+				props.setStatus({ incorrectEmail: errors.replace('Sorry! ', '') }); //TODO: this should ultimatley come from a validation file so we dont have to modify text
 				handleLoginFailure(actions, errors);
 				throw new Error(errors);
 			}
