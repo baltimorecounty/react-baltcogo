@@ -30,7 +30,7 @@ const SignIn = (props, routeProps) => {
 		let message = '';
 		
 		if(hasPasswordReset){
-			message =<Note className='error-message alert-success'>{SignInPage.ResetPasswordAlert.replace('{email address}', userEmail) }</Note>
+			message =<Note className='bc_alert alert-success'>{SignInPage.ResetPasswordAlert.replace('{email address}', userEmail) }</Note>
 			return message;
 		}
 		
@@ -64,10 +64,12 @@ const SignIn = (props, routeProps) => {
 			css: 'success'
 		});
 
+		props.setFieldValue('hasPasswordReset', false);
 		Go(props, Routes.ProvideDetails);
 	};
 
 	const goBack = () =>{
+		props.setFieldValue('hasPasswordReset', false);
 		GoBack(props);
 	}
 
