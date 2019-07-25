@@ -8,12 +8,13 @@ import FormContainer from './FormContainer';
 import { Login } from '../services/authService';
 import { IsFormInComplete } from "../utilities/FormHelpers";
 import SeButton from "./SeButton";
+import Alert from './Alert';
 import { GoBack, GoHome, Go, Routes } from "../Routing";
 
 // import DisplayFormikState from './helper';
 const SignIn = (props, routeProps) => {
 
-	const {Tabs, SignInPage, shouldDisableForm, ignoreFormCompletion} = props.values;
+	const {Tabs, SignInPage, shouldDisableForm, ignoreFormCompletion, hasPasswordReset} = props.values;
 
 	const [fieldType, setFieldType] = useState('Password');
 	const handlePasswordToggleChange = () => {
@@ -24,6 +25,20 @@ const SignIn = (props, routeProps) => {
 		GoHome(props);
 	}
 	
+	const hasAlertMessage = () =>{
+
+		let errorAlert = {
+			Message: '',
+			cssClass: ''
+		}
+		if(hasPasswordReset){
+			errorAlert.Message = SignInPage.ResetPasswordAlert.replace('{email address}', userEmail)
+			errorAlert.cssClass ='error-message alert-success'
+			return errorAlert;
+		}
+		
+		return errorAlert;
+	}
 	
 	const handleLoginFailure = (actions, errors) => {
 		actions.setStatus({
@@ -83,6 +98,9 @@ const SignIn = (props, routeProps) => {
 		}
 	}
 
+	const userEmail = props.history.location.state;
+	const errorItems = hasAlertMessage();
+
 	return (
 		<FormContainer title={SignInPage.SignInTitle}
 			tabNames = {Tabs}
@@ -110,9 +128,13 @@ const SignIn = (props, routeProps) => {
 				{
 					(props) => {
 						const { errors = {}, touched } = props;
-
 						return (
 							<Form >
+								{(errorItems.Message)?
+									<Alert className={errorItems.cssClass}>
+										{errorItems.Message}
+									</Alert>:
+								 null}
 								<div className={
 									props.errors.Email && props.touched.Email ? "cs-form-control error" : "cs-form-control"}>
 									<label htmlFor="Email">{SignInPage.EmailLabel}</label>

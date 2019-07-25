@@ -5,7 +5,7 @@ const Note = (props) => (
 	<Alert
 		className="alert-information bc_alert"
 		icon="info-circle"
-	><div dangerouslySetInnerHTML={{__html: props.children}}></div></Alert>
+	><p dangerouslySetInnerHTML={{__html: props.children}}></p></Alert>
 );
 
 export default Note;

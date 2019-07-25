@@ -11,7 +11,8 @@
 		"PasswordLabel": "Password",
 		"ForgotPasswordLabel": "Forgot password?",
 		"NoAccountLabel": "Don't have an account?",
-		"SignUpLinkLabel": "Sign up"
+		"SignUpLinkLabel": "Sign up",
+		"ResetPasswordAlert": "A link to reset your password has been sent to {email address}. Please follow the instructions and return to this page to log in."
 	},
 	"SignUpPage": {
 		"SignUpTitle": "Register for an Account",
