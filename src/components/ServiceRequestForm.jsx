@@ -3,7 +3,6 @@ import { Form, connect } from "formik";
 import axios from "axios"
 import { GetResponseErrors } from "../utilities/CitysourcedResponseHelpers";
 import FormContainer from './FormContainer';
-import QueryString from 'query-string';
 import Model from './Modal';
 import Note from './Note';
 import { Link } from 'react-router-dom';
@@ -21,9 +20,22 @@ import { URLRouting, SetFieldValues } from '../utilities/FormHelpers';
 import { Go, Routes } from "../Routing";
 import { GetCategory, GetSubCategory } from '../utilities/CategoryHelpers';
 
-const { categoryId } = QueryString.parse(window.location.search);
+const getUrlVars = () => {
+	var vars = [], hash;
+	var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).replace('#/', '').split('&');
+	for (var i = 0; i < hashes.length; i++) {
+		hash = hashes[i].split('=');
+		vars.push(hash[0]);
+		vars[hash[0].toLowerCase()] = hash[1];
+	}
+	return vars;
+};
+const getUrlVar = (name) =>{
+	const searchParms = getUrlVars()
+	return searchParms[name];
+};
 
-console.log(window.location.search);
+const categoryId = getUrlVar('categoryid');
 
 const getSubCategories = (categories, categoryName) => {
 	var category = categories.find(category => category.name.toLowerCase() === categoryName);
