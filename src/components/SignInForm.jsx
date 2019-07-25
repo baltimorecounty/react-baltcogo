@@ -8,7 +8,7 @@ import FormContainer from './FormContainer';
 import { Login } from '../services/authService';
 import { IsFormInComplete } from "../utilities/FormHelpers";
 import SeButton from "./SeButton";
-import Alert from './Alert';
+import Note from './Note';
 import { GoBack, GoHome, Go, Routes } from "../Routing";
 
 // import DisplayFormikState from './helper';
@@ -27,17 +27,14 @@ const SignIn = (props, routeProps) => {
 	
 	const hasAlertMessage = () =>{
 
-		let errorAlert = {
-			Message: '',
-			cssClass: ''
-		}
+		let message = '';
+		
 		if(hasPasswordReset){
-			errorAlert.Message = SignInPage.ResetPasswordAlert.replace('{email address}', userEmail)
-			errorAlert.cssClass ='error-message alert-success'
-			return errorAlert;
+			message =<Note className='error-message alert-success'>{SignInPage.ResetPasswordAlert.replace('{email address}', userEmail) }</Note>
+			return message;
 		}
 		
-		return errorAlert;
+		return message;
 	}
 	
 	const handleLoginFailure = (actions, errors) => {
@@ -99,7 +96,7 @@ const SignIn = (props, routeProps) => {
 	}
 
 	const userEmail = props.history.location.state;
-	const errorItems = hasAlertMessage();
+	const errorMessage = hasAlertMessage();
 
 	return (
 		<FormContainer title={SignInPage.SignInTitle}
@@ -130,10 +127,8 @@ const SignIn = (props, routeProps) => {
 						const { errors = {}, touched } = props;
 						return (
 							<Form >
-								{(errorItems.Message)?
-									<Alert className={errorItems.cssClass}>
-										{errorItems.Message}
-									</Alert>:
+								{(errorMessage)?
+									errorMessage:
 								 null}
 								<div className={
 									props.errors.Email && props.touched.Email ? "cs-form-control error" : "cs-form-control"}>
