@@ -128,7 +128,6 @@ const SignIn = (props, routeProps) => {
 				{
 					(props) => {
 						const { errors = {}, touched } = props;
-						console.log(props.values.Email);
 						return (
 							<Form >
 								{(errorItems.Message)?
