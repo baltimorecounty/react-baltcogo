@@ -18,10 +18,10 @@ const ResetPasswordForm = (props, routeProps) => {
 		GoHome(props);
 	}
 
-	const {Tabs, ResetPasswordPage} = props.values;
+	const {Tabs, ResetPasswordPage, } = props.values;
 
-	const userPasswordReset = async (values, props, actions) => {
-		const { Email = '' } = values || {};
+	const userPasswordReset = async (clickEvent) => {
+		const { Email = '' } =  props.values || {};
 		try {
 			const response = await ResetPassword(Email);
 			if (response.data.ErrorsCount > 0) {
@@ -43,7 +43,7 @@ const ResetPasswordForm = (props, routeProps) => {
 
 	const signIn = () =>{
 		props.setFieldValue('hasPasswordReset', true);
-		Go(props, Routes.SignIn);
+		Go(props, Routes.SignIn, props.values.Email);
 	};
 
 	const handleChange = changeEvent => {
@@ -111,6 +111,7 @@ const ResetPasswordForm = (props, routeProps) => {
 										text="Submit Reset Request"
 										type="submit"
 										isLoading={props.isSubmitting}
+										isLoadingText="Submitting Request..."
 										className = "pull-right"
 									/>
 								</div>

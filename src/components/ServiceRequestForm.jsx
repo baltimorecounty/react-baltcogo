@@ -23,6 +23,8 @@ import { GetCategory, GetSubCategory } from '../utilities/CategoryHelpers';
 
 const { categoryId } = QueryString.parse(window.location.search);
 
+console.log(window.location.search);
+
 const getSubCategories = (categories, categoryName) => {
 	var category = categories.find(category => category.name.toLowerCase() === categoryName);
 	return category ? category.types : [];
