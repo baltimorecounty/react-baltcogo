@@ -46,13 +46,13 @@ export const URLRouting = (categories, categoryId) =>{
 		let nameCat = '';
 		let idCat = '';
 
-		const getSelectedSubCategory = categories.find(items => (items.types.find(type => type.id === categoryId)));
+		const getSelectedSubCategory = categories.find(items => (items.types.find(type => type.id.toString() === categoryId)));
 
 		if (getSelectedSubCategory){
 			nameCat = getSelectedSubCategory.name;
 			idCat = getSelectedSubCategory.id;
-			nameSubCat = getSelectedSubCategory.types.find(type => type.id === categoryId).name;
-			idSubCat = getSelectedSubCategory.types.find(type => type.id === categoryId).id;
+			nameSubCat = getSelectedSubCategory.types.find(type => type.id.toString() === categoryId).name;
+			idSubCat = getSelectedSubCategory.types.find(type => type.id.toString() === categoryId).id;
 		}
 		else
 		{

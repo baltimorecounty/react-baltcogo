@@ -168,8 +168,9 @@ const ServiceRequestForm = (props, errors, touched) => {
 	catch (ex) {
 		console.error('service request form data', ex);
 	}
+	
 	const SelectedValue = (Categories) =>{
-		return URLRouting(Categories, parseInt(categoryId));
+		return URLRouting(Categories, categoryId);
 	}
 
 	const addSelectedValueOptions = (Categories, value)=>{
