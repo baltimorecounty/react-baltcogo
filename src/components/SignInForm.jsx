@@ -26,14 +26,19 @@ const SignIn = (props, routeProps) => {
 	}
 	
 	const hasAlertMessage = () =>{
-
+		console.log(props);
 		let message = '';
-		
+				
 		if(hasPasswordReset){
 			message =<Note className='bc_alert alert-success'>{SignInPage.ResetPasswordAlert.replace('{email address}', userEmail) }</Note>
 			return message;
 		}
-		
+		else if (props.status)
+		{
+			message =<Note icon = 'Nothing' className='bc_alert alert-warning'>{props.status.incorrectEmail}</Note>
+			return message;
+		}
+				
 		return message;
 	}
 	
@@ -44,6 +49,10 @@ const SignIn = (props, routeProps) => {
 		});
 	};
 
+	const resetAlerts = () =>{
+		props.setStatus(null);
+		props.setFieldValue('hasPasswordReset', false);
+	}
 	const handleLoginSuccess = (actions, results) => {
 		const {
 			Id: contactID,
@@ -63,13 +72,12 @@ const SignIn = (props, routeProps) => {
 			success: 'OK',
 			css: 'success'
 		});
-
-		props.setFieldValue('hasPasswordReset', false);
+		resetAlerts();
 		Go(props, Routes.ProvideDetails);
 	};
 
 	const goBack = () =>{
-		props.setFieldValue('hasPasswordReset', false);
+		resetAlerts();
 		GoBack(props);
 	}
 
@@ -83,6 +91,7 @@ const SignIn = (props, routeProps) => {
 
 			if (Errors.length > 0) {
 				const errors = GetResponseErrors(response);
+				props.setStatus({ incorrectEmail: errors });
 				handleLoginFailure(actions, errors);
 				throw new Error(errors);
 			}
@@ -139,10 +148,10 @@ const SignIn = (props, routeProps) => {
 										type="email"
 										name="Email"
 									/>
-									<ErrorMessage name='msg' className='input-feedback' component='div' />
+									{/* <ErrorMessage name='msg' className='input-feedback' component='div' />
 									<div className={`input-feedback ${props.status ? props.status.css : ''}`}>
 										{props.status ? props.status.success : ''}
-									</div>
+									</div> */}
 									<p role='alert' className="error-message">
 										<ErrorMsg
 											errormessage={errors.Email}
