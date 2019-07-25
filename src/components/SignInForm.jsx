@@ -35,7 +35,7 @@ const SignIn = (props, routeProps) => {
 		}
 		else if (props.status)
 		{
-			message =<Note icon = 'Nothing' className='bc_alert alert-warning'>{props.status.incorrectEmail}</Note>
+			message =<Note icon = 'Nothing' className='bc_alert alert-warning'>{props.status.incorrectEmail ? props.status.incorrectEmail : null}</Note>
 			return message;
 		}
 				
@@ -50,7 +50,7 @@ const SignIn = (props, routeProps) => {
 	};
 
 	const resetAlerts = () =>{
-		props.setStatus(null);
+		props.setStatus('');
 		props.setFieldValue('hasPasswordReset', false);
 	}
 	const handleLoginSuccess = (actions, results) => {
