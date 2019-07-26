@@ -35,7 +35,7 @@ const IssueType = ({ name, formik = {}, items, handleAddressChange, handleAddres
 					<i className="fa fa-search address-search-icon" aria-hidden="true"></i>
 				</div>
 			</div>
-			{isTouched && hasError && <Alert>
+			{isTouched && hasError && <Alert className="error-message">
 				{errorMessage}
 			</Alert>}
 

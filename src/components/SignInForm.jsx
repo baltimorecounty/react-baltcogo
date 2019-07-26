@@ -8,22 +8,38 @@ import FormContainer from './FormContainer';
 import { Login } from '../services/authService';
 import { IsFormInComplete } from "../utilities/FormHelpers";
 import SeButton from "./SeButton";
+import Note from './Note';
 import { GoBack, GoHome, Go, Routes } from "../Routing";
 
 // import DisplayFormikState from './helper';
 const SignIn = (props, routeProps) => {
 
-	const {Tabs, SignInPage, shouldDisableForm} = props.values;
+	const {Tabs, SignInPage, shouldDisableForm, ignoreFormCompletion, hasPasswordReset} = props.values;
 
 	const [fieldType, setFieldType] = useState('Password');
 	const handlePasswordToggleChange = () => {
 		setFieldType(fieldType === 'Password' ? 'text' : 'Password');
 	};
 
-	if (IsFormInComplete(props)) {
+	if (IsFormInComplete(props) && !ignoreFormCompletion) {
 		GoHome(props);
 	}
-
+	
+	const hasAlertMessage = () =>{
+		console.log(props);
+		let message = '';
+				
+		if(hasPasswordReset){
+			message =<Note className='bc_alert alert-success'>{SignInPage.ResetPasswordAlert.replace('{email address}', userEmail) }</Note>
+		}
+		else if (props.status)
+		{
+			message =<Note icon = 'Nothing' className='bc_alert alert-warning'>{props.status.incorrectEmail ? props.status.incorrectEmail : null}</Note>
+		}
+				
+		return message;
+	}
+	
 	const handleLoginFailure = (actions, errors) => {
 		actions.setStatus({
 			success: errors,
@@ -31,6 +47,10 @@ const SignIn = (props, routeProps) => {
 		});
 	};
 
+	const resetAlerts = () =>{
+		props.setStatus('');
+		props.setFieldValue('hasPasswordReset', false);
+	}
 	const handleLoginSuccess = (actions, results) => {
 		const {
 			Id: contactID,
@@ -50,11 +70,12 @@ const SignIn = (props, routeProps) => {
 			success: 'OK',
 			css: 'success'
 		});
-
+		resetAlerts();
 		Go(props, Routes.ProvideDetails);
 	};
 
 	const goBack = () =>{
+		resetAlerts();
 		GoBack(props);
 	}
 
@@ -68,6 +89,7 @@ const SignIn = (props, routeProps) => {
 
 			if (Errors.length > 0) {
 				const errors = GetResponseErrors(response);
+				props.setStatus({ incorrectEmail: errors.replace('Sorry! ', '') }); //TODO: this should ultimatley come from a validation file so we dont have to modify text
 				handleLoginFailure(actions, errors);
 				throw new Error(errors);
 			}
@@ -81,6 +103,9 @@ const SignIn = (props, routeProps) => {
 			}
 		}
 	}
+
+	const userEmail = props.history.location.state;
+	const errorMessage = hasAlertMessage();
 
 	return (
 		<FormContainer title={SignInPage.SignInTitle}
@@ -109,9 +134,11 @@ const SignIn = (props, routeProps) => {
 				{
 					(props) => {
 						const { errors = {}, touched } = props;
-
 						return (
 							<Form >
+								{(errorMessage)?
+									errorMessage:
+								 null}
 								<div className={
 									props.errors.Email && props.touched.Email ? "cs-form-control error" : "cs-form-control"}>
 									<label htmlFor="Email">{SignInPage.EmailLabel}</label>
@@ -119,10 +146,10 @@ const SignIn = (props, routeProps) => {
 										type="email"
 										name="Email"
 									/>
-									<ErrorMessage name='msg' className='input-feedback' component='div' />
+									{/* <ErrorMessage name='msg' className='input-feedback' component='div' />
 									<div className={`input-feedback ${props.status ? props.status.css : ''}`}>
 										{props.status ? props.status.success : ''}
-									</div>
+									</div> */}
 									<p role='alert' className="error-message">
 										<ErrorMsg
 											errormessage={errors.Email}

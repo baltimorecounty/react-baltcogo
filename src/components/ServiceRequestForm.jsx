@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Form, Field, connect } from "formik";
+import { Form, connect } from "formik";
 import axios from "axios"
-import Note from './Note';
 import { GetResponseErrors } from "../utilities/CitysourcedResponseHelpers";
 import FormContainer from './FormContainer';
-import QueryString from 'query-string';
 import Model from './Modal';
+import Note from './Note';
 import { Link } from 'react-router-dom';
 import { GetContactDetails } from '../services/authService';
 import { IsFormInComplete } from "../utilities/FormHelpers";
@@ -17,10 +16,26 @@ import OtherAnimalsTypes from "./otherAnimalTypes";
 import SexType from './sexType';
 import AnimalColorType from './animalColorType';
 import AnimalBreedType from './animalBreedType';
-import { URLRouting } from '../utilities/FormHelpers';
+import { URLRouting, SetFieldValues } from '../utilities/FormHelpers';
 import { Go, Routes } from "../Routing";
+import { GetCategory, GetSubCategory } from '../utilities/CategoryHelpers';
 
-const { categoryId } = QueryString.parse(window.location.search);
+const getUrlVars = () => {
+	var vars = [], hash;
+	var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).replace('#/', '').split('&');
+	for (var i = 0; i < hashes.length; i++) {
+		hash = hashes[i].split('=');
+		vars.push(hash[0]);
+		vars[hash[0].toLowerCase()] = hash[1];
+	}
+	return vars;
+};
+const getUrlVar = (name) =>{
+	const searchParms = getUrlVars()
+	return searchParms[name];
+};
+
+const categoryId = getUrlVar('categoryid');
 
 const getSubCategories = (categories, categoryName) => {
 	var category = categories.find(category => category.name.toLowerCase() === categoryName);
@@ -61,6 +76,8 @@ const getID = (categories, categoryName) => {
 
 const ServiceRequestForm = (props, errors, touched) => {
 	const localProps = props.formik;
+	const [activeCategory, setActiveCategory] = useState({});
+	const [activeSubCategory, setActiveSubCategory] = useState({});
 	const [Categories, setCategories] = useState([]);
 	const [PetTypes, setPetTypes] = useState([]);
 	const [AnimalBreeds, setAnimalBreeds] = useState([]);
@@ -110,7 +127,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 				let requestSubCategory = ''
 
 				const selectedType = () =>{
-					 requestCategory = (preSelectedTypes) ? preSelectedTypes.nameCategory : requestType ;
+					 requestCategory = (preSelectedTypes) ? preSelectedTypes.nameCategory : requestType;
 					if(requestCategory){
 						addSelectedValueOptions(result.data, requestCategory.toLowerCase());
 					}
@@ -124,18 +141,21 @@ const ServiceRequestForm = (props, errors, touched) => {
 					}
 					return requestSubCategory;
 				}
+				const fields = {
+					Categories: result.data,
+					Tabs: resultFormFieldNames.data.Tabs,
+					RequestPage: resultFormFieldNames.data.RequestPage,
+					MapPage: resultFormFieldNames.data.MapPage,
+					AdditionalInfoPage: resultFormFieldNames.data.AdditionalInfoPage,
+					SignInPage: resultFormFieldNames.data.SignInPage,
+					SignUpPage: resultFormFieldNames.data.SignUpPage,
+					ResetPasswordPage: resultFormFieldNames.data.ResetPasswordPage,
+					ContactID: contactID,
+					requestType: selectedType(),
+					subRequestType: selectedSubType()
+				};
 
-				localProps.setFieldValue('Categories', result.data);
-				localProps.setFieldValue('Tabs', resultFormFieldNames.data.Tabs);
-				localProps.setFieldValue('RequestPage', resultFormFieldNames.data.RequestPage);
-				localProps.setFieldValue('MapPage', resultFormFieldNames.data.MapPage);
-				localProps.setFieldValue('AdditionalInfoPage', resultFormFieldNames.data.AdditionalInfoPage);
-				localProps.setFieldValue('SignInPage', resultFormFieldNames.data.SignInPage);
-				localProps.setFieldValue('SignUpPage', resultFormFieldNames.data.SignUpPage);
-				localProps.setFieldValue('ResetPasswordPage', resultFormFieldNames.data.ResetPasswordPage);
-				localProps.setFieldValue('requestType', selectedType());
-				localProps.setFieldValue('subRequestType', selectedSubType());
-				localProps.setFieldValue('ContactID', contactID);
+				SetFieldValues(localProps, fields);
 
 				if (contactID) {
 					getContactDetails();
@@ -153,9 +173,9 @@ const ServiceRequestForm = (props, errors, touched) => {
 	}
 
 	const addSelectedValueOptions = (Categories, value)=>{
-		let ID = getID(Categories, value)
-
-		localProps.setFieldValue('requestTypeID', ID);
+		let ID = getID(Categories, value);
+		const category = GetCategory(Categories, ID);
+		setActiveCategory(category);
 
 		const subCategories = getSubCategories(Categories, value);
 		setSubCategories(subCategories);
@@ -164,14 +184,22 @@ const ServiceRequestForm = (props, errors, touched) => {
 		const fields = getIncludedFields(Categories, value);
 		const requiresLocation = getrequiresLocation(Categories, value);
 
-		localProps.setFieldValue('requestTypeDescriptionID', description);
-		localProps.setFieldValue('requiresLocation', (requiresLocation === undefined) ? true : requiresLocation);
+		const requestFields = {
+			requestTypeID: ID,
+			requestTypeDescriptionID: description,
+			requiresLocation: (requiresLocation === undefined) ? true : requiresLocation
+		}
+
+		SetFieldValues(localProps, requestFields);
 
 		if (value === 'website issue')
 		{
-			localProps.setFieldValue('Latitude', 39.40037792)
-			localProps.setFieldValue('Longitude', -76.60651907)
-			localProps.setFieldValue('location', '400 WASHINGTON AVE, TOWSON, 21204')
+			const addressFields = {
+				Latitude: 39.40037792,
+				Longitude: -76.60651907,
+				location: '400 WASHINGTON AVE, TOWSON, 21204'
+			};
+			SetFieldValues(localProps, addressFields);
 		}
 
 		pullServiceRequestFields(fields);
@@ -181,28 +209,31 @@ const ServiceRequestForm = (props, errors, touched) => {
 		const subCategories = Categories.flatMap(x => x.types);
 		const subInfo = getSubCategoriesIncludedDescription(subCategories, value);
 		let ID = getID(subCategories, value);
+		const subCategory = GetSubCategory(Categories, ID);
+		setActiveSubCategory(subCategory);
 		const isDisabled = getshouldDisableForm(subCategories, value);
-		const notes = getNote(subCategories, value);
-		setNotes(<div className="alert-information bc_alert" >
-			<i className="fa fa-icon fa-2x fa-info-circle"></i>
-			<p dangerouslySetInnerHTML={{ __html: notes }}></p>
-		</div>);
+		const notes = subCategory ? subCategory.note : null;
+		setNotes(<Note>{notes}</Note>);
 
-		localProps.setFieldValue('subRequestTypeID', ID);
-		localProps.setFieldValue('shouldDisableForm', isDisabled);
+		const requestSubFields = {
+			subRequestTypeID: ID,
+			shouldDisableForm: isDisabled
+		}
+
+		SetFieldValues(localProps, requestSubFields);
 
 		if (subInfo !== undefined) {
 			if (subInfo.description !== undefined) {
-				localProps.setFieldValue('subRequestTypeDescriptionID', subInfo.description);
+				SetFieldValues(localProps, {subRequestTypeDescriptionID: subInfo.description});
 			}
 			if (subInfo.streetAddress !== undefined) {
-				localProps.setFieldValue('subRequestTypeAddressID', subInfo.streetAddress);
+				SetFieldValues(localProps, {subRequestTypeAddressID: subInfo.streetAddress});
 			}
 			if (subInfo.city !== undefined) {
-				localProps.setFieldValue('subRequestTypeCityID', subInfo.city);
+				SetFieldValues(localProps, {subRequestTypeCityID: subInfo.city});
 			}
 			if (subInfo.zipCode !== undefined) {
-				localProps.setFieldValue('subRequestTypeZipID', subInfo.zipCode);
+				SetFieldValues(localProps, {subRequestTypeZipID: subInfo.zipCode});
 			}
 		}
 	}
@@ -219,13 +250,16 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 	const pullServiceRequestFields = (fields) => {
 		if (fields !== undefined) {
-			localProps.setFieldValue('requestTypeAddressID', fields.streetAddress);
-			localProps.setFieldValue('requestTypeCityID', fields.city);
-			localProps.setFieldValue('requestTypeZipID', fields.zipCode);
-			localProps.setFieldValue('isPanelRequired', true);
+			const addressFields = {
+				requestTypeAddressID: fields.streetAddress,
+				requestTypeCityID: fields.city,
+				requestTypeZipID: fields.zipCode,
+				isPanelRequired: true
+			};
+			SetFieldValues(localProps, addressFields);
 		}
 		else{
-			localProps.setFieldValue('isPanelRequired', false);
+			SetFieldValues(localProps, {isPanelRequired: false});
 		}
 	};
 
@@ -235,12 +269,13 @@ const ServiceRequestForm = (props, errors, touched) => {
 		const subBreeds = getAnimalSubCategories(AnimalBreeds, value);
 		setAnimalSubCategories(subBreeds.breeds);
 		setAnimalSex(subBreeds.sex);
-		localProps.setFieldValue('petTypeID', ID);
+		SetFieldValues(localProps, {petTypeID: ID});
 	};
 
 	const handleFieldChange = (changeEvent, lookupItems, propertyName) => {
 		const value = changeEvent.currentTarget.value.toLowerCase();
 		const id = getID(lookupItems, value);
+
 		localProps.setFieldValue(propertyName, id);
 	};
 
@@ -276,8 +311,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 	}
 
 	const buttonDisableValidation = () => {
-
-		return IsFormInComplete(props.formik);
+		return IsFormInComplete(props.formik, activeCategory);
 	}
 
 	const getContactDetails = async () => {
@@ -294,10 +328,14 @@ const ServiceRequestForm = (props, errors, touched) => {
 				const Email = getResponse.data.Results.Email;
 				const Phone = getResponse.data.Results.Telephone;
 
-				localProps.setFieldValue('NameFirst', NameFirst);
-				localProps.setFieldValue('NameLast', NameLast);
-				localProps.setFieldValue('Email', Email);
-				localProps.setFieldValue('Telephone', Phone);
+				const fields = {
+					NameFirst: NameFirst,
+					NameLast: NameLast,
+					Email: Email,
+					Telephone: Phone
+				};
+
+				SetFieldValues(localProps, fields);
 			}
 		}
 		catch (ex) {
@@ -316,6 +354,12 @@ const ServiceRequestForm = (props, errors, touched) => {
 	const callRegisterForm = () => {
 		Go(props, Routes.SignUp);
 	};
+
+	const logOutUser = () =>{
+		sessionStorage.clear();
+		SetFieldValues(localProps, {ContactID: ''});
+		SetFieldValues(localProps, {ignoreFormCompletion: true});
+	}
 
 	const { values, isSubmitting, ...rest } = props;
 
@@ -343,6 +387,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 	let disableButton = buttonDisableValidation();
 	let displayButton = buttonShowHideValidation();
 	loadSelectedItems(props);
+	const isAnimalCategory = activeCategory ? activeCategory.isAnimal : false;
 
 	return (
 
@@ -372,9 +417,12 @@ const ServiceRequestForm = (props, errors, touched) => {
 					rest={rest}
 					subCategories={subCategories} />
 
+				{activeSubCategory && activeSubCategory.warning && <Note>{activeSubCategory.warning}</Note>}
+
 				{localProps.values.shouldDisableForm && notes}
 
 				<PetType
+					shouldShow={isAnimalCategory}
 					requestType={requestType}
 					requestType_petAndAnimalIssue={returnRequestTypes("requestType_petAndAnimalIssue")}
 					subRequestType={subRequestType}
@@ -386,6 +434,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 					PetTypes={PetTypes} />
 
 				<OtherAnimalsTypes
+					shouldShow={isAnimalCategory}
 					subRequestType={subRequestType}
 					petType={petType}
 					returnRequestTypes={returnRequestTypes("petType_Others")}
@@ -397,6 +446,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 					OtherAnimalTypes={OtherAnimalTypes} />
 
 				<SexType
+					shouldShow={isAnimalCategory}
 					requestType={requestType}
 					returnRequestTypes={returnRequestTypes("requestType_petAndAnimalIssue")}
 					subRequestType={subRequestType}
@@ -409,6 +459,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 					animalSex={animalSex}
 				/>
 				<AnimalColorType
+					shouldShow={isAnimalCategory}
 					requestType={requestType}
 					requestType_petAndAnimalIssue={returnRequestTypes("requestType_petAndAnimalIssue")}
 					subRequestType={subRequestType}
@@ -423,6 +474,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 					AnimalColors={AnimalColors} />
 
 				<AnimalBreedType
+					shouldShow={isAnimalCategory}
 					requestType={requestType}
 					requestType_petAndAnimalIssue={returnRequestTypes("requestType_petAndAnimalIssue")}
 					subRequestType={subRequestType}
@@ -445,7 +497,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 						</div>) :
 						<div className = "cs-form-control">
 							<p name="userLoggedIn">{RequestPage.AlreadySignedInLabel} {sessionStorage.getItem("NameFirst")} {sessionStorage.getItem("NameLast")}</p>
-							<p name="notCorrectUser"><Link to="SignInForm">Not {sessionStorage.getItem("NameFirst")}? Log in to a different account. &nbsp; </Link></p>
+							<p name="notCorrectUser"><Link to="SignInForm" onClick={logOutUser}>Not {sessionStorage.getItem("NameFirst")}? Log in to a different account. &nbsp; </Link></p>
 							<input type="button" className="seButton pull-right" onClick={goToNextPage} disabled={disableButton} value="Next" />
 						</div> : ""}
 			</Form>

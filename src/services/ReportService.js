@@ -20,12 +20,11 @@ export const returnModel = (props, streetAddress, city, zipCode) => {
 		animalColorType,
 		otherAnimalTypesID,
 		otherAnimalTypes,
-		requestTypeDescription,
+		describeTheProblem,
 		requestTypeDescriptionID,
 		requestTypeAddressID,
 		requestTypeCityID,
 		requestTypeZipID,
-		subRequestTypeDescription,
 		subRequestTypeDescriptionID,
 		subRequestTypeAddress,
 		subRequestTypeAddressID,
@@ -42,14 +41,14 @@ export const returnModel = (props, streetAddress, city, zipCode) => {
 		{ Id: sexTypeID, Value: sexType },
 		{ Id: animalColorTypeID, Value: animalColorType },
 		{ Id: otherAnimalTypesID, Value: otherAnimalTypes },
-		{ Id: requestTypeDescriptionID, Value: requestTypeDescription },
+		{ Id: requestTypeDescriptionID, Value: describeTheProblem },
 		{ Id: requestTypeAddressID, requestTypeAddressID },
 		{ Id: requestTypeCityID, Value: requestTypeCityID },
 		{ Id: requestTypeZipID, requestTypeZipID },
 		{ Id: requestTypeAddressID, Value: streetAddress },
 		{ Id: requestTypeCityID, Value: city },
 		{ Id: requestTypeZipID, Value: zipCode },
-		{ Id: subRequestTypeDescriptionID, Value: subRequestTypeDescription },
+		{ Id: subRequestTypeDescriptionID, Value: describeTheProblem},
 		{ Id: subRequestTypeAddressID, Value: subRequestTypeAddress },
 		{ Id: subRequestTypeCityID, Value: subRequestTypeCity },
 		{ Id: subRequestTypeZipID, Value: subRequestTypeZip }
@@ -76,6 +75,7 @@ export const SubmitReport = async (actions, props) => {
 	const city = props.formik.values.city;
 	const zipCode = props.formik.values.zipCode;
 	const itemsToSubmit = returnModel(props, streetAddress, city, zipCode);
+
 	let response = null;
 	try {
 		response = await CreateReport(itemsToSubmit);

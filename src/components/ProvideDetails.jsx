@@ -146,12 +146,12 @@ const provideDetails = props => {
 
 	};
 
-	const goToAdditionalPage = async (values) => {
-		const isDetailsFormValid = await validateDetails(values);
+	const goToAdditionalPage = async () => {
+		const isDetailsFormValid = await validateDetails(formik.values);
 
 		if (isDetailsFormValid) {
 			const addressParts = location.split(',');
-			rest.formik.setFieldValue('requestTypeDescription', describeTheProblem);
+			rest.formik.setFieldValue('describeTheProblem', describeTheProblem);
 			rest.formik.setFieldValue('subRequestTypeAddress', addressParts[0]);
 			rest.formik.setFieldValue('subRequestTypeCity', addressParts[1]);
 			rest.formik.setFieldValue('subRequestTypeZip', (addressParts.length === 3) ? addressParts[2] : addressParts[3]);
@@ -206,9 +206,9 @@ const provideDetails = props => {
 		const fieldName = 'describeTheProblem';
 		formik.setFieldTouched(fieldName, true); // Hack since we aren't using default validation and submit
 		if (!problem) {
-			formik.setStatus({ [fieldName]: "Please enter a comment describing your problem." });
 			return false;
 		}
+
 		return true;
 	};
 
