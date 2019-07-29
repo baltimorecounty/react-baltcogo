@@ -13,9 +13,7 @@ import { GoBack, GoHome, Go, Routes } from "../Routing";
 
 // import DisplayFormikState from './helper';
 const SignIn = (props, routeProps) => {
-
-	const {Tabs, SignInPage, shouldDisableForm, ignoreFormCompletion, hasPasswordReset} = props.values;
-
+	const { Tabs, SignInPage, shouldDisableForm, ignoreFormCompletion, hasPasswordReset } = props.values;
 	const [fieldType, setFieldType] = useState('Password');
 	const handlePasswordToggleChange = () => {
 		setFieldType(fieldType === 'Password' ? 'text' : 'Password');
@@ -24,22 +22,18 @@ const SignIn = (props, routeProps) => {
 	if (IsFormInComplete(props) && !ignoreFormCompletion) {
 		GoHome(props);
 	}
-	
-	const hasAlertMessage = () =>{
-		console.log(props);
+
+	const getAlertMessage = () => {
 		let message = '';
-				
-		if(hasPasswordReset){
-			message =<Note className='bc_alert alert-success'>{SignInPage.ResetPasswordAlert.replace('{email address}', userEmail) }</Note>
+		if (hasPasswordReset) {
+			message = <Note className='bc_alert alert-success'>{SignInPage.ResetPasswordAlert.replace('{email address}', userEmail)}</Note>
 		}
-		else if (props.status)
-		{
-			message =<Note icon = 'Nothing' className='bc_alert alert-warning'>{props.status.incorrectEmail ? props.status.incorrectEmail : null}</Note>
+		else if (props.status) {
+			message = <Note icon='Nothing' className='bc_alert alert-warning'>{props.status.incorrectEmail ? props.status.incorrectEmail : null}</Note>
 		}
-				
 		return message;
 	}
-	
+
 	const handleLoginFailure = (actions, errors) => {
 		actions.setStatus({
 			success: errors,
@@ -47,7 +41,7 @@ const SignIn = (props, routeProps) => {
 		});
 	};
 
-	const resetAlerts = () =>{
+	const resetAlerts = () => {
 		props.setStatus('');
 		props.setFieldValue('hasPasswordReset', false);
 	}
@@ -74,7 +68,7 @@ const SignIn = (props, routeProps) => {
 		Go(props, Routes.ProvideDetails);
 	};
 
-	const goBack = () =>{
+	const goBack = () => {
 		resetAlerts();
 		GoBack(props);
 	}
@@ -82,7 +76,7 @@ const SignIn = (props, routeProps) => {
 	const userLogin = async (values, props, actions) => {
 		try {
 			const response = await Login(values.Email, values.Password);
-			const  {
+			const {
 				Results,
 				Errors
 			} = response.data;
@@ -105,11 +99,11 @@ const SignIn = (props, routeProps) => {
 	}
 
 	const userEmail = props.history.location.state;
-	const errorMessage = hasAlertMessage();
+	const errorMessage = getAlertMessage();
 
 	return (
 		<FormContainer title={SignInPage.SignInTitle}
-			tabNames = {Tabs}
+			tabNames={Tabs}
 			currentTab="ServiceRequestForm"
 			shouldDisableForm={shouldDisableForm}
 			isPanelRequired={true}
@@ -136,9 +130,9 @@ const SignIn = (props, routeProps) => {
 						const { errors = {}, touched } = props;
 						return (
 							<Form >
-								{(errorMessage)?
-									errorMessage:
-								 null}
+								{(errorMessage) ?
+									errorMessage :
+									null}
 								<div className={
 									props.errors.Email && props.touched.Email ? "cs-form-control error" : "cs-form-control"}>
 									<label htmlFor="Email">{SignInPage.EmailLabel}</label>
@@ -180,15 +174,15 @@ const SignIn = (props, routeProps) => {
 									<SeButton
 										text="Back"
 										type="button"
-										className = "seButton"
-										onClick = {goBack}
+										className="seButton"
+										onClick={goBack}
 									/>
 									<SeButton
 										text="Sign In and Continue"
 										type="submit"
 										isLoading={props.isSubmitting}
 										isLoadingText="Signing In..."
-										className = "seButton pull-right"
+										className="seButton pull-right"
 									/>
 								</div>
 
