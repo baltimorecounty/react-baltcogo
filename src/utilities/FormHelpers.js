@@ -1,4 +1,4 @@
-import { returnRequestTypes } from "../utilities//returnEnvironmentItems"
+
 import _ from 'lodash';
 
 export const IsFormInComplete = (props, category) => {
