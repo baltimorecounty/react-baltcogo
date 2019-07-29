@@ -65,7 +65,7 @@ const provideDetails = props => {
 
 		fetchData();
 	},
-		[query]);
+	[query]);
 
 	const { Categories = [] } = formik.values;
 	const subCategoryId = formik.values.subRequestTypeID;

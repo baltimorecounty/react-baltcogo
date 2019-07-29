@@ -1,4 +1,4 @@
-import { returnRequestTypes } from "../utilities//returnEnvironmentItems"
+
 import _ from 'lodash';
 
 export const IsFormInComplete = (props, category) => {
@@ -80,6 +80,5 @@ export const SetFieldValues = (props, fields) => {
 	  props.setFieldValue(field[0], field[1]);
 	});
 };
-
 
 export default IsFormInComplete

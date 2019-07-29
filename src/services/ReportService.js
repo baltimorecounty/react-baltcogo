@@ -9,7 +9,9 @@ export const returnModel = (props, streetAddress, city, zipCode) => {
 		Latitude,
 		ContactID,
 		requestTypeID,
+		requestTypeParentID,
 		requestType,
+		requestTypeParent,
 		subRequestTypeID,
 		subRequestType,
 		petTypeID,
@@ -24,18 +26,11 @@ export const returnModel = (props, streetAddress, city, zipCode) => {
 		requestTypeDescriptionID,
 		requestTypeAddressID,
 		requestTypeCityID,
-		requestTypeZipID,
-		subRequestTypeDescriptionID,
-		subRequestTypeAddress,
-		subRequestTypeAddressID,
-		subRequestTypeCity,
-		subRequestTypeCityID,
-		subRequestTypeZip,
-		subRequestTypeZipID
+		requestTypeZipID
 	} = props.formik.values;
 
 	const reportItems = [
-		{ Id: requestTypeID, Value: requestType },
+		(requestTypeParentID)?{ Id: requestTypeParentID, Value: requestTypeParent } : { Id: requestTypeID, Value: requestType },
 		{ Id: subRequestTypeID, Value: subRequestType },
 		{ Id: petTypeID, Value: petType },
 		{ Id: sexTypeID, Value: sexType },
@@ -44,11 +39,7 @@ export const returnModel = (props, streetAddress, city, zipCode) => {
 		{ Id: requestTypeDescriptionID, Value: describeTheProblem },
 		{ Id: requestTypeAddressID, Value: streetAddress },
 		{ Id: requestTypeCityID, Value: city },
-		{ Id: requestTypeZipID, Value: zipCode },
-		{ Id: subRequestTypeDescriptionID, Value: describeTheProblem},
-		{ Id: subRequestTypeAddressID, Value: subRequestTypeAddress },
-		{ Id: subRequestTypeCityID, Value: subRequestTypeCity },
-		{ Id: subRequestTypeZipID, Value: subRequestTypeZip }
+		{ Id: requestTypeZipID, Value: zipCode }
 	].filter((item) => !!item.Id);
 
 	var itemsToSubmit = {
