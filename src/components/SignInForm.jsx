@@ -13,9 +13,7 @@ import { GoBack, GoHome, Go, Routes } from "../Routing";
 
 // import DisplayFormikState from './helper';
 const SignIn = (props, routeProps) => {
-	console.log(props);
 	const { Tabs, SignInPage, shouldDisableForm, ignoreFormCompletion, hasPasswordReset } = props.values;
-
 	const [fieldType, setFieldType] = useState('Password');
 	const handlePasswordToggleChange = () => {
 		setFieldType(fieldType === 'Password' ? 'text' : 'Password');
@@ -25,17 +23,14 @@ const SignIn = (props, routeProps) => {
 		GoHome(props);
 	}
 
-	const hasAlertMessage = () => {
-		console.log(props);
+	const getAlertMessage = () => {
 		let message = '';
-
 		if (hasPasswordReset) {
 			message = <Note className='bc_alert alert-success'>{SignInPage.ResetPasswordAlert.replace('{email address}', userEmail)}</Note>
 		}
 		else if (props.status) {
 			message = <Note icon='Nothing' className='bc_alert alert-warning'>{props.status.incorrectEmail ? props.status.incorrectEmail : null}</Note>
 		}
-
 		return message;
 	}
 
@@ -104,7 +99,7 @@ const SignIn = (props, routeProps) => {
 	}
 
 	const userEmail = props.history.location.state;
-	const errorMessage = hasAlertMessage();
+	const errorMessage = getAlertMessage();
 
 	return (
 		<FormContainer title={SignInPage.SignInTitle}
