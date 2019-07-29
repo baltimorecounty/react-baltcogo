@@ -11,7 +11,7 @@ import { returnMapEndPoint } from "../utilities//returnEnvironmentItems"
 import { VerifyAddress } from '../services/authService';
 import IssueType from './IssueType';
 import DescribeTheProblem from './describeTheProblem';
-import { SubmitReport} from "../services/ReportService";
+import { SubmitReport } from "../services/ReportService";
 import { HasResponseErrors } from "../utilities/CitysourcedResponseHelpers";
 import SeButton from './SeButton';
 import { GoHome, Go, Routes } from "../Routing";
@@ -65,7 +65,7 @@ const provideDetails = props => {
 
 		fetchData();
 	},
-	[query]);
+		[query]);
 
 	const { Categories = [] } = formik.values;
 	const subCategoryId = formik.values.subRequestTypeID;
@@ -134,11 +134,10 @@ const provideDetails = props => {
 					setMarkerLatitude(newLat);
 					rest.formik.setFieldValue('Latitude', newLat);
 					rest.formik.setFieldValue('Longitude', newLng);
-					rest.formik.setFieldValue('ShowErrorMsg', 0);
 				}
 				catch (ex) {
 					rest.formik.setFieldValue('location', '');
-					rest.formik.setFieldValue('ShowErrorMsg', 1);
+					rest.formik.setFieldTouched('location', true);
 					rest.formik.errors.location = 'You must select a location inside Baltimore County.';
 				}
 			}
@@ -194,7 +193,7 @@ const provideDetails = props => {
 			}
 			return true;
 		}
-		catch(ex) {
+		catch (ex) {
 			formik.setStatus({ [addressProperty]: 'Something went wrong please try again in a few moments.' });
 		}
 		return false;
