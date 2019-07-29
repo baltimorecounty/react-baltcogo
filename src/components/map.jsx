@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-import { withGoogleMap, GoogleMap, withScriptjs, InfoWindow, Marker } from "react-google-maps";
+import { withGoogleMap, GoogleMap, withScriptjs, Marker } from "react-google-maps";
 import { compose, withProps, withState, withHandlers } from "recompose";
 import Geocode from "react-geocode";
 Geocode.setApiKey('AIzaSyAqazsw3wPSSxOFVmij32C_LIhBSuyUNi8');
@@ -51,7 +51,7 @@ class Map extends React.Component {
 
 	render() {
 
-		const { address, lat, lng, onMarkerDragEnd, onZoom } = this.props;
+		const { lat, lng, onMarkerDragEnd, onZoom } = this.props;
 		const mapElement = <div style={{ height: this.props.height }} />;
 		const AsyncMap = compose(
 			withProps({
