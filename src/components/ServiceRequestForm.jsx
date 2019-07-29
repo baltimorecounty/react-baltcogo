@@ -224,17 +224,23 @@ const ServiceRequestForm = (props, errors, touched) => {
 		SetFieldValues(localProps, requestSubFields);
 
 		if (subInfo !== undefined) {
+			if (subInfo.parentId !== undefined) {
+				SetFieldValues(localProps, {requestTypeParentID: subInfo.parentId});
+			}
+			if (subInfo.parentName !== undefined) {
+				SetFieldValues(localProps, {requestTypeParent: subInfo.parentName});
+			}
 			if (subInfo.description !== undefined) {
-				SetFieldValues(localProps, {subRequestTypeDescriptionID: subInfo.description});
+				SetFieldValues(localProps, {requestTypeDescriptionID: subInfo.description});
 			}
 			if (subInfo.streetAddress !== undefined) {
-				SetFieldValues(localProps, {subRequestTypeAddressID: subInfo.streetAddress});
+				SetFieldValues(localProps, {requestTypeAddressID: subInfo.streetAddress});
 			}
 			if (subInfo.city !== undefined) {
-				SetFieldValues(localProps, {subRequestTypeCityID: subInfo.city});
+				SetFieldValues(localProps, {requestTypeCityID: subInfo.city});
 			}
 			if (subInfo.zipCode !== undefined) {
-				SetFieldValues(localProps, {subRequestTypeZipID: subInfo.zipCode});
+				SetFieldValues(localProps, {requestTypeZipID: subInfo.zipCode});
 			}
 		}
 	}
