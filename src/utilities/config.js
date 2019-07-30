@@ -48,7 +48,7 @@ export const jsonFileLocationsTest = [
 ];
 export const jsonFileLocationsStage = [
 	{ key: 'results', value: '//staging.baltimorecountymd.gov/sebin/q/o/categories.json' },
-	{ key: 'resultPetTypes', value: '//staging.baltimorecountymd.gov/sebin/m/b/pet-types.json' },
+	{ key: 'resultPetTypes', value: '//staging.baltimorecountymd.gov/sebin/m/c/pet-types.json' },
 	{ key: 'resultAnimalBreeds', value: '//staging.baltimorecountymd.gov/sebin/y/b/animal-breeds.json' },
 	{ key: 'resultAnimalColors', value: '//staging.baltimorecountymd.gov/sebin/u/v/animal-colors.json' },
 	{ key: 'resultAnimalTypes', value: '//staging.baltimorecountymd.gov/sebin/a/f/animal-types.json' },
