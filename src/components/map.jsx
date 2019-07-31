@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-import { withGoogleMap, GoogleMap, withScriptjs, InfoWindow, Marker } from "react-google-maps";
+import { withGoogleMap, GoogleMap, withScriptjs, Marker } from "react-google-maps";
 import { compose, withProps, withState, withHandlers } from "recompose";
 import Geocode from "react-geocode";
 Geocode.setApiKey('AIzaSyAqazsw3wPSSxOFVmij32C_LIhBSuyUNi8');
@@ -51,13 +51,14 @@ class Map extends React.Component {
 
 	render() {
 
-		const { address, lat, lng, onMarkerDragEnd, onZoom } = this.props;
+		const { lat, lng, onMarkerDragEnd, onZoom } = this.props;
+		const mapElement = <div style={{ height: this.props.height }} />;
 		const AsyncMap = compose(
 			withProps({
 				googleMapURL: "https://maps.google.com/maps/api/js?key=AIzaSyAqazsw3wPSSxOFVmij32C_LIhBSuyUNi8&libraries=geometry,drawing,places",
 				loadingElement: <div style={{ height: `100%` }} />,
-				containerElement: <div style={{ height: this.props.height }} />,
-				mapElement: <div style={{ height: `100%` }} />,
+				containerElement: mapElement,
+				mapElement: mapElement,
 			}),
 			withState('zoom', 'onZoomChange', this.props.zoom),
 			withHandlers(() => {
@@ -95,15 +96,7 @@ class Map extends React.Component {
 
 
 				>
-					{address !== '' ?
-						<InfoWindow
-							onClose={this.onInfoWindowClose}
-							position={{ lat: (lat + 0.0018), lng: lng }}
-						>
-							<div>
-								<span style={{ padding: 0, margin: 0 }}>{address}</span>
-							</div>
-						</InfoWindow> : ''}
+
 				</Marker>
 			</GoogleMap>
 		);

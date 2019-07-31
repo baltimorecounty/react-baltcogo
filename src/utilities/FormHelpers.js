@@ -1,61 +1,84 @@
-import { returnRequestTypes } from "../utilities//returnEnvironmentItems"
-export const IsFormInComplete = (props) => {
 
-	let requestType = props.values['requestType'].toLowerCase();
-	let subRequestType = props.values['subRequestType'].toLowerCase();
+import _ from 'lodash';
 
-	if (requestType !== ""
-		&& subRequestType !== "") {
-		if (requestType === returnRequestTypes("requestType_RoadsAndSidewalks").toLowerCase()
-			&& subRequestType === returnRequestTypes("subCategory_IcyConditions").toLowerCase()) {
-			return true;
-		}
-		else if ((requestType === returnRequestTypes("requestType_WaterandSewerIssues").toLowerCase())
-			&& (subRequestType === returnRequestTypes("subCategory_SewerIssues").toLowerCase() ||
-				subRequestType === returnRequestTypes("subCategory_StormWaterIssues").toLowerCase() ||
-				subRequestType === returnRequestTypes("subCategory_WaterSupplyIssues").toLowerCase()
-			)) {
-			return true;
-		}
-		else if ((requestType === returnRequestTypes("requestType_TrashRecycleIssue").toLowerCase())
-			&& (subRequestType === returnRequestTypes("subCategory_CanOrLidLostDamaged").toLowerCase() ||
-				subRequestType === returnRequestTypes("subCategory_PropertyDamangeDuringCollecttion").toLowerCase() ||
-				subRequestType === returnRequestTypes("subCategory_RecyclingNotCollected").toLowerCase() ||
-				subRequestType === returnRequestTypes("subCategory_RequestToStartNewCollection").toLowerCase() ||
-				subRequestType === returnRequestTypes("subCategory_TrashNotCollected").toLowerCase() ||
-				subRequestType === returnRequestTypes("subCategory_YardWasteNotCollected").toLowerCase()
-			)) {
-			return true;
-		}
-		else if (requestType === returnRequestTypes("requestType_petAndAnimalIssue").toLowerCase()
-			&& subRequestType !== ""
-			&& props.values['petType'] === "") {
-			return true;
-		}
-		else if (requestType === returnRequestTypes("requestType_petAndAnimalIssue").toLowerCase()
-			&& subRequestType !== ""
-			&& props.values['petType'] !== ""
-			&& (props.values['petType'].toLowerCase() === returnRequestTypes("petTypeCat").toLowerCase()
-				|| props.values['petType'].toLowerCase() === returnRequestTypes("petTypeDog").toLowerCase())
-			&& props.values['animalColorType'] === "") {
-			return true;
-		}
-		else if (requestType === returnRequestTypes("requestType_petAndAnimalIssue").toLowerCase()
-			&& subRequestType !== ""
-			&& (props.values['petType'] !== ""
-				&& (props.values['petType'].toLowerCase() === returnRequestTypes("petType_Others").toLowerCase()
-					&& props.values['otherAnimalTypes'] === ""))) {
-			return true;
-		}
-		else {
+export const IsFormInComplete = (props, category) => {
+	const {
+		isAnimal: isAnimalCategory
+	} = category || {};
+	const {
+		otherAnimalTypes,
+		animalColorType,
+		petType,
+		requestType,
+		subRequestType
+	} = props.values || {};
 
-			return false;
-		}
-	}
-	else {
+	if (!requestType || !subRequestType) {
 		return true;
+	}
+
+	if (isAnimalCategory) {
+		if (!petType) {
+			return true;
+		}
+
+		const isCatOrDog = petType.toLowerCase() === 'cat' || petType.toLowerCase() === 'dog';
+
+		if (isCatOrDog && !animalColorType) {
+			return true;
+		}
+
+		const isOtherPetType = petType.toLowerCase() === 'other';
+
+		if (isOtherPetType && !otherAnimalTypes) {
+			return true;
+		}
+	};
+
+	return false;
+}
+
+export const URLRouting = (categories, categoryId) =>{
+	if(categories.length > 0 && categoryId){
+
+		let nameSubCat = '';
+		let idSubCat = '';
+		let nameCat = '';
+		let idCat = '';
+
+		const getSelectedSubCategory = categories.find(items => (items.types.find(type => type.id.toString() === categoryId)));
+
+		if (getSelectedSubCategory){
+			nameCat = getSelectedSubCategory.name;
+			idCat = getSelectedSubCategory.id;
+			nameSubCat = getSelectedSubCategory.types.find(type => type.id.toString() === categoryId).name;
+			idSubCat = getSelectedSubCategory.types.find(type => type.id.toString() === categoryId).id;
+		}
+		else
+		{
+			const getSelectedCategory = _.filter(categories, { id: categoryId });
+			nameCat = (getSelectedCategory.length > 0) ? getSelectedCategory[0].name : '' ;
+			idCat =  (getSelectedCategory.length > 0) ? getSelectedCategory[0].id : '' ;
+		}
+
+		const Selections = {
+			"nameCategory":  nameCat ,
+			"idCategory": idCat ,
+			"nameSubCategory": nameSubCat ,
+			"idSubCategory": idSubCat
+		}
+
+		return Selections
+	}
+	else{
+		return null;
 	}
 }
 
+export const SetFieldValues = (props, fields) => {
+	Object.entries(fields).forEach(field => {
+	  props.setFieldValue(field[0], field[1]);
+	});
+};
 
 export default IsFormInComplete

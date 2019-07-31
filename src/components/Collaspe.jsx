@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { UncontrolledCollapse, Button, CardBody, Card } from 'reactstrap';
+import { UncontrolledCollapse, Button} from 'reactstrap';
 import Map from './map';
 
 const Collaspe = ({ address, ZoomValue, lat, lng, onZoom, markerLat, onChange, onMarkerDragEnd }) => {
@@ -11,18 +11,13 @@ const Collaspe = ({ address, ZoomValue, lat, lng, onZoom, markerLat, onChange, o
 			</Button>
 			<UncontrolledCollapse toggler="#toggler">
 				<div className="google-map">
-					<Card>
-						<CardBody>
-
-							<Map
-								address={address} lat={lat} lng={lng} onZoom={onZoom} markerLat={markerLat} onMarkerDragEnd={onMarkerDragEnd}
-								center={{ lat, lng }}
-								height='300px'
-								zoom={ZoomValue === '' ? 15 : ZoomValue}
-								streetViewControl='false'
-							/>
-						</CardBody>
-					</Card>
+					<Map
+						address={address} lat={lat} lng={lng} onZoom={onZoom} markerLat={markerLat} onMarkerDragEnd={onMarkerDragEnd}
+						center={{ lat, lng }}
+						height='300px'
+						zoom={ZoomValue === '' ? 15 : ZoomValue}
+						streetViewControl='false'
+					/>
 				</div>
 			</UncontrolledCollapse>
 		</React.Fragment>

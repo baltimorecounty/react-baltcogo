@@ -9,7 +9,9 @@ export const returnModel = (props, streetAddress, city, zipCode) => {
 		Latitude,
 		ContactID,
 		requestTypeID,
+		requestTypeParentID,
 		requestType,
+		requestTypeParent,
 		subRequestTypeID,
 		subRequestType,
 		petTypeID,
@@ -20,39 +22,24 @@ export const returnModel = (props, streetAddress, city, zipCode) => {
 		animalColorType,
 		otherAnimalTypesID,
 		otherAnimalTypes,
-		requestTypeDescription,
+		describeTheProblem,
 		requestTypeDescriptionID,
 		requestTypeAddressID,
 		requestTypeCityID,
-		requestTypeZipID,
-		subRequestTypeDescription,
-		subRequestTypeDescriptionID,
-		subRequestTypeAddress,
-		subRequestTypeAddressID,
-		subRequestTypeCity,
-		subRequestTypeCityID,
-		subRequestTypeZip,
-		subRequestTypeZipID
+		requestTypeZipID
 	} = props.formik.values;
 
 	const reportItems = [
-		{ Id: requestTypeID, Value: requestType },
+		(requestTypeParentID)?{ Id: requestTypeParentID, Value: requestTypeParent } : { Id: requestTypeID, Value: requestType },
 		{ Id: subRequestTypeID, Value: subRequestType },
 		{ Id: petTypeID, Value: petType },
 		{ Id: sexTypeID, Value: sexType },
 		{ Id: animalColorTypeID, Value: animalColorType },
 		{ Id: otherAnimalTypesID, Value: otherAnimalTypes },
-		{ Id: requestTypeDescriptionID, Value: requestTypeDescription },
-		{ Id: requestTypeAddressID, requestTypeAddressID },
-		{ Id: requestTypeCityID, Value: requestTypeCityID },
-		{ Id: requestTypeZipID, requestTypeZipID },
+		{ Id: requestTypeDescriptionID, Value: describeTheProblem },
 		{ Id: requestTypeAddressID, Value: streetAddress },
 		{ Id: requestTypeCityID, Value: city },
-		{ Id: requestTypeZipID, Value: zipCode },
-		{ Id: subRequestTypeDescriptionID, Value: subRequestTypeDescription },
-		{ Id: subRequestTypeAddressID, Value: subRequestTypeAddress },
-		{ Id: subRequestTypeCityID, Value: subRequestTypeCity },
-		{ Id: subRequestTypeZipID, Value: subRequestTypeZip }
+		{ Id: requestTypeZipID, Value: zipCode }
 	].filter((item) => !!item.Id);
 
 	var itemsToSubmit = {
@@ -77,18 +64,20 @@ export const SubmitReport = async (actions, props) => {
 	const zipCode = props.formik.values.zipCode;
 	const itemsToSubmit = returnModel(props, streetAddress, city, zipCode);
 
+	let response = null;
 	try {
-		const response = await CreateReport(itemsToSubmit);
+		response = await CreateReport(itemsToSubmit);
 		if (HasResponseErrors(response)) {
 			const errorsReturned = GetResponseErrors(response);
-			props.Field.ErrorMsg = errorsReturned;
-			throw new Error(errorsReturned);
+			props.formik.setStatus({ responseError: errorsReturned});
 		}
 
-		Go(props, Routes.SubmitForm, response);
+		props.formik.setStatus({ responseError: null});
 	} catch (ex) {
 		console.error(ex.message);
 	}
+
+	Go(props, Routes.SubmitForm, response);
 };
 
 export default SubmitReport;

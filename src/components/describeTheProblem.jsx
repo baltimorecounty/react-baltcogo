@@ -1,31 +1,42 @@
 import React from "react";
+import classNames from 'classnames';
+import Alert from './Alert';
+import { GetErrorDetails } from '../utilities/FormikHelpers';
 import { Field } from "formik";
 
-import ErrorMsg from "./ErrorMessage";
-const DescribeTheProblem = ({ errorsDescribeTheProblem, touchedDescribeTheProblem, pageFieldName }) => {
+const DescribeTheProblem = ({ name, formik, pageFieldName }) => {
+	const { values = {} } = formik;
+	const {
+		isTouched,
+		hasError,
+		message: errorMessage
+	} = GetErrorDetails(name, formik);
+	const shouldDisplayValidation = isTouched && hasError;
+	const containerCssClasses = classNames('cs-form-control', 'address-search', { 'error': shouldDisplayValidation });
+	const fieldCssClasses = classNames('text-input', { 'error': shouldDisplayValidation });
+	const handleChange = changeEvent => {
+		formik.setFieldValue(name, changeEvent.target.value);
+	};
 
 	return (
 		<React.Fragment>
-			<div className={
-				errorsDescribeTheProblem && touchedDescribeTheProblem ? "cs-form-control address-search error" : "cs-form-control address-search"}>
-				<label htmlFor="describeTheProblem"
+			<div className={containerCssClasses}>
+				<label htmlFor={name}
 
 				>{pageFieldName}</label>
 				<Field
 					component="textarea"
 					placeholder="Maximum 2,000 characters."
-					name="describeTheProblem"
-					className={`text-input ${errorsDescribeTheProblem && touchedDescribeTheProblem ? "error" : ""}`}
+					name={name}
+					className={fieldCssClasses}
+					value={values[name]}
+					maxLength="2000"
+					onChange={handleChange}
 				/>
-
-				<p role='alert' className="error-message">
-					<ErrorMsg
-						errormessage={errorsDescribeTheProblem}
-						touched={touchedDescribeTheProblem} />
-				</p>
+				{shouldDisplayValidation && <Alert className="error-message">
+					{errorMessage}
+				</Alert>}
 			</div>
-
-
 		</React.Fragment>
 	);
 };
