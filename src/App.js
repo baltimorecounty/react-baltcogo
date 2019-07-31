@@ -1,28 +1,20 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
+import React from 'react';
 import './App.css';
+import withFormik from './components/withFormik';
+import DisplayFormikState from './components/helper';
+import checkEnvironment from './utilities/returnEnvironmentItems';
+import { Router } from './Routing';
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
-  }
+function App(props) {
+	var Domain = checkEnvironment();
+	return (
+		<main className="container" >
+			<Router {...props} />
+			{/* This is used for debugging purposes.  */}
+			{ Domain === "localhost:3000" ?  <DisplayFormikState {...props} /> : null}
+		</main>
+
+	);
 }
-
-export default App;
+//export default App;
+export default withFormik(App)
