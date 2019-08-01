@@ -15,7 +15,7 @@ export const returnAPIEndPoint = (endPointName) => {
 		endPoint = _.filter(configItems.endPointsTest, { key: endPointName })
 	}else if(domain === "staging.baltimorecountymd.gov"){
 		endPoint = _.filter(configItems.endPointsStage, { key: endPointName })
-	}else if(domain === "baltimorecountymd.gov"){
+	}else if(domain === "www.baltimorecountymd.gov"){
 		endPoint = _.filter(configItems.endPointsProd, { key: endPointName })
 	}else{
 		endPoint = _.filter(configItems.endPointsLocal, { key: endPointName })}
@@ -30,7 +30,7 @@ export const returnJsonFileLocations = (fileName) => {
 		fileLocation = _.filter(configItems.jsonFileLocationsTest, { key: fileName })
 	}else if(domain === "staging.baltimorecountymd.gov"){
 		fileLocation = _.filter(configItems.jsonFileLocationsStage, { key: fileName })
-	}else if(domain === "baltimorecountymd.gov"){
+	}else if(domain === "www.baltimorecountymd.gov"){
 		fileLocation = _.filter(configItems.jsonFileLocationsProd, { key: fileName })
 	}else{
 		fileLocation = _.filter(configItems.jsonFileLocationsLocal, { key: fileName })}
@@ -45,7 +45,7 @@ export const returnRequestTypes = (requestTypeName) => {
 		requestType = _.filter(configItems.formTypesTest, { key: requestTypeName })
 	}else if(domain === "staging.baltimorecountymd.gov"){
 		requestType = _.filter(configItems.formTypesStage, { key: requestTypeName })
-	}else if(domain === "baltimorecountymd.gov"){
+	}else if(domain === "www.baltimorecountymd.gov"){
 		requestType = _.filter(configItems.formTypesProd, { key: requestTypeName })
 	}else{
 		requestType = _.filter(configItems.formTypesTest, { key: requestTypeName })}
@@ -60,7 +60,7 @@ export const returnMapEndPoint = (mapEndPointName) => {
 		mapEndPoint =  _.filter(configItems.mapEndPointTest, { key: mapEndPointName })
 	}else if(domain === "staging.baltimorecountymd.gov"){
 		mapEndPoint =  _.filter(configItems.mapEndPointStage, { key: mapEndPointName })
-	}else if(domain === "baltimorecountymd.gov"){
+	}else if(domain === "www.baltimorecountymd.gov"){
 		mapEndPoint =  _.filter(configItems.mapEndPointProd, { key: mapEndPointName })
 	}else{
 		mapEndPoint =  _.filter(configItems.mapEndPointDevelopment, { key: mapEndPointName })}

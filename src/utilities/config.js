@@ -55,12 +55,12 @@ export const jsonFileLocationsStage = [
 	{ key: 'resultFormFieldNames', value: '//staging.baltimorecountymd.gov/sebin/c/w/form-field-names.json' }
 ];
 export const jsonFileLocationsProd = [
-	{ key: 'results', value: '//baltimorecountymd.gov/sebin/q/m/categories.json' },
-	{ key: 'resultPetTypes', value: '//baltimorecountymd.gov/sebin/m/a/pet-types.json' },
-	{ key: 'resultAnimalBreeds', value: '//baltimorecountymd.gov/sebin/y/a/animal-breeds.json' },
-	{ key: 'resultAnimalColors', value: '//baltimorecountymd.gov/sebin/u/u/animal-colors.json' },
-	{ key: 'resultAnimalTypes', value: '//baltimorecountymd.gov/sebin/a/e/animal-types.json' },
-	{ key: 'resultFormFieldNames', value: '//baltimorecountymd.gov/sebin/c/x/form-field-names.json' }
+	{ key: 'results', value: '/sebin/q/o/categories.json' },
+	{ key: 'resultPetTypes', value: '/sebin/m/c/pet-types.json' },
+	{ key: 'resultAnimalBreeds', value: '/sebin/y/b/animal-breeds.json' },
+	{ key: 'resultAnimalColors', value: '/sebin/u/v/animal-colors.json' },
+	{ key: 'resultAnimalTypes', value: '/sebin/a/f/animal-types.json' },
+	{ key: 'resultFormFieldNames', value: '/sebin/c/w/form-field-names.json' }
 ];
 export const formTypesTest = [
 	{ key: 'requestType_petAndAnimalIssue', value: 'Pets and Animals' },
