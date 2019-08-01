@@ -24,27 +24,27 @@ export function ResetPassword(Email) {
 	return http.post(endpointResetPassword, { Email });
 }
 export const  CreateReport = (data) => {
-	 http.post(apiReportUrl, data );
+	 return http.post(apiReportUrl, data );
 }
 export const  GetReportByID = (ReportID) => {
-	 http.get(apiReportUrl + ReportID);
+	return http.get(apiReportUrl + ReportID);
 }
 export const GetReportByLatLong = (X, Y) => {
-	 http.get(apiReportUrl + X + Y);
+	return http.get(apiReportUrl + X + Y);
 }
 export const  GetReportByLatLongRadius = (X, Y, Radius) => {
-	 http.get(apiReportUrl + X + Y + Radius);
+	return http.get(apiReportUrl + X + Y + Radius);
 }
 export function VerifyAddress(address) {
 	const endpointVerifyAddress = returnConfigItems("endPoints","apiVerifyAddressUrl");
 	return http.get(endpointVerifyAddress + "/" + address);
 }
 export const GetContactAddress = (id) =>{
-	 http.get(apiContactUrl + id + "/addresses");
+	return http.get(apiContactUrl + id + "/addresses");
 }
 export const GetContactDetails = (id) => {
-	 http.get(apiContactUrl + id);
+	return http.get(apiContactUrl + id);
 }
 export const CreateContactAddress = (id, VerificationId, Name) => {
-	http.post(apiContactUrl + id + "/addresses", { VerificationId, Name });
+	return http.post(apiContactUrl + id + "/addresses", { VerificationId, Name });
 }
