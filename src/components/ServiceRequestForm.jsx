@@ -168,7 +168,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 	catch (ex) {
 		console.error('service request form data', ex);
 	}
-	
+
 	const SelectedValue = (Categories) =>{
 		return URLRouting(Categories, categoryId);
 	}
@@ -378,7 +378,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 			if (requestType) {
 				if (subCategories.length === 0) {
 					const value = requestType.toLowerCase();
-					const subCategories = getSubCategories(Categories, value ? value : value);
+					const subCategories = getSubCategories(Categories, value);
 					setSubCategories(subCategories);
 					if (petType) {
 						let value = petType.toLowerCase();
