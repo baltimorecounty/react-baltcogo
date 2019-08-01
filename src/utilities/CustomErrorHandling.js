@@ -25,7 +25,6 @@ export function formatPhoneNumber(input, format, formattedPhoneNumber, returnBoo
 	if (numberOfXs === numbersOnly.length || hasOneAsPrefix) {
 		numbersOnly.forEach(function (number) {
 			format = format.replace('x', number);
-			formattedPhoneNumber = format;
 		});
 		returnedObject["returnBooleanVal"] = true;
 		returnedObject["formattedPhoneNumber"] = format;
