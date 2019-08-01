@@ -8,7 +8,7 @@ import Note from './Note';
 import { Link } from 'react-router-dom';
 import { GetContactDetails } from '../services/authService';
 import { IsFormInComplete } from "../utilities/FormHelpers";
-import { returnJsonFileLocations, returnRequestTypes } from "../utilities//returnEnvironmentItems";
+import { returnConfigItems } from "../utilities//returnEnvironmentItems";
 import PetType from "./petType";
 import RequestCategory from "./requestCategory";
 import RequestSubCategory from "./requestSubCategory";
@@ -97,22 +97,22 @@ const ServiceRequestForm = (props, errors, touched) => {
 		useEffect(() => {
 			const fetchData = async () => {
 				const result = await axios(
-					returnJsonFileLocations("results"),
+					returnConfigItems("jsonFileLocations", "results"),
 				);
 				const resultPetTypes = await axios(
-					returnJsonFileLocations("resultPetTypes"),
+					returnConfigItems("jsonFileLocations","resultPetTypes"),
 				);
 				const resultAnimalBreeds = await axios(
-					returnJsonFileLocations("resultAnimalBreeds"),
+					returnConfigItems("jsonFileLocations","resultAnimalBreeds"),
 				);
 				const resultAnimalColors = await axios(
-					returnJsonFileLocations("resultAnimalColors"),
+					returnConfigItems("jsonFileLocations","resultAnimalColors"),
 				);
 				const resultAnimalTypes = await axios(
-					returnJsonFileLocations("resultAnimalTypes"),
+					returnConfigItems("jsonFileLocations","resultAnimalTypes"),
 				);
 				const resultFormFieldNames = await axios(
-					returnJsonFileLocations("resultFormFieldNames"),
+					returnConfigItems("jsonFileLocations","resultFormFieldNames"),
 				);
 
 				setCategories(result.data);
@@ -395,6 +395,9 @@ const ServiceRequestForm = (props, errors, touched) => {
 	let displayButton = buttonShowHideValidation();
 	loadSelectedItems(props);
 	const isAnimalCategory = activeCategory ? activeCategory.isAnimal : false;
+	const petAndAnimalIssue = returnConfigItems("formTypes","requestType_petAndAnimalIssue");
+	const petTypeCat = returnConfigItems("formTypes","petTypeCat");
+	const petTypeDog = returnConfigItems("formTypes","petTypeDog");
 
 	return (
 
@@ -431,7 +434,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 				<PetType
 					shouldShow={isAnimalCategory}
 					requestType={requestType}
-					requestType_petAndAnimalIssue={returnRequestTypes("requestType_petAndAnimalIssue")}
+					requestType_petAndAnimalIssue={petAndAnimalIssue}
 					subRequestType={subRequestType}
 					errorsPetType={localProps.errors.petType}
 					touchedPetType={localProps.touched.petType}
@@ -444,7 +447,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 					shouldShow={isAnimalCategory}
 					subRequestType={subRequestType}
 					petType={petType}
-					returnRequestTypes={returnRequestTypes("petType_Others")}
+					returnRequestTypes={returnConfigItems("formTypes","petType_Others")}
 					errorsOtherAnimalTypes={localProps.errors.otherAnimalTypes}
 					touchedOtherAnimalTypes={localProps.touched.otherAnimalTypes}
 					pageFieldName={RequestPage.PetTypeOther}
@@ -455,7 +458,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 				<SexType
 					shouldShow={isAnimalCategory}
 					requestType={requestType}
-					returnRequestTypes={returnRequestTypes("requestType_petAndAnimalIssue")}
+					returnRequestTypes={petAndAnimalIssue}
 					subRequestType={subRequestType}
 					checkPetType={checkPetType(petType)}
 					errorsSexType={localProps.errors.sexType}
@@ -468,11 +471,11 @@ const ServiceRequestForm = (props, errors, touched) => {
 				<AnimalColorType
 					shouldShow={isAnimalCategory}
 					requestType={requestType}
-					requestType_petAndAnimalIssue={returnRequestTypes("requestType_petAndAnimalIssue")}
+					requestType_petAndAnimalIssue={petAndAnimalIssue}
 					subRequestType={subRequestType}
 					petType={petType}
-					petTypeCat={returnRequestTypes("petTypeCat")}
-					petTypeDog={returnRequestTypes("petTypeDog")}
+					petTypeCat={petTypeCat}
+					petTypeDog={petTypeDog}
 					errorsAnimalColorType={localProps.errors.animalColorType}
 					touchedAnimalColorType={localProps.touched.animalColorType}
 					pageFieldName={RequestPage.PetColor}
@@ -483,11 +486,11 @@ const ServiceRequestForm = (props, errors, touched) => {
 				<AnimalBreedType
 					shouldShow={isAnimalCategory}
 					requestType={requestType}
-					requestType_petAndAnimalIssue={returnRequestTypes("requestType_petAndAnimalIssue")}
+					requestType_petAndAnimalIssue={petAndAnimalIssue}
 					subRequestType={subRequestType}
 					petType={petType}
-					petTypeCat={returnRequestTypes("petTypeCat")}
-					petTypeDog={returnRequestTypes("petTypeDog")}
+					petTypeCat={petTypeCat}
+					petTypeDog={petTypeDog}
 					errorsAnimalBreedType={localProps.errors.animalBreedType}
 					touchedAnimalBreedType={localProps.touched.animalBreedType}
 					pageFieldName={RequestPage.PetBreed}

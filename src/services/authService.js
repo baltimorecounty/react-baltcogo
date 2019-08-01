@@ -1,12 +1,15 @@
 import http from "./httpService";
-import { returnAPIEndPoint } from "../utilities//returnEnvironmentItems"
+import { returnConfigItems } from "../utilities//returnEnvironmentItems"
+
+const apiReportUrl = returnConfigItems("endPoints","apiReportUrl");
+const apiContactUrl = returnConfigItems("endPoints","apiContactUrl");
 
 export function Login(email, password) {
-	const endpointLogin = returnAPIEndPoint("apiLoginUrl");
+	const endpointLogin = returnConfigItems("endPoints","apiLoginUrl");
 	return http.post(endpointLogin, { email, password });
 }
 export function SignUp(NameFirst, NameLast, Email, Password, Telephone, UniqueId, SuppressNotifications) {
-	const endpointSignUp = returnAPIEndPoint("apiSignInUrl");
+	const endpointSignUp = returnConfigItems("endPoints","apiSignInUrl");
 	return http.post(endpointSignUp, { 
 		NameFirst, 
 		NameLast, 
@@ -17,46 +20,31 @@ export function SignUp(NameFirst, NameLast, Email, Password, Telephone, UniqueId
 		SuppressNotifications });
 }
 export function ResetPassword(Email) {
-	const endpointResetPassword = returnAPIEndPoint("apiPasswordResetUrl");
+	const endpointResetPassword = returnConfigItems("endPoints","apiPasswordResetUrl");
 	return http.post(endpointResetPassword, { Email });
 }
-export function CreateReport(data) {
-	const endpointReport = returnAPIEndPoint("apiReportUrl");
-	return http.post(endpointReport, data );
+export const  CreateReport = (data) => {
+	 return http.post(apiReportUrl, data );
 }
-
-export function GetReportByID(ReportID) {
-	const endpointReport = returnAPIEndPoint("apiReportUrl");
-	return http.get(endpointReport + ReportID);
+export const  GetReportByID = (ReportID) => {
+	return http.get(apiReportUrl + ReportID);
 }
-
-export function GetReportByLatLong(X, Y) {
-	const endpointReport = returnAPIEndPoint("apiReportUrl");
-	return http.get(endpointReport + X + Y);
+export const GetReportByLatLong = (X, Y) => {
+	return http.get(apiReportUrl + X + Y);
 }
-
-export function GetReportByLatLongRadius(X, Y, Radius) {
-	const endpointReport = returnAPIEndPoint("apiReportUrl");
-	return http.get(endpointReport + X + Y + Radius);
+export const  GetReportByLatLongRadius = (X, Y, Radius) => {
+	return http.get(apiReportUrl + X + Y + Radius);
 }
-
 export function VerifyAddress(address) {
-	const endpointVerifyAddress = returnAPIEndPoint("apiVerifyAddressUrl");
+	const endpointVerifyAddress = returnConfigItems("endPoints","apiVerifyAddressUrl");
 	return http.get(endpointVerifyAddress + "/" + address);
 }
-
-export function GetContactAddress(id) {
-	const endpointContacts = returnAPIEndPoint("apiContactUrl");
-	return http.get(endpointContacts + id + "/addresses");
+export const GetContactAddress = (id) =>{
+	return http.get(apiContactUrl + id + "/addresses");
 }
-
-export function GetContactDetails(id) {
-	const endpointContacts = returnAPIEndPoint("apiContactUrl");
-	return http.get(endpointContacts + id);
+export const GetContactDetails = (id) => {
+	return http.get(apiContactUrl + id);
 }
-
-export function CreateContactAddress(id, VerificationId, Name) {
-	const endpointContacts = returnAPIEndPoint("apiContactUrl");
-	const response = http.post(endpointContacts + id + "/addresses", { VerificationId, Name });
-	return response;
+export const CreateContactAddress = (id, VerificationId, Name) => {
+	return http.post(apiContactUrl + id + "/addresses", { VerificationId, Name });
 }
