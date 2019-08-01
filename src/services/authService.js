@@ -1,8 +1,8 @@
 import http from "./httpService";
 import { returnConfigItems } from "../utilities//returnEnvironmentItems"
 
-const reportItems = returnConfigItems("endPoints","apiReportUrl");
-const contactItems = returnConfigItems("endPoints","apiContactUrl");
+const apiReportUrl = returnConfigItems("endPoints","apiReportUrl");
+const apiContactUrl = returnConfigItems("endPoints","apiContactUrl");
 
 export function Login(email, password) {
 	const endpointLogin = returnConfigItems("endPoints","apiLoginUrl");
@@ -23,30 +23,28 @@ export function ResetPassword(Email) {
 	const endpointResetPassword = returnConfigItems("endPoints","apiPasswordResetUrl");
 	return http.post(endpointResetPassword, { Email });
 }
-export function CreateReport(data) {
-	return http.post(reportItems, data );
+export const  CreateReport = (data) => {
+	 http.post(apiReportUrl, data );
 }
-export function GetReportByID(ReportID) {
-	return http.get(reportItems + ReportID);
+export const  GetReportByID = (ReportID) => {
+	 http.get(apiReportUrl + ReportID);
 }
-export function GetReportByLatLong(X, Y) {
-
-	return http.get(reportItems + X + Y);
+export const GetReportByLatLong = (X, Y) => {
+	 http.get(apiReportUrl + X + Y);
 }
-export function GetReportByLatLongRadius(X, Y, Radius) {
-	return http.get(reportItems + X + Y + Radius);
+export const  GetReportByLatLongRadius = (X, Y, Radius) => {
+	 http.get(apiReportUrl + X + Y + Radius);
 }
 export function VerifyAddress(address) {
 	const endpointVerifyAddress = returnConfigItems("endPoints","apiVerifyAddressUrl");
 	return http.get(endpointVerifyAddress + "/" + address);
 }
-export function GetContactAddress(id) {
-	return http.get(contactItems + id + "/addresses");
+export const GetContactAddress = (id) =>{
+	 http.get(apiContactUrl + id + "/addresses");
 }
-export function GetContactDetails(id) {
-	return http.get(contactItems + id);
+export const GetContactDetails = (id) => {
+	 http.get(apiContactUrl + id);
 }
-export function CreateContactAddress(id, VerificationId, Name) {
-	const response = http.post(contactItems + id + "/addresses", { VerificationId, Name });
-	return response;
+export const CreateContactAddress = (id, VerificationId, Name) => {
+	http.post(apiContactUrl + id + "/addresses", { VerificationId, Name });
 }
