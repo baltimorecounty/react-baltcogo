@@ -76,7 +76,7 @@ const ResetPasswordForm = (props, routeProps) => {
 
 						return (
 							<Form >
-								{errors.length > 0 && <Alert type="danger">
+								{errors && errors.length > 0 && <Alert type="danger">
 									{errors}
 								</Alert>}
 								<div onChange={handleChange}
