@@ -55,12 +55,34 @@ export const jsonFileLocationsStage = [
 	{ key: 'resultFormFieldNames', value: '//staging.baltimorecountymd.gov/sebin/c/w/form-field-names.json' }
 ];
 export const jsonFileLocationsProd = [
-	{ key: 'results', value: '//baltimorecountymd.gov/sebin/q/m/categories.json' },
-	{ key: 'resultPetTypes', value: '//baltimorecountymd.gov/sebin/m/a/pet-types.json' },
-	{ key: 'resultAnimalBreeds', value: '//baltimorecountymd.gov/sebin/y/a/animal-breeds.json' },
-	{ key: 'resultAnimalColors', value: '//baltimorecountymd.gov/sebin/u/u/animal-colors.json' },
-	{ key: 'resultAnimalTypes', value: '//baltimorecountymd.gov/sebin/a/e/animal-types.json' },
-	{ key: 'resultFormFieldNames', value: '//baltimorecountymd.gov/sebin/c/x/form-field-names.json' }
+	{ key: 'results', value: '/sebin/q/o/categories.json' },
+	{ key: 'resultPetTypes', value: '/sebin/m/c/pet-types.json' },
+	{ key: 'resultAnimalBreeds', value: '/sebin/y/b/animal-breeds.json' },
+	{ key: 'resultAnimalColors', value: '/sebin/u/v/animal-colors.json' },
+	{ key: 'resultAnimalTypes', value: '/sebin/a/f/animal-types.json' },
+	{ key: 'resultFormFieldNames', value: '/sebin/c/w/form-field-names.json' }
+];
+export const formTypesLocal = [
+	{ key: 'requestType_petAndAnimalIssue', value: 'Pets and Animals' },
+	{ key: 'petAndAnimalIssueID_OtherAnimalComplaint', value: 'Other animal complaint' },
+	{ key: 'requestType_WebSiteIssue', value: 'Website Issue' },
+	{ key: 'subCategory_OtherWebsiteProblem', value: 'Other website problem' },
+	{ key: 'requestType_TrashRecycleIssue', value: 'Trash and Recycling Issue' },
+	{ key: 'requestType_WaterandSewerIssues', value: 'Water and Sewer Issues' },
+	{ key: 'requestType_RoadsAndSidewalks', value: 'Roads and Sidewalks' },
+	{ key: 'subCategory_CanOrLidLostDamaged', value: 'Can or lid lost or damaged' },
+	{ key: 'subCategory_PropertyDamangeDuringCollection', value: 'Property damage during collection' },
+	{ key: 'subCategory_RecyclingNotCollected', value: 'Recycling not collected' },
+	{ key: 'subCategory_RequestToStartNewCollection', value: 'Request to start new collection' },
+	{ key: 'subCategory_TrashNotCollected', value: 'Trash not collected' },
+	{ key: 'subCategory_YardWasteNotCollected', value: 'Yard waste not collected' },
+	{ key: 'subCategory_IcyConditions', value: 'Icy conditions' },
+	{ key: 'subCategory_SewerIssues', value: 'Sewer issues' },
+	{ key: 'subCategory_StormWaterIssues', value: 'Stormwater issues' },
+	{ key: 'subCategory_WaterSupplyIssues', value: 'Water supply issues' },
+	{ key: 'petTypeCat', value: 'Cat' },
+	{ key: 'petTypeDog', value: 'Dog' },
+	{ key: 'petType_Others', value: 'Other' }
 ];
 export const formTypesTest = [
 	{ key: 'requestType_petAndAnimalIssue', value: 'Pets and Animals' },
@@ -128,7 +150,7 @@ export const formTypesProd = [
 	{ key: 'petTypeDog', value: 'Dog' },
 	{ key: 'petType_Others', value: 'Other' }
 ];
-export const mapEndPointDevelopment = [
+export const mapEndPointLocal = [
 	{ key: 'mapGISEndPoint', value: 'http://localhost:54727/api/gis/addressLookup/' },
 	{ key: 'mapReverseGISEndPoint', value: 'https://bcgis.baltimorecountymd.gov/arcgis/rest/services/Geocoders/CompositeGeocode_CS/GeocodeServer/reverseGeocode?location=' }
 ];
