@@ -1,7 +1,6 @@
 
 
 export function formatPhoneNumber(input, format, formattedPhoneNumber, returnBooleanVal) {
-	let error;
 	var returnedObject = {};
 	/* if (input) {
 		error = 'Required';
