@@ -53,10 +53,6 @@ const getIncludedFields = (categories, categoryName) => {
 	var category = categories.find(category => category.name.toLowerCase() === categoryName);
 	return category ? category.fields : [];
 };
-const getNote = (subCategories, name) => {
-	var type = subCategories.find(subcategoryname => subcategoryname.name.toLowerCase() === name);
-	return type ? type.note : [];
-};
 const getshouldDisableForm = (subCategories, name) => {
 	var type = subCategories.find(subcategoryname => subcategoryname.name.toLowerCase() === name);
 	return type && !!type.shouldDisableForm;
@@ -168,7 +164,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 	catch (ex) {
 		console.error('service request form data', ex);
 	}
-	
+
 	const SelectedValue = (Categories) =>{
 		return URLRouting(Categories, categoryId);
 	}
@@ -223,7 +219,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 		SetFieldValues(localProps, requestSubFields);
 
-		if (subInfo !== undefined) {
+		if (subInfo !== '') {
 			if (subInfo.parentId !== undefined) {
 				SetFieldValues(localProps, {requestTypeParentID: subInfo.parentId});
 			}
@@ -378,7 +374,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 			if (requestType) {
 				if (subCategories.length === 0) {
 					const value = requestType.toLowerCase();
-					const subCategories = getSubCategories(Categories, value ? value : value);
+					const subCategories = getSubCategories(Categories, value);
 					setSubCategories(subCategories);
 					if (petType) {
 						let value = petType.toLowerCase();
