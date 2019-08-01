@@ -39,13 +39,13 @@ const provideDetails = props => {
 	const [updatedLongitude, setLongitude] = useState(Longitude);
 	const [MarkerLatitude, setMarkerLatitude] = useState(18.5204);
 	const [Address, setData] = useState([]);
-	const [query, setQuery] = useState(encodeURIComponent());
+	const [query, setQuery] = useState();
 
 	useEffect(() => {
 		const fetchData = async () => {
 			const mapEndPoint = returnMapEndPoint('mapGISEndPoint');
 
-			if (query !== 'undefined' && query.length > 0) {
+			if (query && query.length > 0) {
 				const result = await axios(
 					`${mapEndPoint}${query}`,
 				);
