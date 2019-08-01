@@ -1,6 +1,9 @@
 import http from "./httpService";
 import { returnConfigItems } from "../utilities//returnEnvironmentItems"
 
+const reportItems = returnConfigItems("endPoints","apiReportUrl");
+const contactItems = returnConfigItems("endPoints","apiContactUrl");
+
 export function Login(email, password) {
 	const endpointLogin = returnConfigItems("endPoints","apiLoginUrl");
 	return http.post(endpointLogin, { email, password });
@@ -21,42 +24,29 @@ export function ResetPassword(Email) {
 	return http.post(endpointResetPassword, { Email });
 }
 export function CreateReport(data) {
-	const endpointReport = returnConfigItems("endPoints","apiReportUrl");
-	return http.post(endpointReport, data );
+	return http.post(reportItems, data );
 }
-
 export function GetReportByID(ReportID) {
-	const endpointReport =returnConfigItems("endPoints","apiReportUrl");
-	return http.get(endpointReport + ReportID);
+	return http.get(reportItems + ReportID);
 }
-
 export function GetReportByLatLong(X, Y) {
-	const endpointReport = returnConfigItems("endPoints","apiReportUrl");
-	return http.get(endpointReport + X + Y);
-}
 
+	return http.get(reportItems + X + Y);
+}
 export function GetReportByLatLongRadius(X, Y, Radius) {
-	const endpointReport = returnConfigItems("endPoints","apiReportUrl");
-	return http.get(endpointReport + X + Y + Radius);
+	return http.get(reportItems + X + Y + Radius);
 }
-
 export function VerifyAddress(address) {
 	const endpointVerifyAddress = returnConfigItems("endPoints","apiVerifyAddressUrl");
 	return http.get(endpointVerifyAddress + "/" + address);
 }
-
 export function GetContactAddress(id) {
-	const endpointContacts = returnConfigItems("endPoints","apiContactUrl");
-	return http.get(endpointContacts + id + "/addresses");
+	return http.get(contactItems + id + "/addresses");
 }
-
 export function GetContactDetails(id) {
-	const endpointContacts = returnConfigItems("endPoints","apiContactUrl");
-	return http.get(endpointContacts + id);
+	return http.get(contactItems + id);
 }
-
 export function CreateContactAddress(id, VerificationId, Name) {
-	const endpointContacts =returnConfigItems("endPoints","apiContactUrl");
-	const response = http.post(endpointContacts + id + "/addresses", { VerificationId, Name });
+	const response = http.post(contactItems + id + "/addresses", { VerificationId, Name });
 	return response;
 }
