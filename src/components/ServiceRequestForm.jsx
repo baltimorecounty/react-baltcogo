@@ -53,10 +53,6 @@ const getIncludedFields = (categories, categoryName) => {
 	var category = categories.find(category => category.name.toLowerCase() === categoryName);
 	return category ? category.fields : [];
 };
-const getNote = (subCategories, name) => {
-	var type = subCategories.find(subcategoryname => subcategoryname.name.toLowerCase() === name);
-	return type ? type.note : [];
-};
 const getshouldDisableForm = (subCategories, name) => {
 	var type = subCategories.find(subcategoryname => subcategoryname.name.toLowerCase() === name);
 	return type && !!type.shouldDisableForm;
