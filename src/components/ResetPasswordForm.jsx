@@ -20,7 +20,7 @@ const ResetPasswordForm = (props, routeProps) => {
 
 	const {Tabs, ResetPasswordPage, } = props.values;
 
-	const userPasswordReset = async (clickEvent) => {
+	const userPasswordReset = async () => {
 		const { Email = '' } =  props.values || {};
 		try {
 			const response = await ResetPassword(Email);
@@ -66,7 +66,7 @@ const ResetPasswordForm = (props, routeProps) => {
 					Email: Yup.string().email('Please enter a valid email address.').required('Please enter your email address.')
 				})}
 				onSubmit={async (values, actions) => {
-					await userPasswordReset(values, actions);
+					await userPasswordReset();
 					actions.setSubmitting(false);
 				}}
 			>
