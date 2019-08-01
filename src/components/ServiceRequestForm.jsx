@@ -223,7 +223,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 		SetFieldValues(localProps, requestSubFields);
 
-		if (subInfo !== undefined) {
+		if (subInfo !== '') {
 			if (subInfo.parentId !== undefined) {
 				SetFieldValues(localProps, {requestTypeParentID: subInfo.parentId});
 			}
