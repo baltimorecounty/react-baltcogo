@@ -177,7 +177,6 @@ const SignIn = (props, routeProps) => {
 									>{SignInPage.NoAccountLabel} <Link to="SignUpForm" >{SignInPage.SignUpLinkLabel}</Link></p>
 									<SeButton
 										text="Back"
-										type="button"
 										className="seButton"
 										onClick={goBack}
 									/>

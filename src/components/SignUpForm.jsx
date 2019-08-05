@@ -194,7 +194,6 @@ const CreateAccount = (props, routeProps) => {
 									<p htmlFor="signup">{SignUpPage.HaveAccountLabel} <Link to="SignInForm" >{SignUpPage.SignInLinkLabel}</Link></p>
 									<SeButton
 										text="Back"
-										type="button"
 										className = "seButton"
 										onClick = {goBack}
 									/>

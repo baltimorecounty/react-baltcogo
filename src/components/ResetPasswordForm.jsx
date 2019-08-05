@@ -104,7 +104,6 @@ const ResetPasswordForm = (props, routeProps) => {
 									>{ResetPasswordPage.RememberPasswordLabel} <Link to="SignInForm" >{ResetPasswordPage.SignInLinkLabel}</Link> </p>
 									<SeButton
 										text="Back"
-										type="button"
 										onClick = {goBack}
 									/>
 									<SeButton
