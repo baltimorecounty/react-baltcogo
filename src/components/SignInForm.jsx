@@ -80,7 +80,7 @@ const SignIn = (props, routeProps) => {
 				Results,
 				Errors
 			} = response.data;
-
+			resetAlerts();
 			if (Errors.length > 0) {
 				const errors = GetResponseErrors(response);
 				props.setStatus({ incorrectEmail: errors.replace('Sorry! ', '') }); //TODO: this should ultimatley come from a validation file so we dont have to modify text
