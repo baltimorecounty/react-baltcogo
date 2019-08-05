@@ -51,9 +51,9 @@ const CreateAccount = (props, routeProps) => {
 				const NameLast = response.data.Results.NameLast
 
 				const fields = {
-					NameFirst: NameFirst,
-					NameLast: NameLast,
-					ContactID: ContactID,
+					NameFirst,
+					NameLast,
+					ContactID,
 				};
 		
 				SetFieldValues(props, fields);

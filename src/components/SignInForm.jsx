@@ -53,8 +53,8 @@ const SignIn = (props, routeProps) => {
 		} = results;
 
 		const fields = {
-			NameFirst: NameFirst,
-			NameLast: NameLast,
+			NameFirst,
+			NameLast,
 			ContactID: contactID,
 		};
 
