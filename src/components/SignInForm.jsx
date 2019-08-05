@@ -6,14 +6,14 @@ import { GetResponseErrors } from "../utilities/CitysourcedResponseHelpers";
 import { Link } from 'react-router-dom';
 import FormContainer from './FormContainer';
 import { Login } from '../services/authService';
-import { IsFormInComplete } from "../utilities/FormHelpers";
+import { IsFormInComplete , SetFieldValues} from "../utilities/FormHelpers";
 import SeButton from "./SeButton";
 import Note from './Note';
 import { GoBack, GoHome, Go, Routes } from "../Routing";
 
 // import DisplayFormikState from './helper';
 const SignIn = (props, routeProps) => {
-	const { Tabs, SignInPage, shouldDisableForm, ignoreFormCompletion, hasPasswordReset } = props.values;
+	const { Tabs, SignInPage, shouldDisableForm, ignoreFormCompletion, hasPasswordReset} = props.values;
 	const [fieldType, setFieldType] = useState('Password');
 	const handlePasswordToggleChange = () => {
 		setFieldType(fieldType === 'Password' ? 'text' : 'Password');
@@ -43,7 +43,7 @@ const SignIn = (props, routeProps) => {
 
 	const resetAlerts = () => {
 		props.setStatus('');
-		props.setFieldValue('hasPasswordReset', false);
+		SetFieldValues(props, {hasPasswordReset: false});
 	}
 	const handleLoginSuccess = (actions, results) => {
 		const {
@@ -52,9 +52,13 @@ const SignIn = (props, routeProps) => {
 			NameLast
 		} = results;
 
-		props.setFieldValue('NameFirst', NameFirst);
-		props.setFieldValue('NameLast', NameLast);
-		props.setFieldValue('ContactID', contactID);
+		const fields = {
+			NameFirst,
+			NameLast,
+			ContactID: contactID,
+		};
+
+		SetFieldValues(props, fields);
 
 		sessionStorage.setItem('UserLoginID', contactID)
 		sessionStorage.setItem('NameFirst', NameFirst);
@@ -80,7 +84,7 @@ const SignIn = (props, routeProps) => {
 				Results,
 				Errors
 			} = response.data;
-
+			resetAlerts();
 			if (Errors.length > 0) {
 				const errors = GetResponseErrors(response);
 				props.setStatus({ incorrectEmail: errors.replace('Sorry! ', '') }); //TODO: this should ultimatley come from a validation file so we dont have to modify text
