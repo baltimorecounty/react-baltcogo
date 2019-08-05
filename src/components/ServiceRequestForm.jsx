@@ -18,6 +18,7 @@ import AnimalColorType from './animalColorType';
 import AnimalBreedType from './animalBreedType';
 import { URLRouting, SetFieldValues } from '../utilities/FormHelpers';
 import { Go, Routes } from "../Routing";
+import SeButton from './SeButton';
 import { GetCategory, GetSubCategory } from '../utilities/CategoryHelpers';
 
 const getUrlVars = () => {
@@ -501,8 +502,19 @@ const ServiceRequestForm = (props, errors, touched) => {
 				{(displayButton) ?
 					(!contactID) ?
 						(<div className="cs-form-control">
-							<input type="button" className="seButton" onClick={callSignInForm} disabled={disableButton} value="Sign In" />
-							<input type="button" className="seButton pull-right" onClick={callRegisterForm} disabled={disableButton} value="Register" />
+							<SeButton
+								text="Sign In"
+								type='button'
+								isDisabled = {disableButton}
+								onClick={callSignInForm}
+							/>
+							<SeButton
+								text="Register"
+								type='button'
+								isDisabled = {disableButton}
+								onClick={callRegisterForm}
+								className="pull-right"
+							/>
 							<Model />
 						</div>) :
 						<div className = "cs-form-control">
