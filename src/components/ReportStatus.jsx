@@ -12,7 +12,7 @@ import Note from './Note';
 import { GoBack, GoHome, Go, Routes } from "../Routing";
 
 // import DisplayFormikState from './helper';
-const SignIn = (props, routeProps) => {
+const ReportStatus = (props, routeProps) => {
 	const { Tabs, SignInPage, shouldDisableForm, ignoreFormCompletion, hasPasswordReset } = props.values;
 	const [fieldType, setFieldType] = useState('Password');
 	const handlePasswordToggleChange = () => {
@@ -195,4 +195,4 @@ const SignIn = (props, routeProps) => {
 	);
 }
 
-export default SignIn;
+export default ReportStatus;
