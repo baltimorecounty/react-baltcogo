@@ -14,8 +14,6 @@ const SeButton = (props) => {
 		...rest
 	} = props;
 	const cssClasses = classNames('seButton', ...className.split(' '), { 'is-loading': isLoading });
-	/** HACKS around legacy css in site executive */
-	const inlineStyles = isInline ? { display: 'inline-block !important', width: 'auto' } : {};
 	const disabledStyles = isDisabled ? { backgroundColor: '#999', border: '1px solid #666' } : {};
 	/** end */
 	return (
@@ -23,7 +21,7 @@ const SeButton = (props) => {
 			<button
 				className={cssClasses}
 				type={type}
-				style={{ ...inlineStyles, ...disabledStyles }}
+				style={{...disabledStyles }}
 				disabled={isDisabled || isLoading}
 				{...rest}
 			>
