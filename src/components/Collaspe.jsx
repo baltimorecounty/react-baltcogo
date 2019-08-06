@@ -6,7 +6,7 @@ import Map from './map';
 const Collaspe = ({ address, ZoomValue, lat, lng, onZoom, markerLat, onChange, onMarkerDragEnd }) => {
 	return (
 		<React.Fragment>
-			<Button type="button" className="small" color="link" id="toggler" align="left" style={{ marginBottom: '1rem' }}>
+			<Button type="button" className="small pull-center" color="link" id="toggler" align="left" style={{ marginBottom: '1rem' }}>
 				Or mark location on map
 			</Button>
 			<UncontrolledCollapse toggler="#toggler">

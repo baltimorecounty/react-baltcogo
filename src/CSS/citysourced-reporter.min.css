@@ -487,13 +487,12 @@
 /* These styles are generic to an SeButton and override an existing Site Executive StyleSheet*/
 .seButton {
   display: inline-block !important;
-  width: auto;
+  width: auto !important;
 }
-
 @media screen and (max-width: 576px) {
   .seButton {
     display: block !important;
-    width: 100%;
+    width: 100% !important;
   }
 }
 @media (max-width: 767px) {
