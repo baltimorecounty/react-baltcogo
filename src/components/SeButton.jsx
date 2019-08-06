@@ -6,7 +6,6 @@ const SeButton = (props) => {
 	const {
 		text,
 		isDisabled,
-		isInline = true,
 		isLoadingText = 'Loading...',
 		type = 'button',
 		className = '',
