@@ -19,7 +19,8 @@ const IssueType = ({ name, formik = {}, items, handleAddressChange, handleAddres
 					<p className="smallest">{values.requestType} > {values.subRequestType}</p>
 				</div>
 			</div>
-			<div className="address-search-wrapper">
+			
+			<div className={hasError && isTouched ? "error address-search-wrapper" : "address-search-wrapper"}>
 				<label htmlFor="location"
 					className="address">{pageFieldName}
 				</label>
