@@ -125,7 +125,8 @@ const provideDetails = props => {
 			response => {
 
 				try {
-					const address = response.data.address.Match_addr;
+					let address = _.split(response.data.address.Match_addr, ',', 3);
+					address = UpperCaseFirstLetter(address[0], address[1], address[2])
 					rest.formik.setFieldValue('location', address);
 					setLongitude(newLng);
 					setLatitude(newLat);
@@ -158,11 +159,14 @@ const provideDetails = props => {
 	const goServiceRequestForm = (values) => {
 		GoHome(props);
 	};
+	const UpperCaseFirstLetter = (address, city, zip) => {
+		return _.startCase(_.camelCase(address)) + `, ` + _.startCase(_.camelCase(city)) + `, ` + _.startCase(_.camelCase(zip));
+	};
 
 	const { values, errors, actions, touched, handleSubmit, setFieldValue, ...rest } = props;
 	const items = Address.map((item, index) => ({
 		id: item.Latitude + item.Longitude,
-		label: `${item.StreetAddress.toUpperCase()}, ${item.City.toUpperCase()}, ${item.Zip}`,
+		label:  UpperCaseFirstLetter(item.StreetAddress, item.City, item.Zip),
 	}));
 
 	/**
