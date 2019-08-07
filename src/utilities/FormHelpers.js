@@ -1,6 +1,4 @@
 
-import _ from 'lodash';
-
 export const IsFormInComplete = (props, category) => {
 	const {
 		isAnimal: isAnimalCategory
