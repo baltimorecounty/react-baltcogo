@@ -3,7 +3,7 @@ import { Formik, Form, Field } from "formik";
 import { GetResponseErrors } from "../utilities/CitysourcedResponseHelpers";
 import { GetReportByID } from '../services/authService';
 import { Go, Routes } from "../Routing";
-import Note from './Note';
+import SeButton from './SeButton';
 
 const GetReport = props => {
 
@@ -25,134 +25,91 @@ const GetReport = props => {
 			}
 		}
 	}
-	
-	const trackingCodeTests = [{
-		type: 'accelaAnimal',
-		pattern: /^(ACCMP)/i,
-		action: function action() {
-			$('#citizen-access-info').find('a').attr('href', 'https://citizenaccess.baltimorecountymd.gov/CitizenAccess/Cap/CapHome.aspx?&Module=Enforce');
-			$('#citizen-access-info').fadeIn(250);
-		}
-	}, {
-		type: 'accelaCode',
-		pattern: /^(CC|CRH|CS|PP|TS|CE|CP|CB|CG)\d+$/i,
-		action: function action() {
-			$('#citizen-access-info').find('a').attr('href', 'https://citizenaccess.baltimorecountymd.gov/CitizenAccess/Cap/CapHome.aspx?&Module=Enforcement');
-			$('#citizen-access-info').fadeIn(250);
-		}
-	}, {
-		type: 'baltcogo',
-		pattern: /^\d+$/i,
-		action: function action(trackingNumber) {
-			window.location = '/iwant/status.html?reportId=' + trackingNumber;
-		}
-	}, {
-		type: 'fastrack',
-		pattern: /^ex\d+$/i,
-		action: function action(trackingNumber, $form) {
-			submitToFasTrack($form);
-		}
-	}];
-	
-	const submitToFasTrack = function submitToFasTrack($form) {
-		var appServer = 'https://egov.baltimorecountymd.gov/ECMS/';
-		var dataString = $form.serialize();
-	
-		$.ajax({
-			url: appServer + 'Intake/Login',
-			data: dataString,
-			type: 'GET',
-			dataType: 'jsonp',
-			async: false
-		})
-			.done(function done(data) {
-				formatJsonpResult(data);
-			})
-			.fail(function fail(error) {
-				console.error(error);
-			});
-	};
-	
-	const formatJsonpResult = (jsonpResult) => {
-		var errorCounter = 0;
-	
-		if (jsonpResult.ResponseStatus === 1) {
-			var url = 'getstatus.html?correspondenceId=' + jsonpResult.ResponseError;
-			//$(window.location).attr('href', url);
-		} else {
-			var errorMsg = '';
-			if (errorCounter === 0) {
-				errorMsg = <Note icon='Nothing' className='bc_alert alert-warning'>The information you have entered is incorrect. Please verify that the tracking number and email address you have entered are correct.</Note>;
-				errorCounter += 1;
-			} else {
-				errorMsg = <Note icon='Nothing' className='bc_alert alert-warning'>The information you have entered is incorrect. Please call 410-887-2450 to verify your tracking number.</Note>;
-				alert(errorMsg);
-			}
-		}
-	};
+	const checkCode =(reportID) =>{
 
+		if(RegExp(/^(ACCMP)/i).test(reportID)){
+			window.location = 'https://citizenaccess.baltimorecountymd.gov/CitizenAccess/Cap/CapHome.aspx?&Module=Enforce';
+		}
+		else if (RegExp(/^(CC|CRH|CS|PP|TS|CE|CP|CB|CG)\d+$/i).test(reportID)){
+			window.location = 'https://citizenaccess.baltimorecountymd.gov/CitizenAccess/Cap/CapHome.aspx?&Module=Enforcement';
+		}	
+		else if (RegExp( /^\d+$/i).test(reportID)){
+			Go(props, Routes.ReportStatus)
+		}
+	}
 	return (
 		<Formik
-			initialValues={{
-				ID: ''
-			}}
-
 			onSubmit={(values, { setSubmitting }) => {
-				userGetReport(values);
-				setSubmitting(false);
+				checkCode(values.ReportID)
+				//userGetReport(values);
+				//setSubmitting(false);
 			}}
 		>
 			{
 				(props) => {
-					const { isSubmitting, errors, touched } = props;
+					const { isSubmitting } = props;
 					return (
 						<Form >
-							<legend>Follow Up on an Issue</legend>
-							<div class="callout_gray">
-								<div class="col-md-3">
-									<img width="188" height="54" alt="FasTrack Constituent Issue Tracking System" src="/sebin/q/b/fastrack.gif" border="0" vspace="0" hspace="0"/>
+							<div>
+								<div className="callout_gray">
+									<div className="col-md-3">
+										<img width="188" height="54" alt="Baltcogo Issue Reporting System" src="/sebin/w/q/baltcogo.gif" border="0" vspace="0" hspace="0"/>
 								
-								</div>
-								<div class="col-md-3">
-									<img width="188" height="54" alt="Baltcogo Issue Reporting System" src="/sebin/w/q/baltcogo.gif" border="0" vspace="0" hspace="0"/>
-								
-								</div>						
-								<div>
-									<p>If you were given a tracking number from an issue you reported on our website, please enter it below to get an update.</p>
-									<strong>
-										<div>
+									</div>	
+									<div id="divclear">&nbsp;</div>					
 									
-											<label htmlFor="ReportID"
-												className={
-													errors.ReportID && touched.ReportID ? "input-feedback" : "text-label"}
-											>Tracking Number</label>
-											<span class="seRequiredMarker">*</span>
-											<Field
-												name="ReportID"
-												className={`text-input ${errors.ReportID && touched.ReportID ? "error" : ""}`}
-											/>
-										</div>
-								
-										<div>
-											<label htmlFor="Email"
-												className={
-													errors.ReportID && touched.ReportID ? "input-feedback" : "text-label"}
-											>Email Address</label>
-											<span class="seRequiredMarker">*</span>
-											<Field
-												name="ReportID"
-												className={`text-input ${errors.Email && touched.Email ? "error" : ""}`}
-											/>
-										</div>
-									</strong>
+									<p>If you were given a tracking number from an issue you reported on our website, please enter it below to get an update.</p>
+									<div>
+										<strong>
+											<div className="seform">
+												<div className="SEAFGroupVertical vertical">
+													<div className="SEAFGroupVertical vertical">
+														<div className="SEAFGroupVertical vertical">
+															<div className="SEAFWrapper">
+																<div className="seText" style={{width:'100%'}}>
+																	<span>Fields marked with </span>
+																	<span className="seRequiredMarker">*</span>
+																	<span> are required.</span>
+																</div>
+																<div className="SEAFWrapper">
+																	<div className="SEAFGroupHorizontal horizontal">
+																		<div className="seLabelCell seLabelCellHorizontal">
+																			<div className="seText">
+																				<label htmlFor="ReportID"
+																				>Tracking Number
+																					<span className="seRequiredMarker">*</span>
+																				</label>
+																			</div>
+																		</div>
+																		<div className = "seFieldCell seFieldCellHorizontal">
+																			<Field
+																				type="text"
+																				name="ReportID"
+																			/>
+																		</div>
+																	</div>
+																</div>
+															</div>
+															<div className="SEAFWrapper">
+																<SeButton
+																	text="Track Now"
+																	type="submit"
+																	isLoading={isSubmitting}
+																	isLoadingText="Submitting Request..."
+																	className="seButton pull-right"
+																/>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</strong>	
+									</div>
+								</div>
+								<div className="input-feedback">
+									<label name="ReportResponse"></label>
 								</div>
 							</div>
-							<div className="input-feedback">
-								<label name="ReportResponse"></label>
-							</div>
-							
-							<input className="seButton" type="submit" disabled={isSubmitting} value="Track Now" />
-
 						</Form>
 					)
 				}
@@ -161,5 +118,7 @@ const GetReport = props => {
 
 	);
 }
+
+
 
 export default GetReport;
