@@ -56,9 +56,9 @@ export const URLRouting = (categories, categoryId) =>{
 		}
 		else
 		{
-			const getSelectedCategory = _.filter(categories, { id: categoryId });
-			nameCat = (getSelectedCategory.length > 0) ? getSelectedCategory[0].name : '' ;
-			idCat =  (getSelectedCategory.length > 0) ? getSelectedCategory[0].id : '' ;
+			const getSelectedCategory = categories.find(items => (items.id.toString() === categoryId));
+			nameCat = (getSelectedCategory) ? getSelectedCategory.name : '' ;
+			idCat =  (getSelectedCategory) ? getSelectedCategory.id : '' ;
 		}
 
 		const Selections = {
