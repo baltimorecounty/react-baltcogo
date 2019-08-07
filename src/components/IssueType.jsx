@@ -2,6 +2,7 @@ import React from "react";
 import { GetErrorDetails } from '../utilities/FormikHelpers';
 import Alert from './Alert';
 import AutoCompleteTypeField from './AutocompleteTypeField';
+import classNames from 'classnames';
 
 const IssueType = ({ name, formik = {}, items, handleAddressChange, handleAddressSelect,  pageFieldName }) => {
 	const { values = {} } = formik;
@@ -11,6 +12,8 @@ const IssueType = ({ name, formik = {}, items, handleAddressChange, handleAddres
 		message: errorMessage
 	} = GetErrorDetails(name, formik);
 
+	const addressSearchCssClasses = classNames('address-search-wrapper', {'error': hasError && isTouched} )
+	
 	return (
 		<React.Fragment>
 			<div>
@@ -20,7 +23,7 @@ const IssueType = ({ name, formik = {}, items, handleAddressChange, handleAddres
 				</div>
 			</div>
 			
-			<div className={hasError && isTouched ? "error address-search-wrapper" : "address-search-wrapper"}>
+			<div className={addressSearchCssClasses}>
 				<label htmlFor="location"
 					className="address">{pageFieldName}
 				</label>
