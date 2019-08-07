@@ -37,7 +37,6 @@ const provideDetails = props => {
 	} = formik.values;
 	const [updatedLatitude, setLatitude] = useState(Latitude);
 	const [updatedLongitude, setLongitude] = useState(Longitude);
-	const [MarkerLatitude, setMarkerLatitude] = useState(18.5204);
 	const [Address, setData] = useState([]);
 	const [query, setQuery] = useState(encodeURIComponent());
 
@@ -107,7 +106,6 @@ const provideDetails = props => {
 
 		setLatitude(Latitude);
 		setLongitude(Longitude);
-		setMarkerLatitude(Latitude);
 		rest.formik.setFieldValue('Latitude', Latitude);
 		rest.formik.setFieldValue('Longitude', Longitude);
 	};
@@ -131,7 +129,6 @@ const provideDetails = props => {
 					rest.formik.setFieldValue('location', address);
 					setLongitude(newLng);
 					setLatitude(newLat);
-					setMarkerLatitude(newLat);
 					rest.formik.setFieldValue('Latitude', newLat);
 					rest.formik.setFieldValue('Longitude', newLng);
 				}
@@ -262,12 +259,11 @@ const provideDetails = props => {
 							handleAddressSelect={handleAddressSelect}
 							pageFieldName={MapPage.AddressHeaderLabel} />
 
-						<Collaspe address={rest.formik.values.location}
+						<Collaspe
 							ZoomValue={rest.formik.values.ZoomValue}
 							lat={updatedLatitude}
 							lng={updatedLongitude}
 							onZoom={onZoom}
-							markerLat={MarkerLatitude}
 							onMarkerDragEnd={e => (onMarkerDragEnd(e, setFieldValue))} />
 
 					</div> :
