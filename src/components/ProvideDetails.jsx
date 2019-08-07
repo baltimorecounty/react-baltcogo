@@ -7,7 +7,7 @@ import Collaspe from './Collaspe'
 import axios from "axios"
 import _ from 'lodash';
 import { IsFormInComplete } from "../utilities/FormHelpers";
-import { returnMapEndPoint } from "../utilities//returnEnvironmentItems"
+import { returnConfigItems } from "../utilities//returnEnvironmentItems"
 import { VerifyAddress } from '../services/authService';
 import IssueType from './IssueType';
 import DescribeTheProblem from './describeTheProblem';
@@ -42,7 +42,7 @@ const provideDetails = props => {
 
 	useEffect(() => {
 		const fetchData = async () => {
-			const mapEndPoint = returnMapEndPoint('mapGISEndPoint');
+			const mapEndPoint = returnConfigItems('mapEndPoint','mapGISEndPoint');
 
 			if (query !== 'undefined' && query.length > 0) {
 				const result = await axios(
@@ -72,7 +72,7 @@ const provideDetails = props => {
 
 
 	const reverseGeocode = async (latitude, longitude) => {
-		const mapReverseEndPoint = returnMapEndPoint("mapReverseGISEndPoint");
+		const mapReverseEndPoint =returnConfigItems('mapEndPoint',"mapReverseGISEndPoint");
 		const result = await axios(
 			`${mapReverseEndPoint}${longitude}%2C${latitude}&f=pjson`,
 		);
