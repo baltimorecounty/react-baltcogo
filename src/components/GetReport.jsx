@@ -1,30 +1,11 @@
 import React from "react";
 import { Formik, Form, Field } from "formik";
-import { GetResponseErrors } from "../utilities/CitysourcedResponseHelpers";
-import { GetReportByID } from '../services/authService';
 import { Go, Routes } from "../Routing";
 import SeButton from './SeButton';
 
 const GetReport = props => {
 
 
-	const userGetReport = async (values) => {
-		try {
-			const response = await GetReportByID(values.ReportID);
-			if (response.data.ErrorsCount > 0) {
-				const errorsReturned = GetResponseErrors(response);
-				props.Field.ErrorMsg = errorsReturned;
-			}
-			else {
-				Go(props, Routes.AdditionalInformation);
-			}
-		}
-		catch (ex) {
-			if (ex.response) {
-				props.Form.Field.email.errors = ex.response.data
-			}
-		}
-	}
 	const checkCode =(reportID) =>{
 
 		if(RegExp(/^(ACCMP)/i).test(reportID)){

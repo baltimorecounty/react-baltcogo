@@ -3,16 +3,31 @@ import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import ErrorMsg from "./ErrorMessage";
 import { GetResponseErrors } from "../utilities/CitysourcedResponseHelpers";
-import { Link } from 'react-router-dom';
-import FormContainer from './FormContainer';
-import { Login } from '../services/authService';
-import { IsFormInComplete } from "../utilities/FormHelpers";
+import { GetReportByID } from '../services/authService';
 import SeButton from "./SeButton";
 import Note from './Note';
 import { GoBack, GoHome, Go, Routes } from "../Routing";
 
 // import DisplayFormikState from './helper';
 const ReportStatus = (props, routeProps) => {
+	const userGetReport = async (values) => {
+		try {
+			const response = await GetReportByID(values.ReportID);
+			if (response.data.ErrorsCount > 0) {
+				const errorsReturned = GetResponseErrors(response);
+				props.Field.ErrorMsg = errorsReturned;
+			}
+			else {
+				Go(props, Routes.AdditionalInformation);
+			}
+		}
+		catch (ex) {
+			if (ex.response) {
+				props.Form.Field.email.errors = ex.response.data
+			}
+		}
+	}
+
 	return (
 		<Formik
 			initialValues={{
