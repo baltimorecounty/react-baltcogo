@@ -2,33 +2,39 @@ import React from "react";
 import { Formik, Form, Field } from "formik";
 import { Go, Routes } from "../Routing";
 import SeButton from './SeButton';
+import Note from './Note';
 
 const GetReport = props => {
 
+	let alertMessage = '';
 
-	const checkCode =(reportID) =>{
+	const buildNote = (urlParameter) =>{
+		const message = '<p>The record you’re looking for is available in a different tracking system. Please visit <a href= https://citizenaccess.baltimorecountymd.gov/CitizenAccess/Cap/CapHome.aspx' + urlParameter + '>Baltimore County Online Services</a> and enter the tracking number again.</p><p>We’re working to better integrate these systems in the future. Until then, we apologize for any inconvenience this may cause.</p>'
+		alertMessage = <Note>
+			{message}
+		</Note>
+	}
 
-		if(RegExp(/^(ACCMP)/i).test(reportID)){
-			window.location = 'https://citizenaccess.baltimorecountymd.gov/CitizenAccess/Cap/CapHome.aspx?&Module=Enforce';
+	const checkCode =(values) =>{
+		let urlParameter = '';
+
+		if(RegExp(/^(ACCMP)/i).test(values.ReportID)){
+			urlParameter = '?&Module=Enforce';
+			buildNote(urlParameter);
 		}
-		else if (RegExp(/^(CC|CRH|CS|PP|TS|CE|CP|CB|CG)\d+$/i).test(reportID)){
-			window.location = 'https://citizenaccess.baltimorecountymd.gov/CitizenAccess/Cap/CapHome.aspx?&Module=Enforcement';
+		else if (RegExp(/^(CC|CRH|CS|PP|TS|CE|CP|CB|CG)\d+$/i).test(values.ReportID)){
+			urlParameter = '?&Module=Enforcement';
+			buildNote(urlParameter);
 		}	
-		else if (RegExp( /^\d+$/i).test(reportID)){
+		else if (RegExp( /^\d+$/i).test(values.ReportID)){
 			Go(props, Routes.ReportStatus)
 		}
 	}
 	return (
-		<Formik
-			onSubmit={(values, { setSubmitting }) => {
-				checkCode(values.ReportID)
-				//userGetReport(values);
-				//setSubmitting(false);
-			}}
-		>
+		<Formik>
 			{
 				(props) => {
-					const { isSubmitting } = props;
+					const { values} = props;
 					return (
 						<Form >
 							<div>
@@ -40,6 +46,8 @@ const GetReport = props => {
 									<div id="divclear">&nbsp;</div>					
 									
 									<p>If you were given a tracking number from an issue you reported on our website, please enter it below to get an update.</p>
+									{(alertMessage)?
+										alertMessage: null}
 									<div>
 										<strong>
 											<div className="seform">
@@ -74,10 +82,8 @@ const GetReport = props => {
 															<div className="SEAFWrapper">
 																<SeButton
 																	text="Track Now"
-																	type="submit"
-																	isLoading={isSubmitting}
-																	isLoadingText="Submitting Request..."
-																	className="seButton pull-right"
+																	onClick={checkCode(values)}
+																	className="pull-left"
 																/>
 															</div>
 														</div>
@@ -96,7 +102,6 @@ const GetReport = props => {
 				}
 			}
 		</Formik>
-
 	);
 }
 
