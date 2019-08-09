@@ -6,7 +6,7 @@ import { GetResponseErrors } from "../utilities/CitysourcedResponseHelpers";
 import FormContainer from './FormContainer';
 import { SignUp } from '../services/authService';
 import { Link } from 'react-router-dom';
-import { IsFormInComplete } from "../utilities/FormHelpers";
+import { IsFormInComplete, SetFieldValues } from "../utilities/FormHelpers";
 import { IsPhoneNumberValid } from '@baltimorecounty/validation';
 import SeButton from "./SeButton";
 import { GoHome, Go, Routes } from "../Routing";
@@ -28,6 +28,8 @@ const CreateAccount = (props, routeProps) => {
 		GoHome(props);
 	}
 
+	let extendedError = '';
+
 	const userCreateAccount = async (values, actions, props) => {
 		try {
 			const response = await SignUp(values.NameFirst, values.NameLast, values.Email, values.Password, values.Telephone, values.UniqueId, values.SuppressNotifications);
@@ -39,10 +41,8 @@ const CreateAccount = (props, routeProps) => {
 					? <p>The email address you entered is already registered in this system. <Link to="SignInForm">Log in to your account</Link> or <Link to="ResetPassword">reset your password</Link>.</p>
 				 : errorsReturned;
 
-				actions.setStatus({
-					success2: error,
-					css: 'email'
-				})
+				extendedError = error;
+
 				throw new Error(errorsReturned);
 			}
 			else {
@@ -50,9 +50,13 @@ const CreateAccount = (props, routeProps) => {
 				const NameFirst = response.data.Results.NameFirst;
 				const NameLast = response.data.Results.NameLast
 
-				props.setFieldValue('ContactID', ContactID);
-				props.setFieldValue('NameFirst', NameFirst);
-				props.setFieldValue('NameLast', NameLast);
+				const fields = {
+					NameFirst,
+					NameLast,
+					ContactID,
+				};
+		
+				SetFieldValues(props, fields);
 
 				sessionStorage.setItem('UserLoginID', ContactID)
 				sessionStorage.setItem('NameFirst', NameFirst);
@@ -72,7 +76,7 @@ const CreateAccount = (props, routeProps) => {
 			IsPhoneNumberValid
 		);
 	});
-
+	
 	return (
 		<FormContainer title={SignUpPage.SignUpTitle}
 			tabNames = {Tabs}
@@ -155,14 +159,14 @@ const CreateAccount = (props, routeProps) => {
 									</p>
 								</div>
 								<div className={
-									props.errors.Email && props.touched.Email ? "cs-form-control error" : "cs-form-control"}>
+									(extendedError || props.errors.Email) && props.touched.Email ? "cs-form-control error" : "cs-form-control"}>
 									<label htmlFor="Email">{SignUpPage.EmailLabel}</label>
 									<Field
 										type="email"
 										name="Email"
 									/>
 									<p role='alert' className="error-message">
-										{props.status ? props.status.success2 : ''}
+										{extendedError}
 									</p>
 									<p role='alert' className="error-message">
 										<ErrorMsg
@@ -190,7 +194,6 @@ const CreateAccount = (props, routeProps) => {
 									<p htmlFor="signup">{SignUpPage.HaveAccountLabel} <Link to="SignInForm" >{SignUpPage.SignInLinkLabel}</Link></p>
 									<SeButton
 										text="Back"
-										type="button"
 										className = "seButton"
 										onClick = {goBack}
 									/>

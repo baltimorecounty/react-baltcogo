@@ -1,108 +1,99 @@
 import React from 'react';
-import _ from 'lodash';
 import { withGoogleMap, GoogleMap, withScriptjs, Marker } from "react-google-maps";
-import { compose, withProps, withState, withHandlers } from "recompose";
-import Geocode from "react-geocode";
-Geocode.setApiKey('AIzaSyAqazsw3wPSSxOFVmij32C_LIhBSuyUNi8');
+import { compose, withProps, withHandlers } from "recompose";
 
+const mapElement = <div style={{ height: '300px' }} />;
+const AsyncMap = compose(
+	withProps({
+		googleMapURL: "https://maps.google.com/maps/api/js?key=AIzaSyAqazsw3wPSSxOFVmij32C_LIhBSuyUNi8&libraries=geometry,drawing,places",
+		loadingElement: <div style={{ height: `100%` }} />,
+		containerElement: mapElement,
+		mapElement: mapElement,
+	}),
 
+	withHandlers(() => {
+		const refs = {
+			map: undefined,
+		}
 
+		return {
+			onMapMounted: () => ref => {
+				refs.map = ref
+			},
 
+			onMapClick: (setMarker) => (e) => {
+				setMarker(e.latLng.lat(), e.latLng.lng());
+			},
+			onZoomChanged: ({ onZoomChange, onZoom }) => () => {
+				let zoomValue = refs.map.getZoom();
+				onZoom(zoomValue);
+			}
+		}
+	}),
+	withScriptjs,
+	withGoogleMap,
+)(props =>
+	<GoogleMap
+		center={{ lat: props.lat, lng: props.lng }}
+		zoom={props.zoom}
+		ref={props.onMapMounted}
+		onZoomChanged={props.onZoomChanged}
+		onClick={props.setMarker}
+		options={{ mapTypeControl: false, streetViewControl: false }}
+	>
+		<Marker
+			position={{ lat: props.markerlat, lng: props.markerlng }}
+			draggable={true}
+			onDragEnd={props.onMarkerDragEnd}
+		>
+		</Marker>
+	</GoogleMap>
+);
 
-//Geocode.enableDebug();
 class Map extends React.Component {
-
 	constructor(props) {
 		super(props);
 		this.state = {
-			flag: 0, incremnetCount: 0
+			markerPosition: {
+				markerlat: '',
+				markerlng: ''
+			},
 		}
 	}
+	SetMarkerPosition(e, props) {
+		this.setState({
+			markerPosition: {
+				markerlat: e.latLng.lat(),
+				markerlng: e.latLng.lng()
+			}
 
-	shouldComponentUpdate(nextProps) {
-		const searchQuery = _.takeRight(this.props.address.split(','), 4);
-		const { flag, incremnetCount } = this.state;
-		if (searchQuery[2] !== undefined) {
+		});
 
-			if (this.props.lat === nextProps.center.lat) {
-				if (flag === 0 && incremnetCount === 0) {
-					this.setState({ flag: 0, incremnetCount: 1 });
-					return true;
-				}
-				else {
-					return false;
-				}
-			}
-			else if (this.props.lat === this.props.markerLat) {
-				return true;
-			}
-			else {
-				return false;
-			}
-		}
-		else {
-			if (flag === 0 && incremnetCount === 1) {
-				this.setState({ incremnetCount: 0 });
-			}
-			return false;
-		}
+		props.onMarkerDragEnd(e, props.setFieldValue);
 	}
 
 
 	render() {
+		const { onMarkerDragEnd, onZoom, lat, lng } = this.props;
+		const { markerlat, markerlng } = this.state.markerPosition;
 
-		const { lat, lng, onMarkerDragEnd, onZoom } = this.props;
-		const mapElement = <div style={{ height: this.props.height }} />;
-		const AsyncMap = compose(
-			withProps({
-				googleMapURL: "https://maps.google.com/maps/api/js?key=AIzaSyAqazsw3wPSSxOFVmij32C_LIhBSuyUNi8&libraries=geometry,drawing,places",
-				loadingElement: <div style={{ height: `100%` }} />,
-				containerElement: mapElement,
-				mapElement: mapElement,
-			}),
-			withState('zoom', 'onZoomChange', this.props.zoom),
-			withHandlers(() => {
-				const refs = {
-					map: undefined,
-				}
-
-				return {
-					onMapMounted: () => ref => {
-						refs.map = ref
-					},
-					onZoomChanged: ({ onZoomChange }) => () => {
-						let zoomValue = refs.map.getZoom();
-						onZoomChange(zoomValue);
-						onZoom(zoomValue);
-					}
-				}
-			}),
-			withScriptjs,
-			withGoogleMap
-		)(props =>
-			<GoogleMap
-				defaultCenter={{ lat, lng }}
-				zoom={this.props.zoom}
-				ref={props.onMapMounted}
-				onZoomChanged={props.onZoomChanged}
-				onClick={onMarkerDragEnd}
-				options={{ mapTypeControl: false, streetViewControl: false }}
-			>
-				<Marker
-					position={{ lat, lng }}
-					onClick={props.onToggleOpen}
-					draggable={true}
-					onDragEnd={onMarkerDragEnd}
+		return (
+			<div>
+				<AsyncMap
+					markerlat={markerlat !== lat ? lat : markerlat}
+					markerlng={markerlng !== lng ? lng : markerlng}
+					lat={lat}
+					lng={lng}
+					setMarker={e => (this.SetMarkerPosition(e, this.props))}
+					onMarkerDragEnd={onMarkerDragEnd}
+					zoom={this.props.zoom}
+					onZoom={onZoom}
 
 
-				>
-
-				</Marker>
-			</GoogleMap>
-		);
-		return <AsyncMap />
+				/>
+			</div >
+		)
 	}
-
 }
 
-export default Map
+export default Map;

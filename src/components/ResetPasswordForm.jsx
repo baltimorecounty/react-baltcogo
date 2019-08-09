@@ -5,7 +5,7 @@ import ErrorMsg from "./ErrorMessage";
 import { GetResponseErrors } from "../utilities/CitysourcedResponseHelpers";
 import { Link } from 'react-router-dom';
 import FormContainer from './FormContainer';
-import { IsFormInComplete } from "../utilities/FormHelpers";
+import { IsFormInComplete, SetFieldValues } from "../utilities/FormHelpers";
 import Alert from './Alert';
 import SeButton from "./SeButton";
 import { ResetPassword } from '../services/authService';
@@ -42,12 +42,12 @@ const ResetPasswordForm = (props, routeProps) => {
 	};
 
 	const signIn = () =>{
-		props.setFieldValue('hasPasswordReset', true);
+		SetFieldValues(props, {hasPasswordReset: true});
 		Go(props, Routes.SignIn, props.values.Email);
 	};
 
 	const handleChange = changeEvent => {
-		props.setFieldValue('Email', changeEvent.target.value);
+		SetFieldValues(props, {Email: changeEvent.target.value});
 	};
 
 	return (
@@ -104,7 +104,6 @@ const ResetPasswordForm = (props, routeProps) => {
 									>{ResetPasswordPage.RememberPasswordLabel} <Link to="SignInForm" >{ResetPasswordPage.SignInLinkLabel}</Link> </p>
 									<SeButton
 										text="Back"
-										type="button"
 										onClick = {goBack}
 									/>
 									<SeButton

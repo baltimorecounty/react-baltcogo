@@ -7,7 +7,7 @@ import Collaspe from './Collaspe'
 import axios from "axios"
 import _ from 'lodash';
 import { IsFormInComplete } from "../utilities/FormHelpers";
-import { returnMapEndPoint } from "../utilities//returnEnvironmentItems"
+import { returnConfigItems } from "../utilities//returnEnvironmentItems"
 import { VerifyAddress } from '../services/authService';
 import IssueType from './IssueType';
 import DescribeTheProblem from './describeTheProblem';
@@ -37,13 +37,12 @@ const provideDetails = props => {
 	} = formik.values;
 	const [updatedLatitude, setLatitude] = useState(Latitude);
 	const [updatedLongitude, setLongitude] = useState(Longitude);
-	const [MarkerLatitude, setMarkerLatitude] = useState(18.5204);
 	const [Address, setData] = useState([]);
 	const [query, setQuery] = useState(encodeURIComponent());
 
 	useEffect(() => {
 		const fetchData = async () => {
-			const mapEndPoint = returnMapEndPoint('mapGISEndPoint');
+			const mapEndPoint = returnConfigItems('mapEndPoint','mapGISEndPoint');
 
 			if (query !== 'undefined' && query.length > 0) {
 				const result = await axios(
@@ -73,7 +72,7 @@ const provideDetails = props => {
 
 
 	const reverseGeocode = async (latitude, longitude) => {
-		const mapReverseEndPoint = returnMapEndPoint("mapReverseGISEndPoint");
+		const mapReverseEndPoint =returnConfigItems('mapEndPoint',"mapReverseGISEndPoint");
 		const result = await axios(
 			`${mapReverseEndPoint}${longitude}%2C${latitude}&f=pjson`,
 		);
@@ -107,7 +106,6 @@ const provideDetails = props => {
 
 		setLatitude(Latitude);
 		setLongitude(Longitude);
-		setMarkerLatitude(Latitude);
 		rest.formik.setFieldValue('Latitude', Latitude);
 		rest.formik.setFieldValue('Longitude', Longitude);
 	};
@@ -127,11 +125,11 @@ const provideDetails = props => {
 			response => {
 
 				try {
-					const address = response.data.address.Match_addr;
+					let address = _.split(response.data.address.Match_addr, ',', 3);
+					address = UpperCaseFirstLetter(address[0], address[1], address[2])
 					rest.formik.setFieldValue('location', address);
 					setLongitude(newLng);
 					setLatitude(newLat);
-					setMarkerLatitude(newLat);
 					rest.formik.setFieldValue('Latitude', newLat);
 					rest.formik.setFieldValue('Longitude', newLng);
 				}
@@ -161,11 +159,14 @@ const provideDetails = props => {
 	const goServiceRequestForm = (values) => {
 		GoHome(props);
 	};
+	const UpperCaseFirstLetter = (address, city, zip) => {
+		return _.startCase(_.camelCase(address)) + `, ` + _.startCase(_.camelCase(city)) + `, ` + _.startCase(_.camelCase(zip));
+	};
 
 	const { values, errors, actions, touched, handleSubmit, setFieldValue, ...rest } = props;
 	const items = Address.map((item, index) => ({
 		id: item.Latitude + item.Longitude,
-		label: `${item.StreetAddress.toUpperCase()}, ${item.City.toUpperCase()}, ${item.Zip}`,
+		label:  UpperCaseFirstLetter(item.StreetAddress, item.City, item.Zip),
 	}));
 
 	/**
@@ -262,12 +263,11 @@ const provideDetails = props => {
 							handleAddressSelect={handleAddressSelect}
 							pageFieldName={MapPage.AddressHeaderLabel} />
 
-						<Collaspe address={rest.formik.values.location}
+						<Collaspe
 							ZoomValue={rest.formik.values.ZoomValue}
 							lat={updatedLatitude}
 							lng={updatedLongitude}
 							onZoom={onZoom}
-							markerLat={MarkerLatitude}
 							onMarkerDragEnd={e => (onMarkerDragEnd(e, setFieldValue))} />
 
 					</div> :

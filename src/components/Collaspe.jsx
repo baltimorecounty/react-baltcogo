@@ -12,7 +12,7 @@ const Collaspe = ({ address, ZoomValue, lat, lng, onZoom, markerLat, onChange, o
 			<UncontrolledCollapse toggler="#toggler">
 				<div className="google-map">
 					<Map
-						address={address} lat={lat} lng={lng} onZoom={onZoom} markerLat={markerLat} onMarkerDragEnd={onMarkerDragEnd}
+						 lat={lat} lng={lng} onZoom={onZoom}  onMarkerDragEnd={onMarkerDragEnd}
 						center={{ lat, lng }}
 						height='300px'
 						zoom={ZoomValue === '' ? 15 : ZoomValue}
