@@ -9,9 +9,8 @@ import { SetFieldValues } from "../utilities/FormHelpers";
 export const getAlertMessage = (props) => {
 	let message = '';
 	const { hasPasswordReset } = props.values;
-
 	if (hasPasswordReset) {
-		message = <Note className='bc_alert alert-success'>{props.SignInPage.ResetPasswordAlert.replace('{email address}', props.history.location.state)}</Note>
+		message = <Note className='bc_alert alert-success'>{props.values.SignInPage.ResetPasswordAlert.replace('{email address}', props.history.location.state)}</Note>
 	}
 	else if (props.status) {
 		const { incorrectEmail, networkError } = props.status;

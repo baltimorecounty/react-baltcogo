@@ -13,7 +13,7 @@ import { GoBack, Go, Routes, GoHome } from "../Routing";
 import { getAlertMessage, resetAlerts } from "./Alert";
 
 const ResetPasswordForm = (props, routeProps) => {
-
+	const { hasPasswordReset} = props.values;
 	if (IsFormInComplete(props)) {
 		GoHome(props);
 	}
@@ -84,7 +84,7 @@ const ResetPasswordForm = (props, routeProps) => {
 
 						return (
 							<Form >
-								{(errorMessage) ?
+								{(errorMessage && hasPasswordReset===false)?
 									errorMessage :
 									null}
 								{errors.length > 0 && <Alert type="danger">

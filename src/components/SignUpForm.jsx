@@ -14,7 +14,7 @@ import { getAlertMessage, resetAlerts } from "./Alert";
 
 const CreateAccount = (props, routeProps) => {
 
-	const { Tabs, SignUpPage, shouldDisableForm } = props.values;
+	const { Tabs, SignUpPage, shouldDisableForm, hasPasswordReset } = props.values;
 
 	const [fieldType, setFieldType] = useState('Password');
 	const handlePasswordToggleChange = () => {
@@ -127,7 +127,7 @@ const CreateAccount = (props, routeProps) => {
 
 						return (
 							<Form >
-								{(errorMessage) ?
+								{(errorMessage && hasPasswordReset === false) ?
 									errorMessage :
 									null}
 								<div className={
