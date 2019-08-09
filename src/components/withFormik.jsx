@@ -38,6 +38,7 @@ export default withFormik({
 		animalColorTypeID: '',
 		otherAnimalTypes: '',
 		otherAnimalTypesID: '',
+		trackingNumber: '',
 		Email: '',
 		Password: '',
 		NameFirst: '',

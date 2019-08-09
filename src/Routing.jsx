@@ -45,7 +45,7 @@ const Router = (props) => (
 		<Route path={Routes.SubmitForm} render={(routeProps) => <SubmitResponsePage {...routeProps} {...props} />} />
 		<Route path={Routes.AdditionalInformation} component={AdditionalInformationForm} />
 		<Route path={Routes.ProvideDetails} component={ProvideDetails} />
-		<Route path={Routes.GetReport} component={GetReport} />
+		<Route path={Routes.GetReport}  render={(routeProps) => <GetReport {...routeProps} {...props} />} />
 		<Route path={Routes.ReportStatus} component={ReportStatus} />
 		<Route path={Routes.Root} component={ServiceRequestForm} />
 	</Switch>

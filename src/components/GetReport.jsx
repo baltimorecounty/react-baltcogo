@@ -1,40 +1,90 @@
 import React from "react";
 import { Formik, Form, Field } from "formik";
-import { Go, Routes } from "../Routing";
-import SeButton from './SeButton';
+import { GetResponseErrors } from "../utilities/CitysourcedResponseHelpers";
+import { GetReportByID } from '../services/authService';
+import {  SetFieldValues} from "../utilities/FormHelpers";
+import SeButton from "./SeButton";
 import Note from './Note';
+import { Go, Routes } from "../Routing";
 
-const GetReport = props => {
-
-	let alertMessage = '';
-
-	const buildNote = (urlParameter) =>{
-		const message = '<p>The record you’re looking for is available in a different tracking system. Please visit <a href= https://citizenaccess.baltimorecountymd.gov/CitizenAccess/Cap/CapHome.aspx' + urlParameter + '>Baltimore County Online Services</a> and enter the tracking number again.</p><p>We’re working to better integrate these systems in the future. Until then, we apologize for any inconvenience this may cause.</p>'
-		alertMessage = <Note>
-			{message}
-		</Note>
-	}
-
-	const checkCode =(values) =>{
-		let urlParameter = '';
-
-		if(RegExp(/^(ACCMP)/i).test(values.ReportID)){
-			urlParameter = '?&Module=Enforce';
-			buildNote(urlParameter);
+// import DisplayFormikState from './helper';
+const GetReport = (props) => {
+	const userGetReport = async (trackingNumber) => {
+		try {
+			const response = await GetReportByID(trackingNumber);
+			if (response.data.ErrorsCount > 0) {
+				const errorsReturned = GetResponseErrors(response);
+				props.Field.ErrorMsg = errorsReturned;
+			}
+			else {
+				SetFieldValues(props, {trackingNumber: ''});
+				Go(props, Routes.ReportStatus, response)
+			}
 		}
-		else if (RegExp(/^(CC|CRH|CS|PP|TS|CE|CP|CB|CG)\d+$/i).test(values.ReportID)){
-			urlParameter = '?&Module=Enforcement';
-			buildNote(urlParameter);
+		
+		catch (ex) {
+			
+		}
+	}
+    
+	const handleChange = changeEvent => {
+		SetFieldValues(props, {trackingNumber: changeEvent.target.value});
+	};
+    
+	const submitReport=async (trackingNumber) => {
+		await userGetReport(trackingNumber); 
+	};
+    
+	const checkTrackingNumber =(values) =>{
+		const { trackingNumber } = props.values;
+	
+		if(RegExp(/^(ACCMP)/i).test(trackingNumber)){
+			buildNote('?&Module=Enforce');
+		}
+		else if (RegExp(/^(CC|CRH|CS|PP|TS|CE|CP|CB|CG)\d+$/i).test(trackingNumber)){
+			buildNote('?&Module=Enforcement');
 		}	
-		else if (RegExp( /^\d+$/i).test(values.ReportID)){
-			Go(props, Routes.ReportStatus)
+		else if (RegExp( /^\d+$/i).test(trackingNumber)){
+			submitReport(trackingNumber);
+		}
+		else
+		{
+			buildNote('BadID');
 		}
 	}
+	
+	let alertMessage = '';
+	
+	const buildNote = (urlParameter) =>{
+		const messageUrlRedirect = '<p>The record you’re looking for is available in a different tracking system. Please visit <a href= https://citizenaccess.baltimorecountymd.gov/CitizenAccess/Cap/CapHome.aspx' + urlParameter + '>Baltimore County Online Services</a> and enter the tracking number again.</p><p>We’re working to better integrate these systems in the future. Until then, we apologize for any inconvenience this may cause.</p>'
+		const messageBadId = 'We are having trouble looking up this record. Please call 410-887-2450 to verify your tracking number.'
+		
+		urlParameter === 'BadID' ?
+			alertMessage = <Note>
+				{messageBadId}
+			</Note>:
+			alertMessage = <Note>
+				{messageUrlRedirect}
+			</Note>
+	}
+
 	return (
-		<Formik>
+		<Formik
+			onSubmit={async (values, actions, setSubmitting) => {
+				const userInstructions = checkTrackingNumber(values);
+
+				if(userInstructions)
+				{
+					buildNote(userInstructions);
+				}
+				else{
+					await userGetReport(values);
+				}
+			}}
+		>
 			{
 				(props) => {
-					const { values} = props;
+					const { values } = props;
 					return (
 						<Form >
 							<div>
@@ -64,7 +114,7 @@ const GetReport = props => {
 																	<div className="SEAFGroupHorizontal horizontal">
 																		<div className="seLabelCell seLabelCellHorizontal">
 																			<div className="seText">
-																				<label htmlFor="ReportID"
+																				<label htmlFor="TrackingNumber"
 																				>Tracking Number
 																					<span className="seRequiredMarker">*</span>
 																				</label>
@@ -73,7 +123,8 @@ const GetReport = props => {
 																		<div className = "seFieldCell seFieldCellHorizontal">
 																			<Field
 																				type="text"
-																				name="ReportID"
+																				onChange = {handleChange}
+																				name="TrackingNumber"
 																			/>
 																		</div>
 																	</div>
@@ -82,7 +133,8 @@ const GetReport = props => {
 															<div className="SEAFWrapper">
 																<SeButton
 																	text="Track Now"
-																	onClick={checkCode(values)}
+																	type="button"
+																	onClick = {checkTrackingNumber(values)}
 																	className="pull-left"
 																/>
 															</div>
@@ -104,7 +156,5 @@ const GetReport = props => {
 		</Formik>
 	);
 }
-
-
 
 export default GetReport;
