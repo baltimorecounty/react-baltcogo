@@ -31,10 +31,6 @@ const SignIn = (props, routeProps) => {
 		});
 	};
 
-	const resetAlerts = () => {
-		props.setStatus('');
-		SetFieldValues(props, {hasPasswordReset: false});
-	}
 	const handleLoginSuccess = (actions, results) => {
 		const {
 			Id: contactID,

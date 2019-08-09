@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import ErrorMsg from "./ErrorMessage";
-import { GetResponseErrors } from "../utilities/CitysourcedResponseHelpers";
+import { GetResponseErrors, GetNetWorkErrors } from "../utilities/CitysourcedResponseHelpers";
 import FormContainer from './FormContainer';
 import { SignUp } from '../services/authService';
 import { Link } from 'react-router-dom';
@@ -10,21 +10,23 @@ import { IsFormInComplete, SetFieldValues } from "../utilities/FormHelpers";
 import { IsPhoneNumberValid } from '@baltimorecounty/validation';
 import SeButton from "./SeButton";
 import { GoHome, Go, Routes } from "../Routing";
+import { getAlertMessage, resetAlerts } from "./Alert";
 
 const CreateAccount = (props, routeProps) => {
 
-	const {Tabs, SignUpPage, shouldDisableForm} = props.values;
+	const { Tabs, SignUpPage, shouldDisableForm } = props.values;
 
 	const [fieldType, setFieldType] = useState('Password');
 	const handlePasswordToggleChange = () => {
 		setFieldType(fieldType === 'Password' ? 'text' : 'Password');
 	};
 
-	if(IsFormInComplete(props)){
+	if (IsFormInComplete(props)) {
 		GoHome(props);
 	}
 
-	const goBack = () =>{
+	const goBack = () => {
+		resetAlerts(props);
 		GoHome(props);
 	}
 
@@ -37,13 +39,17 @@ const CreateAccount = (props, routeProps) => {
 
 			if (response.data.HasErrors) {
 				const errorsReturned = GetResponseErrors(response);
-				const error = errorsReturned === "Sorry! The email address submitted is already taken."
-					? <p>The email address you entered is already registered in this system. <Link to="SignInForm">Log in to your account</Link> or <Link to="ResetPassword">reset your password</Link>.</p>
-				 : errorsReturned;
+				try {
+					const error = errorsReturned === "Sorry! The email address submitted is already taken."
+						? <p>The email address you entered is already registered in this system. <Link to="SignInForm">Log in to your account</Link> or <Link to="ResetPassword">reset your password</Link>.</p>
+						: errorsReturned;
 
-				extendedError = error;
-
-				throw new Error(errorsReturned);
+					extendedError = error;
+					throw new Error(errorsReturned);
+				}
+				catch (ex) {
+					console.error(ex.message);
+				}
 			}
 			else {
 				ContactID = response.data.Results.Id;
@@ -55,7 +61,7 @@ const CreateAccount = (props, routeProps) => {
 					NameLast,
 					ContactID,
 				};
-		
+
 				SetFieldValues(props, fields);
 
 				sessionStorage.setItem('UserLoginID', ContactID)
@@ -66,7 +72,11 @@ const CreateAccount = (props, routeProps) => {
 			}
 		}
 		catch (ex) {
-			console.error(ex.message);
+			if (ex.message) {
+				console.error(ex.message);
+				const errors = GetNetWorkErrors(ex.toString());
+				props.setStatus({ networkError: errors });
+			}
 		}
 	}
 	Yup.addMethod(Yup.string, "Telephone", function (value) {
@@ -76,10 +86,10 @@ const CreateAccount = (props, routeProps) => {
 			IsPhoneNumberValid
 		);
 	});
-	
+	const errorMessage = getAlertMessage(props);
 	return (
 		<FormContainer title={SignUpPage.SignUpTitle}
-			tabNames = {Tabs}
+			tabNames={Tabs}
 			currentTab="ServiceRequestForm"
 			shouldDisableForm={shouldDisableForm}
 			isPanelRequired={true}
@@ -113,10 +123,13 @@ const CreateAccount = (props, routeProps) => {
 			>
 				{
 					(props) => {
-						const { values, isSubmitting, errors, touched} = props;
+						const { values, isSubmitting, errors, touched } = props;
 
 						return (
 							<Form >
+								{(errorMessage) ?
+									errorMessage :
+									null}
 								<div className={
 									errors.NameFirst && touched.NameFirst ? "cs-form-control error" : "cs-form-control"}>
 									<label htmlFor="NameFirst">{SignUpPage.FirstNameLabel}  </label>
@@ -194,15 +207,15 @@ const CreateAccount = (props, routeProps) => {
 									<p htmlFor="signup">{SignUpPage.HaveAccountLabel} <Link to="SignInForm" >{SignUpPage.SignInLinkLabel}</Link></p>
 									<SeButton
 										text="Back"
-										className = "seButton"
-										onClick = {goBack}
+										className="seButton"
+										onClick={goBack}
 									/>
 									<SeButton
 										text="Sign Up and Continue"
 										type="submit"
 										isLoading={isSubmitting}
 										isLoadingText="Signing Up..."
-										className = "seButton pull-right"
+										className="seButton pull-right"
 									/>
 								</div>
 							</Form>
