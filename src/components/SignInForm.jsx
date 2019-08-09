@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import ErrorMsg from "./ErrorMessage";
-import { GetResponseErrors } from "../utilities/CitysourcedResponseHelpers";
+import { GetResponseErrors,GetNetWorkErrors } from "../utilities/CitysourcedResponseHelpers";
 import { Link } from 'react-router-dom';
 import FormContainer from './FormContainer';
 import { Login } from '../services/authService';
@@ -10,10 +10,11 @@ import { IsFormInComplete , SetFieldValues} from "../utilities/FormHelpers";
 import SeButton from "./SeButton";
 import Note from './Note';
 import { GoBack, GoHome, Go, Routes } from "../Routing";
+import { getAlertMessage, resetAlerts } from "./Alert";
 
 // import DisplayFormikState from './helper';
 const SignIn = (props, routeProps) => {
-	const { Tabs, SignInPage, shouldDisableForm, ignoreFormCompletion, hasPasswordReset} = props.values;
+	const { Tabs, SignInPage, shouldDisableForm, ignoreFormCompletion} = props.values;
 	const [fieldType, setFieldType] = useState('Password');
 	const handlePasswordToggleChange = () => {
 		setFieldType(fieldType === 'Password' ? 'text' : 'Password');
@@ -21,17 +22,6 @@ const SignIn = (props, routeProps) => {
 
 	if (IsFormInComplete(props) && !ignoreFormCompletion) {
 		GoHome(props);
-	}
-
-	const getAlertMessage = () => {
-		let message = '';
-		if (hasPasswordReset) {
-			message = <Note className='bc_alert alert-success'>{SignInPage.ResetPasswordAlert.replace('{email address}', userEmail)}</Note>
-		}
-		else if (props.status) {
-			message = <Note icon='Nothing' className='bc_alert alert-warning'>{props.status.incorrectEmail ? props.status.incorrectEmail : null}</Note>
-		}
-		return message;
 	}
 
 	const handleLoginFailure = (actions, errors) => {
@@ -68,12 +58,12 @@ const SignIn = (props, routeProps) => {
 			success: 'OK',
 			css: 'success'
 		});
-		resetAlerts();
+		resetAlerts(props);
 		Go(props, Routes.ProvideDetails);
 	};
 
 	const goBack = () => {
-		resetAlerts();
+		resetAlerts(props);
 		GoBack(props);
 	}
 
@@ -84,12 +74,19 @@ const SignIn = (props, routeProps) => {
 				Results,
 				Errors
 			} = response.data;
-			resetAlerts();
+			resetAlerts(props);
 			if (Errors.length > 0) {
-				const errors = GetResponseErrors(response);
-				props.setStatus({ incorrectEmail: errors.replace('Sorry! ', '') }); //TODO: this should ultimatley come from a validation file so we dont have to modify text
-				handleLoginFailure(actions, errors);
-				throw new Error(errors);
+				try {
+					const errors = GetResponseErrors(response);
+					props.setStatus({ incorrectEmail: errors.replace('Sorry! ', '') }); //TODO: this should ultimatley come from a validation file so we dont have to modify text
+					handleLoginFailure(actions, errors);
+					throw new Error(errors);
+				}
+				catch (ex) {
+					if (ex.response) {
+						props.errors.email = ex.response.data
+					}
+				}
 			}
 			else {
 				handleLoginSuccess(actions, Results);
@@ -99,11 +96,15 @@ const SignIn = (props, routeProps) => {
 			if (ex.response) {
 				props.errors.email = ex.response.data
 			}
+			else {
+				const errors = GetNetWorkErrors(ex.toString());
+				props.setStatus({ networkError: errors });
+			}
 		}
 	}
 
-	const userEmail = props.history.location.state;
-	const errorMessage = getAlertMessage();
+
+	const errorMessage = getAlertMessage(props);
 
 	return (
 		<FormContainer title={SignInPage.SignInTitle}
