@@ -3,19 +3,20 @@ import { Formik, Form } from "formik";
 import { Link } from 'react-router-dom';
 import SeButton from "./SeButton";
 import { GetResponseErrors } from "../utilities/CitysourcedResponseHelpers";
-import { SetFieldValues } from "../utilities/FormHelpers";
 import FormContainer from './FormContainer';
 import Note from './Note';
+import Moment from 'react-moment';
 import Map from './map';
 import { GoBack, Go, Routes } from "../Routing";
 
 
 const ReportStatus = (props, routeProps) => {
-	const { trackingNumber } = props.values;
 	let alertMessage = '';
 	let errorStatusCode ='';
+	const { trackingNumber } = props.values;
 	const response = props.history.location.state;
-
+	let reportId, reportDateCreated, reportDateUpdated, reportRequestType;
+	
 	const displayReportStatus = () => {
 		if(!response)
 		{
@@ -26,9 +27,23 @@ const ReportStatus = (props, routeProps) => {
 			errorStatusCode = response.data.Errors[0].StatusCode;
 			alertMessage = <Note>{errorsReturned}</Note>		
 		}
+		else{
+			const {Id, DateCreated, DateUpdated, RequestType} = response.data.Results;
+			reportId = Id;
+			reportDateCreated = DateCreated;
+			reportDateUpdated = DateUpdated;
+			reportRequestType = RequestType;
+		}
 	}
 
 	displayReportStatus();
+
+	// const buildComments = () =>{
+
+	// 	const comments = '<li><p>{{Text}}</p><div class="attribution"><span class="author-name">' + Author + '</span>, <span class="author-date">' + Created + '</span></div></li>'
+
+	// 	return comments
+	// }
 
 	return (
 		<FormContainer title={''}
@@ -57,16 +72,39 @@ const ReportStatus = (props, routeProps) => {
                     				for new reports to show up in our system.</p>
 									</div> :
 									((alertMessage)? alertMessage: null)}
-								{/* <Map
-								lat={lat} 
-								lng={lng} 
-								onZoom={onZoom}  
-								onMarkerDragEnd={onMarkerDragEnd}
-								center={{ lat, lng }}
-								height='300px'
-								zoom={ZoomValue === '' ? 15 : ZoomValue}
-								streetViewControl='false'
-							/> */}
+								{(reportRequestType)?
+									<div class="bc-citysourced-reporter">
+										<div class="callout_gray" id="citysourced-viewer">
+											<h2>Report Status <span class="{{IsOpen}}">In Progress</span></h2>
+											<dl id="meta">
+												<dt>Request ID</dt>
+												<dd>{reportId}</dd>
+												<dt>Issue Type</dt>
+												<dd>{reportRequestType}</dd>
+												<dt>Date Created</dt>
+												<dd><Moment format="MM/DD/YYYY">{reportDateCreated}</Moment></dd>
+												<dt>Last Updated</dt>
+												<dd><Moment format="MM/DD/YYYY">{reportDateUpdated}</Moment></dd>					
+												<dt>Location</dt>
+												<dd id="address"></dd>
+											</dl>
+
+											<div id="map" class="google-map"></div>
+				
+											<h3>Comments</h3>
+
+											{/* <ul id="comments">
+					
+													<li>
+														<p>{{Text}}</p>
+														<div class="attribution">
+															<span class="author-name">{{Author}}</span>, <span class="author-date">{{Created}}</span>
+														</div>
+													</li>
+					
+												</ul> */}
+										</div>
+									</div>: null}
 							</Form>
 						)
 					}
