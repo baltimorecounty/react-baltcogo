@@ -1,17 +1,23 @@
 import React from "react";
 import { Formik, Form, Field } from "formik";
 import FormContainer from './FormContainer';
-import {  SetFieldValues} from "../utilities/FormHelpers";
+import { SetFieldValues } from "../utilities/FormHelpers";
+import { GetReportByID } from '../services/authService';
 import SeButton from "./SeButton";
 import Note from './Note';
 import { Go, Routes } from "../Routing";
 
-// import DisplayFormikState from './helper';
 const GetReport = (props) => {
     
 	const handleChange = changeEvent => {
 		SetFieldValues(props, {trackingNumber: changeEvent.target.value});
 	};
+
+	const userGetReport = async (trackingNumber) => {
+		const response = await GetReportByID(trackingNumber);
+		Go(props, Routes.ReportStatus, response)
+		return response;
+	}
 
 	const checkTrackingNumber = () =>{
 		const { trackingNumber } = props.values;
@@ -23,7 +29,7 @@ const GetReport = (props) => {
 			buildNote('?&Module=Enforcement');
 		}	
 		else if (RegExp( /^\d+$/i).test(trackingNumber)){
-			Go(props, Routes.ReportStatus)
+			userGetReport(trackingNumber);	
 		}
 		else
 		{
@@ -63,7 +69,7 @@ const GetReport = (props) => {
 					(props) => {
 						const { isSubmitting } = props;
 						return (
-							<Form >
+							<Form>
 								<div>
 									<div className="callout_gray">
 										<div className="col-md-3">
