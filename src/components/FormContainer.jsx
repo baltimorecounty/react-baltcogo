@@ -57,9 +57,10 @@ const FormContainer = (props) => {
 			<ol className="bc-citysourced-reporter-steps">
 				{tabList.map((tab, id) => {
 					return (
-						<li key={tab.id} className={selectClassName(tab)}>
-							{tab.description}
-						</li>
+						(props.title) ?
+							<li key={tab.id} className={selectClassName(tab)}>
+								{tab.description}
+							</li> : null
 					);
 				})}
 			</ol>

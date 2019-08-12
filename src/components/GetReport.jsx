@@ -1,7 +1,6 @@
 import React from "react";
 import { Formik, Form, Field } from "formik";
-import { GetResponseErrors } from "../utilities/CitysourcedResponseHelpers";
-import { GetReportByID } from '../services/authService';
+import FormContainer from './FormContainer';
 import {  SetFieldValues} from "../utilities/FormHelpers";
 import SeButton from "./SeButton";
 import Note from './Note';
@@ -9,33 +8,12 @@ import { Go, Routes } from "../Routing";
 
 // import DisplayFormikState from './helper';
 const GetReport = (props) => {
-	const userGetReport = async (trackingNumber) => {
-		try {
-			const response = await GetReportByID(trackingNumber);
-			if (response.data.ErrorsCount > 0) {
-				const errorsReturned = GetResponseErrors(response);
-				props.Field.ErrorMsg = errorsReturned;
-			}
-			else {
-				SetFieldValues(props, {trackingNumber: ''});
-				Go(props, Routes.ReportStatus, response)
-			}
-		}
-		
-		catch (ex) {
-			
-		}
-	}
     
 	const handleChange = changeEvent => {
 		SetFieldValues(props, {trackingNumber: changeEvent.target.value});
 	};
-    
-	const submitReport=async (trackingNumber) => {
-		await userGetReport(trackingNumber); 
-	};
-    
-	const checkTrackingNumber =(values) =>{
+
+	const checkTrackingNumber = () =>{
 		const { trackingNumber } = props.values;
 	
 		if(RegExp(/^(ACCMP)/i).test(trackingNumber)){
@@ -45,7 +23,7 @@ const GetReport = (props) => {
 			buildNote('?&Module=Enforcement');
 		}	
 		else if (RegExp( /^\d+$/i).test(trackingNumber)){
-			submitReport(trackingNumber);
+			Go(props, Routes.ReportStatus)
 		}
 		else
 		{
@@ -69,91 +47,91 @@ const GetReport = (props) => {
 	}
 
 	return (
-		<Formik
-			onSubmit={async (values, actions, setSubmitting) => {
-				const userInstructions = checkTrackingNumber(values);
-
-				if(userInstructions)
-				{
-					buildNote(userInstructions);
-				}
-				else{
-					await userGetReport(values);
-				}
-			}}
+		<FormContainer title={''}
+			tabNames = {''}
+			currentTab="ServiceRequestForm"
+			shouldDisableForm={false}
+			isPanelRequired={true}
 		>
-			{
-				(props) => {
-					const { values } = props;
-					return (
-						<Form >
-							<div>
-								<div className="callout_gray">
-									<div className="col-md-3">
-										<img width="188" height="54" alt="Baltcogo Issue Reporting System" src="/sebin/w/q/baltcogo.gif" border="0" vspace="0" hspace="0"/>
+			<Formik
+				onSubmit={async (values, actions, setSubmitting) => {
+					await checkTrackingNumber(values, actions, props);
+					actions.setSubmitting(false);
+				}}
+			>
+				{
+					(props) => {
+						const { isSubmitting } = props;
+						return (
+							<Form >
+								<div>
+									<div className="callout_gray">
+										<div className="col-md-3">
+											<img width="188" height="54" alt="Baltcogo Issue Reporting System" src="/sebin/w/q/baltcogo.gif" border="0" vspace="0" hspace="0"/>
 								
-									</div>	
-									<div id="divclear">&nbsp;</div>					
+										</div>	
+										<div id="divclear">&nbsp;</div>					
 									
-									<p>If you were given a tracking number from an issue you reported on our website, please enter it below to get an update.</p>
-									{(alertMessage)?
-										alertMessage: null}
-									<div>
-										<strong>
-											<div className="seform">
-												<div className="SEAFGroupVertical vertical">
+										<p>If you were given a tracking number from an issue you reported on our website, please enter it below to get an update.</p>
+										{(alertMessage)?
+											alertMessage: null}
+										<div>
+											<strong>
+												<div className="seform">
 													<div className="SEAFGroupVertical vertical">
 														<div className="SEAFGroupVertical vertical">
-															<div className="SEAFWrapper">
-																<div className="seText" style={{width:'100%'}}>
-																	<span>Fields marked with </span>
-																	<span className="seRequiredMarker">*</span>
-																	<span> are required.</span>
-																</div>
+															<div className="SEAFGroupVertical vertical">
 																<div className="SEAFWrapper">
-																	<div className="SEAFGroupHorizontal horizontal">
-																		<div className="seLabelCell seLabelCellHorizontal">
-																			<div className="seText">
-																				<label htmlFor="TrackingNumber"
-																				>Tracking Number
-																					<span className="seRequiredMarker">*</span>
-																				</label>
+																	<div className="seText" style={{width:'100%'}}>
+																		<span>Fields marked with </span>
+																		<span className="seRequiredMarker">*</span>
+																		<span> are required.</span>
+																	</div>
+																	<div className="SEAFWrapper">
+																		<div className="SEAFGroupHorizontal horizontal">
+																			<div className="seLabelCell seLabelCellHorizontal">
+																				<div className="seText">
+																					<label htmlFor="TrackingNumber"
+																					>Tracking Number
+																						<span className="seRequiredMarker">*</span>
+																					</label>
+																				</div>
 																			</div>
-																		</div>
-																		<div className = "seFieldCell seFieldCellHorizontal">
-																			<Field
-																				type="text"
-																				onChange = {handleChange}
-																				name="TrackingNumber"
-																			/>
+																			<div className = "seFieldCell seFieldCellHorizontal">
+																				<Field
+																					type="text"
+																					onChange = {handleChange}
+																					name="TrackingNumber"
+																				/>
+																			</div>
 																		</div>
 																	</div>
 																</div>
-															</div>
-															<div className="SEAFWrapper">
-																<SeButton
-																	text="Track Now"
-																	type="button"
-																	onClick = {checkTrackingNumber(values)}
-																	className="pull-left"
-																/>
+																<div className="SEAFWrapper">
+																	<SeButton
+																		text="Track Now"
+																		type="submit"
+																		isLoading={isSubmitting}
+																		className="pull-left"
+																	/>
+																</div>
 															</div>
 														</div>
 													</div>
 												</div>
-											</div>
-										</strong>	
+											</strong>	
+										</div>
+									</div>
+									<div className="input-feedback">
+										<label name="ReportResponse"></label>
 									</div>
 								</div>
-								<div className="input-feedback">
-									<label name="ReportResponse"></label>
-								</div>
-							</div>
-						</Form>
-					)
+							</Form>
+						)
+					}
 				}
-			}
-		</Formik>
+			</Formik>
+		</FormContainer >
 	);
 }
 
