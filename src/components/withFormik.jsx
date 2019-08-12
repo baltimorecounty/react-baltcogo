@@ -64,7 +64,8 @@ export default withFormik({
 		SignUpPage: [''],
 		SignInPage: [''],
 		ResetPasswordPage: [''],
-		ZoomValue: ''
+		ZoomValue: '',
+		AlertAtPage: ''
 	}),
 
 	validationSchema: () =>

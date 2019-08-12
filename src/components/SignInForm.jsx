@@ -95,6 +95,7 @@ const SignIn = (props, routeProps) => {
 			else {
 				const errors = GetNetWorkErrors(ex.toString());
 				props.setStatus({ networkError: errors });
+				SetFieldValues(props, { AlertAtPage: SignInPage });
 			}
 		}
 	}
@@ -131,7 +132,7 @@ const SignIn = (props, routeProps) => {
 						const { errors = {}, touched } = props;
 						return (
 							<Form >
-								{(errorMessage) ?
+								{(errorMessage) &&  AlertAtPage(pageIn,props) ?
 									errorMessage :
 									null}
 								<div className={

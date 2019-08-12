@@ -24,6 +24,20 @@ export const getAlertMessage = (props) => {
 	return message;
 };
 
+export const AlertAtPage=(pageIn,props)=>{
+
+	const alertPage = props.value.AlertAtPage;
+	if (alertPage ==='' || (alertPage !== pageIn))
+	{
+		return false;
+	}
+	else 
+	{
+		return true;
+	}
+
+};
+
 export const resetAlerts = (props) => {
 	const hasPasswordReset = props.values.hasPasswordReset;
 	props.setStatus('');

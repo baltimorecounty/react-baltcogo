@@ -13,12 +13,12 @@ import { GoBack, Go, Routes, GoHome } from "../Routing";
 import { getAlertMessage, resetAlerts } from "./Alert";
 
 const ResetPasswordForm = (props, routeProps) => {
-	const { hasPasswordReset} = props.values;
+	const { Tabs, ResetPasswordPage,hasPasswordReset} = props.values;
 	if (IsFormInComplete(props)) {
 		GoHome(props);
 	}
 
-	const { Tabs, ResetPasswordPage, } = props.values;
+	// const { Tabs, ResetPasswordPage, } = props.values;
 
 	const userPasswordReset = async (clickEvent) => {
 		const { Email = '' } = props.values || {};
