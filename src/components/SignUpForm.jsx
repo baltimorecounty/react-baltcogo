@@ -10,11 +10,11 @@ import { IsFormInComplete, SetFieldValues } from "../utilities/FormHelpers";
 import { IsPhoneNumberValid } from '@baltimorecounty/validation';
 import SeButton from "./SeButton";
 import { GoHome, Go, Routes } from "../Routing";
-import { getAlertMessage, resetAlerts } from "./Alert";
+import { getAlertMessage, resetAlerts, AlertAtPage } from "./Alert";
 
 const CreateAccount = (props, routeProps) => {
 
-	const { Tabs, SignUpPage, shouldDisableForm, hasPasswordReset } = props.values;
+	const { Tabs, SignUpPage, shouldDisableForm } = props.values;
 
 	const [fieldType, setFieldType] = useState('Password');
 	const handlePasswordToggleChange = () => {
@@ -76,6 +76,7 @@ const CreateAccount = (props, routeProps) => {
 				console.error(ex.message);
 				const errors = GetNetWorkErrors(ex.toString());
 				props.setStatus({ networkError: errors });
+				SetFieldValues(props, { AlertAtPage: 'SignUpPage' });
 			}
 		}
 	}
@@ -87,6 +88,7 @@ const CreateAccount = (props, routeProps) => {
 		);
 	});
 	const errorMessage = getAlertMessage(props);
+	const alertReturnValue = AlertAtPage('SignUpPage', props);
 	return (
 		<FormContainer title={SignUpPage.SignUpTitle}
 			tabNames={Tabs}
@@ -127,7 +129,7 @@ const CreateAccount = (props, routeProps) => {
 
 						return (
 							<Form >
-								{(errorMessage && hasPasswordReset === false) ?
+								{(errorMessage && alertReturnValue) ?
 									errorMessage :
 									null}
 								<div className={

@@ -24,23 +24,17 @@ export const getAlertMessage = (props) => {
 	return message;
 };
 
-export const AlertAtPage=(pageIn,props)=>{
+export const AlertAtPage = (pageIn, props) => {
 
-	const alertPage = props.value.AlertAtPage;
-	if (alertPage ==='' || (alertPage !== pageIn))
-	{
-		return false;
-	}
-	else 
-	{
-		return true;
-	}
+	const alertPage = props.values.AlertAtPage;
+	return (alertPage === '' || (alertPage !== pageIn)) ? false : true ;
 
 };
 
 export const resetAlerts = (props) => {
 	const hasPasswordReset = props.values.hasPasswordReset;
 	props.setStatus('');
+	SetFieldValues(props, { AlertAtPage: '' });
 	if (hasPasswordReset === true) {
 		SetFieldValues(props, { hasPasswordReset: false });
 	}

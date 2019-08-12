@@ -2,19 +2,19 @@ import React, { useState } from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import ErrorMsg from "./ErrorMessage";
-import { GetResponseErrors,GetNetWorkErrors } from "../utilities/CitysourcedResponseHelpers";
+import { GetResponseErrors, GetNetWorkErrors } from "../utilities/CitysourcedResponseHelpers";
 import { Link } from 'react-router-dom';
 import FormContainer from './FormContainer';
 import { Login } from '../services/authService';
-import { IsFormInComplete , SetFieldValues} from "../utilities/FormHelpers";
+import { IsFormInComplete, SetFieldValues } from "../utilities/FormHelpers";
 import SeButton from "./SeButton";
 import Note from './Note';
 import { GoBack, GoHome, Go, Routes } from "../Routing";
-import { getAlertMessage, resetAlerts } from "./Alert";
+import { getAlertMessage, resetAlerts, AlertAtPage } from "./Alert";
 
 // import DisplayFormikState from './helper';
 const SignIn = (props, routeProps) => {
-	const { Tabs, SignInPage, shouldDisableForm, ignoreFormCompletion} = props.values;
+	const { Tabs, SignInPage, shouldDisableForm, ignoreFormCompletion, hasPasswordReset } = props.values;
 	const [fieldType, setFieldType] = useState('Password');
 	const handlePasswordToggleChange = () => {
 		setFieldType(fieldType === 'Password' ? 'text' : 'Password');
@@ -75,6 +75,7 @@ const SignIn = (props, routeProps) => {
 				try {
 					const errors = GetResponseErrors(response);
 					props.setStatus({ incorrectEmail: errors.replace('Sorry! ', '') }); //TODO: this should ultimatley come from a validation file so we dont have to modify text
+					SetFieldValues(props, { AlertAtPage: 'SignInPage' });
 					handleLoginFailure(actions, errors);
 					throw new Error(errors);
 				}
@@ -94,15 +95,19 @@ const SignIn = (props, routeProps) => {
 			}
 			else {
 				const errors = GetNetWorkErrors(ex.toString());
+				const fields = {
+					hasPasswordReset: false,
+					AlertAtPage: 'SignInPage',
+				}
 				props.setStatus({ networkError: errors });
-				SetFieldValues(props, { AlertAtPage: SignInPage });
+				SetFieldValues(props, fields);
 			}
 		}
 	}
 
 
 	const errorMessage = getAlertMessage(props);
-
+	const alertReturnValue = AlertAtPage('SignInPage', props);
 	return (
 		<FormContainer title={SignInPage.SignInTitle}
 			tabNames={Tabs}
@@ -132,7 +137,7 @@ const SignIn = (props, routeProps) => {
 						const { errors = {}, touched } = props;
 						return (
 							<Form >
-								{(errorMessage) &&  AlertAtPage(pageIn,props) ?
+								{(errorMessage) && (alertReturnValue || hasPasswordReset) ?
 									errorMessage :
 									null}
 								<div className={

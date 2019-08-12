@@ -65,7 +65,7 @@ export default withFormik({
 		SignInPage: [''],
 		ResetPasswordPage: [''],
 		ZoomValue: '',
-		AlertAtPage: ''
+		AlertAtPage: '',
 	}),
 
 	validationSchema: () =>
