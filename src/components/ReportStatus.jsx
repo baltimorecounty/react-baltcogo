@@ -41,15 +41,26 @@ const ReportStatus = (props, routeProps) => {
 
 	const buildComments = async() =>{
 		try{
-			const commentResponse = await GetReportComments(trackingNumber)
-			
-			if(commentResponse.ErrorsCount > 0){
-				const errorsReturned = GetResponseErrors(commentResponse);
-				throw new Error(errorsReturned);
-			}
-			else{
-				const comments = commentResponse.results.map( (item) => '<li><p>{{Text}}</p><div class="attribution"><span class="author-name">' + item.AuthorName + '</span>, <span class="author-date">' + item.DateCreatedFormatted + '</span></div></li>');
-				return comments
+			if(trackingNumber){
+				const commentResponse = await GetReportComments(trackingNumber)
+
+				if(commentResponse.ErrorsCount > 0){
+					const errorsReturned = GetResponseErrors(commentResponse);
+					throw new Error(errorsReturned);
+				}
+				else{
+					const listItems = commentResponse.data.Results.map((item, id) => 
+						<li key={id}>
+							<p>{item.Text}</p>
+							<div className="attribution">
+								<span className="author-name">{item.AuthorName}</span> 
+								<span className="author-date">{item.DateCreatedFormatted}</span>
+							</div>
+						</li>)
+					return (
+						<ul id="comments">{listItems}</ul>
+					)
+				}
 			}
 		}
 		catch(ex){
@@ -57,6 +68,9 @@ const ReportStatus = (props, routeProps) => {
 		}
 		
 	}
+
+	//const reportComments = buildComments();
+	
 
 	return (
 		<FormContainer title={''}
@@ -86,9 +100,9 @@ const ReportStatus = (props, routeProps) => {
 									</div> :
 									((alertMessage)? alertMessage: null)}
 								{(reportRequestType)?
-									<div class="bc-citysourced-reporter">
-										<div class="callout_gray" id="citysourced-viewer">
-											<h2>Report Status <span class="{{IsOpen}}">In Progress</span></h2>
+									<div className="bc-citysourced-reporter">
+										<div className="callout_gray" id="citysourced-viewer">
+											<h2>Report Status <span className="{{IsOpen}}">In Progress</span></h2>
 											<dl id="meta">
 												<dt>Request ID</dt>
 												<dd>{reportId}</dd>
@@ -101,11 +115,9 @@ const ReportStatus = (props, routeProps) => {
 												<dt>Location</dt>
 												<dd id="address"></dd>
 											</dl>
-											<div id="map" class="google-map"></div>
+											<div id="map" className="google-map"></div>
 											<h3>Comments</h3>
-											<ul id="comments">
-												{buildComments}
-											</ul>
+											{buildComments()}
 										</div>
 									</div>: null}
 							</Form>
