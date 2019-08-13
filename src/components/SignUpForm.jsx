@@ -10,11 +10,11 @@ import { IsFormInComplete, SetFieldValues } from "../utilities/FormHelpers";
 import { IsPhoneNumberValid } from '@baltimorecounty/validation';
 import SeButton from "./SeButton";
 import { GoHome, Go, Routes } from "../Routing";
-import { getAlertMessage, resetAlerts, AlertAtPage } from "./Alert";
+import { getAlertMessage, resetAlerts, AlertAtPage } from "../utilities/AlertHelper";
 
 const CreateAccount = (props, routeProps) => {
 
-	const { Tabs, SignUpPage, shouldDisableForm } = props.values;
+	const { Tabs, SignUpPage, shouldDisableForm, hasPasswordReset } = props.values;
 
 	const [fieldType, setFieldType] = useState('Password');
 	const handlePasswordToggleChange = () => {
@@ -34,6 +34,7 @@ const CreateAccount = (props, routeProps) => {
 
 	const userCreateAccount = async (values, actions, props) => {
 		try {
+
 			const response = await SignUp(values.NameFirst, values.NameLast, values.Email, values.Password, values.Telephone, values.UniqueId, values.SuppressNotifications);
 			var ContactID = "";
 
@@ -43,7 +44,6 @@ const CreateAccount = (props, routeProps) => {
 					const error = errorsReturned === "Sorry! The email address submitted is already taken."
 						? <p>The email address you entered is already registered in this system. <Link to="SignInForm">Log in to your account</Link> or <Link to="ResetPassword">reset your password</Link>.</p>
 						: errorsReturned;
-
 					extendedError = error;
 					throw new Error(errorsReturned);
 				}
@@ -63,17 +63,14 @@ const CreateAccount = (props, routeProps) => {
 				};
 
 				SetFieldValues(props, fields);
-
 				sessionStorage.setItem('UserLoginID', ContactID)
 				sessionStorage.setItem('NameFirst', NameFirst);
 				sessionStorage.setItem('NameLast', NameLast);
-
 				Go(props, Routes.ProvideDetails);
 			}
 		}
 		catch (ex) {
 			if (ex.message) {
-				console.error(ex.message);
 				const errors = GetNetWorkErrors(ex.toString());
 				props.setStatus({ networkError: errors });
 				SetFieldValues(props, { AlertAtPage: 'SignUpPage' });

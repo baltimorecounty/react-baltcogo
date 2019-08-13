@@ -15,7 +15,6 @@ const HasResponseErrors = (response) => {
 const GetNetWorkErrors = (errorMessage) => {
 	const errors = errorMessage.split(':');
 	return errors !== undefined ? errors[1] : null;
-
 };
 
 const GetResponseErrors = (response) => {

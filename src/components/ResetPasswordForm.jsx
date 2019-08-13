@@ -10,10 +10,10 @@ import Alert from './Alert';
 import SeButton from "./SeButton";
 import { ResetPassword } from '../services/authService';
 import { GoBack, Go, Routes, GoHome } from "../Routing";
-import { getAlertMessage, resetAlerts, AlertAtPage } from "./Alert";
+import { getAlertMessage, resetAlerts, AlertAtPage } from "../utilities/AlertHelper";
 
 const ResetPasswordForm = (props, routeProps) => {
-	const { Tabs, ResetPasswordPage } = props.values;
+	const { Tabs, ResetPasswordPage ,hasPasswordReset} = props.values;
 	if (IsFormInComplete(props)) {
 		GoHome(props);
 	}
@@ -36,8 +36,8 @@ const ResetPasswordForm = (props, routeProps) => {
 			}
 		}
 		catch (ex) {
-			console.error(ex.message);
 			const errors = GetNetWorkErrors(ex.toString());
+			resetAlerts(props);
 			props.setStatus({ networkError: errors });
 			SetFieldValues(props, { AlertAtPage: 'ResetPasswordPage' });
 		}
@@ -84,7 +84,7 @@ const ResetPasswordForm = (props, routeProps) => {
 
 						return (
 							<Form >
-								{(errorMessage && alertReturnValue) ?
+								{(errorMessage && (alertReturnValue && !(hasPasswordReset))) ?
 									errorMessage :
 									null}
 								{errors.length > 0 && <Alert type="danger">

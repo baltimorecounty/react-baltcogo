@@ -6,39 +6,34 @@ import { SetFieldValues } from "../utilities/FormHelpers";
 
 
 
-export const getAlertMessage = (props) => {
-	let message = '';
-	const { hasPasswordReset } = props.values;
-	if (hasPasswordReset) {
-		message = <Note className='bc_alert alert-success'>{props.values.SignInPage.ResetPasswordAlert.replace('{email address}', props.history.location.state)}</Note>
-	}
-	else if (props.status) {
-		const { incorrectEmail, networkError } = props.status;
-		if (incorrectEmail) {
-			message = <Note icon='Nothing' className='bc_alert alert-warning'>{incorrectEmail ? incorrectEmail : null}</Note>
-		}
-		else {
-			message = <Note icon='Nothing' className='bc_alert alert-warning'>{networkError ? networkError : null}</Note>
-		}
-	}
-	return message;
-};
+// export const getAlertMessage = (props) => {
 
-export const AlertAtPage = (pageIn, props) => {
+// 	const { hasPasswordReset } = props.values;
+// 	if (hasPasswordReset) {
+// 		return <Note className='bc_alert alert-success'>{props.values.SignInPage.ResetPasswordAlert.replace('{email address}', props.history.location.state)}</Note>
+// 	}
+// 	else if (props.status) {
+// 		const { incorrectEmail, networkError } = props.status;
+// 		const message = incorrectEmail || networkError || null;
+// 		return <Note icon='Nothing' className='bc_alert alert-warning'>{message}</Note>
+// 	}
+// };
 
-	const alertPage = props.values.AlertAtPage;
-	return (alertPage === '' || (alertPage !== pageIn)) ? false : true ;
+// export const AlertAtPage = (pageIn, props) => {
 
-};
+// 	const alertPage = props.values.AlertAtPage;
+// 	return !(alertPage === '' || (alertPage !== pageIn));
 
-export const resetAlerts = (props) => {
-	const hasPasswordReset = props.values.hasPasswordReset;
-	props.setStatus('');
-	SetFieldValues(props, { AlertAtPage: '' });
-	if (hasPasswordReset === true) {
-		SetFieldValues(props, { hasPasswordReset: false });
-	}
-};
+// };
+
+// export const resetAlerts = (props) => {
+// 	const hasPasswordReset = props.values.hasPasswordReset;
+// 	props.setStatus('');
+// 	SetFieldValues(props, { AlertAtPage: '' });
+// 	if (hasPasswordReset) {
+// 		SetFieldValues(props, { hasPasswordReset: false });
+// 	}
+// };
 
 const Alert = (props) => {
 	const { type = '', children, className, icon = '', ...rest } = props;
