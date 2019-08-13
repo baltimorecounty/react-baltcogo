@@ -14,7 +14,7 @@ import { getAlertMessage, resetAlerts, AlertAtPage } from "../utilities/AlertHel
 
 const CreateAccount = (props, routeProps) => {
 
-	const { Tabs, SignUpPage, shouldDisableForm, hasPasswordReset } = props.values;
+	const { Tabs, SignUpPage, shouldDisableForm } = props.values;
 
 	const [fieldType, setFieldType] = useState('Password');
 	const handlePasswordToggleChange = () => {

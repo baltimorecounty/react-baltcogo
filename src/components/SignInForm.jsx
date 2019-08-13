@@ -8,11 +8,9 @@ import FormContainer from './FormContainer';
 import { Login } from '../services/authService';
 import { IsFormInComplete, SetFieldValues } from "../utilities/FormHelpers";
 import SeButton from "./SeButton";
-import Note from './Note';
 import { GoBack, GoHome, Go, Routes } from "../Routing";
 import { getAlertMessage, resetAlerts, AlertAtPage } from "../utilities/AlertHelper";
 
-// import DisplayFormikState from './helper';
 const SignIn = (props, routeProps) => {
 	const { Tabs, SignInPage, shouldDisableForm, ignoreFormCompletion, hasPasswordReset } = props.values;
 	const [fieldType, setFieldType] = useState('Password');

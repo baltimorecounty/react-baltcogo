@@ -1,6 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import Note from '../components/Note';
 import { SetFieldValues } from "../utilities/FormHelpers";
 export const getAlertMessage = (props) => {
