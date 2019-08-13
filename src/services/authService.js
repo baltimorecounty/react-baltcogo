@@ -29,6 +29,9 @@ export const  CreateReport = (data) => {
 export const  GetReportByID = (ReportID) => {
 	return http.get(apiReportUrl + ReportID);
 }
+export const  GetReportComments = (ReportID) => {
+	return http.get(apiReportUrl + ReportID + '/comments');
+}
 export const GetReportByLatLong = (X, Y) => {
 	return http.get(apiReportUrl + X + Y);
 }

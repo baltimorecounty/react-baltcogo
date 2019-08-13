@@ -3,6 +3,7 @@ import { Formik, Form } from "formik";
 import { Link } from 'react-router-dom';
 import SeButton from "./SeButton";
 import { GetResponseErrors } from "../utilities/CitysourcedResponseHelpers";
+import { GetReportComments } from '../services/authService';
 import FormContainer from './FormContainer';
 import Note from './Note';
 import Moment from 'react-moment';
@@ -38,12 +39,24 @@ const ReportStatus = (props, routeProps) => {
 
 	displayReportStatus();
 
-	// const buildComments = () =>{
+	const buildComments = async() =>{
+		try{
+			const commentResponse = await GetReportComments(trackingNumber)
+			
+			if(commentResponse.ErrorsCount > 0){
+				const errorsReturned = GetResponseErrors(commentResponse);
+				throw new Error(errorsReturned);
+			}
+			else{
+				const comments = commentResponse.results.map( (item) => '<li><p>{{Text}}</p><div class="attribution"><span class="author-name">' + item.AuthorName + '</span>, <span class="author-date">' + item.DateCreatedFormatted + '</span></div></li>');
+				return comments
+			}
+		}
+		catch(ex){
 
-	// 	const comments = '<li><p>{{Text}}</p><div class="attribution"><span class="author-name">' + Author + '</span>, <span class="author-date">' + Created + '</span></div></li>'
-
-	// 	return comments
-	// }
+		}
+		
+	}
 
 	return (
 		<FormContainer title={''}
@@ -88,21 +101,11 @@ const ReportStatus = (props, routeProps) => {
 												<dt>Location</dt>
 												<dd id="address"></dd>
 											</dl>
-
 											<div id="map" class="google-map"></div>
-				
 											<h3>Comments</h3>
-
-											{/* <ul id="comments">
-					
-													<li>
-														<p>{{Text}}</p>
-														<div class="attribution">
-															<span class="author-name">{{Author}}</span>, <span class="author-date">{{Created}}</span>
-														</div>
-													</li>
-					
-												</ul> */}
+											<ul id="comments">
+												{buildComments}
+											</ul>
 										</div>
 									</div>: null}
 							</Form>
