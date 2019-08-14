@@ -41,12 +41,12 @@ const AsyncMap = compose(
 		onClick={props.setMarker}
 		options={{ mapTypeControl: false, streetViewControl: false }}
 	>
-		<Marker
+		{(props.displayMarker !== '') ? <Marker
 			position={{ lat: props.markerlat, lng: props.markerlng }}
 			draggable={true}
 			onDragEnd={props.onMarkerDragEnd}
 		>
-		</Marker>
+		</Marker> : null}
 	</GoogleMap>
 );
 
@@ -74,7 +74,7 @@ class Map extends React.Component {
 
 
 	render() {
-		const { onMarkerDragEnd, onZoom, lat, lng } = this.props;
+		const { address, onMarkerDragEnd, onZoom, lat, lng } = this.props;
 		const { markerlat, markerlng } = this.state.markerPosition;
 
 		return (
@@ -88,7 +88,7 @@ class Map extends React.Component {
 					onMarkerDragEnd={onMarkerDragEnd}
 					zoom={this.props.zoom}
 					onZoom={onZoom}
-
+					displayMarker={address}
 
 				/>
 			</div >
