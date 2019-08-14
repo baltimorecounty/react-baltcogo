@@ -3,6 +3,8 @@ import { Formik, Form, Field } from "formik";
 import FormContainer from './FormContainer';
 import { SetFieldValues } from "../utilities/FormHelpers";
 import { GetReportByID } from '../services/authService';
+import '../css/inside-responsive.min.css';
+import '../css/citysourced-reporter.min.css';
 import SeButton from "./SeButton";
 import Note from './Note';
 import { Go, Routes } from "../Routing";
