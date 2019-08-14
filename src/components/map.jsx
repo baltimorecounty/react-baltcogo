@@ -24,7 +24,7 @@ const AsyncMap = compose(
 			onMapClick: (setMarker) => (e) => {
 				setMarker(e.latLng.lat(), e.latLng.lng());
 			},
-			onZoomChanged: ({ onZoomChange, onZoom }) => () => {
+			onZoomChanged: ({ onZoom }) => () => {
 				let zoomValue = refs.map.getZoom();
 				onZoom(zoomValue);
 			}
