@@ -73,8 +73,17 @@ const ReportStatus = (props, routeProps) => {
 		}
 	}
 
-	const showMoreComments = () =>{
-		setcommentLength(comments.length);
+	const showMoreComments = (clickEvent) =>{
+		if (clickEvent.currentTarget.innerText === 'Show more...')
+		{
+			setcommentLength(comments.length);
+			clickEvent.currentTarget.innerText = 'Show less...';
+		}
+		else{
+			setcommentLength(3);
+			clickEvent.currentTarget.innerText = 'Show more...';
+		}
+		
 		buildComments();
 	}
 
@@ -142,10 +151,10 @@ const ReportStatus = (props, routeProps) => {
 											</ul>
 											<p>
 												<SeButton
-													text="Show more comments"
-													type="input"
+													text="Show more..."
+													type="button"
 													onClick = {showMoreComments}
-													className="pull-left"
+													className="button-to-link pull-left"
 												/>
 											</p>
 										</div>

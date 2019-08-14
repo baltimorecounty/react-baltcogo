@@ -1887,7 +1887,17 @@
     display: block;
     margin-left: auto;
     margin-right: auto; }
-  
+
+  .button-to-link{
+		background:none;
+		color:inherit;
+		border:none; 
+		padding:0!important;
+		font: inherit;
+		/*border is optional*/
+		border-bottom:1px solid #444; 
+    cursor: pointer;}
+    
   .pull-right {
     float: right !important; }
   
