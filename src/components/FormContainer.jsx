@@ -57,7 +57,7 @@ const FormContainer = (props) => {
 			<ol className="bc-citysourced-reporter-steps">
 				{tabList.map((tab, id) => {
 					return (
-						(props.title) ?
+						(props.tabNames !== 'none') ?
 							<li key={tab.id} className={selectClassName(tab)}>
 								{tab.description}
 							</li> : null
@@ -65,8 +65,9 @@ const FormContainer = (props) => {
 				})}
 			</ol>
 			<fieldset className="container Container-bg">
-				<legend>{props.title}</legend>
-				{props.children}
+				{props.title ?
+					<legend>{props.title}</legend>: null }
+				{props.children} 
 			</fieldset>
 		</div>
 	);

@@ -56,7 +56,7 @@ const GetReport = (props) => {
 
 	return (
 		<FormContainer title={''}
-			tabNames = {''}
+			tabNames = {'none'}
 			currentTab="ServiceRequestForm"
 			shouldDisableForm={false}
 			isPanelRequired={true}

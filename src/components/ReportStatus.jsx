@@ -4,25 +4,32 @@ import { Link } from 'react-router-dom';
 import { returnConfigItems } from "../utilities//returnEnvironmentItems"
 import axios from "axios"
 import _ from 'lodash';
-import SeButton from "./SeButton";
 import { GetResponseErrors } from "../utilities/CitysourcedResponseHelpers";
 import { GetReportComments } from '../services/authService';
 import FormContainer from './FormContainer';
 import Note from './Note';
 import Moment from 'react-moment';
+import SeButton from "./SeButton";
 import Map from './map';
-import { GoBack, Go, Routes } from "../Routing";
+import { Go, Routes } from "../Routing";
 
 
 const ReportStatus = (props, routeProps) => {
-	const { trackingNumber, Latitude, Longitude } = props.values;
+	const { trackingNumber } = props.values;
 	const response = props.history.location.state;
 	const [comments, setComment] = useState([]);
+	const [commentLength, setcommentLength] = useState([]);
 
 	let alertMessage = '';
 	let errorStatusCode ='';
-	let reportId, reportDateCreated, reportDateUpdated, reportRequestType, latitude, longitude, address;
+	let reportId, reportDateCreated, reportDateUpdated, reportRequestType, latitude, longitude, address, status, isOpen;
 
+	useEffect(() => {
+		setcommentLength(3);
+		buildComments();
+	}, [response]);
+
+	  
 	const buildComments = async() =>{
 		try{
 			if(trackingNumber){
@@ -42,16 +49,6 @@ const ReportStatus = (props, routeProps) => {
 		}
 	}
 
-	const reverseGeocode = async (latitude, longitude) => {
-		const mapReverseEndPoint =returnConfigItems('mapEndPoint',"mapReverseGISEndPoint");
-		const result = await axios(
-			`${mapReverseEndPoint}${longitude}%2C${latitude}&f=pjson`,
-		);
-
-		return result;
-
-	};
-	
 	const displayReportStatus = () => {
 		if(!response)
 		{
@@ -63,17 +60,22 @@ const ReportStatus = (props, routeProps) => {
 			alertMessage = <Note>{errorsReturned}</Note>		
 		}
 		else{
-			const {Id, DateCreated, DateUpdated, RequestType, Latitude, Longitude} = response.data.Results;
+			const {Id, DateCreated, DateUpdated, RequestType, Latitude, Longitude, FormattedAddress, StatusTypeReadable, StatusTypeIsClosed} = response.data.Results;
 			reportId = Id;
 			reportDateCreated = DateCreated;
 			reportDateUpdated = DateUpdated;
 			reportRequestType = RequestType;
 			latitude = Latitude;
-			longitude = Longitude
-			address = reverseGeocode(latitude, longitude);
-
-			buildComments();
+			longitude = Longitude;
+			address = FormattedAddress;
+			status = StatusTypeReadable;
+			isOpen = (StatusTypeIsClosed ? 'closed': 'open')
 		}
+	}
+
+	const showMoreComments = () =>{
+		setcommentLength(comments.length);
+		buildComments();
 	}
 
 	const AuthorItem = props => (
@@ -86,24 +88,18 @@ const ReportStatus = (props, routeProps) => {
 		</li>
 	  );
 
-	displayReportStatus();
-	
+	  displayReportStatus();
+
 	return (
 		<FormContainer title={''}
-			tabNames = {''}
+			tabNames = {'none'}
 			currentTab="ServiceRequestForm"
 			shouldDisableForm={false}
 			isPanelRequired={true}
 		> 
-			<Formik
-				// onSubmit={async (values, actions, setSubmitting) => {
-				// 	await userGetReport(values, actions, props);
-				// 	actions.setSubmitting(false);
-				// }}
-			>
+			<Formik>
 				{
 					(props) => {
-						const { isSubmitting } = props;
 						return(
 							<Form >
 								{(errorStatusCode === 404) ? 
@@ -118,7 +114,7 @@ const ReportStatus = (props, routeProps) => {
 								{(reportRequestType)?
 									<div className="bc-citysourced-reporter">
 										<div className="callout_gray" id="citysourced-viewer">
-											<h2>Report Status <span className="{{IsOpen}}">In Progress</span></h2>
+											<h2>Report Status <span className={isOpen}>{status}</span></h2>
 											<dl id="meta">
 												<dt>Request ID</dt>
 												<dd>{reportId}</dd>
@@ -129,21 +125,29 @@ const ReportStatus = (props, routeProps) => {
 												<dt>Last Updated</dt>
 												<dd><Moment format="MM/DD/YYYY">{reportDateUpdated}</Moment></dd>					
 												<dt>Location</dt>
-												<dd id="location"></dd>
+												<dd id="location">{address}</dd>
 											</dl>
 											<div id="map" className="google-map">
 											</div>
 											<h3>Comments</h3>
 											<ul>
-												{comments.map((item, id) => (
+												{comments.slice(0, commentLength).map(item => (
 													<AuthorItem
-														id={id}
+														id={item.Id}
 														name={item.AuthorName}
 														date={item.DateCreatedFormatted}
 														text={item.Text}
 											 		 />
 												))}
 											</ul>
+											<p>
+												<SeButton
+													text="Show more comments"
+													type="input"
+													onClick = {showMoreComments}
+													className="pull-left"
+												/>
+											</p>
 										</div>
 									</div>: null}
 							</Form>
