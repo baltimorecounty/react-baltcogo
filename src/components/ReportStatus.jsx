@@ -14,14 +14,14 @@ const ReportStatus = (props, routeProps) => {
 	const { trackingNumber } = props.values;
 	const response = props.history.location.state;
 	const [comments, setComment] = useState([]);
-	const [commentLength, setcommentLength] = useState([]);
+	const [commentLength, setcommentLength] = useState(3);
+	const [buttonName, setButtonName] = useState('Show more...');
 
 	let alertMessage = '';
 	let errorStatusCode ='';
 	let reportId, reportDateCreated, reportDateUpdated, reportRequestType, address, status, isOpen;
 
 	useEffect(() => {
-		setcommentLength(3);
 		buildComments();
 	}, [response]);
 
@@ -68,14 +68,14 @@ const ReportStatus = (props, routeProps) => {
 	}
 
 	const showMoreComments = (clickEvent) =>{
-		if (clickEvent.currentTarget.innerText === 'Show more...')
+		if (buttonName === 'Show more...')
 		{
 			setcommentLength(comments.length);
-			clickEvent.currentTarget.innerText = 'Show less...';
+			setButtonName('Show less...');
 		}
 		else{
 			setcommentLength(3);
-			clickEvent.currentTarget.innerText = 'Show more...';
+			setButtonName('Show more...');
 		}
 		
 		buildComments();
@@ -146,7 +146,7 @@ const ReportStatus = (props, routeProps) => {
 											</ul>
 											<p>
 												<SeButton
-													text="Show more..."
+													text={buttonName}
 													type="button"
 													onClick = {showMoreComments}
 													className="button-to-link pull-left"

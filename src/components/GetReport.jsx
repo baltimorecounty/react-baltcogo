@@ -3,14 +3,13 @@ import { Formik, Form, Field } from "formik";
 import FormContainer from './FormContainer';
 import { SetFieldValues } from "../utilities/FormHelpers";
 import { GetReportByID } from '../services/authService';
-import '../css/inside-responsive.min.css';
-import '../css/citysourced-reporter.min.css';
 import SeButton from "./SeButton";
 import Note from './Note';
 import { Go, Routes } from "../Routing";
 
 const GetReport = (props) => {
-    
+	const BadID = 'BadID';
+	
 	const handleChange = changeEvent => {
 		SetFieldValues(props, {trackingNumber: changeEvent.target.value});
 	};
@@ -23,19 +22,22 @@ const GetReport = (props) => {
 
 	const checkTrackingNumber = () =>{
 		const { trackingNumber } = props.values;
-	
-		if(RegExp(/^(ACCMP)/i).test(trackingNumber)){
+		var animalVendorComplaint = RegExp(/^(ACCMP)/i);
+		var standardVendorComplaint = RegExp(/^(CC|CRH|CS|PP|TS|CE|CP|CB|CG)\d+$/i);
+		var standardComplaint = RegExp(/^\d+$/i);
+
+		if(animalVendorComplaint.test(trackingNumber)){
 			buildNote('?&Module=Enforce');
 		}
-		else if (RegExp(/^(CC|CRH|CS|PP|TS|CE|CP|CB|CG)\d+$/i).test(trackingNumber)){
+		else if (standardVendorComplaint.test(trackingNumber)){
 			buildNote('?&Module=Enforcement');
 		}	
-		else if (RegExp( /^\d+$/i).test(trackingNumber)){
+		else if (standardComplaint.test(trackingNumber)){
 			userGetReport(trackingNumber);	
 		}
 		else
 		{
-			buildNote('BadID');
+			buildNote(BadID);
 		}
 	}
 	
@@ -45,7 +47,7 @@ const GetReport = (props) => {
 		const messageUrlRedirect = '<p>The record you’re looking for is available in a different tracking system. Please visit <a href= https://citizenaccess.baltimorecountymd.gov/CitizenAccess/Cap/CapHome.aspx' + urlParameter + '>Baltimore County Online Services</a> and enter the tracking number again.</p><p>We’re working to better integrate these systems in the future. Until then, we apologize for any inconvenience this may cause.</p>'
 		const messageBadId = 'We are having trouble looking up this record. Please call 410-887-2450 to verify your tracking number.'
 		
-		urlParameter === 'BadID' ?
+		urlParameter === BadID ?
 			alertMessage = <Note>
 				{messageBadId}
 			</Note>:
