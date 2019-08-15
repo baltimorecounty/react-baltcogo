@@ -42,7 +42,7 @@ const provideDetails = props => {
 
 	useEffect(() => {
 		const fetchData = async () => {
-			const mapEndPoint = returnConfigItems('mapEndPoint','mapGISEndPoint');
+			const mapEndPoint = returnConfigItems('mapEndPoint', 'mapGISEndPoint');
 
 			if (query !== 'undefined' && query.length > 0) {
 				const result = await axios(
@@ -72,7 +72,7 @@ const provideDetails = props => {
 
 
 	const reverseGeocode = async (latitude, longitude) => {
-		const mapReverseEndPoint =returnConfigItems('mapEndPoint',"mapReverseGISEndPoint");
+		const mapReverseEndPoint = returnConfigItems('mapEndPoint', "mapReverseGISEndPoint");
 		const result = await axios(
 			`${mapReverseEndPoint}${longitude}%2C${latitude}&f=pjson`,
 		);
@@ -166,7 +166,7 @@ const provideDetails = props => {
 	const { values, errors, actions, touched, handleSubmit, setFieldValue, ...rest } = props;
 	const items = Address.map((item, index) => ({
 		id: item.Latitude + item.Longitude,
-		label:  UpperCaseFirstLetter(item.StreetAddress, item.City, item.Zip),
+		label: UpperCaseFirstLetter(item.StreetAddress, item.City, item.Zip),
 	}));
 
 	/**
@@ -264,6 +264,7 @@ const provideDetails = props => {
 							pageFieldName={MapPage.AddressHeaderLabel} />
 
 						<Collaspe
+							address={location}
 							ZoomValue={rest.formik.values.ZoomValue}
 							lat={updatedLatitude}
 							lng={updatedLongitude}
