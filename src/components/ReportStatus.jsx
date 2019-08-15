@@ -136,6 +136,7 @@ const ReportStatus = (props, routeProps) => {
 											<ul>
 												{comments.slice(0, commentLength).map(item => (
 													<AuthorItem
+														key={item.Id}
 														id={item.Id}
 														name={item.AuthorName}
 														date={item.DateCreatedFormatted}
