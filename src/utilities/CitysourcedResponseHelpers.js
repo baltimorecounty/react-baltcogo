@@ -12,6 +12,10 @@ const HasResponseErrors = (response) => {
 	const hasInvalidResponse = ErrorsCount !== 0 && !ErrorsCount
 	return hasInvalidResponse || ErrorsCount > 0;
 };
+const GetNetWorkErrors = (errorMessage) => {
+	const errors = errorMessage.split(':');
+	return errors !== undefined ? errors[1] : null;
+};
 
 const GetResponseErrors = (response) => {
 	const {
@@ -23,5 +27,6 @@ const GetResponseErrors = (response) => {
 
 export {
 	GetResponseErrors,
-	HasResponseErrors
+	HasResponseErrors,
+	GetNetWorkErrors
 };
