@@ -41,7 +41,7 @@ const AsyncMap = compose(
 		onClick={props.setMarker}
 		options={{ mapTypeControl: false, streetViewControl: false }}
 	>
-		{(props.displayMarker !== '') ? <Marker
+		{(props.displayMarker) ? <Marker
 			position={{ lat: props.markerlat, lng: props.markerlng }}
 			draggable={true}
 			onDragEnd={props.onMarkerDragEnd}
