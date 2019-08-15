@@ -9,16 +9,12 @@ export const getAlertMessage = (props) => {
 	}
 	else if (props.status) 
 	{
-		const { incorrectEmail, networkError } = props.status;
+		const { incorrectEmail, networkError } = props.status || {};
 		const message = incorrectEmail || networkError || null;
 		return <Note icon='Nothing' className='bc_alert alert-warning'>{message}</Note>
 	}
 };
 
-export const AlertAtPage = (pageIn, props) => {
-	const alertPage = props.values.AlertAtPage;
-	return !(alertPage === '' || (alertPage !== pageIn));
-};
 
 export const resetAlerts = (props) => {
 	const hasPasswordReset = props.values.hasPasswordReset;
