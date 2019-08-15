@@ -63,7 +63,7 @@ const GetReport = (props) => {
 		>
 			<Formik
 				onSubmit={async (values, actions, setSubmitting) => {
-					await checkTrackingNumber();
+					checkTrackingNumber();
 					actions.setSubmitting(false);
 				}}
 			>
