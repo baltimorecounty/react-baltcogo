@@ -1,16 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Formik, Form } from "formik";
 import { Link } from 'react-router-dom';
-import { returnConfigItems } from "../utilities//returnEnvironmentItems"
-import axios from "axios"
-import _ from 'lodash';
 import { GetResponseErrors } from "../utilities/CitysourcedResponseHelpers";
 import { GetReportComments } from '../services/authService';
 import FormContainer from './FormContainer';
 import Note from './Note';
 import Moment from 'react-moment';
 import SeButton from "./SeButton";
-import Map from './map';
 import { Go, Routes } from "../Routing";
 
 
@@ -22,7 +18,7 @@ const ReportStatus = (props, routeProps) => {
 
 	let alertMessage = '';
 	let errorStatusCode ='';
-	let reportId, reportDateCreated, reportDateUpdated, reportRequestType, latitude, longitude, address, status, isOpen;
+	let reportId, reportDateCreated, reportDateUpdated, reportRequestType, address, status, isOpen;
 
 	useEffect(() => {
 		setcommentLength(3);
@@ -60,13 +56,11 @@ const ReportStatus = (props, routeProps) => {
 			alertMessage = <Note>{errorsReturned}</Note>		
 		}
 		else{
-			const {Id, DateCreated, DateUpdated, RequestType, Latitude, Longitude, FormattedAddress, StatusTypeReadable, StatusTypeIsClosed} = response.data.Results;
+			const {Id, DateCreated, DateUpdated, RequestType, FormattedAddress, StatusTypeReadable, StatusTypeIsClosed} = response.data.Results;
 			reportId = Id;
 			reportDateCreated = DateCreated;
 			reportDateUpdated = DateUpdated;
 			reportRequestType = RequestType;
-			latitude = Latitude;
-			longitude = Longitude;
 			address = FormattedAddress;
 			status = StatusTypeReadable;
 			isOpen = (StatusTypeIsClosed ? 'closed': 'open')
