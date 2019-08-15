@@ -126,7 +126,7 @@ const CreateAccount = (props, routeProps) => {
 
 						return (
 							<Form >
-								{(errorMessage && alertReturnValue) ?
+								{alertReturnValue ?
 									errorMessage :
 									null}
 								<div className={

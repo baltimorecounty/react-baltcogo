@@ -134,7 +134,7 @@ const SignIn = (props, routeProps) => {
 						const { errors = {}, touched } = props;
 						return (
 							<Form >
-								{(errorMessage) && (alertReturnValue || hasPasswordReset) ?
+								{(alertReturnValue || hasPasswordReset) ?
 									errorMessage :
 									null}
 								<div className={
