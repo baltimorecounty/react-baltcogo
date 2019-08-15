@@ -7,7 +7,7 @@ export const getAlertMessage = (props) => {
 	if (hasPasswordReset) {
 		return <Note className='bc_alert alert-success'>{props.values.SignInPage.ResetPasswordAlert.replace('{email address}', props.history.location.state)}</Note>
 	}
-	else if (props.status) 
+	else
 	{
 		const { incorrectEmail, networkError } = props.status || {};
 		const message = incorrectEmail || networkError || null;
