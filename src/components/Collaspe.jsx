@@ -14,7 +14,7 @@ const Collaspe = ({ address, ZoomValue, lat, lng, DefaultLatitude, DefaultLongit
 					<Map
 						address={address} lat={lat} lng={lng} DefaultLatitude={DefaultLatitude}
 						DefaultLongitude={DefaultLongitude} Animation={Animation} onZoom={onZoom} onMarkerDragEnd={onMarkerDragEnd}
-						center={{ lat, lng }}
+						//center={{ lat, lng }}
 						height='300px'
 						zoom={ZoomValue === '' ? 15 : ZoomValue}
 						streetViewControl='false'

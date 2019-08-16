@@ -268,7 +268,7 @@ const provideDetails = props => {
 							pageFieldName={MapPage.AddressHeaderLabel} />
 
 						<Collaspe
-							address={  verifyAddress(location)}
+							address={location}
 							ZoomValue={rest.formik.values.ZoomValue}
 							DefaultLatitude={DefaultLatitude}
 							DefaultLongitude={DefaultLongitude}
