@@ -3,7 +3,7 @@ import React from 'react';
 import { UncontrolledCollapse, Button } from 'reactstrap';
 import Map from './map';
 
-const Collaspe = ({ address, ZoomValue, lat, lng, DefaultLatitude, DefaultLongitude,Animation, onZoom, markerLat, onChange, onMarkerDragEnd }) => {
+const Collaspe = ({ address, ZoomValue, lat, lng, DefaultLatitude, DefaultLongitude, Animation, onZoom, markerLat, onChange, onMarkerDragEnd }) => {
 	return (
 		<React.Fragment>
 			<Button type="button" className="small" color="link" id="toggler" align="left" style={{ marginBottom: '1rem' }}>
