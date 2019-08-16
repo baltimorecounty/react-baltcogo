@@ -24,7 +24,7 @@ const AsyncMap = compose(
 			onMapClick: (setMarker) => (e) => {
 				setMarker(e.latLng.lat(), e.latLng.lng());
 			},
-			onZoomChanged: ({ onZoomChange, onZoom }) => () => {
+			onZoomChanged: ({ onZoom }) => () => {
 				let zoomValue = refs.map.getZoom();
 				onZoom(zoomValue);
 			}
@@ -41,16 +41,14 @@ const AsyncMap = compose(
 		onClick={props.setMarker}
 		options={{ mapTypeControl: false, streetViewControl: false }}
 	>
-		{(props.displayMarker !== '') ? < Marker
+		{(props.displayMarker) ? <Marker
 			position={{ lat: props.markerlat, lng: props.markerlng }}
 			draggable={true}
 			onDragEnd={props.onMarkerDragEnd}
 			animation={props.Animation}
 		>
-		</Marker> : null
-
-		}
-	</GoogleMap >
+		</Marker> : null}
+	</GoogleMap>
 );
 
 class Map extends React.Component {
