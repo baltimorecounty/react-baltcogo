@@ -1,7 +1,7 @@
 import React from 'react';
 import { withGoogleMap, GoogleMap, withScriptjs, Marker } from "react-google-maps";
 import { compose, withProps, withHandlers } from "recompose";
-
+import _ from 'lodash';
 const mapElement = <div style={{ height: '300px' }} />;
 const AsyncMap = compose(
 	withProps({
@@ -19,10 +19,6 @@ const AsyncMap = compose(
 		return {
 			onMapMounted: () => ref => {
 				refs.map = ref
-			},
-
-			onMapClick: (setMarker) => (e) => {
-				setMarker(e.latLng.lat(), e.latLng.lng());
 			},
 			onZoomChanged: ({ onZoom }) => () => {
 				let zoomValue = refs.map.getZoom();
@@ -67,9 +63,7 @@ class Map extends React.Component {
 				markerlat: e.latLng.lat(),
 				markerlng: e.latLng.lng()
 			}
-
 		});
-
 		props.onMarkerDragEnd(e, props.setFieldValue);
 	}
 
@@ -77,6 +71,8 @@ class Map extends React.Component {
 	render() {
 		const { address, onMarkerDragEnd, onZoom, lat, lng, DefaultLatitude, DefaultLongitude, Animation } = this.props;
 		const { markerlat, markerlng } = this.state.markerPosition;
+		console.log('address:' + address);
+		
 		return (
 			<div>
 				<AsyncMap
