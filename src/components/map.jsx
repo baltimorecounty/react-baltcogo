@@ -34,7 +34,7 @@ const AsyncMap = compose(
 	withGoogleMap,
 )(props =>
 	<GoogleMap
-		defaultCenter={{ lat: 39.4001526, lng: -76.6074448 }}
+		defaultCenter={{ lat: props.DefaultLatitude, lng: props.DefaultLongitude }}
 		zoom={props.zoom}
 		ref={props.onMapMounted}
 		onZoomChanged={props.onZoomChanged}
@@ -45,7 +45,7 @@ const AsyncMap = compose(
 			position={{ lat: props.markerlat, lng: props.markerlng }}
 			draggable={true}
 			onDragEnd={props.onMarkerDragEnd}
-			animation={2}
+			animation={props.Animation}
 		>
 		</Marker> : null
 
@@ -77,9 +77,8 @@ class Map extends React.Component {
 
 
 	render() {
-		const { address, onMarkerDragEnd, onZoom, lat, lng } = this.props;
+		const { address, onMarkerDragEnd, onZoom, lat, lng, DefaultLatitude, DefaultLongitude, Animation } = this.props;
 		const { markerlat, markerlng } = this.state.markerPosition;
-
 		return (
 			<div>
 				<AsyncMap
@@ -87,12 +86,14 @@ class Map extends React.Component {
 					markerlng={markerlng !== lng ? lng : markerlng}
 					lat={lat}
 					lng={lng}
+					DefaultLatitude={DefaultLatitude}
+					DefaultLongitude={DefaultLongitude}
+					Animation={Animation}
 					setMarker={e => (this.SetMarkerPosition(e, this.props))}
 					onMarkerDragEnd={onMarkerDragEnd}
 					zoom={this.props.zoom}
 					onZoom={onZoom}
 					displayMarker={address}
-
 				/>
 			</div >
 		)

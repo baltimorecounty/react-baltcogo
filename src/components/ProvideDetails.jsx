@@ -35,6 +35,11 @@ const provideDetails = props => {
 		Longitude,
 		AdditionalInfoPage
 	} = formik.values;
+	const {
+		Latitude: DefaultLatitude,
+		Longitude: DefaultLongitude,
+		Animation
+	} = formik.values.MapDefaults;
 	const [updatedLatitude, setLatitude] = useState(Latitude);
 	const [updatedLongitude, setLongitude] = useState(Longitude);
 	const [Address, setData] = useState([]);
@@ -61,7 +66,6 @@ const provideDetails = props => {
 		if (!ContactID || IsFormInComplete(formik)) {
 			GoHome(props);
 		}
-
 		fetchData();
 	},
 	[query]);
@@ -266,6 +270,9 @@ const provideDetails = props => {
 						<Collaspe
 							address={location}
 							ZoomValue={rest.formik.values.ZoomValue}
+							DefaultLatitude={DefaultLatitude}
+							DefaultLongitude={DefaultLongitude}
+							Animation={Animation}
 							lat={updatedLatitude}
 							lng={updatedLongitude}
 							onZoom={onZoom}
