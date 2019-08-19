@@ -14,13 +14,15 @@ const MapWithASearchBox = compose(
 	}),
 	lifecycle({
 		componentWillMount() {
+			console.log('componentWillMount');
 			const refs = {}
 			//	console.log('lat-lng:' + this.props.lat + '-++++++++++--' + this.props.lng);
 			this.setState({
 				bounds: null,
 				center: {
 					//lat: 39.40037792, lng: -76.60651907
-					//lat: this.props.lat, lng: this.props.lng
+					lat: this.props.markerlat !== this.props.lat ? this.props.markerlat : this.props.lat,
+					lng: this.props.markerlng !== this.props.lng ? this.props.markerlng : this.props.lng
 				},
 
 				markers: [],
@@ -41,19 +43,19 @@ const MapWithASearchBox = compose(
 				onBoundsChanged: () => {
 					let bounds = refs.map.getBounds();
 					//refs.map.getBounds().contains(marker.getPosition());
-					console.log('===================================');
-					//console.log('bounval:' + bounds);
-					console.log('North-East:' + bounds.getNorthEast());
-					console.log('South-West:' + bounds.getSouthWest());
-					console.log('===================================');
+					// console.log('===================================');
+					// //console.log('bounval:' + bounds);
+					// console.log('North-East:' + bounds.getNorthEast());
+					// console.log('South-West:' + bounds.getSouthWest());
+					// console.log('===================================');
 					// this.setState({
 					// 	bounds: refs.map.getBounds(),
 					// 	center: refs.map.getCenter(),
 					// })
-					const position = refs.marker.getPosition();
-					console.log(position.toString());
-					let whatvalue = refs.map.getBounds().contains(position);
-					console.log('whatvalue:' + whatvalue);
+					// const position = refs.marker.getPosition();
+					// console.log(position.toString());
+					// let whatvalue = refs.map.getBounds().contains(position);
+					// console.log('whatvalue:' + whatvalue);
 				},
 
 				onZoomChanged: ({ onZoom }) => () => {
@@ -92,7 +94,8 @@ const MapWithASearchBox = compose(
 	<GoogleMap
 		ref={props.onMapMounted}
 		defaultZoom={15}
-		defaultCenter={{ lat: props.DefaultLatitude, lng: props.DefaultLongitude }}
+		//defaultCenter={{ lat: props.DefaultLatitude, lng: props.DefaultLongitude }}
+		center={props.center}
 		onClick={props.setMarker}
 		onZoomChanged={props.onZoomChanged}
 		onBoundsChanged={props.onBoundsChanged}
@@ -144,9 +147,9 @@ class Map extends React.Component {
 	render() {
 		const { address, onMarkerDragEnd, onZoom, lat, lng, DefaultLatitude, DefaultLongitude, Animation } = this.props;
 		const { markerlat, markerlng } = this.state.markerPosition;
-	
-		console.log('markerlat, markerlng :' + markerlat + '---' + markerlng);
-		console.log('lat, lng :' + lat + '---' + lng);
+
+		//console.log('markerlat, markerlng :' + markerlat + '---' + markerlng);
+		//console.log('lat, lng :' + lat + '---' + lng);
 		//	console.log('markers:');
 		//	console.log(this.state.markers);
 		//console.log('address:' + address.split(',',4));

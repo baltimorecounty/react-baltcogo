@@ -43,6 +43,7 @@ const provideDetails = props => {
 	const [updatedLatitude, setLatitude] = useState(Latitude);
 	const [updatedLongitude, setLongitude] = useState(Longitude);
 	const [Address, setData] = useState([]);
+	const [AddressChange, setAddressChange] =useState(0);
 	const [query, setQuery] = useState(encodeURIComponent());
 
 	useEffect(() => {
@@ -92,6 +93,7 @@ const provideDetails = props => {
 			let filtered = Address.filter(m => m.StreetAddress.toLowerCase().indexOf(searchQuery.toString().toLowerCase()) > -1);
 			filtered.map(item => (splitAddress(item.Latitude, item.Longitude)
 			));
+	
 		}
 	};
 
@@ -103,6 +105,7 @@ const provideDetails = props => {
 			let filtered = Address.filter(m => m.StreetAddress.toLowerCase().indexOf(searchQuery.toString().toLowerCase()) > -1);
 			filtered.map(item => (splitAddress(item.Latitude, item.Longitude)
 			));
+			
 		}
 	};
 
@@ -112,6 +115,7 @@ const provideDetails = props => {
 		setLongitude(Longitude);
 		rest.formik.setFieldValue('Latitude', Latitude);
 		rest.formik.setFieldValue('Longitude', Longitude);
+		setAddressChange(1);
 	};
 
 	const onZoom = (val) => {
@@ -122,7 +126,7 @@ const provideDetails = props => {
 
 		let newLat = event.latLng.lat();
 		let newLng = event.latLng.lng();
-
+		setAddressChange(0);
 
 		await reverseGeocode(newLat, newLng).then(
 
@@ -270,9 +274,8 @@ const provideDetails = props => {
 						<Collaspe
 							address={location}
 							ZoomValue={rest.formik.values.ZoomValue}
-							DefaultLatitude={DefaultLatitude}
-							DefaultLongitude={DefaultLongitude}
 							Animation={Animation}
+							AddressChange={AddressChange}
 							lat={updatedLatitude}
 							lng={updatedLongitude}
 							onZoom={onZoom}

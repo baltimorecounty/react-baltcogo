@@ -20,7 +20,8 @@ const AsyncMap = compose(
 		return {
 			onMapMounted: () => ref => {
 				refs.map = ref;
-				refs.marker = ref;
+				//refs.marker = ref;
+				//ref.map.setOptions();
 				let boundval = refs.map.getBounds();
 				console.log('------------------------');
 				console.log('bounval:' + boundval);
@@ -28,21 +29,21 @@ const AsyncMap = compose(
 			},
 			onZoomChanged: ({ onZoom }) => () => {
 				let zoomValue = refs.map.getZoom();
-				let boundval = refs.map.getBounds();
-				let centerval = refs.map.getCenter();
-				console.log('bounval:' +  refs.map.getBounds());
-				console.log('centerval:' + centerval);
-				console.log('onBoundChanged:' + refs.map.onBoundsChanged);
+				// let boundval = refs.map.getBounds();
+				// let centerval = refs.map.getCenter();
+				// console.log('bounval:' + refs.map.getBounds());
+				// console.log('centerval:' + centerval);
+				// console.log('onBoundChanged:' + refs.map.onBoundsChanged);
 				onZoom(zoomValue);
 			},
 			onBoundsChanged: () => () => {
 				//let zoomValue = refs.map.getZoom();
-				let boundval = refs.map.getBounds();
+				// let boundval = refs.map.getBounds();
 				//let centerval = refs.map.getCenter();
-				console.log('onBoundChanged:' + boundval);
-				console.log('centerval:' + refs.map.getCenter());
-				console.log('Marker:');
-				console.log(refs.map);
+				// console.log('onBoundChanged:' + boundval);
+				// console.log('centerval:' + refs.map.getCenter());
+				// console.log('Marker:');
+				// console.log(refs.map);
 				//console.log('centerval:' + centerval);
 				//	console.log('onBoundChanged:' + refs.map.onBoundsChanged);
 				//	onZoom(zoomValue);
@@ -53,19 +54,20 @@ const AsyncMap = compose(
 	withGoogleMap,
 )(props =>
 	<GoogleMap
-		center={{ lat: props.DefaultLatitude, lng: props.DefaultLongitude }}
+		center={{ lat: props.markerlat, lng: props.markerlng }}
 		zoom={props.zoom}
 		ref={props.onMapMounted}
 		onZoomChanged={props.onZoomChanged}
 		onClick={props.setMarker}
 		onBoundsChanged={props.onBoundsChanged}
-		options={{ mapTypeControl: false, streetViewControl: false }}
+
+		options={{ mapTypeControl: false, streetViewControl: false, gestureHandling: 'none' }}
 	>
 		{(props.displayMarker) ? <Marker
-			position={{ lat: props.markerlat, lng: props.markerlng }}
-			draggable={true}
-			onDragEnd={props.onMarkerDragEnd}
-			animation={props.Animation}
+			position={{ lat: props.lat, lng: props.lng }}
+			//draggable={true}
+			//onDragEnd={props.onMarkerDragEnd}
+			animation={Animation}
 		>
 		</Marker> : null} *
 		{/* {props.markers.map((marker, index) =>
@@ -83,40 +85,56 @@ class Map extends React.Component {
 				markerlat: '',
 				markerlng: ''
 			},
-		
-
+			previousMarkerPosition: {
+				previousmarkerlat: '',
+				previousmarkerlng: ''
+			},
+			previousSearchCondition: '',
 		}
 	}
 	SetMarkerPosition(e, props) {
-		this.setState({
-			markerPosition: {
-				markerlat: e.latLng.lat(),
-				markerlng: e.latLng.lng()
-			}
-		});
+		const previousSearchCondition = this.state.previousSearchCondition;
+		const AddressChange = props.AddressChange;
+
+		if (previousSearchCondition || (previousSearchCondition !== AddressChange)) {
+			this.setState({
+				previousSearchCondition: AddressChange,
+				previousMarkerPosition: {
+					previousmarkerlat: props.lat,
+					previousmarkerlng: props.lng
+				},
+				markerPosition: {
+					markerlat: e.latLng.lat(),
+					markerlng: e.latLng.lng()
+				}
+			});
+		}
+
 		props.onMarkerDragEnd(e, props.setFieldValue);
 	}
 
-
 	render() {
-		const { address, onMarkerDragEnd, onZoom, lat, lng, DefaultLatitude, DefaultLongitude, Animation } = this.props;
+		const { address, onMarkerDragEnd, onZoom, lat, lng,  Animation,AddressChange } = this.props;
 		const { markerlat, markerlng } = this.state.markerPosition;
+		const {previousmarkerlat,previousmarkerlng}= this.state.previousMarkerPosition;
 		//console.log('address:' + address.split(',',4));
 
 		//console.log('address:' + _.takeRight(address.split(','),4));
 		//const { google } = window.map;
-		console.log('markerlat, markerlng :' + markerlat + '---' + markerlng);
+		//console.log('markerlat, markerlng :' + markerlat + '---' + markerlng);
 		console.log('lat, lng :' + lat + '---' + lng);
-
+		console.log('Animation:' + Animation);
+		console.log('AddressChange:' + AddressChange);
 		return (
 			<div>
 				<AsyncMap
-					markerlat={markerlat !== lat ? lat : markerlat}
-					markerlng={markerlng !== lng ? lng : markerlng}
+			
+					markerlat={AddressChange === 0 ? (markerlat === '' ? lat : previousmarkerlat)
+						: markerlat !== lat ? lat : markerlat}
+					markerlng={AddressChange === 0 ? (markerlng === '' ? lng : previousmarkerlng)
+						: markerlng !== lng ? lng : markerlng}
 					lat={lat}
 					lng={lng}
-					DefaultLatitude={DefaultLatitude}
-					DefaultLongitude={DefaultLongitude}
 					Animation={Animation}
 					setMarker={e => (this.SetMarkerPosition(e, this.props))}
 					onMarkerDragEnd={onMarkerDragEnd}
