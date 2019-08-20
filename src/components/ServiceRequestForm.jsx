@@ -54,10 +54,6 @@ const getIncludedFields = (categories, categoryName) => {
 	var category = categories.find(category => category.name.toLowerCase() === categoryName);
 	return category ? category.fields : [];
 };
-const getNote = (subCategories, name) => {
-	var type = subCategories.find(subcategoryname => subcategoryname.name.toLowerCase() === name);
-	return type ? type.note : [];
-};
 const getshouldDisableForm = (subCategories, name) => {
 	var type = subCategories.find(subcategoryname => subcategoryname.name.toLowerCase() === name);
 	return type && !!type.shouldDisableForm;
@@ -520,7 +516,13 @@ const ServiceRequestForm = (props, errors, touched) => {
 						<div className="cs-form-control">
 							<p name="userLoggedIn">{RequestPage.AlreadySignedInLabel} {sessionStorage.getItem("NameFirst")} {sessionStorage.getItem("NameLast")}</p>
 							<p name="notCorrectUser"><Link to="SignInForm" onClick={logOutUser}>Not {sessionStorage.getItem("NameFirst")}? Log in to a different account. &nbsp; </Link></p>
-							<input type="button" className="seButton pull-right" onClick={goToNextPage} disabled={disableButton} value="Next" />
+							<SeButton
+								text="Next"
+								type='button'
+								isDisabled = {disableButton}
+								onClick={goToNextPage}
+								className="pull-right"
+							/>
 						</div> : ""}
 			</Form>
 		</FormContainer>
