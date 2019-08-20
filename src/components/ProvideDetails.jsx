@@ -35,9 +35,18 @@ const provideDetails = props => {
 		Longitude,
 		AdditionalInfoPage
 	} = formik.values;
+	const {
+		Animation
+	} = formik.values.MapDefaults;
+	
+	const mapEvent={
+		onMapClicked:0,
+		addressSelect:1
+	}
 	const [updatedLatitude, setLatitude] = useState(Latitude);
 	const [updatedLongitude, setLongitude] = useState(Longitude);
 	const [Address, setData] = useState([]);
+	const [AddressChangeBy, setAddressChange] =useState(mapEvent.onMapClicked);
 	const [query, setQuery] = useState(encodeURIComponent());
 
 	useEffect(() => {
@@ -61,7 +70,6 @@ const provideDetails = props => {
 		if (!ContactID || IsFormInComplete(formik)) {
 			GoHome(props);
 		}
-
 		fetchData();
 	},
 	[query]);
@@ -88,6 +96,7 @@ const provideDetails = props => {
 			let filtered = Address.filter(m => m.StreetAddress.toLowerCase().indexOf(searchQuery.toString().toLowerCase()) > -1);
 			filtered.map(item => (splitAddress(item.Latitude, item.Longitude)
 			));
+	
 		}
 	};
 
@@ -99,6 +108,7 @@ const provideDetails = props => {
 			let filtered = Address.filter(m => m.StreetAddress.toLowerCase().indexOf(searchQuery.toString().toLowerCase()) > -1);
 			filtered.map(item => (splitAddress(item.Latitude, item.Longitude)
 			));
+			
 		}
 	};
 
@@ -108,6 +118,7 @@ const provideDetails = props => {
 		setLongitude(Longitude);
 		rest.formik.setFieldValue('Latitude', Latitude);
 		rest.formik.setFieldValue('Longitude', Longitude);
+		setAddressChange(mapEvent.addressSelect);
 	};
 
 	const onZoom = (val) => {
@@ -118,7 +129,7 @@ const provideDetails = props => {
 
 		let newLat = event.latLng.lat();
 		let newLng = event.latLng.lng();
-
+		setAddressChange(mapEvent.onMapClicked);
 
 		await reverseGeocode(newLat, newLng).then(
 
@@ -266,6 +277,8 @@ const provideDetails = props => {
 						<Collaspe
 							address={location}
 							ZoomValue={rest.formik.values.ZoomValue}
+							Animation={Animation}
+							AddressChangeBy={AddressChangeBy}
 							lat={updatedLatitude}
 							lng={updatedLongitude}
 							onZoom={onZoom}

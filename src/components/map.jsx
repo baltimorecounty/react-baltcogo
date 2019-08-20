@@ -2,6 +2,7 @@ import React from 'react';
 import { withGoogleMap, GoogleMap, withScriptjs, Marker } from "react-google-maps";
 import { compose, withProps, withHandlers } from "recompose";
 
+
 const mapElement = <div style={{ height: '300px' }} />;
 const AsyncMap = compose(
 	withProps({
@@ -18,15 +19,15 @@ const AsyncMap = compose(
 
 		return {
 			onMapMounted: () => ref => {
-				refs.map = ref
-			},
-
-			onMapClick: (setMarker) => (e) => {
-				setMarker(e.latLng.lat(), e.latLng.lng());
+				refs.map = ref;
 			},
 			onZoomChanged: ({ onZoom }) => () => {
 				let zoomValue = refs.map.getZoom();
 				onZoom(zoomValue);
+			},
+			onDragEnd: ({ onDragChange }) => () => {
+				const center = refs.map.getCenter();
+				onDragChange(center);
 			}
 		}
 	}),
@@ -34,7 +35,8 @@ const AsyncMap = compose(
 	withGoogleMap,
 )(props =>
 	<GoogleMap
-		center={{ lat: props.lat, lng: props.lng }}
+		onDragEnd={props.onDragEnd}
+		center={{ lat: props.markerlat, lng: props.markerlng }}
 		zoom={props.zoom}
 		ref={props.onMapMounted}
 		onZoomChanged={props.onZoomChanged}
@@ -42,9 +44,8 @@ const AsyncMap = compose(
 		options={{ mapTypeControl: false, streetViewControl: false }}
 	>
 		{(props.displayMarker) ? <Marker
-			position={{ lat: props.markerlat, lng: props.markerlng }}
-			draggable={true}
-			onDragEnd={props.onMarkerDragEnd}
+			position={{ lat: props.lat, lng: props.lng }}
+			animation={Animation}
 		>
 		</Marker> : null}
 	</GoogleMap>
@@ -53,43 +54,90 @@ const AsyncMap = compose(
 class Map extends React.Component {
 	constructor(props) {
 		super(props);
+
 		this.state = {
 			markerPosition: {
-				markerlat: '',
-				markerlng: ''
+				markerlat: props.lat,
+				markerlng: props.lng
 			},
+			previousMarkerPosition: {
+				previousmarkerlat: props.lat,
+				previousmarkerlng: props.lng
+			},
+			previousSearchCondition: '',
+			mapEvent: {
+				onMapClicked: 0,
+				addressSelect: 1
+			}
 		}
 	}
+	onDragChange = (centerval) => {
+		const AddressChangeBy = this.props.AddressChangeBy;
+		const addressSelect = this.state.mapEvent;
+		const lat = centerval.lat();
+		const lng = centerval.lng();
+		if (AddressChangeBy === addressSelect) {
+			this.setState({
+				markerPosition: {
+					markerlat: lat,
+					markerlng: lng
+				}
+			});
+		}
+		else {
+			this.setState({
+				previousMarkerPosition: {
+					previousmarkerlat: lat,
+					previousmarkerlng: lng
+				},
+				markerPosition: {
+					markerlat: lat,
+					markerlng: lng
+				}
+			});
+		}
+	}
+
+
 	SetMarkerPosition(e, props) {
-		this.setState({
-			markerPosition: {
-				markerlat: e.latLng.lat(),
-				markerlng: e.latLng.lng()
-			}
+		const previousSearchCondition = this.state.previousSearchCondition;
+		const AddressChangeBy = props.AddressChangeBy;
 
-		});
-
+		if (previousSearchCondition || (previousSearchCondition !== AddressChangeBy)) {
+			this.setState({
+				previousSearchCondition: AddressChangeBy,
+				previousMarkerPosition: {
+					previousmarkerlat: this.props.lat,
+					previousmarkerlng: this.props.lng
+				},
+				markerPosition: {
+					markerlat: e.latLng.lat(),
+					markerlng: e.latLng.lng()
+				}
+			});
+		}
 		props.onMarkerDragEnd(e, props.setFieldValue);
 	}
 
-
 	render() {
-		const { address, onMarkerDragEnd, onZoom, lat, lng } = this.props;
-		const { markerlat, markerlng } = this.state.markerPosition;
+		const { address, onMarkerDragEnd, onZoom, lat, lng, Animation, AddressChangeBy } = this.props;
+		const { previousmarkerlat, previousmarkerlng } = this.state.previousMarkerPosition;
+		const { onMapClicked } = this.state.mapEvent;
 
 		return (
 			<div>
 				<AsyncMap
-					markerlat={markerlat !== lat ? lat : markerlat}
-					markerlng={markerlng !== lng ? lng : markerlng}
+					markerlat={AddressChangeBy === onMapClicked ? previousmarkerlat : lat}
+					markerlng={AddressChangeBy === onMapClicked ? previousmarkerlng : lng}
 					lat={lat}
 					lng={lng}
+					Animation={Animation}
 					setMarker={e => (this.SetMarkerPosition(e, this.props))}
 					onMarkerDragEnd={onMarkerDragEnd}
 					zoom={this.props.zoom}
 					onZoom={onZoom}
 					displayMarker={address}
-
+					onDragChange={this.onDragChange}
 				/>
 			</div >
 		)
