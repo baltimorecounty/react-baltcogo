@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Formik, Form } from "formik";
 import { Link } from 'react-router-dom';
 import { GetResponseErrors } from "../utilities/CitysourcedResponseHelpers";
-import { GetReportComments } from '../services/authService';
 import FormContainer from './FormContainer';
 import Note from './Note';
 import Moment from 'react-moment';
@@ -11,11 +10,14 @@ import { Go, Routes } from "../Routing";
 
 
 const ReportStatus = (props, routeProps) => {
+	const showMoreButtonName = 'Show more...';
+	const showLessButtonName = 'Show less...';
 	const { trackingNumber } = props.values;
 	const response = props.history.location.state;
 	const [comments, setComment] = useState([]);
 	const [commentLength, setcommentLength] = useState(3);
-	const [buttonName, setButtonName] = useState('Show more...');
+	const [buttonName, setButtonName] = useState(showMoreButtonName);
+
 
 	let alertMessage = '';
 	let errorStatusCode ='';
@@ -26,17 +28,17 @@ const ReportStatus = (props, routeProps) => {
 	}, [response]);
 
 	  
-	const buildComments = async() =>{
+	const buildComments = () =>{
 		try{
 			if(trackingNumber){
-				const commentResponse = await GetReportComments(trackingNumber)
+				const commentResponse = response.data.comments.Results;
 
 				if(commentResponse.ErrorsCount > 0){
 					const errorsReturned = GetResponseErrors(commentResponse);
 					throw new Error(errorsReturned);
 				}
 				else{
-					setComment(commentResponse.data.Results);
+					setComment(commentResponse);
 				}
 			}
 		}
@@ -50,13 +52,13 @@ const ReportStatus = (props, routeProps) => {
 		{
 			Go(props, Routes.GetReport)
 		}
-		else if (response.data.ErrorsCount > 0) {
+		else if (response.data.report.ErrorsCount > 0) {
 			const errorsReturned = GetResponseErrors(response);
-			errorStatusCode = response.data.Errors[0].StatusCode;
+			errorStatusCode = response.data.report.Errors[0].StatusCode;
 			alertMessage = <Note>{errorsReturned}</Note>		
 		}
 		else{
-			const {Id, DateCreated, DateUpdated, RequestType, FormattedAddress, StatusTypeReadable, StatusTypeIsClosed} = response.data.Results;
+			const {Id, DateCreated, DateUpdated, RequestType, FormattedAddress, StatusTypeReadable, StatusTypeIsClosed} = response.data.report.Results;
 			reportId = Id;
 			reportDateCreated = DateCreated;
 			reportDateUpdated = DateUpdated;
@@ -68,14 +70,14 @@ const ReportStatus = (props, routeProps) => {
 	}
 
 	const showMoreComments = (clickEvent) =>{
-		if (buttonName === 'Show more...')
+		if (buttonName === showMoreButtonName)
 		{
 			setcommentLength(comments.length);
-			setButtonName('Show less...');
+			setButtonName(showLessButtonName);
 		}
 		else{
 			setcommentLength(3);
-			setButtonName('Show more...');
+			setButtonName(showMoreButtonName);
 		}
 		
 		buildComments();
