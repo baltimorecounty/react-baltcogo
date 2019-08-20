@@ -36,14 +36,17 @@ const provideDetails = props => {
 		AdditionalInfoPage
 	} = formik.values;
 	const {
-		Latitude: DefaultLatitude,
-		Longitude: DefaultLongitude,
 		Animation
 	} = formik.values.MapDefaults;
+	
+	const mapEvent={
+		onMapClicked:0,
+		addressSelect:1
+	}
 	const [updatedLatitude, setLatitude] = useState(Latitude);
 	const [updatedLongitude, setLongitude] = useState(Longitude);
 	const [Address, setData] = useState([]);
-	const [AddressChange, setAddressChange] =useState(0);
+	const [AddressChangeBy, setAddressChange] =useState(mapEvent.onMapClicked);
 	const [query, setQuery] = useState(encodeURIComponent());
 
 	useEffect(() => {
@@ -115,7 +118,7 @@ const provideDetails = props => {
 		setLongitude(Longitude);
 		rest.formik.setFieldValue('Latitude', Latitude);
 		rest.formik.setFieldValue('Longitude', Longitude);
-		setAddressChange(1);
+		setAddressChange(mapEvent.addressSelect);
 	};
 
 	const onZoom = (val) => {
@@ -126,7 +129,7 @@ const provideDetails = props => {
 
 		let newLat = event.latLng.lat();
 		let newLng = event.latLng.lng();
-		setAddressChange(0);
+		setAddressChange(mapEvent.onMapClicked);
 
 		await reverseGeocode(newLat, newLng).then(
 
@@ -275,7 +278,7 @@ const provideDetails = props => {
 							address={location}
 							ZoomValue={rest.formik.values.ZoomValue}
 							Animation={Animation}
-							AddressChange={AddressChange}
+							AddressChangeBy={AddressChangeBy}
 							lat={updatedLatitude}
 							lng={updatedLongitude}
 							onZoom={onZoom}

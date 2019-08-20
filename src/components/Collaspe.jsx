@@ -3,7 +3,7 @@ import React from 'react';
 import { UncontrolledCollapse, Button } from 'reactstrap';
 import Map from './map';
 
-const Collaspe = ({ address, ZoomValue, lat, lng, Animation,AddressChange, onZoom, markerLat, onChange, onMarkerDragEnd }) => {
+const Collaspe = ({ address, ZoomValue, lat, lng, Animation,AddressChangeBy, onZoom, markerLat, onChange, onMarkerDragEnd }) => {
 	return (
 		<React.Fragment>
 			<Button type="button" className="small" color="link" id="toggler" align="left" style={{ marginBottom: '1rem' }}>
@@ -14,8 +14,7 @@ const Collaspe = ({ address, ZoomValue, lat, lng, Animation,AddressChange, onZoo
 					<Map
 						address={address} lat={lat} lng={lng}
 						Animation={Animation}
-						AddressChange={AddressChange} onZoom={onZoom} onMarkerDragEnd={onMarkerDragEnd}
-						//center={{ lat, lng }}
+						AddressChangeBy={AddressChangeBy} onZoom={onZoom} onMarkerDragEnd={onMarkerDragEnd}
 						height='300px'
 						zoom={ZoomValue === '' ? 15 : ZoomValue}
 						streetViewControl='false'

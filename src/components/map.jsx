@@ -1,7 +1,8 @@
 import React from 'react';
 import { withGoogleMap, GoogleMap, withScriptjs, Marker } from "react-google-maps";
 import { compose, withProps, withHandlers } from "recompose";
-import _ from 'lodash';
+
+
 const mapElement = <div style={{ height: '300px' }} />;
 const AsyncMap = compose(
 	withProps({
@@ -14,94 +15,100 @@ const AsyncMap = compose(
 	withHandlers(() => {
 		const refs = {
 			map: undefined,
-			marker: undefined,
 		}
 
 		return {
 			onMapMounted: () => ref => {
 				refs.map = ref;
-				//refs.marker = ref;
-				//ref.map.setOptions();
-				let boundval = refs.map.getBounds();
-				console.log('------------------------');
-				console.log('bounval:' + boundval);
-				console.log('------------------------');
 			},
 			onZoomChanged: ({ onZoom }) => () => {
 				let zoomValue = refs.map.getZoom();
-				// let boundval = refs.map.getBounds();
-				// let centerval = refs.map.getCenter();
-				// console.log('bounval:' + refs.map.getBounds());
-				// console.log('centerval:' + centerval);
-				// console.log('onBoundChanged:' + refs.map.onBoundsChanged);
 				onZoom(zoomValue);
 			},
-			onBoundsChanged: () => () => {
-				//let zoomValue = refs.map.getZoom();
-				// let boundval = refs.map.getBounds();
-				//let centerval = refs.map.getCenter();
-				// console.log('onBoundChanged:' + boundval);
-				// console.log('centerval:' + refs.map.getCenter());
-				// console.log('Marker:');
-				// console.log(refs.map);
-				//console.log('centerval:' + centerval);
-				//	console.log('onBoundChanged:' + refs.map.onBoundsChanged);
-				//	onZoom(zoomValue);
-			},
+			onDragEnd: ({ onDragChange }) => () => {
+				const center = refs.map.getCenter();
+				onDragChange(center);
+			}
 		}
 	}),
 	withScriptjs,
 	withGoogleMap,
 )(props =>
 	<GoogleMap
+		onDragEnd={props.onDragEnd}
 		center={{ lat: props.markerlat, lng: props.markerlng }}
 		zoom={props.zoom}
 		ref={props.onMapMounted}
 		onZoomChanged={props.onZoomChanged}
 		onClick={props.setMarker}
-		onBoundsChanged={props.onBoundsChanged}
-
-		options={{ mapTypeControl: false, streetViewControl: false, gestureHandling: 'none' }}
+		options={{ mapTypeControl: false, streetViewControl: false }}
 	>
 		{(props.displayMarker) ? <Marker
 			position={{ lat: props.lat, lng: props.lng }}
-			//draggable={true}
-			//onDragEnd={props.onMarkerDragEnd}
 			animation={Animation}
 		>
-		</Marker> : null} *
-		{/* {props.markers.map((marker, index) =>
-			<Marker key={index} position={{ lat: props.markerlat, lng: props.markerlng }}
-			
-			/>)} */}
+		</Marker> : null}
 	</GoogleMap>
 );
 
 class Map extends React.Component {
 	constructor(props) {
 		super(props);
+
 		this.state = {
 			markerPosition: {
-				markerlat: '',
-				markerlng: ''
+				markerlat: props.lat,
+				markerlng: props.lng
 			},
 			previousMarkerPosition: {
-				previousmarkerlat: '',
-				previousmarkerlng: ''
+				previousmarkerlat: props.lat,
+				previousmarkerlng: props.lng
 			},
 			previousSearchCondition: '',
+			mapEvent: {
+				onMapClicked: 0,
+				addressSelect: 1
+			}
 		}
 	}
+	onDragChange = (centerval) => {
+		const AddressChangeBy = this.props.AddressChangeBy;
+		const addressSelect = this.state.mapEvent;
+		const lat = centerval.lat();
+		const lng = centerval.lng();
+		if (AddressChangeBy === addressSelect) {
+			this.setState({
+				markerPosition: {
+					markerlat: lat,
+					markerlng: lng
+				}
+			});
+		}
+		else {
+			this.setState({
+				previousMarkerPosition: {
+					previousmarkerlat: lat,
+					previousmarkerlng: lng
+				},
+				markerPosition: {
+					markerlat: lat,
+					markerlng: lng
+				}
+			});
+		}
+	}
+
+
 	SetMarkerPosition(e, props) {
 		const previousSearchCondition = this.state.previousSearchCondition;
-		const AddressChange = props.AddressChange;
+		const AddressChangeBy = props.AddressChangeBy;
 
-		if (previousSearchCondition || (previousSearchCondition !== AddressChange)) {
+		if (previousSearchCondition || (previousSearchCondition !== AddressChangeBy)) {
 			this.setState({
-				previousSearchCondition: AddressChange,
+				previousSearchCondition: AddressChangeBy,
 				previousMarkerPosition: {
-					previousmarkerlat: props.lat,
-					previousmarkerlng: props.lng
+					previousmarkerlat: this.props.lat,
+					previousmarkerlng: this.props.lng
 				},
 				markerPosition: {
 					markerlat: e.latLng.lat(),
@@ -109,30 +116,19 @@ class Map extends React.Component {
 				}
 			});
 		}
-
 		props.onMarkerDragEnd(e, props.setFieldValue);
 	}
 
 	render() {
-		const { address, onMarkerDragEnd, onZoom, lat, lng,  Animation,AddressChange } = this.props;
-		const { markerlat, markerlng } = this.state.markerPosition;
-		const {previousmarkerlat,previousmarkerlng}= this.state.previousMarkerPosition;
-		//console.log('address:' + address.split(',',4));
+		const { address, onMarkerDragEnd, onZoom, lat, lng, Animation, AddressChangeBy } = this.props;
+		const { previousmarkerlat, previousmarkerlng } = this.state.previousMarkerPosition;
+		const { onMapClicked } = this.state.mapEvent;
 
-		//console.log('address:' + _.takeRight(address.split(','),4));
-		//const { google } = window.map;
-		//console.log('markerlat, markerlng :' + markerlat + '---' + markerlng);
-		console.log('lat, lng :' + lat + '---' + lng);
-		console.log('Animation:' + Animation);
-		console.log('AddressChange:' + AddressChange);
 		return (
 			<div>
 				<AsyncMap
-			
-					markerlat={AddressChange === 0 ? (markerlat === '' ? lat : previousmarkerlat)
-						: markerlat !== lat ? lat : markerlat}
-					markerlng={AddressChange === 0 ? (markerlng === '' ? lng : previousmarkerlng)
-						: markerlng !== lng ? lng : markerlng}
+					markerlat={AddressChangeBy === onMapClicked ? previousmarkerlat : lat}
+					markerlng={AddressChangeBy === onMapClicked ? previousmarkerlng : lng}
 					lat={lat}
 					lng={lng}
 					Animation={Animation}
@@ -141,7 +137,7 @@ class Map extends React.Component {
 					zoom={this.props.zoom}
 					onZoom={onZoom}
 					displayMarker={address}
-				//	markers={this.state.markers}
+					onDragChange={this.onDragChange}
 				/>
 			</div >
 		)
