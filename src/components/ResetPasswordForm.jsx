@@ -10,8 +10,7 @@ import Alert from './Alert';
 import SeButton from "./SeButton";
 import { ResetPassword } from '../services/authService';
 import { GoBack, Go, Routes, GoHome } from "../Routing";
-import { getAlertMessage, resetAlerts} from "../utilities/AlertHelper";
-import { AlertAtPage } from "../utilities/AlertHelpers";
+import { AlertAtPage, getAlertMessage, resetAlerts } from "../utilities/AlertHelpers";
 const ResetPasswordForm = (props, routeProps) => {
 	const { Tabs, ResetPasswordPage ,hasPasswordReset} = props.values;
 	if (IsFormInComplete(props)) {
