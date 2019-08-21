@@ -9,8 +9,7 @@ import { Login } from '../services/authService';
 import { IsFormInComplete, SetFieldValues } from "../utilities/FormHelpers";
 import SeButton from "./SeButton";
 import { GoBack, GoHome, Go, Routes } from "../Routing";
-import { getAlertMessage, resetAlerts } from "../utilities/AlertHelper";
-import { AlertAtPage } from "../utilities/AlertHelpers";
+import { AlertAtPage, GetAlertMessage, ResetAlerts } from "../utilities/AlertHelpers";
 const SignIn = (props, routeProps) => {
 	const { Tabs, SignInPage, shouldDisableForm, ignoreFormCompletion, hasPasswordReset } = props.values;
 	const [fieldType, setFieldType] = useState('Password');
@@ -52,12 +51,12 @@ const SignIn = (props, routeProps) => {
 			success: 'OK',
 			css: 'success'
 		});
-		resetAlerts(props);
+		ResetAlerts(props);
 		Go(props, Routes.ProvideDetails);
 	};
 
 	const goBack = () => {
-		resetAlerts(props);
+		ResetAlerts(props);
 		GoBack(props);
 	}
 
@@ -68,7 +67,7 @@ const SignIn = (props, routeProps) => {
 				Results,
 				Errors
 			} = response.data;
-			resetAlerts(props);
+			ResetAlerts(props);
 			if (Errors.length > 0) {
 				try {
 					const errors = GetResponseErrors(response);
@@ -104,7 +103,7 @@ const SignIn = (props, routeProps) => {
 	}
 
 
-	const errorMessage = getAlertMessage(props);
+	const errorMessage = GetAlertMessage(props);
 	const alertReturnValue = AlertAtPage('SignInPage', props);
 	return (
 		<FormContainer title={SignInPage.SignInTitle}
