@@ -31,12 +31,12 @@ const provideDetails = props => {
 		requiresLocation,
 		shouldDisableForm,
 		isPanelRequired,
-		Latitude,
-		Longitude,
 		AdditionalInfoPage
 	} = formik.values;
 	const {
-		Animation
+		Animation,
+		Latitude,
+		Longitude,
 	} = formik.values.MapDefaults;
 	
 	const mapEvent={
