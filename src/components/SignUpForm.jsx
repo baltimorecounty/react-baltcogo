@@ -10,7 +10,7 @@ import { IsFormInComplete, SetFieldValues } from "../utilities/FormHelpers";
 import { IsPhoneNumberValid } from '@baltimorecounty/validation';
 import SeButton from "./SeButton";
 import { GoHome, Go, Routes } from "../Routing";
-import { AlertAtPage, getAlertMessage, resetAlerts } from "../utilities/AlertHelpers";
+import { AlertAtPage, GetAlertMessage, ResetAlerts } from "../utilities/AlertHelpers";
 const CreateAccount = (props, routeProps) => {
 
 	const { Tabs, SignUpPage, shouldDisableForm } = props.values;
@@ -25,7 +25,7 @@ const CreateAccount = (props, routeProps) => {
 	}
 
 	const goBack = () => {
-		resetAlerts(props);
+		ResetAlerts(props);
 		GoHome(props);
 	}
 
@@ -83,7 +83,7 @@ const CreateAccount = (props, routeProps) => {
 			IsPhoneNumberValid
 		);
 	});
-	const errorMessage = getAlertMessage(props);
+	const errorMessage = GetAlertMessage(props);
 	const alertReturnValue = AlertAtPage('SignUpPage', props);
 	return (
 		<FormContainer title={SignUpPage.SignUpTitle}

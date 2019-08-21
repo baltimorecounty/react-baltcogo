@@ -1,7 +1,7 @@
 import React from 'react';
 import Note from '../components/Note';
 import { SetFieldValues } from "../utilities/FormHelpers";
-export const getAlertMessage = (props) => {
+export const GetAlertMessage = (props) => {
 
 	const { hasPasswordReset } = props.values;
 	if (hasPasswordReset) {
@@ -15,7 +15,7 @@ export const getAlertMessage = (props) => {
 };
 
 
-export const resetAlerts = (props) => {
+export const ResetAlerts = (props) => {
 	const hasPasswordReset = props.values.hasPasswordReset;
 	props.setStatus('');
 	SetFieldValues(props, { AlertAtPage: '' });
