@@ -1,3 +1,8 @@
+
+
+
+//HTML SNIPPET For followup.html in SE
+
 <div class="alert-information" id="citizen-access-info" style="display: none">
     <p>The record you’re looking for is available in a different tracking system. Please visit 
         <a id="RedirectURLParameter" href="https://citizenaccess.baltimorecountymd.gov/CitizenAccess/Cap/CapHome.aspx">Baltimore County Online Services</a>
@@ -51,13 +56,15 @@
 </div>
 
 
+//HTML SNIPPET For followup.html in SE for JS code
+<script src="/sebin/p/y/CollapseHelper.min.js"></script>
+<script src="/sebin/j/d/ApiHelpers.min.js"></script>
 
 <script>
- 
-    function CheckID(){
+ function CheckID(){
         var animalVendorComplaint = RegExp(/^(ACCMP)/i);
-		var standardVendorComplaint = RegExp(/^(CC|CRH|CS|PP|TS|CE|CP|CB|CG)\d+$/i);
-		var standardComplaint = RegExp(/^\d+$/i);
+ var standardVendorComplaint = RegExp(/^(CC|CRH|CS|PP|TS|CE|CP|CB|CG)\d+$/i);
+      var standardComplaint = RegExp(/^\d+$/i);
         var AlertURL= '';
 
         var trackingNumber = document.getElementById('TrackingNumber').value;
@@ -74,19 +81,18 @@
             AlertURL = 'https://citizenaccess.baltimorecountymd.gov/CitizenAccess/Cap/CapHome.aspx?&Module=Enforce';
             RedirectURL.setAttribute('href', AlertURL);
            
-		}
-		else if (standardVendorComplaint.test(trackingNumber)){
+             }
+        else if (standardVendorComplaint.test(trackingNumber)){
             UserInfoPanel.style.display = "";
             AlertURL='https://citizenaccess.baltimorecountymd.gov/CitizenAccess/Cap/CapHome.aspx?&Module=Enforcement';
             RedirectURL.setAttribute('href', AlertURL);
-		}	
-		else if (standardComplaint.test(trackingNumber)){
-            window.location.href = "http://www.w3schools.com";
-			GetReport();	
-		}
-		else
-		{
-			UserInfoPanelBadID.style.display = "";
+         }       
+        else if (standardComplaint.test(trackingNumber)){
+                 GetReport();    
+          }
+        else
+              {
+                 UserInfoPanelBadID.style.display = "";
         }
         
         function GetReport(){
@@ -99,7 +105,7 @@
              params: {
               },
               template: reportTemplate,
-              targetId: 'ReportResults'
+              targetId: 'app'
             }).then(function() {
               window.a11yToggle();
             });
