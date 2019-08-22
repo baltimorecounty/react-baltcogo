@@ -1,5 +1,10 @@
 
+//HTML for alerts 
 
+<div class="alert-information" id="citizen-access-info" style="display: none">
+    <p>The record you&rsquo;re looking for is available in a different tracking system. Please visit <a data-linktype="EXTERNAL" data-newwindow="No" data-showtoolbar="No" externallink="https://citizenaccess.baltimorecountymd.gov/CitizenAccess/" href="https://citizenaccess.baltimorecountymd.gov/CitizenAccess/" id="RedirectURLParameter">Baltimore County Online Services</a> and enter the tracking number again.</p>
+    <p>We&rsquo;re working to better integrate these systems in the future. Until then, we apologize for any inconvenience this may cause.</p>
+</div>
 
 //HTML SNIPPET For followup.html in SE
 
