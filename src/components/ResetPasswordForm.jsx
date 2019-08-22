@@ -2,7 +2,7 @@ import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import ErrorMsg from "./ErrorMessage";
-import { GetResponseErrors } from "../utilities/CitysourcedResponseHelpers";
+import { GetResponseErrors, GetNetWorkErrors } from "../utilities/CitysourcedResponseHelpers";
 import { Link } from 'react-router-dom';
 import FormContainer from './FormContainer';
 import { IsFormInComplete, SetFieldValues } from "../utilities/FormHelpers";
@@ -10,51 +10,58 @@ import Alert from './Alert';
 import SeButton from "./SeButton";
 import { ResetPassword } from '../services/authService';
 import { GoBack, Go, Routes, GoHome } from "../Routing";
-
-
+import { AlertAtPage, GetAlertMessage, ResetAlerts } from "../utilities/AlertHelpers";
 const ResetPasswordForm = (props, routeProps) => {
-
+	const { Tabs, ResetPasswordPage ,hasPasswordReset} = props.values;
 	if (IsFormInComplete(props)) {
 		GoHome(props);
 	}
 
-	const {Tabs, ResetPasswordPage, } = props.values;
-
 	const userPasswordReset = async (clickEvent) => {
-		const { Email = '' } =  props.values || {};
+		const { Email = '' } = props.values || {};
 		try {
 			const response = await ResetPassword(Email);
-			if (response.data.ErrorsCount > 0) {
-				const errorsReturned = GetResponseErrors(response);
-				props.Field.ErrorMsg = errorsReturned;
+			try {
+				if (response.data.ErrorsCount > 0) {
+					const errorsReturned = GetResponseErrors(response);
+					props.Field.ErrorMsg = errorsReturned;
+				}
+				else {
+					signIn();
+				}
 			}
-			else {
-				signIn();
+			catch (ex) {
+				console.error(ex.message);
 			}
 		}
 		catch (ex) {
-			console.error(ex.message);
+			const errors = GetNetWorkErrors(ex.toString());
+			ResetAlerts(props);
+			props.setStatus({ networkError: errors });
+			SetFieldValues(props, { AlertAtPage: 'ResetPasswordPage' });
 		}
 	}
 
-	const goBack = () =>{
+	const goBack = () => {
+		ResetAlerts(props);
 		GoBack(props);
 	};
 
-	const signIn = () =>{
-		SetFieldValues(props, {hasPasswordReset: true});
+	const signIn = () => {
+		SetFieldValues(props, { hasPasswordReset: true });
 		Go(props, Routes.SignIn, props.values.Email);
 	};
 
 	const handleChange = changeEvent => {
-		SetFieldValues(props, {Email: changeEvent.target.value});
+		SetFieldValues(props, { Email: changeEvent.target.value });
 	};
-
+	const errorMessage = GetAlertMessage(props);
+	const alertReturnValue = AlertAtPage('ResetPasswordPage', props);
 	return (
-		<FormContainer  title={ResetPasswordPage.ResetPasswordTitle}
-			tabNames = {Tabs}
-			currentTab = "ServiceRequestForm"
-			shouldDisableForm = {false}
+		<FormContainer title={ResetPasswordPage.ResetPasswordTitle}
+			tabNames={Tabs}
+			currentTab="ServiceRequestForm"
+			shouldDisableForm={false}
 			isPanelRequired={true}
 		>
 			<Formik
@@ -76,6 +83,9 @@ const ResetPasswordForm = (props, routeProps) => {
 
 						return (
 							<Form >
+								{(alertReturnValue && !(hasPasswordReset)) ?
+									errorMessage :
+									null}
 								{errors.length > 0 && <Alert type="danger">
 									{errors}
 								</Alert>}
@@ -97,21 +107,21 @@ const ResetPasswordForm = (props, routeProps) => {
 											touched={touched.Email} />
 									</p>
 								</div>
-								<div className = "cs-form-control" >
+								<div className="cs-form-control" >
 									<p htmlFor="signup"
 									>{ResetPasswordPage.NoAccountLabel} <Link to="SignUpForm" >{ResetPasswordPage.SignUpLinkLabel}</Link></p>
 									<p htmlFor="signup"
 									>{ResetPasswordPage.RememberPasswordLabel} <Link to="SignInForm" >{ResetPasswordPage.SignInLinkLabel}</Link> </p>
 									<SeButton
 										text="Back"
-										onClick = {goBack}
+										onClick={goBack}
 									/>
 									<SeButton
 										text="Submit Reset Request"
 										type="submit"
 										isLoading={props.isSubmitting}
 										isLoadingText="Submitting Request..."
-										className = "pull-right"
+										className="pull-right"
 									/>
 								</div>
 							</Form>

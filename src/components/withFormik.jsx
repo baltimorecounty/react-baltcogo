@@ -38,6 +38,7 @@ export default withFormik({
 		animalColorTypeID: '',
 		otherAnimalTypes: '',
 		otherAnimalTypesID: '',
+		trackingNumber: '',
 		Email: '',
 		Password: '',
 		NameFirst: '',
@@ -45,8 +46,9 @@ export default withFormik({
 		Telephone: '',
 		location: '',
 		describeTheProblem: '',
-		Latitude: 39.4001526,
-		Longitude: -76.6074448,
+		MapDefaults: [''],
+		Latitude: '',
+		Longitude: '',
 		ShowErrorMsg: '',
 		contactID: '',
 		streetAddress: '',
@@ -64,7 +66,8 @@ export default withFormik({
 		SignUpPage: [''],
 		SignInPage: [''],
 		ResetPasswordPage: [''],
-		ZoomValue: ''
+		ZoomValue: '',
+		AlertAtPage: '',
 	}),
 
 	validationSchema: () =>

@@ -31,7 +31,7 @@ const getUrlVars = () => {
 	}
 	return vars;
 };
-const getUrlVar = (name) =>{
+const getUrlVar = (name) => {
 	const searchParms = getUrlVars()
 	return searchParms[name];
 };
@@ -53,10 +53,6 @@ const getIncludedDescriptions = (categories, categoryName) => {
 const getIncludedFields = (categories, categoryName) => {
 	var category = categories.find(category => category.name.toLowerCase() === categoryName);
 	return category ? category.fields : [];
-};
-const getNote = (subCategories, name) => {
-	var type = subCategories.find(subcategoryname => subcategoryname.name.toLowerCase() === name);
-	return type ? type.note : [];
 };
 const getshouldDisableForm = (subCategories, name) => {
 	var type = subCategories.find(subcategoryname => subcategoryname.name.toLowerCase() === name);
@@ -89,10 +85,10 @@ const ServiceRequestForm = (props, errors, touched) => {
 	const [animalSubCategories, setAnimalSubCategories] = useState([]);
 	const [animalSex, setAnimalSex] = useState([]);
 
-	const { ContactID, RequestPage, Tabs, shouldDisableForm,
+	const { ContactID, RequestPage, Tabs, shouldDisableForm, MapDefaults,
 		isPanelRequired, requestType, subRequestType, petType } = localProps.values;
 
-	const contactID =  (ContactID === "") ? sessionStorage.getItem("UserLoginID") : ContactID;
+	const contactID = (ContactID === "") ? sessionStorage.getItem("UserLoginID") : ContactID;
 
 	try {
 		useEffect(() => {
@@ -101,19 +97,19 @@ const ServiceRequestForm = (props, errors, touched) => {
 					returnConfigItems("jsonFileLocations", "results"),
 				);
 				const resultPetTypes = await axios(
-					returnConfigItems("jsonFileLocations","resultPetTypes"),
+					returnConfigItems("jsonFileLocations", "resultPetTypes"),
 				);
 				const resultAnimalBreeds = await axios(
-					returnConfigItems("jsonFileLocations","resultAnimalBreeds"),
+					returnConfigItems("jsonFileLocations", "resultAnimalBreeds"),
 				);
 				const resultAnimalColors = await axios(
-					returnConfigItems("jsonFileLocations","resultAnimalColors"),
+					returnConfigItems("jsonFileLocations", "resultAnimalColors"),
 				);
 				const resultAnimalTypes = await axios(
-					returnConfigItems("jsonFileLocations","resultAnimalTypes"),
+					returnConfigItems("jsonFileLocations", "resultAnimalTypes"),
 				);
 				const resultFormFieldNames = await axios(
-					returnConfigItems("jsonFileLocations","resultFormFieldNames"),
+					returnConfigItems("jsonFileLocations", "resultFormFieldNames"),
 				);
 
 				setCategories(result.data);
@@ -124,20 +120,20 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 				const preSelectedTypes = SelectedValue(result.data);
 
-				let requestCategory ='';
+				let requestCategory = '';
 				let requestSubCategory = ''
 
-				const selectedType = () =>{
-					 requestCategory = (preSelectedTypes) ? preSelectedTypes.nameCategory : requestType;
-					if(requestCategory){
+				const selectedType = () => {
+					requestCategory = (preSelectedTypes) ? preSelectedTypes.nameCategory : requestType;
+					if (requestCategory) {
 						addSelectedValueOptions(result.data, requestCategory.toLowerCase());
 					}
 					return requestCategory;
 				}
 
-				const selectedSubType = () =>{
-					 requestSubCategory = (preSelectedTypes) ? preSelectedTypes.nameSubCategory : subRequestType ;
-					if(requestSubCategory){
+				const selectedSubType = () => {
+					requestSubCategory = (preSelectedTypes) ? preSelectedTypes.nameSubCategory : subRequestType;
+					if (requestSubCategory) {
 						addSelectedSubValueOptions(result.data, requestSubCategory.toLowerCase())
 					}
 					return requestSubCategory;
@@ -146,6 +142,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 					Categories: result.data,
 					Tabs: resultFormFieldNames.data.Tabs,
 					RequestPage: resultFormFieldNames.data.RequestPage,
+					MapDefaults: resultFormFieldNames.data.MapDefaults,
 					MapPage: resultFormFieldNames.data.MapPage,
 					AdditionalInfoPage: resultFormFieldNames.data.AdditionalInfoPage,
 					SignInPage: resultFormFieldNames.data.SignInPage,
@@ -169,12 +166,12 @@ const ServiceRequestForm = (props, errors, touched) => {
 	catch (ex) {
 		console.error('service request form data', ex);
 	}
-	
-	const SelectedValue = (Categories) =>{
+
+	const SelectedValue = (Categories) => {
 		return URLRouting(Categories, categoryId);
 	}
 
-	const addSelectedValueOptions = (Categories, value)=>{
+	const addSelectedValueOptions = (Categories, value) => {
 		let ID = getID(Categories, value);
 		const category = GetCategory(Categories, ID);
 		setActiveCategory(category);
@@ -194,12 +191,11 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 		SetFieldValues(localProps, requestFields);
 
-		if (value === 'website issue')
-		{
+		if (value === 'website issue') {
 			const addressFields = {
-				Latitude: 39.40037792,
-				Longitude: -76.60651907,
-				location: '400 WASHINGTON AVE, TOWSON, 21204'
+				Latitude: MapDefaults.Latitude,
+				Longitude: MapDefaults.Longitude,
+				location: MapDefaults.Location
 			};
 			SetFieldValues(localProps, addressFields);
 		}
@@ -207,7 +203,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 		pullServiceRequestFields(fields);
 	}
 
-	const addSelectedSubValueOptions = (Categories, value)=>{
+	const addSelectedSubValueOptions = (Categories, value) => {
 		const subCategories = Categories.flatMap(x => x.types);
 		const subInfo = getSubCategoriesIncludedDescription(subCategories, value);
 		let ID = getID(subCategories, value);
@@ -226,22 +222,22 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 		if (subInfo !== undefined) {
 			if (subInfo.parentId !== undefined) {
-				SetFieldValues(localProps, {requestTypeParentID: subInfo.parentId});
+				SetFieldValues(localProps, { requestTypeParentID: subInfo.parentId });
 			}
 			if (subInfo.parentName !== undefined) {
-				SetFieldValues(localProps, {requestTypeParent: subInfo.parentName});
+				SetFieldValues(localProps, { requestTypeParent: subInfo.parentName });
 			}
 			if (subInfo.description !== undefined) {
-				SetFieldValues(localProps, {requestTypeDescriptionID: subInfo.description});
+				SetFieldValues(localProps, { requestTypeDescriptionID: subInfo.description });
 			}
 			if (subInfo.streetAddress !== undefined) {
-				SetFieldValues(localProps, {requestTypeAddressID: subInfo.streetAddress});
+				SetFieldValues(localProps, { requestTypeAddressID: subInfo.streetAddress });
 			}
 			if (subInfo.city !== undefined) {
-				SetFieldValues(localProps, {requestTypeCityID: subInfo.city});
+				SetFieldValues(localProps, { requestTypeCityID: subInfo.city });
 			}
 			if (subInfo.zipCode !== undefined) {
-				SetFieldValues(localProps, {requestTypeZipID: subInfo.zipCode});
+				SetFieldValues(localProps, { requestTypeZipID: subInfo.zipCode });
 			}
 		}
 	}
@@ -266,8 +262,8 @@ const ServiceRequestForm = (props, errors, touched) => {
 			};
 			SetFieldValues(localProps, addressFields);
 		}
-		else{
-			SetFieldValues(localProps, {isPanelRequired: false});
+		else {
+			SetFieldValues(localProps, { isPanelRequired: false });
 		}
 	};
 
@@ -277,7 +273,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 		const subBreeds = getAnimalSubCategories(AnimalBreeds, value);
 		setAnimalSubCategories(subBreeds.breeds);
 		setAnimalSex(subBreeds.sex);
-		SetFieldValues(localProps, {petTypeID: ID});
+		SetFieldValues(localProps, { petTypeID: ID });
 	};
 
 	const handleFieldChange = (changeEvent, lookupItems, propertyName) => {
@@ -363,10 +359,10 @@ const ServiceRequestForm = (props, errors, touched) => {
 		Go(props, Routes.SignUp);
 	};
 
-	const logOutUser = () =>{
+	const logOutUser = () => {
 		sessionStorage.clear();
-		SetFieldValues(localProps, {ContactID: ''});
-		SetFieldValues(localProps, {ignoreFormCompletion: true});
+		SetFieldValues(localProps, { ContactID: '' });
+		SetFieldValues(localProps, { ignoreFormCompletion: true });
 	}
 
 	const { values, isSubmitting, ...rest } = props;
@@ -396,9 +392,9 @@ const ServiceRequestForm = (props, errors, touched) => {
 	let displayButton = buttonShowHideValidation();
 	loadSelectedItems(props);
 	const isAnimalCategory = activeCategory ? activeCategory.isAnimal : false;
-	const petAndAnimalIssue = returnConfigItems("formTypes","requestType_petAndAnimalIssue");
-	const petTypeCat = returnConfigItems("formTypes","petTypeCat");
-	const petTypeDog = returnConfigItems("formTypes","petTypeDog");
+	const petAndAnimalIssue = returnConfigItems("formTypes", "requestType_petAndAnimalIssue");
+	const petTypeCat = returnConfigItems("formTypes", "petTypeCat");
+	const petTypeDog = returnConfigItems("formTypes", "petTypeDog");
 
 	return (
 
@@ -420,7 +416,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 				<RequestSubCategory
 					requestType={requestType}
-					subRequestType={subRequestType }
+					subRequestType={subRequestType}
 					errorsSubRequestType={localProps.errors.subRequestType}
 					touchedSubRequestType={localProps.touched.subRequestType}
 					pageFieldName={RequestPage.SubCategoryLabel}
@@ -448,7 +444,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 					shouldShow={isAnimalCategory}
 					subRequestType={subRequestType}
 					petType={petType}
-					returnRequestTypes={returnConfigItems("formTypes","petType_Others")}
+					returnRequestTypes={returnConfigItems("formTypes", "petType_Others")}
 					errorsOtherAnimalTypes={localProps.errors.otherAnimalTypes}
 					touchedOtherAnimalTypes={localProps.touched.otherAnimalTypes}
 					pageFieldName={RequestPage.PetTypeOther}
@@ -505,22 +501,28 @@ const ServiceRequestForm = (props, errors, touched) => {
 							<SeButton
 								text="Sign In"
 								type='button'
-								isDisabled = {disableButton}
+								isDisabled={disableButton}
 								onClick={callSignInForm}
 							/>
 							<SeButton
 								text="Register"
 								type='button'
-								isDisabled = {disableButton}
+								isDisabled={disableButton}
 								onClick={callRegisterForm}
 								className="pull-right"
 							/>
 							<Model />
 						</div>) :
-						<div className = "cs-form-control">
+						<div className="cs-form-control">
 							<p name="userLoggedIn">{RequestPage.AlreadySignedInLabel} {sessionStorage.getItem("NameFirst")} {sessionStorage.getItem("NameLast")}</p>
 							<p name="notCorrectUser"><Link to="SignInForm" onClick={logOutUser}>Not {sessionStorage.getItem("NameFirst")}? Log in to a different account. &nbsp; </Link></p>
-							<input type="button" className="seButton pull-right" onClick={goToNextPage} disabled={disableButton} value="Next" />
+							<SeButton
+								text="Next"
+								type='button'
+								isDisabled = {disableButton}
+								onClick={goToNextPage}
+								className="pull-right"
+							/>
 						</div> : ""}
 			</Form>
 		</FormContainer>

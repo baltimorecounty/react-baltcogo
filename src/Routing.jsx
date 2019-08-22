@@ -7,11 +7,13 @@ import SignInForm from './components/SignInForm';
 import ResetPasswordForm from './components/ResetPasswordForm';
 import ProvideDetails from './components/ProvideDetails';
 import GetReport from './components/GetReport';
+import ReportStatus from './components/ReportStatus';
 import SubmitResponsePage from './components/SubmitResponsePage';
 
 const Routes = {
 	AdditionalInformation: '/AdditionalInformationForm',
 	GetReport: '/GetReport',
+	ReportStatus: '/ReportStatus',
 	ProvideDetails: '/ProvideDetails',
 	ResetPassword: '/ResetPassword',
 	Root: '/',
@@ -43,7 +45,8 @@ const Router = (props) => (
 		<Route path={Routes.SubmitForm} render={(routeProps) => <SubmitResponsePage {...routeProps} {...props} />} />
 		<Route path={Routes.AdditionalInformation} component={AdditionalInformationForm} />
 		<Route path={Routes.ProvideDetails} component={ProvideDetails} />
-		<Route path={Routes.GetReport} component={GetReport} />
+		<Route path={Routes.GetReport} render={(routeProps) => <GetReport {...routeProps} {...props} />} />
+		<Route path={Routes.ReportStatus} render={(routeProps) => <ReportStatus {...routeProps} {...props} />} />
 		<Route path={Routes.Root} component={ServiceRequestForm} />
 	</Switch>
 );

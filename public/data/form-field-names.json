@@ -5,6 +5,12 @@
 		"Tab3": "Provide Your Contact Information",
 		"Tab4": ""
 	},
+	"MapDefaults": {
+		"Latitude": 39.40037792,
+		"Longitude": -76.60651907,
+		"Location": "400 WASHINGTON AVE, TOWSON, 21204",
+		"Animation": "2"
+	},
 	"SignInPage": {
 		"SignInTitle": "Sign In",
 		"EmailLabel": "Email Address",
