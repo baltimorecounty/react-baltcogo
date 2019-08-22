@@ -14,7 +14,8 @@ const HasResponseErrors = (response) => {
 };
 const GetNetWorkErrors = (errorMessage) => {
 	const errors = errorMessage.split(':');
-	return errors !== undefined ? errors[1] : null;
+	console.log('errors:' + errors);
+	return errors !== undefined ? `We're having trouble connecting to the server. Please try again in a few minutes.` : null;
 };
 
 const GetResponseErrors = (response) => {

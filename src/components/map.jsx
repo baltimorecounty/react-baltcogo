@@ -2,7 +2,6 @@ import React from 'react';
 import { withGoogleMap, GoogleMap, withScriptjs, Marker } from "react-google-maps";
 import { compose, withProps, withHandlers } from "recompose";
 
-
 const mapElement = <div style={{ height: '300px' }} />;
 const AsyncMap = compose(
 	withProps({
@@ -45,7 +44,7 @@ const AsyncMap = compose(
 	>
 		{(props.displayMarker) ? <Marker
 			position={{ lat: props.lat, lng: props.lng }}
-			animation={Animation}
+			animation={props.Animation}
 		>
 		</Marker> : null}
 	</GoogleMap>
@@ -123,7 +122,8 @@ class Map extends React.Component {
 		const { address, onMarkerDragEnd, onZoom, lat, lng, Animation, AddressChangeBy } = this.props;
 		const { previousmarkerlat, previousmarkerlng } = this.state.previousMarkerPosition;
 		const { onMapClicked } = this.state.mapEvent;
-
+		const splitAddress = address.split(',');
+		const zip = splitAddress[2]
 		return (
 			<div>
 				<AsyncMap
@@ -136,7 +136,7 @@ class Map extends React.Component {
 					onMarkerDragEnd={onMarkerDragEnd}
 					zoom={this.props.zoom}
 					onZoom={onZoom}
-					displayMarker={address}
+					displayMarker={zip}
 					onDragChange={this.onDragChange}
 				/>
 			</div >
