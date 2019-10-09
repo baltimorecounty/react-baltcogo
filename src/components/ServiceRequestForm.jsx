@@ -242,10 +242,6 @@ const ServiceRequestForm = (props, errors, touched) => {
 				SetFieldValues(localProps, { requestTypeZipID: subInfo.zipCode });
 			}
 		}
-		else{
-			
-			SetFieldValues(localProps, { requestTypeParent: "" });
-		}
 	}
 
 	const handleServiceRequestChange = (changeEvent) => {
