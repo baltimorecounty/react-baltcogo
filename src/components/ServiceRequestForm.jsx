@@ -221,12 +221,12 @@ const ServiceRequestForm = (props, errors, touched) => {
 		SetFieldValues(localProps, requestSubFields);
 
 		if (subInfo !== undefined) {
-			if (subInfo.parentId !== undefined) {
-				SetFieldValues(localProps, { requestTypeParentID: subInfo.parentId });
-			}
-			if (subInfo.parentName !== undefined) {
-				SetFieldValues(localProps, { requestTypeParent: subInfo.parentName });
-			}
+			const parentRequestTypeID = subInfo.parentId !== undefined ? subInfo.parentId : "";
+			SetFieldValues(localProps, { requestTypeParentID: parentRequestTypeID });
+
+			const parentRequestTypeName = subInfo.parentName !== undefined ? subInfo.parentName : "";
+			SetFieldValues(localProps, { requestTypeParent: parentRequestTypeName }); 
+
 			if (subInfo.description !== undefined) {
 				SetFieldValues(localProps, { requestTypeDescriptionID: subInfo.description });
 			}
