@@ -221,12 +221,14 @@ const ServiceRequestForm = (props, errors, touched) => {
 		SetFieldValues(localProps, requestSubFields);
 
 		if (subInfo !== undefined) {
-			if (subInfo.parentId !== undefined) {
-				SetFieldValues(localProps, { requestTypeParentID: subInfo.parentId });
-			}
-			if (subInfo.parentName !== undefined) {
-				SetFieldValues(localProps, { requestTypeParent: subInfo.parentName });
-			}
+			(subInfo.parentId !== undefined) ? 
+				SetFieldValues(localProps, { requestTypeParentID: subInfo.parentId }):
+				SetFieldValues(localProps, { requestTypeParentID: "" });
+
+			(subInfo.parentName !== undefined) ? 
+				SetFieldValues(localProps, { requestTypeParent: subInfo.parentName }): 
+				SetFieldValues(localProps, { requestTypeParent: "" });
+
 			if (subInfo.description !== undefined) {
 				SetFieldValues(localProps, { requestTypeDescriptionID: subInfo.description });
 			}
@@ -239,6 +241,10 @@ const ServiceRequestForm = (props, errors, touched) => {
 			if (subInfo.zipCode !== undefined) {
 				SetFieldValues(localProps, { requestTypeZipID: subInfo.zipCode });
 			}
+		}
+		else{
+			
+			SetFieldValues(localProps, { requestTypeParent: "" });
 		}
 	}
 
