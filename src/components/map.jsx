@@ -42,19 +42,20 @@ const AsyncMap = compose(
 		onClick={props.setMarker}
 		options={{ mapTypeControl: false, streetViewControl: false }}
 	>
-		{(props.displayMarker) ? <Marker
-			position={{ lat: props.lat, lng: props.lng }}
+		{(props.displayMarker) ? props.markers.map((marker, index) => <Marker
+			key={index}
+			position={{ lat: marker.lat, lng: marker.lng }}
 			animation={props.Animation}
 		>
-		</Marker> : null}
+		</Marker>) : null}
 	</GoogleMap>
 );
 
 class Map extends React.Component {
 	constructor(props) {
 		super(props);
-
 		this.state = {
+			markers: [{ lat: props.lat, lng: props.lng }],
 			markerPosition: {
 				markerlat: props.lat,
 				markerlng: props.lng
@@ -67,9 +68,10 @@ class Map extends React.Component {
 			mapEvent: {
 				onMapClicked: 0,
 				addressSelect: 1
-			}
-		}
+			},
+		};
 	}
+
 	onDragChange = (centerval) => {
 		const AddressChangeBy = this.props.AddressChangeBy;
 		const addressSelect = this.state.mapEvent;
@@ -96,13 +98,19 @@ class Map extends React.Component {
 			});
 		}
 	}
-
+	onClearMarkers = () => {
+		this.setState({ markers: [] });
+	};
 
 	SetMarkerPosition(e, props) {
 		const previousSearchCondition = this.state.previousSearchCondition;
 		const AddressChangeBy = props.AddressChangeBy;
+		const onClickLat = e.latLng.lat();
+		const onClickLng = e.latLng.lng();
 
-		if (previousSearchCondition || (previousSearchCondition !== AddressChangeBy)) {
+		this.onClearMarkers();
+
+		if (previousSearchCondition !== AddressChangeBy) {
 			this.setState({
 				previousSearchCondition: AddressChangeBy,
 				previousMarkerPosition: {
@@ -110,27 +118,30 @@ class Map extends React.Component {
 					previousmarkerlng: this.props.lng
 				},
 				markerPosition: {
-					markerlat: e.latLng.lat(),
-					markerlng: e.latLng.lng()
+					markerlat: onClickLat,
+					markerlng: onClickLng
 				}
 			});
 		}
+
+		this.setState({ markers: [{ lat: onClickLat, lng: onClickLng }] });
 		props.onMarkerDragEnd(e, props.setFieldValue);
 	}
 
 	render() {
 		const { address, onMarkerDragEnd, onZoom, lat, lng, Animation, AddressChangeBy } = this.props;
 		const { previousmarkerlat, previousmarkerlng } = this.state.previousMarkerPosition;
+		const defaultMarkers = [{ lat: this.props.lat, lng: this.props.lng }];
 		const { onMapClicked } = this.state.mapEvent;
+		const markers = this.state.markers;
 		const splitAddress = address.split(',');
-		const zip = splitAddress[2]
+		const zip = splitAddress[2];
 		return (
 			<div>
 				<AsyncMap
 					markerlat={AddressChangeBy === onMapClicked ? previousmarkerlat : lat}
 					markerlng={AddressChangeBy === onMapClicked ? previousmarkerlng : lng}
-					lat={lat}
-					lng={lng}
+					markers={AddressChangeBy === onMapClicked ? markers : defaultMarkers}
 					Animation={Animation}
 					setMarker={e => (this.SetMarkerPosition(e, this.props))}
 					onMarkerDragEnd={onMarkerDragEnd}
