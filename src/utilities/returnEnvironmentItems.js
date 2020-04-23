@@ -12,18 +12,22 @@ export const checkEnvironment = () => {
 
 export const returnConfigItems = (configItemName, item) => {
   var domain = checkEnvironment();
-  var configItem = "";
+  var configSuffix = "Local";
 
   if (domain === "dev.baltimorecountymd.gov") {
-    configItem = _.filter(configItems[configItemName + "Test"], { key: item });
+    configSuffix = "Test";
   } else if (domain === "staging.baltimorecountymd.gov") {
-    configItem = _.filter(configItems[configItemName + "Stage"], { key: item });
+    configSuffix = "Stage";
+  } else if (domain === "beta.baltimorecountymd.gov") {
+    configSuffix = "Beta";
   } else if (domain === "www.baltimorecountymd.gov") {
-    configItem = _.filter(configItems[configItemName + "Prod"], { key: item });
+    configSuffix = "Prod";
   } else {
-    configItem = _.filter(configItems[configItemName + "Local"], { key: item });
+    configSuffix = "Local";
   }
-  return configItem[0].value;
+
+  return _.filter(configItems[configItemName + configSuffix], { key: item })[0]
+    .value;
 };
 
 export default checkEnvironment;
