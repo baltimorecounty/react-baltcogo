@@ -553,22 +553,21 @@ const ServiceRequestForm = (props, errors, touched) => {
         {displayButton ? (
           !contactID ? (
             <div className="cs-form-control row">
-              <div className="col-sm-2 col-xs-12 ">
+              <div className="col-sm-3 col-xs-12 ">
                 <SeButton
                   text="Sign In"
                   isDisabled={disableButton}
                   onClick={callSignInForm}
                 />
               </div>
-              <div className="col-sm-8 col-xs-12 text-center">
+              <div className="col-sm-6 col-xs-12 col-sm-align-items-center">
                 <Modal />
               </div>
-              <div className="col-sm-2 col-xs-12">
+              <div className="col-sm-3 col-xs-12  col-sm-align-items-end">
                 <SeButton
                   text="Register"
                   isDisabled={disableButton}
                   onClick={callRegisterForm}
-                  className="pull-right"
                 />
               </div>
             </div>
