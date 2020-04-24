@@ -22,6 +22,9 @@ export const endPointsStage = [
 	{ key: 'apiContactUrl', value: 'https://testservices.baltimorecountymd.gov/platform.citysourced.net/contacts/' },
 	{ key: 'apiVerifyAddressUrl', value: 'https://testservices.baltimorecountymd.gov/platform.citysourced.net/contacts/verifyaddress'}
 ];
+
+export const endPointsBeta = endPointsStage;
+
 export const endPointsProd = [
 	{ key: 'apiLoginUrl', value: 'https://services.baltimorecountymd.gov/platform.citysourced.net/login/' },
 	{ key: 'apiSignInUrl', value: 'https://services.baltimorecountymd.gov/platform.citysourced.net/SignUp/' },
@@ -138,6 +141,9 @@ export const formTypesStage = [
 	{ key: 'petTypeDog', value: 'Dog' },
 	{ key: 'petType_Others', value: 'Other' }
 ];
+
+export const formTypesBeta = formTypesStage;
+
 export const formTypesProd = [
 	{ key: 'requestType_petAndAnimalIssue', value: 'Pets and Animals Issue' },
 	{ key: 'petAndAnimalIssueID_OtherAnimalComplaint', value: 'Other animal complaint' },
@@ -172,6 +178,9 @@ export const mapEndPointStage = [
 	{ key: 'mapGISEndPoint', value: 'https://testservices.baltimorecountymd.gov/api/gis/addressLookup/' },
 	{ key: 'mapReverseGISEndPoint', value: 'https://bcgis.baltimorecountymd.gov/arcgis/rest/services/Geocoders/CompositeGeocode_CS/GeocodeServer/reverseGeocode?location=' }
 ];
+
+export const mapEndPointBeta = mapEndPointStage;
+
 export const mapEndPointProd = [
 	{ key: 'mapGISEndPoint', value: 'https://services.baltimorecountymd.gov/api/gis/addressLookup/' },
 	{ key: 'mapReverseGISEndPoint', value: 'https://bcgis.baltimorecountymd.gov/arcgis/rest/services/Geocoders/CompositeGeocode_CS/GeocodeServer/reverseGeocode?location=' }
