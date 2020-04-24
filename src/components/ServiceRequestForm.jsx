@@ -552,19 +552,25 @@ const ServiceRequestForm = (props, errors, touched) => {
 
         {displayButton ? (
           !contactID ? (
-            <div className="cs-form-control">
-              <SeButton
-                text="Sign In"
-                isDisabled={disableButton}
-                onClick={callSignInForm}
-              />
-              <Modal />
-              <SeButton
-                text="Register"
-                isDisabled={disableButton}
-                onClick={callRegisterForm}
-                className="pull-right"
-              />
+            <div className="cs-form-control row">
+              <div className="col-sm-2 col-xs-12 ">
+                <SeButton
+                  text="Sign In"
+                  isDisabled={disableButton}
+                  onClick={callSignInForm}
+                />
+              </div>
+              <div className="col-sm-8 col-xs-12 text-center">
+                <Modal />
+              </div>
+              <div className="col-sm-2 col-xs-12">
+                <SeButton
+                  text="Register"
+                  isDisabled={disableButton}
+                  onClick={callRegisterForm}
+                  className="pull-right"
+                />
+              </div>
             </div>
           ) : (
             <div className="cs-form-control">
