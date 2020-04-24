@@ -12,7 +12,7 @@ export const checkEnvironment = () => {
 
 export const returnConfigItems = (configItemName, item) => {
   var domain = checkEnvironment();
-  var configSuffix = "Local";
+  var configSuffix = "";
 
   if (domain === "dev.baltimorecountymd.gov") {
     configSuffix = "Test";
