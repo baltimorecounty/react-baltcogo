@@ -3,7 +3,7 @@ import { Form, connect } from "formik";
 import axios from "axios";
 import { GetResponseErrors } from "../utilities/CitysourcedResponseHelpers";
 import FormContainer from "./FormContainer";
-import Model from "./Modal";
+import Modal from "./Modal";
 import Note from "./Note";
 import { Link } from "react-router-dom";
 import { GetContactDetails } from "../services/authService";
@@ -564,7 +564,7 @@ const ServiceRequestForm = (props, errors, touched) => {
                 onClick={callRegisterForm}
                 className="pull-right"
               />
-              <Model />
+              <Modal />
             </div>
           ) : (
             <div className="cs-form-control">
