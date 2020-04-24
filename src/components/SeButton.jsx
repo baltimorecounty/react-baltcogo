@@ -11,6 +11,7 @@ const SeButton = (props) => {
     onClick,
     isLoadingText = "Loading...",
     isLoading,
+    ...rest
   } = props;
   const cssClasses = classNames(
     `${isDisabled ? "disabled" : ""}`,
@@ -18,11 +19,13 @@ const SeButton = (props) => {
     { "is-loading": isLoading }
   );
 
+  console.log(isLoadingText);
+
   const buttonLoadingText = () => {
     return (
       <React.Fragment>
         <i className="fa fa-spinner fa-spin fa-fw" />
-        <span className="sr-only">{isLoadingText}</span>
+        <span className={isLoading ? "" : "sr-only"}>{isLoadingText}</span>
       </React.Fragment>
     );
   };
@@ -33,6 +36,7 @@ const SeButton = (props) => {
         className={cssClasses}
         text={isLoading ? buttonLoadingText() : text}
         onClick={onClick}
+        {...rest}
       ></Button>
     </React.Fragment>
   );
