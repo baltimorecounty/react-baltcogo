@@ -27,8 +27,6 @@ const SeButton = (props) => {
     );
   };
 
-  console.log(buttonLoadingText);
-
   return (
     <React.Fragment>
       <Button
