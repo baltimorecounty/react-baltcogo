@@ -4,7 +4,7 @@ import classNames from "classnames";
 import { Button } from "@baltimorecounty/dotgov-components";
 
 const SeButton = (props) => {
-  const { text, isDisabled, className = "" } = props;
+  const { text, isDisabled, className = "", onClick } = props;
   const cssClasses = classNames(
     `${isDisabled ? "disabled" : ""}`,
     ...className.split(" ")
@@ -12,7 +12,7 @@ const SeButton = (props) => {
   /** end */
   return (
     <React.Fragment>
-      <Button className={cssClasses} text={text}></Button>
+      <Button className={cssClasses} text={text} onClick={onClick}></Button>
     </React.Fragment>
   );
 };
