@@ -560,10 +560,10 @@ const ServiceRequestForm = (props, errors, touched) => {
                   onClick={callSignInForm}
                 />
               </div>
-              <div className="col-sm-6 col-xs-12 col-sm-align-items-center">
+              <div className="col-sm-6 col-xs-12">
                 <Modal />
               </div>
-              <div className="col-sm-3 col-xs-12  col-sm-align-items-end">
+              <div className="col-sm-3 col-xs-12">
                 <SeButton
                   text="Register"
                   isDisabled={disableButton}
