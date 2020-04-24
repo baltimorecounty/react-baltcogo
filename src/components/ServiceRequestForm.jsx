@@ -558,13 +558,13 @@ const ServiceRequestForm = (props, errors, touched) => {
                 isDisabled={disableButton}
                 onClick={callSignInForm}
               />
+              <Modal />
               <SeButton
                 text="Register"
                 isDisabled={disableButton}
                 onClick={callRegisterForm}
                 className="pull-right"
               />
-              <Modal />
             </div>
           ) : (
             <div className="cs-form-control">
