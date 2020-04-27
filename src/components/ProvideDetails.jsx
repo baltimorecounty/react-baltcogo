@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Form, Field, connect } from "formik";
 import FormContainer from "./FormContainer";
 import Geocode from "react-geocode";
-import Collaspe from "./Collaspe";
+import Collapse from "./Collapse";
 import axios from "axios";
 import _ from "lodash";
 import { IsFormInComplete } from "../utilities/FormHelpers";
@@ -290,7 +290,7 @@ const provideDetails = (props) => {
               pageFieldName={MapPage.AddressHeaderLabel}
             />
 
-            <Collaspe
+            <Collapse
               address={location}
               ZoomValue={rest.formik.values.ZoomValue}
               Animation={Animation}
