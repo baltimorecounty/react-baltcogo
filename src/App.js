@@ -3,6 +3,7 @@ import "./App.css";
 import withFormik from "./components/withFormik";
 import DisplayFormikState from "./components/helper";
 import checkEnvironment from "./utilities/returnEnvironmentItems";
+import "@baltimorecounty/dotgov-components/lib/styles/dotgov.min.css";
 import { Router } from "./Routing";
 
 function App(props) {

@@ -1,41 +1,41 @@
 import React from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
+import { Button } from "@baltimorecounty/dotgov-components";
 
 const SeButton = (props) => {
   const {
     text,
     isDisabled,
-    isLoadingText = "Loading...",
-    type = "button",
     className = "",
+    onClick,
+    isLoadingText = "Loading...",
     isLoading,
     ...rest
   } = props;
-  const cssClasses = classNames("seButton", ...className.split(" "), {
-    "is-loading": isLoading,
-  });
-  const disabledStyles = isDisabled
-    ? { backgroundColor: "#999", border: "1px solid #666" }
-    : {};
-  /** end */
+  const cssClasses = classNames(
+    `${isDisabled ? "disabled" : ""}`,
+    ...className.split(" "),
+    { "is-loading": isLoading }
+  );
+
+  const buttonLoadingText = () => {
+    return (
+      <React.Fragment>
+        <i className="fa fa-spinner fa-spin fa-fw" />
+        <span className={isLoading ? "" : "sr-only"}>{isLoadingText}</span>
+      </React.Fragment>
+    );
+  };
+
   return (
     <React.Fragment>
-      <button
+      <Button
         className={cssClasses}
-        type={type}
-        style={{ ...disabledStyles }}
-        disabled={isDisabled || isLoading}
+        text={isLoading ? buttonLoadingText() : text}
+        onClick={onClick}
         {...rest}
-      >
-        {isLoading && (
-          <React.Fragment>
-            <i className="fa fa-spinner fa-spin fa-fw" />
-            <span className="sr-only">{isLoadingText}</span>
-          </React.Fragment>
-        )}
-        {isLoading ? isLoadingText : text}
-      </button>
+      ></Button>
     </React.Fragment>
   );
 };

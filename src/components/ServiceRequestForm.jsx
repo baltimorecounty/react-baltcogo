@@ -3,7 +3,7 @@ import { Form, connect } from "formik";
 import axios from "axios";
 import { GetResponseErrors } from "../utilities/CitysourcedResponseHelpers";
 import FormContainer from "./FormContainer";
-import Model from "./Modal";
+import Modal from "./Modal";
 import Note from "./Note";
 import { Link } from "react-router-dom";
 import { GetContactDetails } from "../services/authService";
@@ -549,21 +549,25 @@ const ServiceRequestForm = (props, errors, touched) => {
 
         {displayButton ? (
           !contactID ? (
-            <div className="cs-form-control">
-              <SeButton
-                text="Sign In"
-                type="button"
-                isDisabled={disableButton}
-                onClick={callSignInForm}
-              />
-              <SeButton
-                text="Register"
-                type="button"
-                isDisabled={disableButton}
-                onClick={callRegisterForm}
-                className="pull-right"
-              />
-              <Model />
+            <div className="row">
+              <div className="col-sm-3 col-xs-12">
+                <SeButton
+                  text="Sign In"
+                  isDisabled={disableButton}
+                  onClick={callSignInForm}
+                />
+              </div>
+              <div className="col-sm-6 col-xs-12 text-center">
+                <Modal />
+              </div>
+              <div className="col-sm-3 col-xs-12">
+                <SeButton
+                  text="Register"
+                  isDisabled={disableButton}
+                  onClick={callRegisterForm}
+                  className="pull-right"
+                />
+              </div>
             </div>
           ) : (
             <div className="cs-form-control">
@@ -580,7 +584,6 @@ const ServiceRequestForm = (props, errors, touched) => {
               </p>
               <SeButton
                 text="Next"
-                type="button"
                 isDisabled={disableButton}
                 onClick={goToNextPage}
                 className="pull-right"
