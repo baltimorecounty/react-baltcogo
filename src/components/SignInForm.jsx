@@ -144,7 +144,10 @@ const SignIn = (props, routeProps) => {
                       : "cs-form-control"
                   }
                 >
-                  <label htmlFor="Email">{SignInPage.EmailLabel}</label>
+                  {/* <label htmlFor="Email">{SignInPage.EmailLabel}</label> */}
+                  <label for="EmailLabel" class="dg_label">
+        <span class="dg_label-text">{SignInPage.EmailLabel}</span>
+      </label>
                   <Field type="email" name="Email" />
                   {/* <ErrorMessage name='msg' className='input-feedback' component='div' />
 									<div className={`input-feedback ${props.status ? props.status.css : ''}`}>
@@ -164,9 +167,13 @@ const SignIn = (props, routeProps) => {
                       : "cs-form-control"
                   }
                 >
-                  <label name="Password" htmlFor="password">
+               {/*    <label name="Password" htmlFor="password">
                     {SignInPage.PasswordLabel}
-                  </label>
+                  </label> */}
+
+                  <label for="PasswordLabel" class="dg_label">
+        <span class="dg_label-text">{SignInPage.PasswordLabel}</span>
+      </label>
                   <Field
                     type={fieldType === "Password" ? "Password" : "text"}
                     name="Password"
