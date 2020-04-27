@@ -2,6 +2,8 @@ import React from "react";
 
 import RequestTypeField from "./RequestTypeField";
 import ErrorMsg from "./ErrorMessage";
+import { Select } from "@baltimorecounty/dotgov-components";
+const options =[{id:1,name:'Blue'},{id:2,name:'Red'},{id:3,name:'Yellow'},{id:4,name:'Gray'}];
 const RequestCategory = ({
   requestType,
   errorsRequestType,
@@ -20,23 +22,31 @@ const RequestCategory = ({
             : "cs-form-control"
         }
       >
+    
         <label htmlFor="requestType">{pageFieldName}</label>
-        <RequestTypeField
+   {/*      <RequestTypeField
           component="select"
           name="requestType"
           formikProps={rest}
           onChange={handleServiceRequestChange}
           value={requestType}
-        >
-          <option key="default" value="">
+        > */}
+        <Select
+  id="select-items"
+  label="-- Please select a category --"
+  options={Categories}
+
+/> 
+    {/*       <option key="default" value="">
             -- Please select a category --
           </option>
           {Categories.map((category) => (
             <option key={category.id} value={category.name}>
               {category.name}
             </option>
-          ))}
-        </RequestTypeField>
+          ))}  */}
+   
+        {/* </RequestTypeField> */}
         <p role="alert" className="error-message">
           <ErrorMsg
             errormessage={errorsRequestType}
