@@ -18,6 +18,7 @@ const Modal = () => {
       <div
         className="dg_modal hidden dark"
         id="my-accessible-dialog"
+        data-dismissible="true"
         role="dialog"
         aria-labelledby="my-accessible-dialog_label"
         aria-modal="true"

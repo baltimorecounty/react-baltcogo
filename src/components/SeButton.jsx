@@ -19,8 +19,6 @@ const SeButton = (props) => {
     { "is-loading": isLoading }
   );
 
-  console.log(isLoadingText);
-
   const buttonLoadingText = () => {
     return (
       <React.Fragment>
