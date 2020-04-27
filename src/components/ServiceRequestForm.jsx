@@ -416,10 +416,7 @@ const ServiceRequestForm = (props, errors, touched) => {
       if (requestType) {
         if (subCategories.length === 0) {
           const value = requestType.toLowerCase();
-          const subCategories = getSubCategories(
-            Categories,
-            value ? value : value
-          );
+          const subCategories = getSubCategories(Categories, value);
           setSubCategories(subCategories);
           if (petType) {
             let value = petType.toLowerCase();
