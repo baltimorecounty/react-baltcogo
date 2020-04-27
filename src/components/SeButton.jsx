@@ -42,7 +42,11 @@ const SeButton = (props) => {
 
 SeButton.propTypes = {
   text: PropTypes.string.isRequired,
+  type: PropTypes.string,
   isDisabled: PropTypes.bool,
+  isInline: PropTypes.bool,
+  isLoading: PropTypes.bool,
+  isLoadingText: PropTypes.string,
 };
 
 export default SeButton;

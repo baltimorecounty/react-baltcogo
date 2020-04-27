@@ -1,15 +1,15 @@
 const GetErrorDetails = (name, formikBag) => {
-	const { errors = {}, status = {}, touched = {} } = formikBag;
-	const error = errors[name];
-	const isTouched = touched[name];
-	const statusMessage = status[name];
-	const message = error || statusMessage || null;
+  const { errors = {}, status = {}, touched = {} } = formikBag;
+  const error = errors[name];
+  const isTouched = touched[name];
+  const statusMessage = status[name];
+  const message = error || statusMessage || null;
 
-	return {
-		isTouched,
-		hasError: !!message,
-		message
-	};
+  return {
+    isTouched,
+    hasError: !!message,
+    message,
+  };
 };
 
 /**
@@ -21,9 +21,9 @@ const GetErrorDetails = (name, formikBag) => {
  * Ex: setFieldValue, setFieldTouched
  */
 const setFields = (props, fields, setFuncName) => {
-	Object.entries(fields).forEach(([key, value]) => {
-		props[setFuncName](key, value);
-	  });
+  Object.entries(fields).forEach(([key, value]) => {
+    props[setFuncName](key, value);
+  });
 };
 
 /**
@@ -33,7 +33,7 @@ const setFields = (props, fields, setFuncName) => {
  * and value is whether or not the field is touched
  */
 const SetFieldsTouched = (props, fields) => {
-	setFields(props, fields, 'setFieldTouched');
+  setFields(props, fields, "setFieldTouched");
 };
 
 export { GetErrorDetails, SetFieldsTouched };
