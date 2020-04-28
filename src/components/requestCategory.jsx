@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from "react";
-
-import RequestTypeField from "./RequestTypeField";
+import React from "react";
 import ErrorMsg from "./ErrorMessage";
 import { Select } from "@baltimorecounty/dotgov-components";
 
@@ -13,40 +11,17 @@ const RequestCategory = ({
 	rest,
 	Categories
 }) => {
-
-	// const [event, setEvent] = useState({
-	// 	target: { name: "", value: "0"}
-	// });
-	// const [isValue, setIsValue] = useState(false);
-	// useEffect(() => {
-
-	// 	if (isValue === true) {
-	// 		console.log("-inside useEffect--:");
-	// 		// console.log(event);
-	// 		console.log("event.target.name:" + event.target.name);
-	// 		console.log("event.target.value:" + event.target.value);
-	// 		const localProps = rest.formik;
-	// 		const { name, value } = event.target;
-		
-	// 	}
-
-	// 	//	 localProps.setFieldValue(event.target.name, event.target.value);
-	// }, [event]);
-
 	const handleChange = changeEvent => {
-	
-		var index = changeEvent.nativeEvent.target.selectedIndex;
-		var selectedText = changeEvent.nativeEvent.target[index].text;
-		// const { name, value } = changeEvent.target;
-
-		// setEvent({ target: { name, value } });
-		// setIsValue(true);
-		// handleServiceRequestChange(changeEvent);
-		// const { name, value } = changeEvent.target;
-		// console.log(changeEvent.target);
 		const localProps = rest.formik;
-	
-		localProps.setFieldValue("requestType", selectedText);
+		const target = changeEvent.nativeEvent.target;
+		const index = target.selectedIndex;
+		const { name } = changeEvent.target;
+		const selectedText = target[index].text;
+
+		index > 0
+			? localProps.setFieldValue(name, selectedText)
+			: localProps.setFieldValue(name, "");
+		localProps.setFieldTouched(name, true);
 		localProps.setFieldValue("requestTypeDescriptionID", "");
 		localProps.setFieldValue("requestTypeAddressID", "");
 		localProps.setFieldValue("requestTypeCityID", "");
@@ -69,19 +44,11 @@ const RequestCategory = ({
 		localProps.setFieldValue("animalColorTypeID", "");
 		localProps.setFieldValue("animalBreed", "");
 		localProps.setFieldValue("animalBreedID", "");
-		 	handleServiceRequestChange(changeEvent);
+		handleServiceRequestChange(changeEvent);
 	};
+
 	return (
 		<React.Fragment>
-			<Select
-				id="requestType"
-				name="requestType"
-				label={pageFieldName}
-				options={Categories}
-				//onChange={handleServiceRequestChange}
-				onChange={handleChange}
-				{...rest}
-			/>
 			<div
 				className={
 					errorsRequestType && touchedRequestType
@@ -89,23 +56,14 @@ const RequestCategory = ({
 						: "cs-form-control"
 				}
 			>
-				{/*  		<label htmlFor="requestType">{pageFieldName}</label>
-				<RequestTypeField
-					component="select"
+				<Select
+					id="requestType"
+					label={pageFieldName}
 					name="requestType"
-					formikProps={rest}
-					onChange={handleServiceRequestChange}
-					value={requestType}
-				>
-					<option key="default" value="">
-            -- Please select a category --
-					</option>
-					{Categories.map(category => (
-						<option key={category.id} value={category.name}>
-							{category.name}
-						</option>
-					))}
-				</RequestTypeField>  */}
+					options={Categories}
+					onChange={handleChange}
+					{...rest}
+				/>
 				<p role="alert" className="error-message">
 					<ErrorMsg
 						errormessage={errorsRequestType}

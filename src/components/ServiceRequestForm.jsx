@@ -285,16 +285,20 @@ const ServiceRequestForm = (props, errors, touched) => {
 	};
 
 	const handleServiceRequestChange = changeEvent => {
-  
-    const value = changeEvent.currentTarget.value.toLowerCase();
-    console.log('inside handleServiceRequestChange-----:' + value);
-    console.log('value:' + value);
+		var index = changeEvent.nativeEvent.target.selectedIndex;
+		var selectedText = changeEvent.nativeEvent.target[index].text;
+		const value = selectedText.toLowerCase();
 
 		addSelectedValueOptions(Categories, value);
 	};
 
 	const handleServiceSubRequestChange = changeEvent => {
-		const value = changeEvent.currentTarget.value.toLowerCase();
+		const target = changeEvent.nativeEvent.target;
+		const index = target.selectedIndex;
+		const selectedText = target[index].text;
+		const value = selectedText.toLowerCase();
+		//const value = changeEvent.currentTarget.value.toLowerCase();
+
 		addSelectedSubValueOptions(Categories, value);
 	};
 
@@ -313,7 +317,10 @@ const ServiceRequestForm = (props, errors, touched) => {
 	};
 
 	const handleServicePetChange = changeEvent => {
-		let value = changeEvent.currentTarget.value.toLowerCase();
+		var index = changeEvent.nativeEvent.target.selectedIndex;
+		var selectedText = changeEvent.nativeEvent.target[index].text;
+		const value = selectedText.toLowerCase();
+
 		let ID = getID(PetTypes, value);
 		const subBreeds = getAnimalSubCategories(AnimalBreeds, value);
 		setAnimalSubCategories(subBreeds.breeds);
@@ -438,6 +445,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 	let disableButton = buttonDisableValidation();
 	let displayButton = buttonShowHideValidation();
 	loadSelectedItems(props);
+
 	const isAnimalCategory = activeCategory ? activeCategory.isAnimal : false;
 	const petAndAnimalIssue = returnConfigItems(
 		"formTypes",

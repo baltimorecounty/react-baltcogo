@@ -1,6 +1,6 @@
-import React from 'react';
-import ErrorMsg from './ErrorMessage';
-import GenericTypeField from './genericTypeField';
+import React from "react";
+import ErrorMsg from "./ErrorMessage";
+import { Select } from "@baltimorecounty/dotgov-components";
 const AnimalBreedType = ({
 	requestType,
 	requestType_petAndAnimalIssue,
@@ -16,37 +16,43 @@ const AnimalBreedType = ({
 	animalSubCategories,
 	shouldShow
 }) => {
+	const handleChange = changeEvent => {
+		const localProps = rest.formik;
+		const { name, value } = changeEvent.target;
+		localProps.setFieldValue(name, value);
+		localProps.setFieldTouched(name, true);
+		handleAnimalBreedChange(changeEvent);
+	};
 	return (
 		<React.Fragment>
-			{shouldShow && subRequestType !== '' && (petType === petTypeCat || petType === petTypeDog) ? (
-				<div
-					className={
-						errorsAnimalBreedType && touchedAnimalBreedType ? 'cs-form-control error' : 'cs-form-control'
-					}
-				>
-					<label htmlFor="animalBreed">{pageFieldName}</label>
-					<GenericTypeField
-						component="select"
-						name="animalBreedType"
-						formikProps={rest}
-						onChange={handleAnimalBreedChange}
-						//value={localProps.values.animalBreedType}
-						className={errorsAnimalBreedType && touchedAnimalBreedType ? 'text-select error' : null}
+			{shouldShow &&
+      subRequestType !== "" &&
+      (petType === petTypeCat || petType === petTypeDog) ? (
+					<div
+						className={
+							errorsAnimalBreedType && touchedAnimalBreedType
+								? "cs-form-control error"
+								: "cs-form-control"
+						}
 					>
-						<option key="default" value="">
-							-- Please select the primary breed of the animal --
-						</option>
-						{animalSubCategories.map((animalBreedType) => (
-							<option key={animalBreedType.id} value={animalBreedType.name}>
-								{animalBreedType.name}
-							</option>
-						))}
-					</GenericTypeField>
-					<p role="alert" className="error-message">
-						{<ErrorMsg errormessage={errorsAnimalBreedType} touched={touchedAnimalBreedType} />}
-					</p>
-				</div>
-			) : null}
+						<Select
+							id="animalBreedType"
+							name="animalBreedType"
+							label={pageFieldName}
+							options={animalSubCategories}
+							onChange={handleChange}
+							{...rest}
+						/>
+						<p role="alert" className="error-message">
+							{
+								<ErrorMsg
+									errormessage={errorsAnimalBreedType}
+									touched={touchedAnimalBreedType}
+								/>
+							}
+						</p>
+					</div>
+				) : null}
 		</React.Fragment>
 	);
 };

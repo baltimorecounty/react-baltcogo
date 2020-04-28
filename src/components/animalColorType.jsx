@@ -1,6 +1,7 @@
-import React from 'react';
-import ErrorMsg from './ErrorMessage';
-import GenericTypeField from './genericTypeField';
+import React from "react";
+import ErrorMsg from "./ErrorMessage";
+
+import { Select } from "@baltimorecounty/dotgov-components";
 const AnimalColorType = ({
 	subRequestType,
 	petType,
@@ -14,38 +15,43 @@ const AnimalColorType = ({
 	AnimalColors,
 	shouldShow
 }) => {
+	const handleChange = changeEvent => {
+		const localProps = rest.formik;
+		const { name, value } = changeEvent.target;
+		localProps.setFieldValue(name, value);
+		localProps.setFieldTouched(name, true);
+		handleAnimalColorChange(changeEvent);
+	};
 	return (
 		<React.Fragment>
-			{shouldShow && subRequestType !== '' && (petType === petTypeCat || petType === petTypeDog) ? (
-				<div
-					className={
-						errorsAnimalColorType && touchedAnimalColorType ? 'cs-form-control error' : 'cs-form-control'
-					}
-				>
-					<label htmlFor="animalColorType">{pageFieldName}</label>
-					<GenericTypeField
-						component="select"
-						name="animalColorType"
-						formikProps={rest}
-						onChange={handleAnimalColorChange}
-						//value={localProps.values.name}
-						className={errorsAnimalColorType && touchedAnimalColorType ? 'text-select error' : null}
+			{shouldShow &&
+      subRequestType !== "" &&
+      (petType === petTypeCat || petType === petTypeDog) ? (
+					<div
+						className={
+							errorsAnimalColorType && touchedAnimalColorType
+								? "cs-form-control error"
+								: "cs-form-control"
+						}
 					>
-						<option key="default" value="">
-							-- Please select the primary color of the animal --
-						</option>
-
-						{AnimalColors.map((animalColorType) => (
-							<option key={animalColorType.id} value={animalColorType.name}>
-								{animalColorType.name}
-							</option>
-						))}
-					</GenericTypeField>
-					<p role="alert" className="error-message">
-						{<ErrorMsg errormessage={errorsAnimalColorType} touched={touchedAnimalColorType} />}
-					</p>
-				</div>
-			) : null}
+						<Select
+							id="animalColorType"
+							name="animalColorType"
+							label={pageFieldName}
+							options={AnimalColors}
+							onChange={handleChange}
+							{...rest}
+						/>
+						<p role="alert" className="error-message">
+							{
+								<ErrorMsg
+									errormessage={errorsAnimalColorType}
+									touched={touchedAnimalColorType}
+								/>
+							}
+						</p>
+					</div>
+				) : null}
 		</React.Fragment>
 	);
 };
