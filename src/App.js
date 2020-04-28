@@ -1,10 +1,5 @@
 import React from "react";
 import "./App.css";
-//*********************************************** */
-//these need to be removed before pushing to beta
-import "./CSS/citysourced-reporter.min.css";
-import "./CSS/inside-responsive.min.css";
-//************************************************/
 import withFormik from "./components/withFormik";
 import DisplayFormikState from "./components/helper";
 import checkEnvironment from "./utilities/returnEnvironmentItems";
