@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 
-const PageValidation = (props) => {
+const FieldError = (props) => {
   const { type = "", children, className, icon = "", ...rest } = props;
   const cssClasses = classNames(type ? `alert-${type}` : null, className);
   return (
@@ -13,9 +13,9 @@ const PageValidation = (props) => {
   );
 };
 
-PageValidation.propTypes = {
+FieldError.propTypes = {
   /** Corresponds to bootstrap alert types. Does not require the alert- prefix. */
   type: PropTypes.string,
 };
 
-export default PageValidation;
+export default FieldError;

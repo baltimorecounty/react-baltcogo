@@ -1,14 +1,14 @@
 import React from "react";
-import PageValidation from "./PageValidation";
+import FieldError from "./FieldError";
 
 const Note = (props) => {
   const { className, icon } = props;
   const cssClasses = className ? className : "alert-information bc_alert";
   const iconCss = icon ? icon : "info-circle";
   return (
-    <PageValidation className={cssClasses} icon={iconCss}>
+    <FieldError className={cssClasses} icon={iconCss}>
       <p dangerouslySetInnerHTML={{ __html: props.children }}></p>
-    </PageValidation>
+    </FieldError>
   );
 };
 export default Note;
