@@ -1,53 +1,54 @@
-import React, { Component } from 'react';
-import Modal from 'react-bootstrap/Modal'
-import { Button } from 'reactstrap';
-class Examples extends Component {
-	constructor(props, context) {
-		super(props, context);
+import React from "react";
+import {
+  Button,
+  IconHeading,
+  IconLink,
+} from "@baltimorecounty/dotgov-components";
 
-		this.handleShow = this.handleShow.bind(this);
-		this.handleClose = this.handleClose.bind(this);
+const Modal = () => {
+  return (
+    <div>
+      <Button
+        type="button"
+        className="dg_button-link dg_modal__open-button"
+        data-target="my-accessible-dialog"
+        text="Why do I need to do this?"
+      ></Button>
 
-		this.state = {
-			show: false,
-		};
-	}
+      <div
+        className="dg_modal hidden dark"
+        id="my-accessible-dialog"
+        data-dismissible="true"
+        role="dialog"
+        aria-labelledby="my-accessible-dialog_label"
+        aria-modal="true"
+      >
+        <div className="text-right">
+          <IconLink
+            size="tiny"
+            href="#my-accessible-dialog-close"
+            id="my-accessible-dialog-close"
+            type="circle"
+            icon="far fa-times"
+            description="Close this modal window."
+            className="dg_modal__close-button"
+          />
+        </div>
+        <IconHeading
+          id="my-accessible-dialog_label"
+          text="Why Register"
+          icon="fas fa-star"
+        />
+        <p>
+          In order to report an issue online, we require a one-time account
+          creation. This allows us to better track and follow up on issues in a
+          timely fashion, as it ensures that we get all of the proper contact
+          information when the issue is submitted. At this time we cannot take
+          anonymous requests online.
+        </p>
+      </div>
+    </div>
+  );
+};
 
-	handleClose() {
-		this.setState({ show: false });
-	}
-
-	handleShow() {
-		this.setState({ show: true });
-	}
-
-	render() {
-		return (
-			<>
-				<Button type="button" color="link" onClick={this.handleShow}>
-                    Why do I need to do this?
-				</Button>
-
-				<Modal show={this.state.show} onHide={this.handleClose}>
-					<Modal.Header closeButton>
-						<Modal.Title><h3>Why do I need an account?</h3></Modal.Title>
-					</Modal.Header>
-					<Modal.Body><div>
-
-						<p>In order to report an issue online, we require a one-time account creation.</p>
-						<p>This allows us to better track and follow up on issues in a timely fashion, as it ensures that we get all of the proper contact information when the issue is submitted.</p>
-						<p>At this time we cannot take anonymous requests online.</p>
-
-					</div></Modal.Body>
-					<Modal.Footer>
-						<Button variant="secondary" onClick={this.handleClose}>
-							Close
-						</Button>
-
-					</Modal.Footer>
-				</Modal>
-			</>
-		);
-	}
-}
-export default Examples
+export default Modal;

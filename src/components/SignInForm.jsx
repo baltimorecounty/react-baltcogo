@@ -4,7 +4,7 @@ import * as Yup from "yup";
 import ErrorMsg from "./ErrorMessage";
 import {
   GetResponseErrors,
-  GetNetWorkErrors
+  GetNetWorkErrors,
 } from "../utilities/CitysourcedResponseHelpers";
 import { Link } from "react-router-dom";
 import FormContainer from "./FormContainer";
@@ -15,16 +15,16 @@ import { GoBack, GoHome, Go, Routes } from "../Routing";
 import {
   AlertAtPage,
   GetAlertMessage,
-  ResetAlerts
+  ResetAlerts,
 } from "../utilities/AlertHelpers";
-import { Fieldset } from "@baltimorecounty/dotgov-components";
+
 const SignIn = (props, routeProps) => {
   const {
     Tabs,
     SignInPage,
     shouldDisableForm,
     ignoreFormCompletion,
-    hasPasswordReset
+    hasPasswordReset,
   } = props.values;
   const [fieldType, setFieldType] = useState("Password");
   const handlePasswordToggleChange = () => {
@@ -38,7 +38,7 @@ const SignIn = (props, routeProps) => {
   const handleLoginFailure = (actions, errors) => {
     actions.setStatus({
       success: errors,
-      css: "error"
+      css: "error",
     });
   };
 
@@ -48,7 +48,7 @@ const SignIn = (props, routeProps) => {
     const fields = {
       NameFirst,
       NameLast,
-      ContactID: contactID
+      ContactID: contactID,
     };
 
     SetFieldValues(props, fields);
@@ -59,7 +59,7 @@ const SignIn = (props, routeProps) => {
 
     actions.setStatus({
       success: "OK",
-      css: "success"
+      css: "success",
     });
     ResetAlerts(props);
     Go(props, Routes.ProvideDetails);
@@ -97,7 +97,7 @@ const SignIn = (props, routeProps) => {
         const errors = GetNetWorkErrors(ex.toString());
         const fields = {
           hasPasswordReset: false,
-          AlertAtPage: "SignInPage"
+          AlertAtPage: "SignInPage",
         };
         props.setStatus({ networkError: errors });
         SetFieldValues(props, fields);
@@ -118,20 +118,20 @@ const SignIn = (props, routeProps) => {
       <Formik
         initialValues={{
           Email: "",
-          Password: ""
+          Password: "",
         }}
         validationSchema={Yup.object().shape({
           Email: Yup.string()
             .email("Please enter a valid email address.")
             .required("Please enter your email address."),
-          Password: Yup.string().required("Please enter your password.")
+          Password: Yup.string().required("Please enter your password."),
         })}
         onSubmit={async (values, actions, setSubmitting) => {
           await userLogin(values, props, actions);
           actions.setSubmitting(false);
         }}
       >
-        {props => {
+        {(props) => {
           const { errors = {}, touched } = props;
           return (
             <Form>
@@ -146,8 +146,8 @@ const SignIn = (props, routeProps) => {
                 >
                   {/* <label htmlFor="Email">{SignInPage.EmailLabel}</label> */}
                   <label for="EmailLabel" class="dg_label">
-        <span class="dg_label-text">{SignInPage.EmailLabel}</span>
-      </label>
+                    <span class="dg_label-text">{SignInPage.EmailLabel}</span>
+                  </label>
                   <Field type="email" name="Email" />
                   {/* <ErrorMessage name='msg' className='input-feedback' component='div' />
 									<div className={`input-feedback ${props.status ? props.status.css : ''}`}>
@@ -167,13 +167,15 @@ const SignIn = (props, routeProps) => {
                       : "cs-form-control"
                   }
                 >
-               {/*    <label name="Password" htmlFor="password">
+                  {/*    <label name="Password" htmlFor="password">
                     {SignInPage.PasswordLabel}
                   </label> */}
 
                   <label for="PasswordLabel" class="dg_label">
-        <span class="dg_label-text">{SignInPage.PasswordLabel}</span>
-      </label>
+                    <span class="dg_label-text">
+                      {SignInPage.PasswordLabel}
+                    </span>
+                  </label>
                   <Field
                     type={fieldType === "Password" ? "Password" : "text"}
                     name="Password"

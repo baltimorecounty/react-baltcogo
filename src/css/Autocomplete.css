@@ -1,0 +1,24 @@
+.is-highlighted {
+  background: #e0e0e0;
+}
+
+.address-input-wrapper {
+  position: relative;
+}
+
+.autocomplete-input {
+  padding-left: 30px !important; /* account for the search icon to the left of the input text*/
+}
+
+.autocomplete-option {
+  opacity: 1;
+  padding: 5px 10px;
+}
+
+.autocomplete-results {
+  background: white;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  opacity: 1 !important;
+  position: fixed;
+  z-index: 99999;
+}

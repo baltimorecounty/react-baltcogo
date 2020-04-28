@@ -4,22 +4,49 @@ import classNames from "classnames";
 import { Button } from "@baltimorecounty/dotgov-components";
 
 const SeButton = (props) => {
-  const { text, isDisabled, className = "", onClick } = props;
+  const {
+    text,
+    isDisabled,
+    className = "",
+    onClick,
+    isLoadingText = "Loading...",
+    isLoading,
+    ...rest
+  } = props;
   const cssClasses = classNames(
     `${isDisabled ? "disabled" : ""}`,
-    ...className.split(" ")
+    ...className.split(" "),
+    { "is-loading": isLoading }
   );
-  /** end */
+
+  const buttonLoadingText = () => {
+    return (
+      <React.Fragment>
+        <i className="fa fa-spinner fa-spin fa-fw" />
+        <span className={isLoading ? "" : "sr-only"}>{isLoadingText}</span>
+      </React.Fragment>
+    );
+  };
+
   return (
     <React.Fragment>
-      <Button className={cssClasses} text={text} onClick={onClick}></Button>
+      <Button
+        className={cssClasses}
+        text={isLoading ? buttonLoadingText() : text}
+        onClick={onClick}
+        {...rest}
+      ></Button>
     </React.Fragment>
   );
 };
 
 SeButton.propTypes = {
   text: PropTypes.string.isRequired,
+  type: PropTypes.string,
   isDisabled: PropTypes.bool,
+  isInline: PropTypes.bool,
+  isLoading: PropTypes.bool,
+  isLoadingText: PropTypes.string,
 };
 
 export default SeButton;

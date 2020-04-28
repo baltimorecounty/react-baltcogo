@@ -4,7 +4,7 @@ import * as Yup from "yup";
 import ErrorMsg from "./ErrorMessage";
 import {
   GetResponseErrors,
-  GetNetWorkErrors
+  GetNetWorkErrors,
 } from "../utilities/CitysourcedResponseHelpers";
 import { Link } from "react-router-dom";
 import FormContainer from "./FormContainer";
@@ -16,7 +16,7 @@ import { GoBack, Go, Routes, GoHome } from "../Routing";
 import {
   AlertAtPage,
   GetAlertMessage,
-  ResetAlerts
+  ResetAlerts,
 } from "../utilities/AlertHelpers";
 const ResetPasswordForm = (props, routeProps) => {
   const { Tabs, ResetPasswordPage, hasPasswordReset } = props.values;
@@ -24,7 +24,7 @@ const ResetPasswordForm = (props, routeProps) => {
     GoHome(props);
   }
 
-  const userPasswordReset = async clickEvent => {
+  const userPasswordReset = async (clickEvent) => {
     const { Email = "" } = props.values || {};
     try {
       const response = await ResetPassword(Email);
@@ -56,7 +56,7 @@ const ResetPasswordForm = (props, routeProps) => {
     Go(props, Routes.SignIn, props.values.Email);
   };
 
-  const handleChange = changeEvent => {
+  const handleChange = (changeEvent) => {
     SetFieldValues(props, { Email: changeEvent.target.value });
   };
   const errorMessage = GetAlertMessage(props);
@@ -71,19 +71,19 @@ const ResetPasswordForm = (props, routeProps) => {
     >
       <Formik
         initialValues={{
-          Email: ""
+          Email: "",
         }}
         validationSchema={Yup.object().shape({
           Email: Yup.string()
             .email("Please enter a valid email address.")
-            .required("Please enter your email address.")
+            .required("Please enter your email address."),
         })}
         onSubmit={async (values, actions) => {
           await userPasswordReset(values, actions);
           actions.setSubmitting(false);
         }}
       >
-        {props => {
+        {(props) => {
           const { errors = [], touched } = props;
 
           return (
