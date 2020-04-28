@@ -2,11 +2,13 @@ import React from "react";
 import { Field } from "formik";
 
 const RequestTypeField = props => {
+
 	const { component, name, formikProps, onChange, className, value } = props;
 	const handleChange = changeEvent => {
-		const { name, value } = changeEvent.target;
-		const localProps = formikProps.formik;
+    const { name, value } = changeEvent.target;
 
+		const localProps = formikProps.formik;
+   console.log('name- value:' + name +"--" + value);
 		localProps.setFieldValue(name, value);
 		localProps.setFieldValue("requestTypeDescriptionID", "");
 		localProps.setFieldValue("requestTypeAddressID", "");

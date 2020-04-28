@@ -285,7 +285,11 @@ const ServiceRequestForm = (props, errors, touched) => {
 	};
 
 	const handleServiceRequestChange = changeEvent => {
-		const value = changeEvent.currentTarget.value.toLowerCase();
+  
+    const value = changeEvent.currentTarget.value.toLowerCase();
+    console.log('inside handleServiceRequestChange-----:' + value);
+    console.log('value:' + value);
+
 		addSelectedValueOptions(Categories, value);
 	};
 
