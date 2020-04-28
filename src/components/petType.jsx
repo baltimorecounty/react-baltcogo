@@ -28,7 +28,6 @@ const PetType = ({
 		localProps.setFieldValue("animalColorTypeID", "");
 		localProps.setFieldValue("animalBreedType", "");
 		localProps.setFieldValue("animalBreedID", "");
-
 		localProps.setFieldValue("otherAnimalTypes", "");
 		localProps.setFieldValue("otherAnimalTypesID", "");
 		handleServicePetChange(changeEvent);

@@ -297,8 +297,6 @@ const ServiceRequestForm = (props, errors, touched) => {
 		const index = target.selectedIndex;
 		const selectedText = target[index].text;
 		const value = selectedText.toLowerCase();
-		//const value = changeEvent.currentTarget.value.toLowerCase();
-
 		addSelectedSubValueOptions(Categories, value);
 	};
 
@@ -464,7 +462,6 @@ const ServiceRequestForm = (props, errors, touched) => {
 		>
 			<Form>
 				<RequestCategory
-					requestType={requestType}
 					errorsRequestType={localProps.errors.requestType}
 					touchedRequestType={localProps.touched.requestType}
 					pageFieldName={RequestPage.CategoryLabel}
@@ -475,7 +472,6 @@ const ServiceRequestForm = (props, errors, touched) => {
 
 				<RequestSubCategory
 					requestType={requestType}
-					subRequestType={subRequestType}
 					errorsSubRequestType={localProps.errors.subRequestType}
 					touchedSubRequestType={localProps.touched.subRequestType}
 					pageFieldName={RequestPage.SubCategoryLabel}

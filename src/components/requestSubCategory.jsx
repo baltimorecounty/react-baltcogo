@@ -3,7 +3,6 @@ import ErrorMsg from "./ErrorMessage";
 import { Select } from "@baltimorecounty/dotgov-components";
 const SubCategory = ({
 	requestType,
-	subRequestType,
 	errorsSubRequestType,
 	touchedSubRequestType,
 	pageFieldName,
@@ -26,7 +25,6 @@ const SubCategory = ({
 		localProps.setFieldValue("subRequestTypeAddressID", "");
 		localProps.setFieldValue("subRequestTypeCityID", "");
 		localProps.setFieldValue("subRequestTypeZipID", "");
-
 		localProps.setFieldValue("petType", "");
 		localProps.setFieldValue("otherAnimalTypes", "");
 		localProps.setFieldValue("sexType", "");
