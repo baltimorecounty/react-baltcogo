@@ -1,14 +1,14 @@
 import React from "react";
-import Alert from "./Alert";
+import PageValidation from "./PageValidation";
 
 const Note = (props) => {
   const { className, icon } = props;
   const cssClasses = className ? className : "alert-information bc_alert";
   const iconCss = icon ? icon : "info-circle";
   return (
-    <Alert className={cssClasses} icon={iconCss}>
+    <PageValidation className={cssClasses} icon={iconCss}>
       <p dangerouslySetInnerHTML={{ __html: props.children }}></p>
-    </Alert>
+    </PageValidation>
   );
 };
 export default Note;

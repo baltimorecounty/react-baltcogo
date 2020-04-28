@@ -9,7 +9,7 @@ import {
 import { Link } from "react-router-dom";
 import FormContainer from "./FormContainer";
 import { IsFormInComplete, SetFieldValues } from "../utilities/FormHelpers";
-import Alert from "./Alert";
+import PageValidation from "./PageValidation";
 import SeButton from "./SeButton";
 import { ResetPassword } from "../services/authService";
 import { GoBack, Go, Routes, GoHome } from "../Routing";
@@ -89,7 +89,9 @@ const ResetPasswordForm = (props, routeProps) => {
           return (
             <Form>
               {alertReturnValue && !hasPasswordReset ? errorMessage : null}
-              {errors.length > 0 && <Alert type="danger">{errors}</Alert>}
+              {errors.length > 0 && (
+                <PageValidation type="danger">{errors}</PageValidation>
+              )}
               <div
                 onChange={handleChange}
                 className={
