@@ -2,8 +2,6 @@ import React from "react";
 import ErrorMsg from "./ErrorMessage";
 import { Select } from "@baltimorecounty/dotgov-components";
 const SexType = ({
-  requestType,
-  returnRequestTypes,
   subRequestType,
   checkPetType,
   errorsSexType,

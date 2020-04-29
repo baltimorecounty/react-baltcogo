@@ -512,8 +512,6 @@ const ServiceRequestForm = (props, errors, touched) => {
 
         <SexType
           shouldShow={isAnimalCategory}
-          requestType={requestType}
-          returnRequestTypes={petAndAnimalIssue}
           subRequestType={subRequestType}
           checkPetType={checkPetType(petType)}
           errorsSexType={localProps.errors.sexType}
