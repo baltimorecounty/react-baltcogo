@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Form, Field, connect } from "formik";
 import FormContainer from "./FormContainer";
 import Geocode from "react-geocode";
-import Collaspe from "./Collaspe";
+import Collapse from "./Collapse";
 import axios from "axios";
 import _ from "lodash";
 import { IsFormInComplete } from "../utilities/FormHelpers";
@@ -32,7 +32,9 @@ const provideDetails = (props) => {
     isPanelRequired,
     AdditionalInfoPage,
   } = formik.values;
-  const { Animation, Latitude, Longitude } = formik.values.MapDefaults;
+
+  //Animation 2 is the icon drop. This was pulled out of the MapDefaults file as it has no meaning to WebServices
+  const { Animation = 2, Latitude, Longitude } = formik.values.MapDefaults;
 
   const mapEvent = {
     onMapClicked: 0,
@@ -290,7 +292,7 @@ const provideDetails = (props) => {
               pageFieldName={MapPage.AddressHeaderLabel}
             />
 
-            <Collaspe
+            <Collapse
               address={location}
               ZoomValue={rest.formik.values.ZoomValue}
               Animation={Animation}
@@ -315,7 +317,7 @@ const provideDetails = (props) => {
 
         <p className="smallest">{AdditionalInfoPage.LegalDisclaimerBottom}</p>
 
-        <div className="cs-form-control">
+        <div className="d-flex justify-content-between">
           <SeButton onClick={goServiceRequestForm} text="Previous" />
           {!rest.formik.values.requestTypeAddressID ? (
             <SeButton
@@ -323,14 +325,9 @@ const provideDetails = (props) => {
               onClick={SubmitForm}
               isLoading={formik.isSubmitting}
               isLoadingText="Submitting Request..."
-              className="pull-right"
             />
           ) : (
-            <SeButton
-              text="Next"
-              onClick={goToAdditionalPage}
-              className="pull-right"
-            />
+            <SeButton text="Next" onClick={goToAdditionalPage} />
           )}
         </div>
       </Form>

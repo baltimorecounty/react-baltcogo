@@ -2,7 +2,7 @@ import React from "react";
 import { UncontrolledCollapse, Button } from "reactstrap";
 import Map from "./map";
 
-const Collaspe = ({
+const Collapse = ({
   address,
   ZoomValue,
   lat,
@@ -46,4 +46,4 @@ const Collaspe = ({
   );
 };
 
-export default Collaspe;
+export default Collapse;

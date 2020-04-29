@@ -425,7 +425,7 @@ const ServiceRequestForm = (props, errors, touched) => {
       if (requestType) {
         if (subCategories.length === 0) {
           const value = requestType.toLowerCase();
-          const subCategories = getSubCategories(Categories, value); 
+          const subCategories = getSubCategories(Categories, value);
           setSubCategories(subCategories);
           if (petType) {
             let value = petType.toLowerCase();
@@ -555,19 +555,18 @@ const ServiceRequestForm = (props, errors, touched) => {
 
         {displayButton ? (
           !contactID ? (
-            <div className="cs-form-control">
+            <div className="d-flex justify-content-between">
               <SeButton
                 text="Sign In"
                 isDisabled={disableButton}
                 onClick={callSignInForm}
               />
+              <Modal />
               <SeButton
                 text="Register"
                 isDisabled={disableButton}
                 onClick={callRegisterForm}
-                className="pull-right"
               />
-              <Modal />
             </div>
           ) : (
             <div className="cs-form-control">
@@ -582,12 +581,13 @@ const ServiceRequestForm = (props, errors, touched) => {
                   different account. &nbsp;{" "}
                 </Link>
               </p>
-              <SeButton
-                text="Next"
-                isDisabled={disableButton}
-                onClick={goToNextPage}
-                className="pull-right"
-              />
+              <div className="d-flex justify-content-end">
+                <SeButton
+                  text="Next"
+                  isDisabled={disableButton}
+                  onClick={goToNextPage}
+                />
+              </div>
             </div>
           )
         ) : (

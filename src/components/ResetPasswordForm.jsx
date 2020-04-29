@@ -9,7 +9,7 @@ import {
 import { Link } from "react-router-dom";
 import FormContainer from "./FormContainer";
 import { IsFormInComplete, SetFieldValues } from "../utilities/FormHelpers";
-import Alert from "./Alert";
+import FieldError from "./FieldError";
 import SeButton from "./SeButton";
 import { ResetPassword } from "../services/authService";
 import { GoBack, Go, Routes, GoHome } from "../Routing";
@@ -89,7 +89,9 @@ const ResetPasswordForm = (props, routeProps) => {
           return (
             <Form>
               {alertReturnValue && !hasPasswordReset ? errorMessage : null}
-              {errors.length > 0 && <Alert type="danger">{errors}</Alert>}
+              {errors.length > 0 && (
+                <FieldError type="danger">{errors}</FieldError>
+              )}
               <div
                 onChange={handleChange}
                 className={
@@ -137,14 +139,15 @@ const ResetPasswordForm = (props, routeProps) => {
                     {ResetPasswordPage.SignInLinkLabel}
                   </Link>{" "}
                 </p>
-                <SeButton text="Back" onClick={goBack} />
-                <SeButton
-                  text="Submit Reset Request"
-                  type="submit"
-                  isLoading={props.isSubmitting}
-                  isLoadingText="Submitting Request..."
-                  className="pull-right"
-                />
+                <div className="d-flex justify-content-between">
+                  <SeButton text="Back" onClick={goBack} />
+                  <SeButton
+                    text="Submit Reset Request"
+                    type="submit"
+                    isLoading={props.isSubmitting}
+                    isLoadingText="Submitting Request..."
+                  />
+                </div>
               </div>
             </Form>
           );
