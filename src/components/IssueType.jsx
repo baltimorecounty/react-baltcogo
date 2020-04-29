@@ -1,6 +1,6 @@
 import React from "react";
 import { GetErrorDetails } from "../utilities/FormikHelpers";
-import Alert from "./Alert";
+import FieldError from "./FieldError";
 import AutoCompleteTypeField from "./AutocompleteTypeField";
 import classNames from "classnames";
 
@@ -53,7 +53,7 @@ const IssueType = ({
         </div>
       </div>
       {isTouched && hasError && (
-        <Alert className="error-message">{errorMessage}</Alert>
+        <FieldError className="error-message">{errorMessage}</FieldError>
       )}
     </React.Fragment>
   );

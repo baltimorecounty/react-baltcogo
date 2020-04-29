@@ -1,6 +1,6 @@
 import React from "react";
 import classNames from "classnames";
-import Alert from "./Alert";
+import FieldError from "./FieldError";
 import { GetErrorDetails } from "../utilities/FormikHelpers";
 import { Field } from "formik";
 
@@ -35,7 +35,7 @@ const DescribeTheProblem = ({ name, formik, pageFieldName }) => {
           onChange={handleChange}
         />
         {shouldDisplayValidation && (
-          <Alert className="error-message">{errorMessage}</Alert>
+          <FieldError className="error-message">{errorMessage}</FieldError>
         )}
       </div>
     </React.Fragment>
