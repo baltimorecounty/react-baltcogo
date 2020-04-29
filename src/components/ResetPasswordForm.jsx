@@ -100,8 +100,8 @@ const ResetPasswordForm = (props, routeProps) => {
                     : "cs-form-control"
                 }
               >
-                <label for="EmailLabel" class="dg_label">
-                  <span class="dg_label-text">
+                <label htmlFor="EmailLabel" className="dg_label">
+                  <span className="dg_label-text">
                     {ResetPasswordPage.EmailLabel}
                   </span>
                 </label>
