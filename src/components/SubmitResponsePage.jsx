@@ -1,13 +1,13 @@
 import React from "react";
-import Alert from "./Alert";
 import FormContainer from "./FormContainer";
 import { Formik, Form } from "formik";
 import { HasResponseErrors } from "../utilities/CitysourcedResponseHelpers";
-import ButtonDisplay from "./buttonDisplay";
+import { Alert } from "@baltimorecounty/dotgov-components";
+import SeButton from "./SeButton";
 import { GoHome } from "../Routing";
 
 const successBodyContent = (
-  <React.Fragment>
+  <Alert className="status" type="success" icon="far fa-check">
     <p>
       Thank you for submitting your report. You will receive an email in a few
       minutes with your tracking number and additional information.
@@ -20,22 +20,21 @@ const successBodyContent = (
       </a>
       .
     </p>
-  </React.Fragment>
+  </Alert>
 );
 
 const failureBodyContent = (
-  <React.Fragment>
+  <Alert className="status" type="error" icon="fas fa-exclamation-circle">
     <p>
       We're sorry, we encountered a problem processing your submission. We are
       working to resolve this issue as quickly as possible.
     </p>
-  </React.Fragment>
+  </Alert>
 );
 
-const getAlertInfo = (title, bodyContent, type, controls) => ({
+const getAlertInfo = (title, bodyContent, controls) => ({
   title,
   bodyContent,
-  type,
   controls,
 });
 
@@ -56,37 +55,22 @@ const SubmitResponse = (props) => {
   };
   const HomeButton = (
     <React.Fragment>
-      <ButtonDisplay
-        key={1}
-        onClick={returnHome}
-        buttonName="Create New Report"
-        cssClass="seButton"
-      />
+      <SeButton type="button" onClick={returnHome} text="Create New Report" />
     </React.Fragment>
   );
   const LogoutButton = (
     <React.Fragment>
-      <ButtonDisplay
-        key={2}
-        onClick={logout}
-        buttonName="Logout"
-        cssClass="seButton pull-right"
-      />
+      <SeButton type="submit" onClick={logout} text="Logout" />
     </React.Fragment>
   );
   const alertInfo = isFormSubmissionSuccessful
-    ? getAlertInfo(
-        "Your Submission Has Been Received",
-        successBodyContent,
-        "success",
-        [HomeButton, LogoutButton]
-      )
-    : getAlertInfo(
-        "Your Report Was Not Submitted",
-        failureBodyContent,
-        "warning",
-        [HomeButton]
-      );
+    ? getAlertInfo("Your Submission Has Been Received", successBodyContent, [
+        HomeButton,
+        LogoutButton,
+      ])
+    : getAlertInfo("Your Report Was Not Submitted", failureBodyContent, [
+        HomeButton,
+      ]);
 
   return (
     <FormContainer
@@ -98,23 +82,20 @@ const SubmitResponse = (props) => {
     >
       <Formik>
         {() => {
-          const { type, title, bodyContent, controls } = alertInfo;
+          const { title, bodyContent, controls } = alertInfo;
           return (
             <React.Fragment>
               <div className="clearfix" />{" "}
               {/** Hack to ensure alert displays properly*/}
               <Form>
-                <Alert
-                  className="bc-citysourced-reporter-alert"
-                  type={type}
-                  style={{ marginRight: "20px" }}
-                >
+                <div style={{ marginBottom: "20px" }}>
                   <h2>{title}</h2>
                   {bodyContent}
-                  <div className="cs-form-control">
-                    {controls.map((control) => control)}
-                  </div>
-                </Alert>
+                </div>
+
+                <div className="d-flex justify-content-between">
+                  {controls.map((control) => control)}
+                </div>
               </Form>
             </React.Fragment>
           );

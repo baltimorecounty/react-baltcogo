@@ -197,14 +197,15 @@ const SignIn = (props, routeProps) => {
                   {SignInPage.NoAccountLabel}{" "}
                   <Link to="SignUpForm">{SignInPage.SignUpLinkLabel}</Link>
                 </p>
-                <SeButton text="Back" className="seButton" onClick={goBack} />
-                <SeButton
-                  text="Sign In and Continue"
-                  type="submit"
-                  isLoading={props.isSubmitting}
-                  isLoadingText="Signing In..."
-                  className="seButton pull-right"
-                />
+                <div className="d-flex justify-content-between">
+                  <SeButton text="Back" onClick={goBack} />
+                  <SeButton
+                    text="Sign In and Continue"
+                    type="submit"
+                    isLoading={props.isSubmitting}
+                    isLoadingText="Signing In..."
+                  />
+                </div>
               </div>
             </Form>
           );

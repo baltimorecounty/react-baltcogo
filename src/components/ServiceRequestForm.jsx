@@ -549,25 +549,18 @@ const ServiceRequestForm = (props, errors, touched) => {
 
         {displayButton ? (
           !contactID ? (
-            <div className="row">
-              <div className="col-sm-3 col-xs-12">
-                <SeButton
-                  text="Sign In"
-                  isDisabled={disableButton}
-                  onClick={callSignInForm}
-                />
-              </div>
-              <div className="col-sm-6 col-xs-12 text-center">
-                <Modal />
-              </div>
-              <div className="col-sm-3 col-xs-12">
-                <SeButton
-                  text="Register"
-                  isDisabled={disableButton}
-                  onClick={callRegisterForm}
-                  className="pull-right"
-                />
-              </div>
+            <div className="d-flex justify-content-between">
+              <SeButton
+                text="Sign In"
+                isDisabled={disableButton}
+                onClick={callSignInForm}
+              />
+              <Modal />
+              <SeButton
+                text="Register"
+                isDisabled={disableButton}
+                onClick={callRegisterForm}
+              />
             </div>
           ) : (
             <div className="cs-form-control">
@@ -582,12 +575,14 @@ const ServiceRequestForm = (props, errors, touched) => {
                   different account. &nbsp;{" "}
                 </Link>
               </p>
-              <SeButton
-                text="Next"
-                isDisabled={disableButton}
-                onClick={goToNextPage}
-                className="pull-right"
-              />
+              <div className="d-flex justify-content-end">
+                <SeButton
+                  text="Next"
+                  isDisabled={disableButton}
+                  onClick={goToNextPage}
+                  className="pull-right"
+                />
+              </div>
             </div>
           )
         ) : (
