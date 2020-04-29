@@ -11,6 +11,7 @@ import FormContainer from "./FormContainer";
 import { Login } from "../services/authService";
 import { IsFormInComplete, SetFieldValues } from "../utilities/FormHelpers";
 import SeButton from "./SeButton";
+import { Fieldset } from "@baltimorecounty/dotgov-components";
 import { GoBack, GoHome, Go, Routes } from "../Routing";
 import {
   AlertAtPage,
@@ -135,7 +136,7 @@ const SignIn = (props, routeProps) => {
           const { errors = {}, touched } = props;
           return (
             <Form>
-              <fieldset className="dg_fieldset">
+              <Fieldset title="Login Information">
                 {alertReturnValue || hasPasswordReset ? errorMessage : null}
                 <div
                   className={
@@ -148,10 +149,6 @@ const SignIn = (props, routeProps) => {
                     <span className="dg_label-text">{SignInPage.EmailLabel}</span>
                   </label>
                   <Field type="email" name="Email" />
-                  {/* <ErrorMessage name='msg' className='input-feedback' component='div' />
-									<div className={`input-feedback ${props.status ? props.status.css : ''}`}>
-										{props.status ? props.status.success : ''}
-									</div> */}
                   <p role="alert" className="error-message">
                     <ErrorMsg
                       errormessage={errors.Email}
@@ -212,7 +209,7 @@ const SignIn = (props, routeProps) => {
                     />
                   </div>
                 </div>
-              </fieldset>
+              </Fieldset>
             </Form>
           );
         }}

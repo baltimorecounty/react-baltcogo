@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import { GetContactDetails } from "../services/authService";
 import { IsFormInComplete } from "../utilities/FormHelpers";
 import { returnConfigItems } from "../utilities//returnEnvironmentItems";
+import { Fieldset } from "@baltimorecounty/dotgov-components";
 import PetType from "./petType";
 import RequestCategory from "./requestCategory";
 import RequestSubCategory from "./requestSubCategory";
