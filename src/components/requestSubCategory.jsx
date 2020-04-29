@@ -16,6 +16,7 @@ const SubCategory = ({
     const selectedText = target[index].text;
     const { name } = changeEvent.target;
     const localProps = rest.formik;
+    
 
     index > 0
       ? localProps.setFieldValue(name, selectedText)
