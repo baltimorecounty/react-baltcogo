@@ -19,7 +19,8 @@ const OtherAnimalTypes = ({
     localProps.setFieldTouched(name, true);
     handleOtherPetTypeChange(changeEvent);
   };
-  return (
+
+return (
     <React.Fragment>
       {shouldShow && petType === returnRequestTypes ? (
         <div

@@ -12,13 +12,11 @@ const PetType = ({
   shouldShow,
 }) => {
   const handleChange = (changeEvent) => {
-    const target = changeEvent.nativeEvent.target;
-    const index = target.selectedIndex;
-    const selectedText = target[index].text;
-    const { name } = changeEvent.target;
     const localProps = rest.formik;
+    const { name, options, selectedIndex } = changeEvent.target;
+    const selectedText = options[selectedIndex].text;
 
-    index > 0
+    selectedIndex > 0
       ? localProps.setFieldValue(name, selectedText)
       : localProps.setFieldValue(name, "");
     localProps.setFieldTouched(name, true);

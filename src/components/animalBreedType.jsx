@@ -21,6 +21,7 @@ const AnimalBreedType = ({
     localProps.setFieldTouched(name, true);
     handleAnimalBreedChange(changeEvent);
   };
+
   return (
     <React.Fragment>
       {shouldShow &&

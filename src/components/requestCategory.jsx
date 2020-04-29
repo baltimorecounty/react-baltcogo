@@ -11,13 +11,11 @@ const RequestCategory = ({
 	Categories
 }) => {
 	const handleChange = changeEvent => {
-		const localProps = rest.formik;
-		const target = changeEvent.nativeEvent.target;
-		const index = target.selectedIndex;
-		const { name } = changeEvent.target;
-		const selectedText = target[index].text;
-
-		index > 0
+    const localProps = rest.formik;
+    const { name, options, selectedIndex } = changeEvent.target;
+    const selectedText = options[selectedIndex].text.toLowerCase();
+    
+		selectedIndex > 0
 			? localProps.setFieldValue(name, selectedText)
 			: localProps.setFieldValue(name, "");
 		localProps.setFieldTouched(name, true);
