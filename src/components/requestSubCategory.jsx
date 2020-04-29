@@ -8,16 +8,14 @@ const SubCategory = ({
   pageFieldName,
   handleServiceSubRequestChange,
   rest,
-  subCategories,
+  subCategories
 }) => {
-  const handleChange = (changeEvent) => {
+  const handleChange = changeEvent => {
     const target = changeEvent.nativeEvent.target;
     const index = target.selectedIndex;
     const selectedText = target[index].text;
     const { name } = changeEvent.target;
     const localProps = rest.formik;
-    
-
     index > 0
       ? localProps.setFieldValue(name, selectedText)
       : localProps.setFieldValue(name, "");
