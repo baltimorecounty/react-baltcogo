@@ -14,7 +14,6 @@ const SubCategory = ({
     const localProps = rest.formik;
     const { name, options, selectedIndex } = changeEvent.target;
     const selectedText = options[selectedIndex].text.toLowerCase();
-
     selectedIndex > 0
       ? localProps.setFieldValue(name, selectedText)
       : localProps.setFieldValue(name, "");
