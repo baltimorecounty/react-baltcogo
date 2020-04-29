@@ -144,7 +144,6 @@ const SignIn = (props, routeProps) => {
                       : "cs-form-control"
                   }
                 >
-                  {/* <label htmlFor="Email">{SignInPage.EmailLabel}</label> */}
                   <label for="EmailLabel" class="dg_label">
                     <span class="dg_label-text">{SignInPage.EmailLabel}</span>
                   </label>
