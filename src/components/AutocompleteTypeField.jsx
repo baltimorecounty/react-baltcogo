@@ -1,6 +1,6 @@
 import React from "react";
 import Autocomplete from "react-autocomplete";
-import "../css/Autocomplete.css";
+import "../CSS/Autocomplete.css";
 
 const AutoCompleteTypeField = (props) => {
   const { items, formik, onChange, onSelect, value } = props;
