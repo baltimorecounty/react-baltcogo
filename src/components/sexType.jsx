@@ -1,9 +1,7 @@
 import React from "react";
-import GenericTypeField from "./genericTypeField";
 import ErrorMsg from "./ErrorMessage";
+import { Select } from "@baltimorecounty/dotgov-components";
 const SexType = ({
-  requestType,
-  returnRequestTypes,
   subRequestType,
   checkPetType,
   errorsSexType,
@@ -14,6 +12,13 @@ const SexType = ({
   animalSex,
   shouldShow,
 }) => {
+  const handleChange = (changeEvent) => {
+    const localProps = rest.formik;
+    const { name, value } = changeEvent.target;
+    localProps.setFieldValue(name, value);
+    localProps.setFieldTouched(name, true);
+    handlePetSexChange(changeEvent);
+  };
   return (
     <React.Fragment>
       {shouldShow && subRequestType !== "" && checkPetType ? (
@@ -24,26 +29,14 @@ const SexType = ({
               : "cs-form-control"
           }
         >
-          <label htmlFor="sexType">{pageFieldName}</label>
-          <GenericTypeField
-            component="select"
+          <Select
+            id="sexType"
             name="sexType"
-            formikProps={rest}
-            onChange={handlePetSexChange}
-            className={
-              errorsSexType && touchedSexType ? "text-select error" : null
-            }
-          >
-            <option key="default" value="">
-              -- Please select a pet sex --
-            </option>
-            {animalSex.map((petSex) => (
-              <option key={petSex.id} value={petSex.name}>
-                {petSex.name}
-              </option>
-            ))}
-          </GenericTypeField>
-
+            label={pageFieldName}
+            options={animalSex}
+            onChange={handleChange}
+            {...rest}
+          />
           <p role="alert" className="error-message">
             {<ErrorMsg errormessage={errorsSexType} touched={touchedSexType} />}
           </p>

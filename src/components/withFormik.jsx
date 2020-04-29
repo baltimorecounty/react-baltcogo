@@ -73,7 +73,7 @@ export default withFormik({
     Yup.object().shape({
       requestType: Yup.string().required("Please select a request category."),
       subRequestType: Yup.string().required("Please select a sub-category."),
-      petType: Yup.string().required("Please select a pet color."),
+      petType: Yup.string().required("Please select a pet type."),
       animalColorType: Yup.string().required(
         "Primary Animal Color is required"
       ),

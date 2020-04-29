@@ -4,26 +4,28 @@ import * as Yup from "yup";
 import ErrorMsg from "./ErrorMessage";
 import {
   GetResponseErrors,
-  GetNetWorkErrors,
+  GetNetWorkErrors
 } from "../utilities/CitysourcedResponseHelpers";
 import { Link } from "react-router-dom";
 import FormContainer from "./FormContainer";
 import { Login } from "../services/authService";
 import { IsFormInComplete, SetFieldValues } from "../utilities/FormHelpers";
 import SeButton from "./SeButton";
+import { Fieldset } from "@baltimorecounty/dotgov-components";
 import { GoBack, GoHome, Go, Routes } from "../Routing";
 import {
   AlertAtPage,
   GetAlertMessage,
-  ResetAlerts,
+  ResetAlerts
 } from "../utilities/AlertHelpers";
+
 const SignIn = (props, routeProps) => {
   const {
     Tabs,
     SignInPage,
     shouldDisableForm,
     ignoreFormCompletion,
-    hasPasswordReset,
+    hasPasswordReset
   } = props.values;
   const [fieldType, setFieldType] = useState("Password");
   const handlePasswordToggleChange = () => {
@@ -37,7 +39,7 @@ const SignIn = (props, routeProps) => {
   const handleLoginFailure = (actions, errors) => {
     actions.setStatus({
       success: errors,
-      css: "error",
+      css: "error"
     });
   };
 
@@ -47,7 +49,7 @@ const SignIn = (props, routeProps) => {
     const fields = {
       NameFirst,
       NameLast,
-      ContactID: contactID,
+      ContactID: contactID
     };
 
     SetFieldValues(props, fields);
@@ -58,7 +60,7 @@ const SignIn = (props, routeProps) => {
 
     actions.setStatus({
       success: "OK",
-      css: "success",
+      css: "success"
     });
     ResetAlerts(props);
     Go(props, Routes.ProvideDetails);
@@ -96,7 +98,7 @@ const SignIn = (props, routeProps) => {
         const errors = GetNetWorkErrors(ex.toString());
         const fields = {
           hasPasswordReset: false,
-          AlertAtPage: "SignInPage",
+          AlertAtPage: "SignInPage"
         };
         props.setStatus({ networkError: errors });
         SetFieldValues(props, fields);
@@ -117,96 +119,97 @@ const SignIn = (props, routeProps) => {
       <Formik
         initialValues={{
           Email: "",
-          Password: "",
+          Password: ""
         }}
         validationSchema={Yup.object().shape({
           Email: Yup.string()
             .email("Please enter a valid email address.")
             .required("Please enter your email address."),
-          Password: Yup.string().required("Please enter your password."),
+          Password: Yup.string().required("Please enter your password.")
         })}
         onSubmit={async (values, actions, setSubmitting) => {
           await userLogin(values, props, actions);
           actions.setSubmitting(false);
         }}
       >
-        {(props) => {
+        {props => {
           const { errors = {}, touched } = props;
           return (
             <Form>
-              {alertReturnValue || hasPasswordReset ? errorMessage : null}
-              <div
-                className={
-                  props.errors.Email && props.touched.Email
-                    ? "cs-form-control error"
-                    : "cs-form-control"
-                }
-              >
-                <label htmlFor="Email">{SignInPage.EmailLabel}</label>
-                <Field type="email" name="Email" />
-                {/* <ErrorMessage name='msg' className='input-feedback' component='div' />
-									<div className={`input-feedback ${props.status ? props.status.css : ''}`}>
-										{props.status ? props.status.success : ''}
-									</div> */}
-                <p role="alert" className="error-message">
-                  <ErrorMsg
-                    errormessage={errors.Email}
-                    touched={touched.Email}
-                  />
-                </p>
-              </div>
-              <div
-                className={
-                  props.errors.Password && props.touched.Password
-                    ? "cs-form-control error"
-                    : "cs-form-control"
-                }
-              >
-                <label name="Password" htmlFor="password">
-                  {SignInPage.PasswordLabel}
-                </label>
-                <Field
-                  type={fieldType === "Password" ? "Password" : "text"}
-                  name="Password"
-                  className={`text-input ${
-                    errors.Password && touched.Password ? "error" : ""
-                  }`}
-                />
-                <span
-                  onClick={handlePasswordToggleChange}
-                  className={`fa fa-fw fa-eye field-icon ${
-                    fieldType === "text" ? "fa-eye-slash" : ""
-                  }`}
-                ></span>
-
-                <p role="alert" className="error-message">
-                  <ErrorMsg
-                    errormessage={errors.Password}
-                    touched={touched.Password}
-                  />
-                </p>
-              </div>
-              <div className="cs-form-control">
-                <p htmlFor="forgetpassword">
-                  {" "}
-                  <Link to="ResetPassword">
-                    {SignInPage.ForgotPasswordLabel}
-                  </Link>
-                </p>
-                <p htmlFor="signup">
-                  {SignInPage.NoAccountLabel}{" "}
-                  <Link to="SignUpForm">{SignInPage.SignUpLinkLabel}</Link>
-                </p>
-                <div className="d-flex justify-content-between">
-                  <SeButton text="Back" onClick={goBack} />
-                  <SeButton
-                    text="Sign In and Continue"
-                    type="submit"
-                    isLoading={props.isSubmitting}
-                    isLoadingText="Signing In..."
-                  />
+              <Fieldset title="Login Information">
+                {alertReturnValue || hasPasswordReset ? errorMessage : null}
+                <div
+                  className={
+                    props.errors.Email && props.touched.Email
+                      ? "cs-form-control error"
+                      : "cs-form-control"
+                  }
+                >
+                  <label htmlFor="EmailLabel" className="dg_label">
+                    <span className="dg_label-text">{SignInPage.EmailLabel}</span>
+                  </label>
+                  <Field type="email" name="Email" />
+                  <p role="alert" className="error-message">
+                    <ErrorMsg
+                      errormessage={errors.Email}
+                      touched={touched.Email}
+                    />
+                  </p>
                 </div>
-              </div>
+                <div
+                  className={
+                    props.errors.Password && props.touched.Password
+                      ? "cs-form-control error"
+                      : "cs-form-control"
+                  }
+                >
+                  <label htmlFor="PasswordLabel" className="dg_label">
+                    <span className="dg_label-text">
+                      {SignInPage.PasswordLabel}
+                    </span>
+                  </label>
+                  <Field
+                    type={fieldType === "Password" ? "Password" : "text"}
+                    name="Password"
+                    className={`text-input ${
+                      errors.Password && touched.Password ? "error" : ""
+                    }`}
+                  />
+                  <span
+                    onClick={handlePasswordToggleChange}
+                    className={`fa fa-fw fa-eye field-icon ${
+                      fieldType === "text" ? "fa-eye-slash" : ""
+                    }`}
+                  ></span>
+
+                  <p role="alert" className="error-message">
+                    <ErrorMsg
+                      errormessage={errors.Password}
+                      touched={touched.Password}
+                    />
+                  </p>
+                </div>
+                <div className="cs-form-control">
+                  <p htmlFor="forgetpassword">
+                    <Link to="ResetPassword">
+                      {SignInPage.ForgotPasswordLabel}
+                    </Link>
+                  </p>
+                  <p htmlFor="signup">
+                    {SignInPage.NoAccountLabel}{" "}
+                    <Link to="SignUpForm">{SignInPage.SignUpLinkLabel}</Link>
+                  </p>
+                  <div className="d-flex justify-content-between">
+                    <SeButton text="Back" onClick={goBack} />
+                    <SeButton
+                      text="Sign In and Continue"
+                      type="submit"
+                      isLoading={props.isSubmitting}
+                      isLoadingText="Signing In..."
+                    />
+                  </div>
+                </div>
+              </Fieldset>
             </Form>
           );
         }}

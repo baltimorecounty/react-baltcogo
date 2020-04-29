@@ -1,16 +1,34 @@
 import React from "react";
-import RequestSubTypeField from "./RequestSubTypeField";
 import ErrorMsg from "./ErrorMessage";
+import { Select } from "@baltimorecounty/dotgov-components";
 const SubCategory = ({
   requestType,
-  subRequestType,
   errorsSubRequestType,
   touchedSubRequestType,
   pageFieldName,
   handleServiceSubRequestChange,
   rest,
-  subCategories,
+  subCategories
 }) => {
+  const handleChange = changeEvent => {
+    const localProps = rest.formik;
+    const { name, options, selectedIndex } = changeEvent.target;
+    const selectedText = options[selectedIndex].text.toLowerCase();
+    selectedIndex > 0
+      ? localProps.setFieldValue(name, selectedText)
+      : localProps.setFieldValue(name, "");
+    localProps.setFieldTouched(name, true);
+    localProps.setFieldValue("subRequestTypeDescriptionID", "");
+    localProps.setFieldValue("subRequestTypeAddressID", "");
+    localProps.setFieldValue("subRequestTypeCityID", "");
+    localProps.setFieldValue("subRequestTypeZipID", "");
+    localProps.setFieldValue("petType", "");
+    localProps.setFieldValue("otherAnimalTypes", "");
+    localProps.setFieldValue("sexType", "");
+    localProps.setFieldValue("animalColorType", "");
+    localProps.setFieldValue("animalBreed", "");
+    handleServiceSubRequestChange(changeEvent);
+  };
   return (
     <React.Fragment>
       {requestType !== "" ? (
@@ -21,26 +39,14 @@ const SubCategory = ({
               : "cs-form-control"
           }
         >
-          <label name="subRequestType" htmlFor="subRequestType">
-            {pageFieldName}
-          </label>
-          <RequestSubTypeField
-            component="select"
+          <Select
+            id="subRequestType"
             name="subRequestType"
-            formikProps={rest}
-            onChange={handleServiceSubRequestChange}
-            value={subRequestType}
-          >
-            <option key="default" value="">
-              -- Please select a sub-category --
-            </option>
-            {subCategories.map((category) => (
-              <option key={category.id} value={category.name}>
-                {category.name}
-              </option>
-            ))}
-          </RequestSubTypeField>
-
+            label={pageFieldName}
+            options={subCategories}
+            onChange={handleChange}
+            {...rest}
+          />
           <p role="alert" className="error-message">
             <ErrorMsg
               errormessage={errorsSubRequestType}

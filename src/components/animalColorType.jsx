@@ -1,6 +1,7 @@
 import React from "react";
 import ErrorMsg from "./ErrorMessage";
-import GenericTypeField from "./genericTypeField";
+
+import { Select } from "@baltimorecounty/dotgov-components";
 const AnimalColorType = ({
   subRequestType,
   petType,
@@ -14,6 +15,13 @@ const AnimalColorType = ({
   AnimalColors,
   shouldShow,
 }) => {
+  const handleChange = (changeEvent) => {
+    const localProps = rest.formik;
+    const { name, value } = changeEvent.target;
+    localProps.setFieldValue(name, value);
+    localProps.setFieldTouched(name, true);
+    handleAnimalColorChange(changeEvent);
+  };
   return (
     <React.Fragment>
       {shouldShow &&
@@ -26,29 +34,14 @@ const AnimalColorType = ({
               : "cs-form-control"
           }
         >
-          <label htmlFor="animalColorType">{pageFieldName}</label>
-          <GenericTypeField
-            component="select"
+          <Select
+            id="animalColorType"
             name="animalColorType"
-            formikProps={rest}
-            onChange={handleAnimalColorChange}
-            //value={localProps.values.name}
-            className={
-              errorsAnimalColorType && touchedAnimalColorType
-                ? "text-select error"
-                : null
-            }
-          >
-            <option key="default" value="">
-              -- Please select the primary color of the animal --
-            </option>
-
-            {AnimalColors.map((animalColorType) => (
-              <option key={animalColorType.id} value={animalColorType.name}>
-                {animalColorType.name}
-              </option>
-            ))}
-          </GenericTypeField>
+            label={pageFieldName}
+            options={AnimalColors}
+            onChange={handleChange}
+            {...rest}
+          />
           <p role="alert" className="error-message">
             {
               <ErrorMsg
