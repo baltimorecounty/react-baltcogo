@@ -12,6 +12,7 @@ const OtherAnimalTypes = ({
   OtherAnimalTypes,
   shouldShow,
 }) => {
+  const otherAnimalTypes  =rest.formik.values.otherAnimalTypes;
   const handleChange = (changeEvent) => {
     const localProps = rest.formik;
     const { name, value } = changeEvent.target;
@@ -36,6 +37,7 @@ return (
             label={pageFieldName}
             options={OtherAnimalTypes}
             onChange={handleChange}
+            value={otherAnimalTypes}
             {...rest}
           />
           <p role="alert" className="error-message">

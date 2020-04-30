@@ -15,6 +15,7 @@ const AnimalColorType = ({
   AnimalColors,
   shouldShow,
 }) => {
+const  animalColorType = rest.formik.values.animalColorType;
   const handleChange = (changeEvent) => {
     const localProps = rest.formik;
     const { name, value } = changeEvent.target;
@@ -40,6 +41,7 @@ const AnimalColorType = ({
             label={pageFieldName}
             options={AnimalColors}
             onChange={handleChange}
+            value ={animalColorType}
             {...rest}
           />
           <p role="alert" className="error-message">

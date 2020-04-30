@@ -12,6 +12,7 @@ const SexType = ({
   animalSex,
   shouldShow,
 }) => {
+  const sexType = rest.formik.values.sexType;
   const handleChange = (changeEvent) => {
     const localProps = rest.formik;
     const { name, value } = changeEvent.target;
@@ -35,6 +36,7 @@ const SexType = ({
             label={pageFieldName}
             options={animalSex}
             onChange={handleChange}
+            value={sexType}
             {...rest}
           />
           <p role="alert" className="error-message">

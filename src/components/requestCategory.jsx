@@ -3,6 +3,7 @@ import ErrorMsg from "./ErrorMessage";
 import { Select } from "@baltimorecounty/dotgov-components";
 
 const RequestCategory = ({
+  requestType,
 	errorsRequestType,
 	touchedRequestType,
 	pageFieldName,
@@ -10,11 +11,12 @@ const RequestCategory = ({
 	rest,
 	Categories
 }) => {
+  const requestTypeID = rest.formik.values.requestTypeID;
 	const handleChange = changeEvent => {
     const localProps = rest.formik;
     const { name, options, selectedIndex } = changeEvent.target;
     const selectedText = options[selectedIndex].text.toLowerCase();
-    
+
 		selectedIndex > 0
 			? localProps.setFieldValue(name, selectedText)
 			: localProps.setFieldValue(name, "");
@@ -57,6 +59,7 @@ const RequestCategory = ({
 					name="requestType"
 					options={Categories}
 					onChange={handleChange}
+          value ={requestTypeID}
 					{...rest}
 				/>
 				<p role="alert" className="error-message">

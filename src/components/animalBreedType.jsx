@@ -14,6 +14,7 @@ const AnimalBreedType = ({
   animalSubCategories,
   shouldShow,
 }) => {
+  const animalBreedType= rest.formik.values.animalBreedType;
   const handleChange = (changeEvent) => {
     const localProps = rest.formik;
     const { name, value } = changeEvent.target;
@@ -40,6 +41,7 @@ const AnimalBreedType = ({
             label={pageFieldName}
             options={animalSubCategories}
             onChange={handleChange}
+            value ={animalBreedType}
             {...rest}
           />
           <p role="alert" className="error-message">

@@ -10,6 +10,7 @@ const SubCategory = ({
   rest,
   subCategories
 }) => {
+  const subRequestTypeID = rest.formik.values.subRequestTypeID;
   const handleChange = changeEvent => {
     const localProps = rest.formik;
     const { name, options, selectedIndex } = changeEvent.target;
@@ -45,6 +46,7 @@ const SubCategory = ({
             label={pageFieldName}
             options={subCategories}
             onChange={handleChange}
+            value={subRequestTypeID}
             {...rest}
           />
           <p role="alert" className="error-message">

@@ -11,6 +11,7 @@ const PetType = ({
   PetTypes,
   shouldShow,
 }) => {
+  const petTypeID = rest.formik.values.petTypeID;
   const handleChange = (changeEvent) => {
     const localProps = rest.formik;
     const { name, options, selectedIndex } = changeEvent.target;
@@ -47,6 +48,7 @@ const PetType = ({
             label={pageFieldName}
             options={PetTypes}
             onChange={handleChange}
+            value={petTypeID}
             {...rest}
           />
           <p role="alert" className="error-message">
