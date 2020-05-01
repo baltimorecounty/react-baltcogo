@@ -8,7 +8,6 @@ import _ from "lodash";
 import { IsFormInComplete } from "../utilities/FormHelpers";
 import { returnConfigItems } from "../utilities//returnEnvironmentItems";
 import { VerifyAddress } from "../services/authService";
-import { Fieldset } from "@baltimorecounty/dotgov-components";
 import IssueType from "./IssueType";
 import DescribeTheProblem from "./describeTheProblem";
 import { SubmitReport } from "../services/ReportService";
@@ -271,68 +270,66 @@ const provideDetails = (props) => {
       isPanelRequired={isPanelRequired}
     >
       <Form>
-        <Fieldset title="Location Information">
-          <Field type="hidden" name="Latitude" />
-          <Field type="hidden" name="Longitude" />
-          <Field type="hidden" name="ShowErrorMsg" />
-          {requiresLocation ? (
-            <div
-              className={
-                formik.errors.location && formik.touched.location
-                  ? "cs-form-control address-search error"
-                  : "cs-form-control address-search"
-              }
-            >
-              <label>{MapPage.DetailsMainLabel}</label>
-              <p>{MapPage.DetailsMainLabelExplanation}</p>
-              <IssueType
-                name="location"
-                formik={formik}
-                items={items}
-                handleAddressChange={handleAddressChange}
-                handleAddressSelect={handleAddressSelect}
-                pageFieldName={MapPage.AddressHeaderLabel}
-              />
+        <Field type="hidden" name="Latitude" />
+        <Field type="hidden" name="Longitude" />
+        <Field type="hidden" name="ShowErrorMsg" />
+        {requiresLocation ? (
+          <div
+            className={
+              formik.errors.location && formik.touched.location
+                ? "cs-form-control address-search error"
+                : "cs-form-control address-search"
+            }
+          >
+            <label>{MapPage.DetailsMainLabel}</label>
+            <p>{MapPage.DetailsMainLabelExplanation}</p>
+            <IssueType
+              name="location"
+              formik={formik}
+              items={items}
+              handleAddressChange={handleAddressChange}
+              handleAddressSelect={handleAddressSelect}
+              pageFieldName={MapPage.AddressHeaderLabel}
+            />
 
-              <Collapse
-                address={location}
-                ZoomValue={rest.formik.values.ZoomValue}
-                Animation={Animation}
-                AddressChangeBy={AddressChangeBy}
-                lat={updatedLatitude}
-                lng={updatedLongitude}
-                onZoom={onZoom}
-                onMarkerDragEnd={(e) => onMarkerDragEnd(e, setFieldValue)}
-              />
-            </div>
-          ) : null}
-          {subCategory &&
-            !subCategory.shouldDisableForm &&
-            subCategory.note && <Note>{subCategory.note}</Note>}
-          <DescribeTheProblem
-            name="describeTheProblem"
-            formik={formik}
-            errorsDescribeTheProblem={rest.formik.errors.describeTheProblem}
-            touchedDescribeTheProblem={rest.formik.touched.describeTheProblem}
-            pageFieldName={MapPage.ProblemLabel}
-          />
-
-          <p className="smallest">{AdditionalInfoPage.LegalDisclaimerBottom}</p>
-
-          <div className="d-flex justify-content-between">
-            <SeButton onClick={goServiceRequestForm} text="Previous" />
-            {!rest.formik.values.requestTypeAddressID ? (
-              <SeButton
-                text="File Your Report"
-                onClick={SubmitForm}
-                isLoading={formik.isSubmitting}
-                isLoadingText="Submitting Request..."
-              />
-            ) : (
-              <SeButton text="Next" onClick={goToAdditionalPage} />
-            )}
+            <Collapse
+              address={location}
+              ZoomValue={rest.formik.values.ZoomValue}
+              Animation={Animation}
+              AddressChangeBy={AddressChangeBy}
+              lat={updatedLatitude}
+              lng={updatedLongitude}
+              onZoom={onZoom}
+              onMarkerDragEnd={(e) => onMarkerDragEnd(e, setFieldValue)}
+            />
           </div>
-        </Fieldset>
+        ) : null}
+        {subCategory && !subCategory.shouldDisableForm && subCategory.note && (
+          <Note>{subCategory.note}</Note>
+        )}
+        <DescribeTheProblem
+          name="describeTheProblem"
+          formik={formik}
+          errorsDescribeTheProblem={rest.formik.errors.describeTheProblem}
+          touchedDescribeTheProblem={rest.formik.touched.describeTheProblem}
+          pageFieldName={MapPage.ProblemLabel}
+        />
+
+        <p className="smallest">{AdditionalInfoPage.LegalDisclaimerBottom}</p>
+
+        <div className="d-flex justify-content-between">
+          <SeButton onClick={goServiceRequestForm} text="Previous" />
+          {!rest.formik.values.requestTypeAddressID ? (
+            <SeButton
+              text="File Your Report"
+              onClick={SubmitForm}
+              isLoading={formik.isSubmitting}
+              isLoadingText="Submitting Request..."
+            />
+          ) : (
+            <SeButton text="Next" onClick={goToAdditionalPage} />
+          )}
+        </div>
       </Form>
     </FormContainer>
   );
