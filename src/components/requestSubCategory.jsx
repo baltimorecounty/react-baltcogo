@@ -10,7 +10,7 @@ const SubCategory = ({
   rest,
   subCategories
 }) => {
-  const {subRequestTypeID} = rest.formik.values;
+  const { subRequestTypeID } = rest.formik.values;
   const handleChange = changeEvent => {
     const localProps = rest.formik;
     const { name, options, selectedIndex } = changeEvent.target;
