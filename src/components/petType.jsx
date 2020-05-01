@@ -9,9 +9,10 @@ const PetType = ({
   handleServicePetChange,
   rest,
   PetTypes,
-  shouldShow,
+  shouldShow
 }) => {
-  const handleChange = (changeEvent) => {
+  const { petTypeID } = rest.formik.values;
+  const handleChange = changeEvent => {
     const localProps = rest.formik;
     const { name, options, selectedIndex } = changeEvent.target;
     const selectedText = options[selectedIndex].text;
@@ -47,6 +48,7 @@ const PetType = ({
             label={pageFieldName}
             options={PetTypes}
             onChange={handleChange}
+            value={petTypeID}
             {...rest}
           />
           <p role="alert" className="error-message">

@@ -10,9 +10,10 @@ const OtherAnimalTypes = ({
   rest,
   handleOtherPetTypeChange,
   OtherAnimalTypes,
-  shouldShow,
+  shouldShow
 }) => {
-  const handleChange = (changeEvent) => {
+  const { otherAnimalTypes } = rest.formik.values;
+  const handleChange = changeEvent => {
     const localProps = rest.formik;
     const { name, value } = changeEvent.target;
     localProps.setFieldValue(name, value);
@@ -20,7 +21,7 @@ const OtherAnimalTypes = ({
     handleOtherPetTypeChange(changeEvent);
   };
 
-return (
+  return (
     <React.Fragment>
       {shouldShow && petType === returnRequestTypes ? (
         <div
@@ -36,6 +37,7 @@ return (
             label={pageFieldName}
             options={OtherAnimalTypes}
             onChange={handleChange}
+            value={otherAnimalTypes}
             {...rest}
           />
           <p role="alert" className="error-message">
