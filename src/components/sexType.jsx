@@ -10,10 +10,10 @@ const SexType = ({
   rest,
   handlePetSexChange,
   animalSex,
-  shouldShow,
+  shouldShow
 }) => {
-  const {sexType} = rest.formik.values;
-  const handleChange = (changeEvent) => {
+  const { sexType } = rest.formik.values;
+  const handleChange = changeEvent => {
     const localProps = rest.formik;
     const { name, value } = changeEvent.target;
     localProps.setFieldValue(name, value);
