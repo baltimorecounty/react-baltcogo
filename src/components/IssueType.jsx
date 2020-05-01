@@ -47,6 +47,12 @@ const IssueType = ({
             onSelect={handleAddressSelect}
           />
           <i
+            style={{
+              position: "absolute",
+              top: "10px",
+              left: "10px",
+              marginRight: "10px",
+            }}
             className="fa fa-search address-search-icon"
             aria-hidden="true"
           ></i>
