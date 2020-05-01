@@ -11,7 +11,7 @@ const PetType = ({
   PetTypes,
   shouldShow,
 }) => {
-  const petTypeID = rest.formik.values.petTypeID;
+  const {petTypeID} = rest.formik.values;
   const handleChange = (changeEvent) => {
     const localProps = rest.formik;
     const { name, options, selectedIndex } = changeEvent.target;

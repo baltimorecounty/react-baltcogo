@@ -12,7 +12,7 @@ const OtherAnimalTypes = ({
   OtherAnimalTypes,
   shouldShow,
 }) => {
-  const otherAnimalTypes  =rest.formik.values.otherAnimalTypes;
+  const {otherAnimalTypes}  =rest.formik.values;
   const handleChange = (changeEvent) => {
     const localProps = rest.formik;
     const { name, value } = changeEvent.target;

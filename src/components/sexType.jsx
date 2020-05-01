@@ -12,7 +12,7 @@ const SexType = ({
   animalSex,
   shouldShow,
 }) => {
-  const sexType = rest.formik.values.sexType;
+  const {sexType} = rest.formik.values;
   const handleChange = (changeEvent) => {
     const localProps = rest.formik;
     const { name, value } = changeEvent.target;

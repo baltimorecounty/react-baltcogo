@@ -14,7 +14,7 @@ const AnimalBreedType = ({
   animalSubCategories,
   shouldShow,
 }) => {
-  const animalBreedType= rest.formik.values.animalBreedType;
+  const {animalBreedType}= rest.formik.values;
   const handleChange = (changeEvent) => {
     const localProps = rest.formik;
     const { name, value } = changeEvent.target;

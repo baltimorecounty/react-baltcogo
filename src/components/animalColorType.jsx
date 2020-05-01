@@ -15,7 +15,7 @@ const AnimalColorType = ({
   AnimalColors,
   shouldShow,
 }) => {
-const  animalColorType = rest.formik.values.animalColorType;
+const  {animalColorType} = rest.formik.values;
   const handleChange = (changeEvent) => {
     const localProps = rest.formik;
     const { name, value } = changeEvent.target;

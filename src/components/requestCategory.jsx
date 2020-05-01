@@ -11,7 +11,7 @@ const RequestCategory = ({
 	rest,
 	Categories
 }) => {
-  const requestTypeID = rest.formik.values.requestTypeID;
+  const {requestTypeID} = rest.formik.values;
 	const handleChange = changeEvent => {
     const localProps = rest.formik;
     const { name, options, selectedIndex } = changeEvent.target;
