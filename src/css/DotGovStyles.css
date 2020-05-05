@@ -1,0 +1,18 @@
+.highlight {
+  background-color: #002280 !important;
+  color: white !important;
+}
+
+.progress-bar ol li.highlight:after {
+  border-left-color: #002280 !important;
+  color: white !important;
+}
+
+.progress-bar ol li.highlight:before {
+  border-top-color: #002280 !important;
+  border-bottom-color: #002280 !important;
+}
+
+.progress-bar ol li {
+  font-family: "Montserrat", sans-serif !important;
+}

@@ -108,110 +108,105 @@ const SignIn = (props, routeProps) => {
   const errorMessage = GetAlertMessage(props);
   const alertReturnValue = AlertAtPage("SignInPage", props);
   return (
-    <FormContainer
+    /*   <FormContainer
       title={SignInPage.SignInTitle}
       tabNames={Tabs}
       currentTab="ServiceRequestForm"
       shouldDisableForm={shouldDisableForm}
       isPanelRequired={true}
+    > */
+    <Formik
+      initialValues={{
+        Email: "",
+        Password: "",
+      }}
+      validationSchema={Yup.object().shape({
+        Email: Yup.string()
+          .email("Please enter a valid email address.")
+          .required("Please enter your email address."),
+        Password: Yup.string().required("Please enter your password."),
+      })}
+      onSubmit={async (values, actions, setSubmitting) => {
+        await userLogin(values, props, actions);
+        actions.setSubmitting(false);
+      }}
     >
-      <Formik
-        initialValues={{
-          Email: "",
-          Password: "",
-        }}
-        validationSchema={Yup.object().shape({
-          Email: Yup.string()
-            .email("Please enter a valid email address.")
-            .required("Please enter your email address."),
-          Password: Yup.string().required("Please enter your password."),
-        })}
-        onSubmit={async (values, actions, setSubmitting) => {
-          await userLogin(values, props, actions);
-          actions.setSubmitting(false);
-        }}
-      >
-        {(props) => {
-          const { errors = {}, touched } = props;
-          return (
-            <Form>
-              {alertReturnValue || hasPasswordReset ? errorMessage : null}
-              <div
-                className={
-                  props.errors.Email && props.touched.Email
-                    ? "cs-form-control error"
-                    : "cs-form-control"
-                }
-              >
-                <label htmlFor="EmailLabel" className="dg_label">
-                  <span className="dg_label-text">{SignInPage.EmailLabel}</span>
-                </label>
-                <Field type="email" name="Email" />
-                <p role="alert" className="error-message">
-                  <ErrorMsg
-                    errormessage={errors.Email}
-                    touched={touched.Email}
-                  />
-                </p>
-              </div>
-              <div
-                className={
-                  props.errors.Password && props.touched.Password
-                    ? "cs-form-control error"
-                    : "cs-form-control"
-                }
-              >
-                <label htmlFor="PasswordLabel" className="dg_label">
-                  <span className="dg_label-text">
-                    {SignInPage.PasswordLabel}
-                  </span>
-                </label>
-                <Field
-                  type={fieldType === "Password" ? "Password" : "text"}
-                  name="Password"
-                  className={`text-input ${
-                    errors.Password && touched.Password ? "error" : ""
-                  }`}
-                />
-                <span
-                  onClick={handlePasswordToggleChange}
-                  className={`fa fa-fw fa-eye field-icon ${
-                    fieldType === "text" ? "fa-eye-slash" : ""
-                  }`}
-                ></span>
+      {(props) => {
+        const { errors = {}, touched } = props;
+        return (
+          <Form>
+            {alertReturnValue || hasPasswordReset ? errorMessage : null}
+            <div
+              className={
+                props.errors.Email && props.touched.Email
+                  ? "cs-form-control error"
+                  : "cs-form-control"
+              }
+            >
+              <label htmlFor="EmailLabel" className="dg_label">
+                <span className="dg_label-text">{SignInPage.EmailLabel}</span>
+              </label>
+              <Field type="email" name="Email" />
+              <p role="alert" className="error-message">
+                <ErrorMsg errormessage={errors.Email} touched={touched.Email} />
+              </p>
+            </div>
+            <div
+              className={
+                props.errors.Password && props.touched.Password
+                  ? "cs-form-control error"
+                  : "cs-form-control"
+              }
+            >
+              <label htmlFor="PasswordLabel" className="dg_label">
+                <span className="dg_label-text">
+                  {SignInPage.PasswordLabel}
+                </span>
+              </label>
+              <Field
+                type={fieldType === "Password" ? "Password" : "text"}
+                name="Password"
+                className={`text-input ${
+                  errors.Password && touched.Password ? "error" : ""
+                }`}
+              />
+              <span
+                onClick={handlePasswordToggleChange}
+                className={`fa fa-fw fa-eye field-icon ${
+                  fieldType === "text" ? "fa-eye-slash" : ""
+                }`}
+              ></span>
 
-                <p role="alert" className="error-message">
-                  <ErrorMsg
-                    errormessage={errors.Password}
-                    touched={touched.Password}
-                  />
-                </p>
+              <p role="alert" className="error-message">
+                <ErrorMsg
+                  errormessage={errors.Password}
+                  touched={touched.Password}
+                />
+              </p>
+            </div>
+            <div className="cs-form-control">
+              <p htmlFor="forgetpassword">
+                <Link to="ResetPassword">{SignInPage.ForgotPasswordLabel}</Link>
+              </p>
+              <p htmlFor="signup">
+                {SignInPage.NoAccountLabel}{" "}
+                <Link to="SignUpForm">{SignInPage.SignUpLinkLabel}</Link>
+              </p>
+              <div className="d-flex justify-content-between">
+                <SeButton text="Back" onClick={goBack} />
+                <SeButton
+                  text="Sign In and Continue"
+                  type="submit"
+                  isLoading={props.isSubmitting}
+                  isLoadingText="Signing In..."
+                />
               </div>
-              <div className="cs-form-control">
-                <p htmlFor="forgetpassword">
-                  <Link to="ResetPassword">
-                    {SignInPage.ForgotPasswordLabel}
-                  </Link>
-                </p>
-                <p htmlFor="signup">
-                  {SignInPage.NoAccountLabel}{" "}
-                  <Link to="SignUpForm">{SignInPage.SignUpLinkLabel}</Link>
-                </p>
-                <div className="d-flex justify-content-between">
-                  <SeButton text="Back" onClick={goBack} />
-                  <SeButton
-                    text="Sign In and Continue"
-                    type="submit"
-                    isLoading={props.isSubmitting}
-                    isLoadingText="Signing In..."
-                  />
-                </div>
-              </div>
-            </Form>
-          );
-        }}
-      </Formik>
-    </FormContainer>
+            </div>
+          </Form>
+        );
+      }}
+    </Formik>
+    //</FormContainer>
   );
 };
 
