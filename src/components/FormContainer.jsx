@@ -1,7 +1,8 @@
-import React from "react";
-import { Fieldset } from "@baltimorecounty/dotgov-components";
 import "../css/DotGovStyles.css";
 import "../css/citysourced-reporter.min.css";
+
+import { Fieldset } from "@baltimorecounty/dotgov-components";
+import React from "react";
 import _ from "lodash";
 
 const selectTab = (currentTab, tabList) => {
@@ -62,7 +63,7 @@ const FormContainer = (props) => {
 
   return (
     <div>
-      <ol className="progress-bar">
+      <ol className="dg_progress-tabs">
         {tabList.map((tab, id) => {
           return props.tabNames !== "none" ? (
             <li key={tab.id} className={selectClassName(tab)}>
