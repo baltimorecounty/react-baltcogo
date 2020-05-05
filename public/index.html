@@ -30,11 +30,90 @@
       type="text/css"
       href="https://beta.baltimorecountymd.gov/sebin/j/e/dotgov.min.css"
     />
+    <style>
+      .dg_progress-tabs {
+        display: flex;
+        list-style-type: none;
+        padding: 0;
+      }
+      .dg_progress-tabs li {
+        background-color: #ebebeb;
+        color: #444;
+        flex: 1 1 auto;
+        font-family: "Montserrat", sans-serif;
+        font-size: 18px;
+        margin: 0 10px;
+        padding: 15px;
+        height: 40px;
+        line-height: 20px;
+        position: relative;
+        -moz-box-sizing: content-box;
+        -webkit-box-sizing: content-box;
+        box-sizing: content-box;
+      }
+      .dg_progress-tabs li.highlight {
+        background-color: #002280;
+        color: white;
+      }
+      .dg_progress-tabs li:before,
+      .dg_progress-tabs li:after {
+        content: "";
+        height: 0;
+        position: absolute;
+        width: 0;
+      }
+      .dg_progress-tabs li:before {
+        border-top: 35px solid #ebebeb;
+        border-bottom: 35px solid #ebebeb;
+        border-left: 15px solid transparent;
+        left: -15px;
+        top: 0;
+      }
+      .dg_progress-tabs li:first-child:before {
+        border: none;
+      }
+      .dg_progress-tabs li.highlight:before {
+        border-top-color: #002280;
+        border-bottom-color: #002280;
+      }
+      .dg_progress-tabs li:after {
+        border-top: 35px solid transparent;
+        border-bottom: 35px solid transparent;
+        border-left: 15px solid #ebebeb;
+        right: -15px;
+        top: 0;
+      }
+      .dg_progress-tabs li.highlight:after {
+        border-left-color: #002280;
+      }
+      .dg_progress-tabs li:last-child {
+        background: #ebebeb;
+        list-style: none;
+        margin-right: 0;
+      }
+      .dg_progress-tabs li:last-child:before {
+        border-top: 35px solid #ebebeb;
+        border-bottom: 35px solid #ebebeb;
+        border-left: 15px solid transparent;
+        left: -15px;
+        top: 0;
+      }
+      .dg_progress-tabs li:last-child:after {
+        border: none;
+      }
+    </style>
   </head>
 
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <div id="root"></div>
+        </div>
+      </div>
+    </div>
+
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
