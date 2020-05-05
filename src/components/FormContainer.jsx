@@ -61,7 +61,7 @@ const FormContainer = (props) => {
   };
 
   return (
-    <div className="bc-citysourced-reporter">
+    <div>
       <ol className="progress-bar">
         {tabList.map((tab, id) => {
           return props.tabNames !== "none" ? (
