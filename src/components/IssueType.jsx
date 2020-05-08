@@ -34,12 +34,13 @@ const IssueType = ({
       </div>
 
       <div className={addressSearchCssClasses}>
-        <label htmlFor="location" className="address">
-          {pageFieldName}
+        <label htmlFor="location" className="address dg_label">
+          <span className="dg_label-text">{pageFieldName}</span>
         </label>
         <div className="address-input-wrapper">
           <AutoCompleteTypeField
             items={items}
+            pageFieldName={pageFieldName}
             formik={formik}
             name={name}
             value={values.location}

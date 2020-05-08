@@ -1,9 +1,10 @@
 import React from "react";
 import Autocomplete from "react-autocomplete";
+import { TextInput } from "@baltimorecounty/dotgov-components";
 import "../css/Autocomplete.css";
 
 const AutoCompleteTypeField = (props) => {
-  const { items, formik, onChange, onSelect, value } = props;
+  const { items, formik, onChange, onSelect, value, pageFieldName } = props;
 
   const handleChange = (changeEvent) => {
     const { value } = changeEvent.target;

@@ -3,16 +3,15 @@ import ErrorMsg from "./ErrorMessage";
 import { Select } from "@baltimorecounty/dotgov-components";
 
 const RequestCategory = ({
-  requestType,
   errorsRequestType,
   touchedRequestType,
-  pageFieldName,
+  pageFieldName = "",
   handleServiceRequestChange,
   rest,
-  Categories
+  Categories,
 }) => {
   const { requestTypeID } = rest.formik.values;
-  const handleChange = changeEvent => {
+  const handleChange = (changeEvent) => {
     const localProps = rest.formik;
     const { name, options, selectedIndex } = changeEvent.target;
     const selectedText = options[selectedIndex].text.toLowerCase();
