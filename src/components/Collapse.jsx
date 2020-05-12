@@ -15,7 +15,7 @@ const Collapse = ({
   onMarkerDragEnd,
 }) => {
   return (
-    <div style={{ textAlign: "center" }}>
+    <div className="text-center">
       <Button
         type="button"
         className="small"
