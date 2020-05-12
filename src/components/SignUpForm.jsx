@@ -12,7 +12,6 @@ import { Link } from "react-router-dom";
 import { IsFormInComplete, SetFieldValues } from "../utilities/FormHelpers";
 import { IsPhoneNumberValid } from "@baltimorecounty/validation";
 import SeButton from "./SeButton";
-import { Fieldset } from "@baltimorecounty/dotgov-components";
 import { GoHome, Go, Routes } from "../Routing";
 import {
   AlertAtPage,
@@ -149,130 +148,118 @@ const CreateAccount = (props, routeProps) => {
 
           return (
             <Form>
-              <Fieldset title="SignUp Information">
-                {alertReturnValue ? errorMessage : null}
-                <div
-                  className={
-                    errors.NameFirst && touched.NameFirst
-                      ? "cs-form-control error"
-                      : "cs-form-control"
-                  }
-                >
-                  <label htmlFor="NameFirst">
-                    {SignUpPage.FirstNameLabel}{" "}
-                  </label>
-                  <Field type="text" name="NameFirst" />
-                  <p role="alert" className="error-message">
-                    <ErrorMsg
-                      errormessage={errors.NameFirst}
-                      touched={touched.NameFirst}
-                    />
-                  </p>
-                </div>
-                <div
-                  className={
-                    props.errors.NameLast && props.touched.NameLast
-                      ? "cs-form-control error"
-                      : "cs-form-control"
-                  }
-                >
-                  <label htmlFor="NameLast">{SignUpPage.LastNameLabel} </label>
-                  <Field type="text" name="NameLast" />
-                  <p role="alert" className="error-message">
-                    <ErrorMsg
-                      errormessage={errors.NameLast}
-                      touched={touched.NameLast}
-                    />
-                  </p>
-                </div>
-                <div
-                  className={
-                    props.errors.Telephone && props.touched.Telephone
-                      ? "cs-form-control error"
-                      : "cs-form-control"
-                  }
-                >
-                  <label htmlFor="Telephone">{SignUpPage.PhoneLabel}</label>
-                  <Field
-                    type="text"
-                    name="Telephone"
-                    value={values.Telephone}
+              {alertReturnValue ? errorMessage : null}
+              <div
+                className={
+                  errors.NameFirst && touched.NameFirst
+                    ? "cs-form-control error"
+                    : "cs-form-control"
+                }
+              >
+                <label htmlFor="NameFirst">{SignUpPage.FirstNameLabel} </label>
+                <Field type="text" name="NameFirst" />
+                <p role="alert" className="error-message">
+                  <ErrorMsg
+                    errormessage={errors.NameFirst}
+                    touched={touched.NameFirst}
                   />
-                  <p role="alert" className="error-message">
-                    <ErrorMsg
-                      errormessage={errors.Telephone}
-                      touched={touched.Telephone}
-                    />
-                  </p>
-                </div>
-                <div
-                  className={
-                    (extendedError || props.errors.Email) && props.touched.Email
-                      ? "cs-form-control error"
-                      : "cs-form-control"
-                  }
-                >
-                  <label htmlFor="Email">{SignUpPage.EmailLabel}</label>
-                  <Field type="email" name="Email" />
-                  <p role="alert" className="error-message">
-                    {extendedError}
-                  </p>
-                  <p role="alert" className="error-message">
-                    <ErrorMsg
-                      errormessage={errors.Email}
-                      touched={touched.Email}
-                    />
-                  </p>
-                </div>
-                <div
-                  className={
-                    props.errors.Password && props.touched.Password
-                      ? "cs-form-control error"
-                      : "cs-form-control"
-                  }
-                >
-                  <label name="Password" htmlFor="Password">
-                    {SignUpPage.PasswordLabel}
-                  </label>
-                  <Field
-                    type={fieldType === "Password" ? "Password" : "text"}
-                    name="Password"
-                    value={values.Password}
+                </p>
+              </div>
+              <div
+                className={
+                  props.errors.NameLast && props.touched.NameLast
+                    ? "cs-form-control error"
+                    : "cs-form-control"
+                }
+              >
+                <label htmlFor="NameLast">{SignUpPage.LastNameLabel} </label>
+                <Field type="text" name="NameLast" />
+                <p role="alert" className="error-message">
+                  <ErrorMsg
+                    errormessage={errors.NameLast}
+                    touched={touched.NameLast}
                   />
-                  <span
-                    onClick={handlePasswordToggleChange}
-                    className={`fa fa-fw fa-eye field-icon ${
-                      fieldType === "text" ? "fa-eye-slash" : ""
-                    }`}
-                  ></span>
-                  <p role="alert" className="error-message">
-                    <ErrorMsg
-                      errormessage={errors.Password}
-                      touched={touched.Password}
-                    />
-                  </p>
-                </div>
+                </p>
+              </div>
+              <div
+                className={
+                  props.errors.Telephone && props.touched.Telephone
+                    ? "cs-form-control error"
+                    : "cs-form-control"
+                }
+              >
+                <label htmlFor="Telephone">{SignUpPage.PhoneLabel}</label>
+                <Field type="text" name="Telephone" value={values.Telephone} />
+                <p role="alert" className="error-message">
+                  <ErrorMsg
+                    errormessage={errors.Telephone}
+                    touched={touched.Telephone}
+                  />
+                </p>
+              </div>
+              <div
+                className={
+                  (extendedError || props.errors.Email) && props.touched.Email
+                    ? "cs-form-control error"
+                    : "cs-form-control"
+                }
+              >
+                <label htmlFor="Email">{SignUpPage.EmailLabel}</label>
+                <Field type="email" name="Email" />
+                <p role="alert" className="error-message">
+                  {extendedError}
+                </p>
+                <p role="alert" className="error-message">
+                  <ErrorMsg
+                    errormessage={errors.Email}
+                    touched={touched.Email}
+                  />
+                </p>
+              </div>
+              <div
+                className={
+                  props.errors.Password && props.touched.Password
+                    ? "cs-form-control error"
+                    : "cs-form-control"
+                }
+              >
+                <label name="Password" htmlFor="Password">
+                  {SignUpPage.PasswordLabel}
+                </label>
+                <Field
+                  type={fieldType === "Password" ? "Password" : "text"}
+                  name="Password"
+                  value={values.Password}
+                />
+                <span
+                  onClick={handlePasswordToggleChange}
+                  className={`fa fa-fw fa-eye field-icon ${
+                    fieldType === "text" ? "fa-eye-slash" : ""
+                  }`}
+                ></span>
+                <p role="alert" className="error-message">
+                  <ErrorMsg
+                    errormessage={errors.Password}
+                    touched={touched.Password}
+                  />
+                </p>
+              </div>
 
-                <div className="cs-form-control">
-                  <p htmlFor="signup">
-                    {SignUpPage.HaveAccountLabel}{" "}
-                    <Link to="SignInForm">{SignUpPage.SignInLinkLabel}</Link>
-                  </p>
-                  <div className="d-flex justify-content-between">
-                    <SeButton
-                      text="Back"
-                      className="seButton"
-                      onClick={goBack}
-                    />
-                    <SeButton
-                      text="Sign Up and Continue"
-                      type="submit"
-                      isLoading={isSubmitting}
-                      isLoadingText="Signing Up..."
-                    />
-                  </div>
+              <div className="cs-form-control">
+                <p htmlFor="signup">
+                  {SignUpPage.HaveAccountLabel}{" "}
+                  <Link to="SignInForm">{SignUpPage.SignInLinkLabel}</Link>
+                </p>
+                <div className="d-flex justify-content-between">
+                  <SeButton text="Back" className="seButton" onClick={goBack} />
+                  <SeButton
+                    text="Sign Up and Continue"
+                    type="submit"
+                    isLoading={isSubmitting}
+                    isLoadingText="Signing Up..."
+                  />
                 </div>
-              </Fieldset>
+              </div>
             </Form>
           );
         }}

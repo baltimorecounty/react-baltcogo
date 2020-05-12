@@ -15,7 +15,7 @@ const Collapse = ({
   onMarkerDragEnd,
 }) => {
   return (
-    <React.Fragment>
+    <div className="text-center">
       <Button
         type="button"
         className="small"
@@ -42,7 +42,7 @@ const Collapse = ({
           />
         </div>
       </UncontrolledCollapse>
-    </React.Fragment>
+    </div>
   );
 };
 

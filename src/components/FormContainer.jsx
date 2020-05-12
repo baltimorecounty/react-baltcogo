@@ -1,4 +1,5 @@
 import React from "react";
+import { Fieldset } from "@baltimorecounty/dotgov-components";
 import _ from "lodash";
 
 const selectTab = (currentTab, tabList) => {
@@ -7,6 +8,7 @@ const selectTab = (currentTab, tabList) => {
 };
 
 const FormContainer = (props) => {
+  const { title = "" } = props;
   const tabList = [
     {
       description: props.tabNames.Tab1,
@@ -57,9 +59,9 @@ const FormContainer = (props) => {
   };
 
   return (
-    <div className="bc-citysourced-reporter">
-      <ol className="bc-citysourced-reporter-steps">
-        {tabList.map((tab, id) => {
+    <div>
+      <ol className="dg_progress-tabs">
+        {tabList.map((tab) => {
           return props.tabNames !== "none" ? (
             <li key={tab.id} className={selectClassName(tab)}>
               {tab.description}
@@ -67,10 +69,7 @@ const FormContainer = (props) => {
           ) : null;
         })}
       </ol>
-      <fieldset className="container Container-bg">
-        {props.title ? <legend>{props.title}</legend> : null}
-        {props.children}
-      </fieldset>
+      <Fieldset title={title}>{props.children}</Fieldset>
     </div>
   );
 };
