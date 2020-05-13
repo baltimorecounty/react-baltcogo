@@ -71,7 +71,9 @@ const AdditionalInformation = (props) => {
               }
             >
               <label name="NameFirst" htmlFor="NameFirst" className="dg_label">
-                {AdditionalInfoPage.FirstNameLabel}
+                <span className="dg_label-text">
+                  {AdditionalInfoPage.FirstNameLabel}
+                </span>
               </label>
               <Field
                 name="NameFirst"
@@ -98,7 +100,9 @@ const AdditionalInformation = (props) => {
               }
             >
               <label name="NameLast" htmlFor="NameLast" className="dg_label">
-                {AdditionalInfoPage.LastNameLabel}
+                <span className="dg_label-text">
+                  {AdditionalInfoPage.LastNameLabel}
+                </span>
               </label>
               <Field
                 name="NameLast"
@@ -125,7 +129,9 @@ const AdditionalInformation = (props) => {
               }
             >
               <label name="Email" htmlFor="Email" className="dg_label">
-                {AdditionalInfoPage.EmailLabel}
+                <span className="dg_label-text">
+                  {AdditionalInfoPage.EmailLabel}
+                </span>
               </label>
               <Field
                 name="Email"
@@ -152,7 +158,9 @@ const AdditionalInformation = (props) => {
               }
             >
               <label name="Telephone" htmlFor="Telephone" className="dg_label">
-                {AdditionalInfoPage.PhoneLabel}
+                <span className="dg_label-text">
+                  {AdditionalInfoPage.PhoneLabel}
+                </span>
               </label>
               <Field
                 name="Telephone"
@@ -188,7 +196,9 @@ const AdditionalInformation = (props) => {
                 htmlFor="streetAddress"
                 className="dg_label"
               >
-                {AdditionalInfoPage.StreetLabel}
+                <span className="dg_label-text">
+                  {AdditionalInfoPage.StreetLabel}
+                </span>
               </label>
               <Field
                 name="streetAddress"
@@ -216,7 +226,9 @@ const AdditionalInformation = (props) => {
               }
             >
               <label name="city" htmlFor="city" className="dg_label">
-                {AdditionalInfoPage.CityLabel}
+                <span className="dg_label-text">
+                  {AdditionalInfoPage.CityLabel}
+                </span>
               </label>
               <Field
                 label={AdditionalInfoPage.CityLabel}
@@ -244,7 +256,9 @@ const AdditionalInformation = (props) => {
               }
             >
               <label name="zipCode" htmlFor="zipCode" className="dg_label">
-                {AdditionalInfoPage.ZipCodeLabel}
+                <span className="dg_label-text">
+                  {AdditionalInfoPage.ZipCodeLabel}
+                </span>
               </label>
               <Field
                 name="zipCode"

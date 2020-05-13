@@ -157,7 +157,9 @@ const CreateAccount = (props, routeProps) => {
                 }
               >
                 <label htmlFor="NameFirst" className="dg_label">
-                  {SignUpPage.FirstNameLabel}{" "}
+                  <span className="dg_label-text">
+                    {SignUpPage.FirstNameLabel}
+                  </span>
                 </label>
                 <Field type="text" name="NameFirst" />
                 <p role="alert" className="error-message">
@@ -175,7 +177,9 @@ const CreateAccount = (props, routeProps) => {
                 }
               >
                 <label htmlFor="NameLast" className="dg_label">
-                  {SignUpPage.LastNameLabel}{" "}
+                  <span className="dg_label-text">
+                    {SignUpPage.LastNameLabel}
+                  </span>
                 </label>
                 <Field type="text" name="NameLast" />
                 <p role="alert" className="error-message">
@@ -193,7 +197,7 @@ const CreateAccount = (props, routeProps) => {
                 }
               >
                 <label htmlFor="Telephone" className="dg_label">
-                  {SignUpPage.PhoneLabel}
+                  <span className="dg_label-text">{SignUpPage.PhoneLabel}</span>
                 </label>
                 <Field type="text" name="Telephone" value={values.Telephone} />
                 <p role="alert" className="error-message">
@@ -211,7 +215,7 @@ const CreateAccount = (props, routeProps) => {
                 }
               >
                 <label htmlFor="Email" className="dg_label">
-                  {SignUpPage.EmailLabel}
+                  <span className="dg_label-text">{SignUpPage.EmailLabel}</span>
                 </label>
                 <Field type="email" name="Email" />
                 <p role="alert" className="error-message">
@@ -232,7 +236,9 @@ const CreateAccount = (props, routeProps) => {
                 }
               >
                 <label name="Password" className="dg_label" htmlFor="Password">
-                  {SignUpPage.PasswordLabel}
+                  <span className="dg_label-text">
+                    {SignUpPage.PasswordLabel}
+                  </span>
                 </label>
                 <Field
                   type={fieldType === "Password" ? "Password" : "text"}
