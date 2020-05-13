@@ -1,12 +1,13 @@
 import React from "react";
 import SeButton from "./SeButton";
-import { Form, Field, connect } from "formik";
+import { Form, connect } from "formik";
 import ErrorMsg from "./ErrorMessage";
 import FormContainer from "./FormContainer";
 import { IsFormInComplete } from "../utilities/FormHelpers";
 import { SubmitReport } from "../services/ReportService";
 import { GoHome, GoBack } from "../Routing";
 import { SetFieldsTouched } from "../utilities/FormikHelpers";
+import { TextInput } from "@baltimorecounty/dotgov-components";
 
 const AdditionalInformation = (props) => {
   const localProps = props.formik.values;
@@ -70,12 +71,9 @@ const AdditionalInformation = (props) => {
                   : "cs-form-control"
               }
             >
-              <label htmlFor="NameFirst">
-                {AdditionalInfoPage.FirstNameLabel}
-              </label>
-              <Field
-                type="text"
-                name="NameFirst"
+              <TextInput
+                id="NameFirst"
+                label={AdditionalInfoPage.FirstNameLabel}
                 className={`text-input ${
                   rest.formik.errors.NameFirst && rest.formik.touched.NameFirst
                     ? "error"
@@ -98,12 +96,9 @@ const AdditionalInformation = (props) => {
                   : "cs-form-control"
               }
             >
-              <label htmlFor="NameLast">
-                {AdditionalInfoPage.LastNameLabel}
-              </label>
-              <Field
-                type="text"
-                name="NameLast"
+              <TextInput
+                label={AdditionalInfoPage.LastNameLabel}
+                id="NameLast"
                 className={`text-input ${
                   rest.formik.errors.NameLast && rest.formik.touched.NameLast
                     ? "error"
@@ -126,10 +121,9 @@ const AdditionalInformation = (props) => {
                   : "cs-form-control"
               }
             >
-              <label htmlFor="Email">{AdditionalInfoPage.EmailLabel}</label>
-              <Field
-                type="text"
-                name="Email"
+              <TextInput
+                label={AdditionalInfoPage.EmailLabel}
+                id="Email"
                 className={`text-input ${
                   rest.formik.errors.Email && rest.formik.touched.Email
                     ? "error"
@@ -152,10 +146,10 @@ const AdditionalInformation = (props) => {
                   : "cs-form-control"
               }
             >
-              <label htmlFor="Telephone">{AdditionalInfoPage.PhoneLabel}</label>
-              <Field
-                type="text"
-                name="Telephone"
+              <label htmlFor="Telephone"></label>
+              <TextInput
+                label={AdditionalInfoPage.PhoneLabel}
+                id="Telephone"
                 className={`text-input ${
                   rest.formik.errors.Telephone && rest.formik.touched.Telephone
                     ? "error"
@@ -183,12 +177,9 @@ const AdditionalInformation = (props) => {
                   : "cs-form-control"
               }
             >
-              <label htmlFor="streetAddress">
-                {AdditionalInfoPage.StreetLabel}
-              </label>
-              <Field
-                type="text"
-                name="streetAddress"
+              <TextInput
+                label={AdditionalInfoPage.StreetLabel}
+                id="streetAddress"
                 className={`text-input ${
                   rest.formik.errors.streetAddress &&
                   rest.formik.touched.streetAddress
@@ -212,10 +203,9 @@ const AdditionalInformation = (props) => {
                   : "cs-form-control"
               }
             >
-              <label htmlFor="city">{AdditionalInfoPage.CityLabel}</label>
-              <Field
-                type="text"
-                name="city"
+              <TextInput
+                label={AdditionalInfoPage.CityLabel}
+                id="city"
                 className={`text-input ${
                   rest.formik.errors.city && rest.formik.touched.city
                     ? "error"
@@ -238,12 +228,10 @@ const AdditionalInformation = (props) => {
                   : "cs-form-control"
               }
             >
-              <label name="zipCode" htmlFor="zipCode">
-                {AdditionalInfoPage.ZipCodeLabel}
-              </label>
-              <Field
-                type="text"
-                name="zipCode"
+              <label name="zipCode" htmlFor="zipCode"></label>
+              <TextInput
+                label={AdditionalInfoPage.ZipCodeLabel}
+                id="zipCode"
                 className={`text-input ${
                   rest.formik.errors.zipCode && rest.formik.touched.zipCode
                     ? "error"
