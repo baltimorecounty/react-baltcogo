@@ -156,7 +156,9 @@ const CreateAccount = (props, routeProps) => {
                     : "cs-form-control"
                 }
               >
-                <label htmlFor="NameFirst">{SignUpPage.FirstNameLabel} </label>
+                <label htmlFor="NameFirst" className="dg_label">
+                  {SignUpPage.FirstNameLabel}{" "}
+                </label>
                 <Field type="text" name="NameFirst" />
                 <p role="alert" className="error-message">
                   <ErrorMsg
@@ -172,7 +174,9 @@ const CreateAccount = (props, routeProps) => {
                     : "cs-form-control"
                 }
               >
-                <label htmlFor="NameLast">{SignUpPage.LastNameLabel} </label>
+                <label htmlFor="NameLast" className="dg_label">
+                  {SignUpPage.LastNameLabel}{" "}
+                </label>
                 <Field type="text" name="NameLast" />
                 <p role="alert" className="error-message">
                   <ErrorMsg
@@ -188,7 +192,9 @@ const CreateAccount = (props, routeProps) => {
                     : "cs-form-control"
                 }
               >
-                <label htmlFor="Telephone">{SignUpPage.PhoneLabel}</label>
+                <label htmlFor="Telephone" className="dg_label">
+                  {SignUpPage.PhoneLabel}
+                </label>
                 <Field type="text" name="Telephone" value={values.Telephone} />
                 <p role="alert" className="error-message">
                   <ErrorMsg
@@ -204,7 +210,9 @@ const CreateAccount = (props, routeProps) => {
                     : "cs-form-control"
                 }
               >
-                <label htmlFor="Email">{SignUpPage.EmailLabel}</label>
+                <label htmlFor="Email" className="dg_label">
+                  {SignUpPage.EmailLabel}
+                </label>
                 <Field type="email" name="Email" />
                 <p role="alert" className="error-message">
                   {extendedError}
@@ -223,7 +231,7 @@ const CreateAccount = (props, routeProps) => {
                     : "cs-form-control"
                 }
               >
-                <label name="Password" htmlFor="Password">
+                <label name="Password" className="dg_label" htmlFor="Password">
                   {SignUpPage.PasswordLabel}
                 </label>
                 <Field
