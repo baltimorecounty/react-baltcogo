@@ -156,7 +156,11 @@ const CreateAccount = (props, routeProps) => {
                     : "cs-form-control"
                 }
               >
-                <label htmlFor="NameFirst">{SignUpPage.FirstNameLabel} </label>
+                <label htmlFor="NameFirst" className="dg_label">
+                  <span className="dg_label-text">
+                    {SignUpPage.FirstNameLabel}
+                  </span>
+                </label>
                 <Field type="text" name="NameFirst" />
                 <p role="alert" className="error-message">
                   <ErrorMsg
@@ -172,7 +176,11 @@ const CreateAccount = (props, routeProps) => {
                     : "cs-form-control"
                 }
               >
-                <label htmlFor="NameLast">{SignUpPage.LastNameLabel} </label>
+                <label htmlFor="NameLast" className="dg_label">
+                  <span className="dg_label-text">
+                    {SignUpPage.LastNameLabel}
+                  </span>
+                </label>
                 <Field type="text" name="NameLast" />
                 <p role="alert" className="error-message">
                   <ErrorMsg
@@ -188,7 +196,9 @@ const CreateAccount = (props, routeProps) => {
                     : "cs-form-control"
                 }
               >
-                <label htmlFor="Telephone">{SignUpPage.PhoneLabel}</label>
+                <label htmlFor="Telephone" className="dg_label">
+                  <span className="dg_label-text">{SignUpPage.PhoneLabel}</span>
+                </label>
                 <Field type="text" name="Telephone" value={values.Telephone} />
                 <p role="alert" className="error-message">
                   <ErrorMsg
@@ -204,7 +214,9 @@ const CreateAccount = (props, routeProps) => {
                     : "cs-form-control"
                 }
               >
-                <label htmlFor="Email">{SignUpPage.EmailLabel}</label>
+                <label htmlFor="Email" className="dg_label">
+                  <span className="dg_label-text">{SignUpPage.EmailLabel}</span>
+                </label>
                 <Field type="email" name="Email" />
                 <p role="alert" className="error-message">
                   {extendedError}
@@ -223,8 +235,10 @@ const CreateAccount = (props, routeProps) => {
                     : "cs-form-control"
                 }
               >
-                <label name="Password" htmlFor="Password">
-                  {SignUpPage.PasswordLabel}
+                <label name="Password" className="dg_label" htmlFor="Password">
+                  <span className="dg_label-text">
+                    {SignUpPage.PasswordLabel}
+                  </span>
                 </label>
                 <Field
                   type={fieldType === "Password" ? "Password" : "text"}
