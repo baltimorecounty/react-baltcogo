@@ -5,21 +5,27 @@ export const GetAlertMessage = (props) => {
   const { hasPasswordReset } = props.values;
   if (hasPasswordReset) {
     return (
-      <Note className="bc_alert alert-success">
-        {props.values.SignInPage.ResetPasswordAlert.replace(
+      <Note
+        className="status"
+        type="success"
+        icon="far fa-check"
+        message={props.values.SignInPage.ResetPasswordAlert.replace(
           "{email address}",
           props.history.location.state
         )}
-      </Note>
+      />
     );
   }
 
   const { incorrectEmail, networkError } = props.status || {};
   const message = incorrectEmail || networkError || null;
   return (
-    <Note icon="Nothing" className="bc_alert alert-warning">
-      {message}
-    </Note>
+    <Note
+      className="status"
+      type="error"
+      icon="fas fa-exclamation-circle"
+      message={message}
+    />
   );
 };
 

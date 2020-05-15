@@ -1,14 +1,13 @@
 import React from "react";
-import FieldError from "./FieldError";
+import { Alert } from "@baltimorecounty/dotgov-components";
 
 const Note = (props) => {
-  const { className, icon } = props;
-  const cssClasses = className ? className : "alert-information bc_alert";
-  const iconCss = icon ? icon : "info-circle";
+  const { className, icon, message, type } = props;
+
   return (
-    <FieldError className={cssClasses} icon={iconCss}>
-      <p dangerouslySetInnerHTML={{ __html: props.children }}></p>
-    </FieldError>
+    <Alert className={className} icon={icon} type={type}>
+      <p dangerouslySetInnerHTML={{ __html: message }}></p>
+    </Alert>
   );
 };
 export default Note;

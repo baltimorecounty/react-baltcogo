@@ -305,7 +305,12 @@ const provideDetails = (props) => {
           </div>
         ) : null}
         {subCategory && !subCategory.shouldDisableForm && subCategory.note && (
-          <Note>{subCategory.note}</Note>
+          <Note
+            className="status"
+            type="warning"
+            icon="far fa-exclamation-triangle"
+            message={subCategory.note}
+          />
         )}
         <DescribeTheProblem
           name="describeTheProblem"
