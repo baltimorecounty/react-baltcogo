@@ -48,8 +48,22 @@ const GetReport = (props) => {
       "We are having trouble looking up this record. Please call 410-887-2450 to verify your tracking number.";
 
     urlParameter === BadID
-      ? (alertMessage = <Note>{messageBadId}</Note>)
-      : (alertMessage = <Note>{messageUrlRedirect}</Note>);
+      ? (alertMessage = (
+          <Note
+            className="status"
+            type="error"
+            icon="fas fa-exclamation-circle"
+            message={messageBadId}
+          />
+        ))
+      : (alertMessage = (
+          <Note
+            className="status"
+            type="error"
+            icon="fas fa-exclamation-circle"
+            message={messageUrlRedirect}
+          />
+        ));
   };
 
   return (

@@ -52,7 +52,14 @@ const ReportStatus = (props, routeProps) => {
     } else if (response.data.report.ErrorsCount > 0) {
       const errorsReturned = GetResponseErrors(response);
       errorStatusCode = response.data.report.Errors[0].StatusCode;
-      alertMessage = <Note>{errorsReturned}</Note>;
+      alertMessage = (
+        <Note
+          className="status"
+          type="error"
+          icon="fas fa-exclamation-circle"
+          message={errorsReturned}
+        />
+      );
     } else {
       const {
         Id,
