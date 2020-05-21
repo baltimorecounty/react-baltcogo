@@ -274,14 +274,8 @@ const provideDetails = (props) => {
         <Field type="hidden" name="Longitude" />
         <Field type="hidden" name="ShowErrorMsg" />
         {requiresLocation ? (
-          <div
-            className={
-              formik.errors.location && formik.touched.location
-                ? "cs-form-control address-search error"
-                : "cs-form-control address-search"
-            }
-          >
-            <label>{MapPage.DetailsMainLabel}</label>
+          <div className="cs-form-control address-search">
+            <label className="dg_label">{MapPage.DetailsMainLabel}</label>
             <p>{MapPage.DetailsMainLabelExplanation}</p>
             <IssueType
               name="location"
