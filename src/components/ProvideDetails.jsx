@@ -268,6 +268,18 @@ const provideDetails = (props) => {
       currentTab="ProvideDetails"
       shouldDisableForm={shouldDisableForm}
       isPanelRequired={isPanelRequired}
+      alert={
+        subCategory &&
+        !subCategory.shouldDisableForm &&
+        subCategory.note && (
+          <Note
+            className="status"
+            type="warning"
+            icon="far fa-exclamation-triangle"
+            message={subCategory.note}
+          />
+        )
+      }
     >
       <Form>
         <Field type="hidden" name="Latitude" />
@@ -298,14 +310,7 @@ const provideDetails = (props) => {
             />
           </div>
         ) : null}
-        {subCategory && !subCategory.shouldDisableForm && subCategory.note && (
-          <Note
-            className="status"
-            type="warning"
-            icon="far fa-exclamation-triangle"
-            message={subCategory.note}
-          />
-        )}
+
         <DescribeTheProblem
           name="describeTheProblem"
           formik={formik}

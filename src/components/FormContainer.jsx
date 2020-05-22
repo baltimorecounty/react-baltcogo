@@ -69,6 +69,7 @@ const FormContainer = (props) => {
           ) : null;
         })}
       </ol>
+      <div>{props.alert}</div>
       <Fieldset title={title}>{props.children}</Fieldset>
     </div>
   );

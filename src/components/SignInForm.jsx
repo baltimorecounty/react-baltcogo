@@ -114,6 +114,7 @@ const SignIn = (props, routeProps) => {
       currentTab="ServiceRequestForm"
       shouldDisableForm={shouldDisableForm}
       isPanelRequired={true}
+      alert={alertReturnValue || hasPasswordReset ? errorMessage : null}
     >
       <Formik
         initialValues={{
@@ -135,7 +136,6 @@ const SignIn = (props, routeProps) => {
           const { errors = {}, touched } = props;
           return (
             <Form>
-              {alertReturnValue || hasPasswordReset ? errorMessage : null}
               <div
                 className={
                   props.errors.Email && props.touched.Email

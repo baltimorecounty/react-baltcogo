@@ -68,6 +68,7 @@ const ResetPasswordForm = (props, routeProps) => {
       currentTab="ServiceRequestForm"
       shouldDisableForm={false}
       isPanelRequired={true}
+      alert={alertReturnValue && !hasPasswordReset ? errorMessage : null}
     >
       <Formik
         initialValues={{
@@ -88,7 +89,6 @@ const ResetPasswordForm = (props, routeProps) => {
 
           return (
             <Form>
-              {alertReturnValue && !hasPasswordReset ? errorMessage : null}
               {errors.length > 0 && (
                 <FieldError type="danger">{errors}</FieldError>
               )}
