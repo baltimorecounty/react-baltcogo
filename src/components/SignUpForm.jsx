@@ -110,6 +110,7 @@ const CreateAccount = (props, routeProps) => {
       currentTab="ServiceRequestForm"
       shouldDisableForm={shouldDisableForm}
       isPanelRequired={true}
+      alert={alertReturnValue ? errorMessage : null}
     >
       <Formik
         initialValues={{
@@ -148,7 +149,6 @@ const CreateAccount = (props, routeProps) => {
 
           return (
             <Form>
-              {alertReturnValue ? errorMessage : null}
               <div
                 className={
                   errors.NameFirst && touched.NameFirst
