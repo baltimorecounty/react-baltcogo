@@ -15,7 +15,7 @@ const Collapse = ({
   onMarkerDragEnd,
 }) => {
   return (
-    <div className="text-center">
+    <div className="text-center dg_button-link">
       <Button
         type="button"
         className="small"

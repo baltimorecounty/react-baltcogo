@@ -268,20 +268,26 @@ const provideDetails = (props) => {
       currentTab="ProvideDetails"
       shouldDisableForm={shouldDisableForm}
       isPanelRequired={isPanelRequired}
+      alert={
+        subCategory &&
+        !subCategory.shouldDisableForm &&
+        subCategory.note && (
+          <Note
+            className="status"
+            type="warning"
+            icon="far fa-exclamation-triangle"
+            message={subCategory.note}
+          />
+        )
+      }
     >
       <Form>
         <Field type="hidden" name="Latitude" />
         <Field type="hidden" name="Longitude" />
         <Field type="hidden" name="ShowErrorMsg" />
         {requiresLocation ? (
-          <div
-            className={
-              formik.errors.location && formik.touched.location
-                ? "cs-form-control address-search error"
-                : "cs-form-control address-search"
-            }
-          >
-            <label>{MapPage.DetailsMainLabel}</label>
+          <div className="cs-form-control address-search">
+            <label className="dg_label">{MapPage.DetailsMainLabel}</label>
             <p>{MapPage.DetailsMainLabelExplanation}</p>
             <IssueType
               name="location"
@@ -304,14 +310,7 @@ const provideDetails = (props) => {
             />
           </div>
         ) : null}
-        {subCategory && !subCategory.shouldDisableForm && subCategory.note && (
-          <Note
-            className="status"
-            type="warning"
-            icon="far fa-exclamation-triangle"
-            message={subCategory.note}
-          />
-        )}
+
         <DescribeTheProblem
           name="describeTheProblem"
           formik={formik}

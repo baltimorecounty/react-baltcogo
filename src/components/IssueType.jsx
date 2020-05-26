@@ -25,7 +25,7 @@ const IssueType = ({
   return (
     <React.Fragment>
       <div>
-        <label>Issue type</label>
+        <label className="dg_label">Issue type</label>
         <div>
           <p className="smallest">
             {values.requestType} > {values.subRequestType}

@@ -2,9 +2,9 @@ import React from "react";
 import classNames from "classnames";
 import FieldError from "./FieldError";
 import { GetErrorDetails } from "../utilities/FormikHelpers";
-import { TextArea } from "@baltimorecounty/dotgov-components";
+import { Field } from "formik";
 
-const DescribeTheProblem = ({ name, formik, pageFieldName = "" }) => {
+const DescribeTheProblem = ({ name, formik, pageFieldName }) => {
   const { values = {} } = formik;
   const { isTouched, hasError, message: errorMessage } = GetErrorDetails(
     name,
@@ -24,10 +24,13 @@ const DescribeTheProblem = ({ name, formik, pageFieldName = "" }) => {
   return (
     <React.Fragment>
       <div className={containerCssClasses}>
-        <TextArea
+        <label htmlFor={name} className="dg_label">
+          {pageFieldName}
+        </label>
+        <Field
+          component="textarea"
           placeholder="Maximum 2,000 characters."
-          id={name}
-          label={pageFieldName}
+          name={name}
           className={fieldCssClasses}
           value={values[name]}
           maxLength="2000"
