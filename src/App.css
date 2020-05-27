@@ -17,8 +17,9 @@
   font-weight: 700;
   margin-bottom: 0.5em;
 }
-.field-icon {
-  margin: -23px 5px 0 0;
+.password-icon {
   float: right;
-  z-index: 5000;
+  margin-top: -30px;
+  position: relative;
+  z-index: 2;
 }
