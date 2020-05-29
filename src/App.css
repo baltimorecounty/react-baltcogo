@@ -17,3 +17,14 @@
   font-weight: 700;
   margin-bottom: 0.5em;
 }
+.show-password-icon {
+  float: right;
+  margin-top: -30px;
+  position: relative;
+  z-index: 2;
+}
+
+input::-ms-clear,
+input::-ms-reveal {
+  display: none;
+}

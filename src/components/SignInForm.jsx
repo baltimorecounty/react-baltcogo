@@ -175,7 +175,7 @@ const SignIn = (props, routeProps) => {
                 />
                 <span
                   onClick={handlePasswordToggleChange}
-                  className={`fa fa-fw fa-eye field-icon ${
+                  className={`fa fa-fw fa-eye show-password-icon ${
                     fieldType === "text" ? "fa-eye-slash" : ""
                   }`}
                 ></span>
