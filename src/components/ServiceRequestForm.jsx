@@ -555,17 +555,19 @@ const ServiceRequestForm = (props, errors, touched) => {
 
         {displayButton ? (
           !contactID ? (
-            <div className="d-flex justify-content-between">
+            <div className="d-md-flex justify-content-md-between d-sm-block">
               <SeButton
                 text="Sign In"
                 isDisabled={disableButton}
                 onClick={callSignInForm}
+                className="d-sm-block mb-3"
               />
-              <Modal />
+              <Modal className="d-sm-block" />
               <SeButton
                 text="Register"
                 isDisabled={disableButton}
                 onClick={callRegisterForm}
+                className="d-sm-block mb-3"
               />
             </div>
           ) : (
@@ -581,7 +583,7 @@ const ServiceRequestForm = (props, errors, touched) => {
                   different account. &nbsp;{" "}
                 </Link>
               </p>
-              <div className="d-flex justify-content-end">
+              <div className="d-md-flex justify-content-md-end d-sm-block">
                 <SeButton
                   text="Next"
                   isDisabled={disableButton}

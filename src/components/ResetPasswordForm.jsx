@@ -138,13 +138,18 @@ const ResetPasswordForm = (props, routeProps) => {
                     {ResetPasswordPage.SignInLinkLabel}
                   </Link>{" "}
                 </p>
-                <div className="d-flex justify-content-between">
-                  <SeButton text="Back" onClick={goBack} />
+                <div className="d-md-flex justify-content-md-between d-sm-block">
+                  <SeButton
+                    text="Back"
+                    onClick={goBack}
+                    className="d-md-flex d-sm-block mb-3"
+                  />
                   <SeButton
                     text="Submit Reset Request"
                     type="submit"
                     isLoading={props.isSubmitting}
                     isLoadingText="Submitting Request..."
+                    className="d-sm-block mb-3"
                   />
                 </div>
               </div>
