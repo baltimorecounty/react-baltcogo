@@ -588,7 +588,6 @@ const ServiceRequestForm = (props, errors, touched) => {
                   text="Next"
                   isDisabled={disableButton}
                   onClick={goToNextPage}
-                  style={{ width: "100%" }}
                 />
               </div>
             </div>

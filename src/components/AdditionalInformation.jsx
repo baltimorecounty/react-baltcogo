@@ -279,13 +279,18 @@ const AdditionalInformation = (props) => {
             </div>
           </div>
         )}
-        <div className="d-flex justify-content-between">
-          <SeButton text="Previous" onClick={callPreviousForm} />
+        <div className="d-md-flex justify-content-md-between d-sm-block">
+          <SeButton
+            text="Previous"
+            onClick={callPreviousForm}
+            className="d-sm-block mb-3"
+          />
           <SeButton
             text="File Your Report"
             onClick={SubmitTheForm}
             isLoading={formik.isSubmitting}
             isLoadingText="Submitting Request..."
+            className="d-sm-block mb-3"
           />
         </div>
       </Form>
