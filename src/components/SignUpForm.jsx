@@ -268,14 +268,14 @@ const CreateAccount = (props, routeProps) => {
                   <SeButton
                     text="Back"
                     onClick={goBack}
-                    className="d-block mb-3"
+                    className="d-sm-block mb-3"
                   />
                   <SeButton
                     text="Sign Up and Continue"
                     type="submit"
                     isLoading={isSubmitting}
                     isLoadingText="Signing Up..."
-                    className="d-block mb-3"
+                    className="d-sm-block mb-3"
                   />
                 </div>
               </div>
