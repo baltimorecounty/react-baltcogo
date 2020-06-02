@@ -322,18 +322,13 @@ const provideDetails = (props) => {
         <p className="smallest">{AdditionalInfoPage.LegalDisclaimerBottom}</p>
 
         <div className="d-md-flex justify-content-md-between d-sm-block">
-          <SeButton
-            onClick={goServiceRequestForm}
-            text="Previous"
-            className="d-sm-block mb-3"
-          />
+          <SeButton onClick={goServiceRequestForm} text="Previous" />
           {!rest.formik.values.requestTypeAddressID ? (
             <SeButton
               text="File Your Report"
               onClick={SubmitForm}
               isLoading={formik.isSubmitting}
               isLoadingText="Submitting Request..."
-              className="d-sm-block mb-3"
             />
           ) : (
             <div className="d-md-flex justify-content-md-end d-sm-block">

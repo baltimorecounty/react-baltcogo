@@ -560,14 +560,12 @@ const ServiceRequestForm = (props, errors, touched) => {
                 text="Sign In"
                 isDisabled={disableButton}
                 onClick={callSignInForm}
-                className="d-sm-block w-sm-100 mb-3"
               />
               <Modal className="d-sm-block" />
               <SeButton
                 text="Register"
                 isDisabled={disableButton}
                 onClick={callRegisterForm}
-                className="d-sm-block w-sm-100 mb-3"
               />
             </div>
           ) : (

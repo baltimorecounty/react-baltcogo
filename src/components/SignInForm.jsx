@@ -198,17 +198,12 @@ const SignIn = (props, routeProps) => {
                   <Link to="SignUpForm">{SignInPage.SignUpLinkLabel}</Link>
                 </p>
                 <div className="d-md-flex justify-content-md-between d-sm-block">
-                  <SeButton
-                    text="Back"
-                    onClick={goBack}
-                    className="d-sm-block mb-3"
-                  />
+                  <SeButton text="Back" onClick={goBack} />
                   <SeButton
                     text="Sign In and Continue"
                     type="submit"
                     isLoading={props.isSubmitting}
                     isLoadingText="Signing In..."
-                    className="d-sm-block mb-3"
                   />
                 </div>
               </div>
