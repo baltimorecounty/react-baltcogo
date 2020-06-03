@@ -14,8 +14,8 @@ const SeButton = (props) => {
     ...rest
   } = props;
   const cssClasses = classNames(
-    `${isDisabled ? "disabled" : ""}`,
-    ...className.split(" "),
+    `d-sm-block mb-3 ${isDisabled ? "disabled" : ""}`,
+    className,
     { "is-loading": isLoading }
   );
 

@@ -264,8 +264,8 @@ const CreateAccount = (props, routeProps) => {
                   {SignUpPage.HaveAccountLabel}{" "}
                   <Link to="SignInForm">{SignUpPage.SignInLinkLabel}</Link>
                 </p>
-                <div className="d-flex justify-content-between">
-                  <SeButton text="Back" className="seButton" onClick={goBack} />
+                <div className="d-md-flex justify-content-md-between d-sm-block">
+                  <SeButton text="Back" onClick={goBack} />
                   <SeButton
                     text="Sign Up and Continue"
                     type="submit"

@@ -5,12 +5,12 @@ import {
   IconLink,
 } from "@baltimorecounty/dotgov-components";
 
-const Modal = () => {
+const Modal = (props) => {
   return (
     <div>
       <Button
         type="button"
-        className="dg_button-link dg_modal__open-button"
+        className={`dg_button-link dg_modal__open-button ${props.className}`}
         data-target="my-accessible-dialog"
         text="Why do I need to do this?"
       ></Button>

@@ -28,3 +28,9 @@ input::-ms-clear,
 input::-ms-reveal {
   display: none;
 }
+
+@media screen and (max-width: 576px) {
+  .dg_button {
+    width: 100%;
+  }
+}

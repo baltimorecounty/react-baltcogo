@@ -279,7 +279,7 @@ const AdditionalInformation = (props) => {
             </div>
           </div>
         )}
-        <div className="d-flex justify-content-between">
+        <div className="d-md-flex justify-content-md-between d-sm-block">
           <SeButton text="Previous" onClick={callPreviousForm} />
           <SeButton
             text="File Your Report"
