@@ -10,13 +10,18 @@ const OtherAnimalTypes = ({
   rest,
   handleOtherPetTypeChange,
   OtherAnimalTypes,
-  shouldShow
+  shouldShow,
 }) => {
-  const { otherAnimalTypes } = rest.formik.values;
-  const handleChange = changeEvent => {
+  const { otherAnimalTypesID } = rest.formik.values;
+  const handleChange = (changeEvent) => {
     const localProps = rest.formik;
-    const { name, value } = changeEvent.target;
-    localProps.setFieldValue(name, value);
+    const { name, options, selectedIndex } = changeEvent.target;
+    const selectedText = options[selectedIndex].text;
+
+    selectedIndex > 0
+      ? localProps.setFieldValue(name, selectedText)
+      : localProps.setFieldValue(name, "");
+
     localProps.setFieldTouched(name, true);
     handleOtherPetTypeChange(changeEvent);
   };
@@ -37,7 +42,7 @@ const OtherAnimalTypes = ({
             label={pageFieldName}
             options={OtherAnimalTypes}
             onChange={handleChange}
-            value={otherAnimalTypes}
+            value={otherAnimalTypesID}
             {...rest}
           />
           <p role="alert" className="error-message">
