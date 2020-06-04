@@ -9,10 +9,10 @@ const PetType = ({
   handleServicePetChange,
   rest,
   PetTypes,
-  shouldShow
+  shouldShow,
 }) => {
   const { petTypeID } = rest.formik.values;
-  const handleChange = changeEvent => {
+  const handleChange = (changeEvent) => {
     const localProps = rest.formik;
     const { name, options, selectedIndex } = changeEvent.target;
     const selectedText = options[selectedIndex].text;
