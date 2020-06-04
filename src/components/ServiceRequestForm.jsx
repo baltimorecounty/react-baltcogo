@@ -328,26 +328,25 @@ const ServiceRequestForm = (props, errors, touched) => {
     SetFieldValues(localProps, { petTypeID: ID });
   };
 
-  const handleFieldChange = (changeEvent, lookupItems, propertyName) => {
+  const handleFieldChange = (changeEvent, propertyName) => {
     const value = changeEvent.currentTarget.value.toLowerCase();
-    const id = getID(lookupItems, value);
-    localProps.setFieldValue(propertyName, id);
+    SetFieldValues(localProps, { [propertyName]: value });
   };
 
   const handleAnimalColorChange = (changeEvent) => {
-    handleFieldChange(changeEvent, AnimalColors, "animalColorTypeID");
+    handleFieldChange(changeEvent, "animalColorTypeID");
   };
 
   const handleOtherPetTypeChange = (changeEvent) => {
-    handleFieldChange(changeEvent, OtherAnimalTypes, "otherAnimalTypesID");
+    handleFieldChange(changeEvent, "otherAnimalTypesID");
   };
 
   const handlePetSexChange = (changeEvent) => {
-    handleFieldChange(changeEvent, animalSex, "sexTypeID");
+    handleFieldChange(changeEvent, "sexTypeID");
   };
 
   const handleAnimalBreedChange = (changeEvent) => {
-    handleFieldChange(changeEvent, animalSubCategories, "animalBreedID");
+    handleFieldChange(changeEvent, "animalBreedID");
   };
 
   const checkPetType = (value) => {

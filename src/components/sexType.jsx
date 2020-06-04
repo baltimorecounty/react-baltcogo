@@ -10,13 +10,18 @@ const SexType = ({
   rest,
   handlePetSexChange,
   animalSex,
-  shouldShow
+  shouldShow,
 }) => {
-  const { sexType } = rest.formik.values;
-  const handleChange = changeEvent => {
+  const { sexTypeID } = rest.formik.values;
+  const handleChange = (changeEvent) => {
     const localProps = rest.formik;
-    const { name, value } = changeEvent.target;
-    localProps.setFieldValue(name, value);
+    const { name, options, selectedIndex } = changeEvent.target;
+    const selectedText = options[selectedIndex].text;
+
+    selectedIndex > 0
+      ? localProps.setFieldValue(name, selectedText)
+      : localProps.setFieldValue(name, "");
+
     localProps.setFieldTouched(name, true);
     handlePetSexChange(changeEvent);
   };
@@ -36,7 +41,7 @@ const SexType = ({
             label={pageFieldName}
             options={animalSex}
             onChange={handleChange}
-            value={sexType}
+            value={sexTypeID}
             {...rest}
           />
           <p role="alert" className="error-message">

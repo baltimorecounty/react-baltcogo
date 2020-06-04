@@ -12,13 +12,18 @@ const AnimalBreedType = ({
   handleAnimalBreedChange,
   rest,
   animalSubCategories,
-  shouldShow
+  shouldShow,
 }) => {
-  const { animalBreedType } = rest.formik.values;
-  const handleChange = changeEvent => {
+  const { animalBreedTypeID } = rest.formik.values;
+  const handleChange = (changeEvent) => {
     const localProps = rest.formik;
-    const { name, value } = changeEvent.target;
-    localProps.setFieldValue(name, value);
+    const { name, options, selectedIndex } = changeEvent.target;
+    const selectedText = options[selectedIndex].text;
+
+    selectedIndex > 0
+      ? localProps.setFieldValue(name, selectedText)
+      : localProps.setFieldValue(name, "");
+
     localProps.setFieldTouched(name, true);
     handleAnimalBreedChange(changeEvent);
   };
@@ -41,7 +46,7 @@ const AnimalBreedType = ({
             label={pageFieldName}
             options={animalSubCategories}
             onChange={handleChange}
-            value={animalBreedType}
+            value={animalBreedTypeID}
             {...rest}
           />
           <p role="alert" className="error-message">
