@@ -137,6 +137,27 @@
     ]
   },
   {
+    "name": "County Grounds or Property Issue",
+    "id": 1026868,
+    "types": [
+      {
+        "name": "Damage to county property",
+        "id": 1026871
+      },
+      {
+        "name": "Fallen trees on county property",
+        "id": 1026872,
+        "note": "Fallen trees are the County's responsibility only when they're located on County property. Please learn more about <a href=\"https://www.baltimorecountymd.gov/Agencies/budfin/propertymanagement/groundsmaintenance/fallentrees.html\">fallen trees and branches</a> before submitting a report."
+      },
+      {
+        "name": "Mowing",
+        "id": 1026870,
+        "note": "Please review the County's <a href=\"https://www.baltimorecountymd.gov/Agencies/budfin/propertymanagement/groundsmaintenance/mowingcycles.html\">grass mowing schedules</a> before submitting a report."
+      }
+    ],
+    "description": 1026958
+  },
+  {
     "name": "Pets and Animals",
     "id": 1023379,
     "isAnimal": true,
