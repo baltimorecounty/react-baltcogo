@@ -33,7 +33,7 @@ const SeButton = (props) => {
       <Button
         className={cssClasses}
         text={isLoading ? buttonLoadingText() : text}
-        onClick={onClick}
+        onClick={!isDisabled ? onClick : ""}
         {...rest}
       ></Button>
     </React.Fragment>
