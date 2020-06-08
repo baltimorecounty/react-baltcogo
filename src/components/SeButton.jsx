@@ -33,6 +33,7 @@ const SeButton = (props) => {
       <Button
         className={cssClasses}
         text={isLoading ? buttonLoadingText() : text}
+        disabled={isDisabled}
         onClick={onClick}
         {...rest}
       ></Button>
