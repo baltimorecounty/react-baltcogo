@@ -274,8 +274,8 @@ const provideDetails = (props) => {
         subCategory.note && (
           <Note
             className="status"
-            type="warning"
-            icon="far fa-exclamation-triangle"
+            type="information"
+            icon="far fa-info-circle"
             message={subCategory.note}
           />
         )
