@@ -190,6 +190,7 @@ const provideDetails = (props) => {
     label: UpperCaseFirstLetter(item.StreetAddress, item.City, item.Zip),
   }));
 
+  let isValidatingAddress = false;
   /**
    * Determine if the given address is a valid Baltimore County address.
    * Handles Errors in addition to returning whether or not the address is valid.
@@ -202,7 +203,7 @@ const provideDetails = (props) => {
    */
   const verifyAddress = async (address, addressProperty = "location") => {
     formik.setFieldTouched(addressProperty, true); // Hack since we aren't using default validation and submit
-
+    isValidatingAddress = true;
     if (!address) {
       return false;
     }
@@ -213,8 +214,10 @@ const provideDetails = (props) => {
         formik.setStatus({
           [addressProperty]: "Please enter a valid Baltimore County address.",
         });
+        isValidatingAddress = false;
         return false;
       }
+      isValidatingAddress = false;
       return true;
     } catch (ex) {
       formik.setStatus({
@@ -222,6 +225,7 @@ const provideDetails = (props) => {
           "Something went wrong please try again in a few moments.",
       });
     }
+    isValidatingAddress = false;
     return false;
   };
 
@@ -332,7 +336,11 @@ const provideDetails = (props) => {
             />
           ) : (
             <div className="d-md-flex justify-content-md-end d-sm-block">
-              <SeButton text="Next" onClick={goToAdditionalPage} />
+              <SeButton
+                text="Next"
+                onClick={goToAdditionalPage}
+                isLoading={isValidatingAddress}
+              />
             </div>
           )}
         </div>
