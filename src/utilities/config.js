@@ -397,7 +397,7 @@ export const mapEndPointLocal = [
 export const mapEndPointTest = [
   {
     key: "mapGISEndPoint",
-    value: "https://testservices.baltimorecountymd.gov/api/gis/addressLookup/",
+    value: "https://services.baltimorecountymd.gov/api/gis/addressLookup/",
   },
   {
     key: "mapReverseGISEndPoint",
@@ -408,7 +408,7 @@ export const mapEndPointTest = [
 export const mapEndPointStage = [
   {
     key: "mapGISEndPoint",
-    value: "https://testservices.baltimorecountymd.gov/api/gis/addressLookup/",
+    value: "https://services.baltimorecountymd.gov/api/gis/addressLookup/",
   },
   {
     key: "mapReverseGISEndPoint",
