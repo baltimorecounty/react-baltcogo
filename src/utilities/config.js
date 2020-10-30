@@ -135,11 +135,11 @@ export const jsonFileLocationsLocal = [
 export const jsonFileLocationsTest = [
   {
     key: "results",
-    value: "//dev.baltimorecountymd.gov/sebin/q/o/categories.json",
+    value: "//dev.baltimorecountymd.gov/sebin/q/p/categories.json",
   },
   {
     key: "resultPetTypes",
-    value: "//dev.baltimorecountymd.gov/sebin/m/c/pet-types.json",
+    value: "//dev.baltimorecountymd.gov/sebin/m/b/pet-types.json",
   },
   {
     key: "resultAnimalBreeds",
@@ -155,33 +155,33 @@ export const jsonFileLocationsTest = [
   },
   {
     key: "resultFormFieldNames",
-    value: "//dev.baltimorecountymd.gov/sebin/c/w/form-field-names.json",
+    value: "//dev.baltimorecountymd.gov/sebin/c/y/form-field-names.json",
   },
 ];
 export const jsonFileLocationsStage = [
   {
     key: "results",
-    value: "//staging.baltimorecountymd.gov/sebin/q/o/categories.json",
+    value: "//staging.baltimorecountymd.gov/sebin/q/p/categories.json",
   },
   {
     key: "resultPetTypes",
-    value: "//staging.baltimorecountymd.gov/sebin/m/c/pet-types.json",
+    value: "//staging.baltimorecountymd.gov/sebin/m/b/pet-types.json",
   },
   {
     key: "resultAnimalBreeds",
-    value: "//staging.baltimorecountymd.gov/sebin/y/b/animal-breeds.json",
+    value: "//staging.baltimorecountymd.gov/sebin/y/c/animal-breeds.json",
   },
   {
     key: "resultAnimalColors",
-    value: "//staging.baltimorecountymd.gov/sebin/u/v/animal-colors.json",
+    value: "//staging.baltimorecountymd.gov/sebin/u/w/animal-colors.json",
   },
   {
     key: "resultAnimalTypes",
-    value: "//staging.baltimorecountymd.gov/sebin/a/f/animal-types.json",
+    value: "//staging.baltimorecountymd.gov/sebin/a/g/animal-types.json",
   },
   {
     key: "resultFormFieldNames",
-    value: "//staging.baltimorecountymd.gov/sebin/c/w/form-field-names.json",
+    value: "//staging.baltimorecountymd.gov/sebin/c/y/form-field-names.json",
   },
 ];
 
