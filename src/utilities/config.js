@@ -125,12 +125,12 @@ export const endPointsProd = [
   },
 ];
 export const jsonFileLocationsLocal = [
-  { key: "results", value: "/data/categories.json" },
-  { key: "resultPetTypes", value: "/data/pet-types.json" },
-  { key: "resultAnimalBreeds", value: "/data/animal-breeds.json" },
-  { key: "resultAnimalColors", value: "/data/animal-colors.json" },
-  { key: "resultAnimalTypes", value: "/data/animal-types.json" },
-  { key: "resultFormFieldNames", value: "/data/form-field-names.json" },
+  { key: "results", value: "/data/staging/categories.json" },
+  { key: "resultPetTypes", value: "/data/staging/pet-types.json" },
+  { key: "resultAnimalBreeds", value: "/data/staging/animal-breeds.json" },
+  { key: "resultAnimalColors", value: "/data/staging/animal-colors.json" },
+  { key: "resultAnimalTypes", value: "/data/staging/animal-types.json" },
+  { key: "resultFormFieldNames", value: "/data/staging/form-field-names.json" },
 ];
 export const jsonFileLocationsTest = [
   {
@@ -213,12 +213,12 @@ export const jsonFileLocationsBeta = [
 ];
 
 export const jsonFileLocationsProd = [
-  { key: "results", value: "/sebin/q/o/categories.json" },
-  { key: "resultPetTypes", value: "/sebin/m/c/pet-types.json" },
-  { key: "resultAnimalBreeds", value: "/sebin/y/b/animal-breeds.json" },
-  { key: "resultAnimalColors", value: "/sebin/u/v/animal-colors.json" },
-  { key: "resultAnimalTypes", value: "/sebin/a/f/animal-types.json" },
-  { key: "resultFormFieldNames", value: "/sebin/c/w/form-field-names.json" },
+  { key: "results", value: "/sebin/q/r/categories.json" },
+  { key: "resultPetTypes", value: "/sebin/m/d/pet-types.json" },
+  { key: "resultAnimalBreeds", value: "/sebin/y/d/animal-breeds.json" },
+  { key: "resultAnimalColors", value: "/sebin/u/x/animal-colors.json" },
+  { key: "resultAnimalTypes", value: "/sebin/a/h/animal-types.json" },
+  { key: "resultFormFieldNames", value: "/sebin/c/z/form-field-names.json" },
 ];
 export const formTypesLocal = [
   { key: "requestType_petAndAnimalIssue", value: "Pets and Animals" },
