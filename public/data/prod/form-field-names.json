@@ -50,7 +50,7 @@
 		"PetTypeOther": "Other pet type",
 		"PetSex": "Pet Sex (optional)",
 		"PetColor": "Primary Animal Color",
-		"PetBreed": "Primary Animal Breed(optional)",
+		"PetBreed": "Primary Animal Breed (optional)",
 		"Description": "Service Request Description",
 		"ModalLabel": "Why do I need to do this?"
 	},
@@ -58,7 +58,7 @@
 		"DetailsTitle": "Provide Details",
 		"DetailsMainLabel": "Add a location",
 		"DetailsMainLabelExplanation": "Tell us where the issue is located. You can enter an address or mark the location on the map.",
-		"AddressHeaderLabel": "Enter the closest street address to your service request",
+		"AddressHeaderLabel": "Enter the closest address to the problem",
 		"ProblemLabel": "Describe the Problem"
 	},
 	"AdditionalInfoPage": {
