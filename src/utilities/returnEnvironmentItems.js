@@ -20,7 +20,7 @@ export const returnConfigItems = (configItemName, item) => {
     configSuffix = "Stage";
   } else if (domain === "beta.baltimorecountymd.gov") {
     configSuffix = "Beta";
-  } else if (domain === "www.baltimorecountymd.gov") {
+  } else if (domain === "www.baltimorecountymd.gov" || domain === "baltimorecountymd.gov" ) {
     configSuffix = "Prod";
   } else {
     configSuffix = "Local";
