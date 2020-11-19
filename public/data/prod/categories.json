@@ -22,7 +22,7 @@
                 "id": 1011168
             }
         ],
-        "description": 1010138
+        "description": 1011590
     },
     {
         "name": "Building and Development Issue",
@@ -43,7 +43,7 @@
                 "streetAddress": 1011122,
                 "city": 1011125,
                 "zipCode": 1011130,
-                "description": 1011116
+                "description": 1011590
             },
             {
                 "name": "Grading work without a permit",
@@ -53,7 +53,7 @@
                 "streetAddress": 1011123,
                 "city": 1011126,
                 "zipCode": 1011127,
-                "description": 1011117
+                "description": 1011590
             },
             {
                 "name": "Plumbing work without a permit",
@@ -63,10 +63,10 @@
                 "streetAddress": 1011124,
                 "city": 1011129,
                 "zipCode": 1011128,
-                "description": 1011118
+                "description": 1011590
             }
         ],
-        "description": 1010142,
+        "description": 1011590,
         "fields": {
             "streetAddress": 1010144,
             "city": 1011105,
@@ -99,7 +99,7 @@
                 "shouldDisableForm": true
             }
         ],
-        "description": 1011588
+        "description": 1011590
     },
     {
         "name": "Neighborhood Issue",
@@ -113,7 +113,7 @@
             "name": "MD",
             "id": 1023615
         }],
-        "description": 1010168,
+        "description": 1011590,
         "types": [{
                 "name": "Excessive animal feces in neighbor's yard",
                 "id": 1010159
@@ -208,12 +208,12 @@
             "id": 1023615
         }],
         "descriptionOfAnimal": 1011059,
-        "description": 1011064
+        "description": 1011590
     },
     {
         "name": "Roads and Sidewalks Issue",
         "id": 1011065,
-        "description": 1011104,
+        "description": 1011590,
         "types": [{
                 "name": "Driveway blocked by plowed snow",
                 "id": 1011199
@@ -273,7 +273,7 @@
     {
         "name": "Traffic Issue",
         "id": 1011459,
-        "description": 1011502,
+        "description": 1011590,
         "types": [{
                 "name": "Handicap parking",
                 "id": 1011495
@@ -292,14 +292,15 @@
             },
             {
                 "name": "Other issues",
-                "id": 1011496
+                "id": 1011496,
+                "note": "To report issues with vehicles located on public streets, please call the Police non-emergency line at <a href=\"tel:410-887-2222\">410-887-2222</a>. This system is not linked to Police or Fire agencies."
             }
         ]
     },
     {
         "name": "Trash and Recycling Issue",
         "id": 1011080,
-        "description": 1011106,
+        "description": 1011590,
         "types": [{
                 "name": "Can or lid lost or damaged",
                 "id": 1011083,
@@ -339,7 +340,7 @@
     {
         "name": "Unregistered Rental Property Issue",
         "id": 1011090,
-        "description": 1011093,
+        "description": 1011590,
         "states": [{
             "name": "MD",
             "id": 1023615
@@ -381,7 +382,7 @@
     {
         "name": "Website Issue",
         "id": 1011097,
-        "description": 1011172,
+        "description": 1011590,
         "requiresLocation": false,
         "types": [{
                 "name": "Broken link",
