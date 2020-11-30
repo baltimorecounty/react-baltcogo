@@ -34,38 +34,37 @@ export const IsFormInComplete = (props, category) => {
   return false;
 };
 
-export const URLRouting = (categories, categoryId) => {
+export const URLRouting = (categories, id) => {
+  const categoryId = parseInt(id);
 
   if (categories.length > 0 && categoryId) {
     let nameSubCat = "";
     let idSubCat = "";
     let nameCat = "";
     let idCat = "";
-    
+
     const getSelectedCategory = categories.find(
-      (items) => items.id.toString() === categoryId
+      (items) => items.id === categoryId
     );
 
-    if(getSelectedCategory){
+    const getSelectedSubCategory = categories.find((items) =>
+    items.types.find((type) => type.id === categoryId)
+  );
+
+    if (getSelectedCategory) {
       nameCat = getSelectedCategory ? getSelectedCategory.name : "";
       idCat = getSelectedCategory ? getSelectedCategory.id : "";
+    } else if (getSelectedSubCategory) {
+        nameCat = getSelectedSubCategory.name;
+        idCat = getSelectedSubCategory.id;
+        nameSubCat = getSelectedSubCategory.types.find(
+          (type) => type.id === categoryId
+        ).name;
+        idSubCat = getSelectedSubCategory.types.find(
+          (type) => type.id === categoryId
+        ).id;
+      }
     }
-    else {
-      const getSelectedSubCategory = categories.find((items) =>
-      items.types.find((type) => type.id.toString() === categoryId) 
-    );
-      nameCat = getSelectedSubCategory.name;
-      idCat = getSelectedSubCategory.id;
-      nameSubCat = getSelectedSubCategory.types.find(
-        (type) => type.id.toString() === categoryId
-      ).name;
-      idSubCat = getSelectedSubCategory.types.find(
-        (type) => type.id.toString() === categoryId
-      ).id;
-    } 
-      
-    
-    
 
     const Selections = {
       nameCategory: nameCat,
