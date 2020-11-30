@@ -48,22 +48,21 @@ export const URLRouting = (categories, id) => {
     );
 
     const getSelectedSubCategory = categories.find((items) =>
-    items.types.find((type) => type.id === categoryId)
-  );
+      items.types.find((type) => type.id === categoryId)
+    );
 
     if (getSelectedCategory) {
       nameCat = getSelectedCategory ? getSelectedCategory.name : "";
       idCat = getSelectedCategory ? getSelectedCategory.id : "";
     } else if (getSelectedSubCategory) {
-        nameCat = getSelectedSubCategory.name;
-        idCat = getSelectedSubCategory.id;
-        nameSubCat = getSelectedSubCategory.types.find(
-          (type) => type.id === categoryId
-        ).name;
-        idSubCat = getSelectedSubCategory.types.find(
-          (type) => type.id === categoryId
-        ).id;
-      }
+      nameCat = getSelectedSubCategory.name;
+      idCat = getSelectedSubCategory.id;
+      nameSubCat = getSelectedSubCategory.types.find(
+        (type) => type.id === categoryId
+      ).name;
+      idSubCat = getSelectedSubCategory.types.find(
+        (type) => type.id === categoryId
+      ).id;
     }
 
     const Selections = {
