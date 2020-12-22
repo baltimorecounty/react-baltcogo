@@ -74,8 +74,10 @@ export const SubmitReport = async (actions, props) => {
   let response = null;
   try {
     response = await CreateReport(itemsToSubmit);
+
     if (HasResponseErrors(response)) {
       const errorsReturned = GetResponseErrors(response);
+      console.log(`*************** ${errorsReturned} **********************`);
       props.formik.setStatus({ responseError: errorsReturned });
     }
 
