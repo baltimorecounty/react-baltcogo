@@ -70,6 +70,7 @@ const getshouldDisableForm = (subCategories, name) => {
   var type = subCategories.find(
     (subcategoryname) => subcategoryname.name.toLowerCase() === name
   );
+
   return type && !!type.shouldDisableForm;
 };
 const getrequiresLocation = (categories, name) => {
@@ -247,6 +248,7 @@ const ServiceRequestForm = (props, errors, touched) => {
     const subCategory = GetSubCategory(Categories, ID);
     setActiveSubCategory(subCategory);
     const isDisabled = getshouldDisableForm(subCategories, value);
+
     const notes = subCategory ? subCategory.note : null;
     setNotes(
       <Note
@@ -482,20 +484,20 @@ const ServiceRequestForm = (props, errors, touched) => {
         )}
 
         {localProps.values.shouldDisableForm && notes}
-
-        <PetType
-          shouldShow={isAnimalCategory}
-          requestType={requestType}
-          requestType_petAndAnimalIssue={petAndAnimalIssue}
-          subRequestType={subRequestType}
-          errorsPetType={localProps.errors.petType}
-          touchedPetType={localProps.touched.petType}
-          pageFieldName={RequestPage.PetType}
-          handleServicePetChange={handleServicePetChange}
-          rest={rest}
-          PetTypes={PetTypes}
-        />
-
+        {!localProps.values.shouldDisableForm && (
+          <PetType
+            shouldShow={isAnimalCategory}
+            requestType={requestType}
+            requestType_petAndAnimalIssue={petAndAnimalIssue}
+            subRequestType={subRequestType}
+            errorsPetType={localProps.errors.petType}
+            touchedPetType={localProps.touched.petType}
+            pageFieldName={RequestPage.PetType}
+            handleServicePetChange={handleServicePetChange}
+            rest={rest}
+            PetTypes={PetTypes}
+          />
+        )}
         <OtherAnimalsTypes
           shouldShow={isAnimalCategory}
           subRequestType={subRequestType}
