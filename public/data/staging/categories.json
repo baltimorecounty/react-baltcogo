@@ -164,7 +164,9 @@
     "types": [
       {
         "name": "Animal cruelty",
-        "id": 1023420
+        "id": 1023420,
+        "note": "This is a test",
+        "shouldDisableForm": true
       },
       {
         "name": "Animal caught in a trap",
