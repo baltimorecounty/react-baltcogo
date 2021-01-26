@@ -161,27 +161,27 @@ export const jsonFileLocationsTest = [
 export const jsonFileLocationsStage = [
   {
     key: "results",
-    value: "//staging.baltimorecountymd.gov/sebin/q/p/categories.json",
+    value: "//staging.baltimorecountymd.gov/sebin/q/s/categories.json",
   },
   {
     key: "resultPetTypes",
-    value: "//staging.baltimorecountymd.gov/sebin/m/b/pet-types.json",
+    value: "//staging.baltimorecountymd.gov/sebin/m/e/pet-types.json",
   },
   {
     key: "resultAnimalBreeds",
-    value: "//staging.baltimorecountymd.gov/sebin/y/c/animal-breeds.json",
+    value: "//staging.baltimorecountymd.gov/sebin/y/e/animal-breeds.json",
   },
   {
     key: "resultAnimalColors",
-    value: "//staging.baltimorecountymd.gov/sebin/u/w/animal-colors.json",
+    value: "//staging.baltimorecountymd.gov/sebin/u/y/animal-colors.json",
   },
   {
     key: "resultAnimalTypes",
-    value: "//staging.baltimorecountymd.gov/sebin/a/g/animal-types.json",
+    value: "//staging.baltimorecountymd.gov/sebin/a/i/animal-types.json",
   },
   {
     key: "resultFormFieldNames",
-    value: "//staging.baltimorecountymd.gov/sebin/c/y/form-field-names.json",
+    value: "//staging.baltimorecountymd.gov/sebin/c/a/form-field-names.json",
   },
 ];
 
