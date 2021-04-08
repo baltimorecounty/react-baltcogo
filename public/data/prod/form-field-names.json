@@ -52,7 +52,8 @@
 		"PetColor": "Primary Animal Color",
 		"PetBreed": "Primary Animal Breed (optional)",
 		"Description": "Service Request Description",
-		"ModalLabel": "Why do I need to do this?"
+		"ModalLabel": "Why do I need to do this?",
+    "TrashRecycleIssuesLabel": "Issue Type"
 	},
 	"MapPage": {
 		"DetailsTitle": "Provide Details",

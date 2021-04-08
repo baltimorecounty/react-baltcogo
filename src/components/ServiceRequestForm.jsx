@@ -10,6 +10,7 @@ import { GetContactDetails } from "../services/authService";
 import { IsFormInComplete } from "../utilities/FormHelpers";
 import { returnConfigItems } from "../utilities//returnEnvironmentItems";
 import PetType from "./petType";
+import TrashRecycleType from "./TrashRecycleIssues";
 import RequestCategory from "./requestCategory";
 import RequestSubCategory from "./requestSubCategory";
 import OtherAnimalsTypes from "./otherAnimalTypes";
@@ -35,7 +36,7 @@ const getUrlVars = () => {
   }
   return vars;
 };
-const getUrlVar = (name) => {
+const getUrlVar = name => {
   const searchParms = getUrlVars();
   return searchParms[name];
 };
@@ -44,50 +45,63 @@ const categoryId = getUrlVar("categoryid");
 
 const getSubCategories = (categories, categoryName) => {
   var category = categories.find(
-    (category) => category.name.toLowerCase() === categoryName
+    category => category.name.toLowerCase() === categoryName
   );
   return category ? category.types : [];
 };
 const getSubCategoriesIncludedDescription = (categories, categoryName) => {
   var subInfo = categories.find(
-    (category) => category.name.toLowerCase() === categoryName
+    category => category.name.toLowerCase() === categoryName
   );
   return subInfo ? subInfo : "";
 };
 const getIncludedDescriptions = (categories, categoryName) => {
   var category = categories.find(
-    (category) => category.name.toLowerCase() === categoryName
+    category => category.name.toLowerCase() === categoryName
   );
   return category ? category.description : "";
 };
 const getIncludedFields = (categories, categoryName) => {
   var category = categories.find(
-    (category) => category.name.toLowerCase() === categoryName
+    category => category.name.toLowerCase() === categoryName
   );
   return category ? category.fields : [];
 };
 const getshouldDisableForm = (subCategories, name) => {
   var type = subCategories.find(
-    (subcategoryname) => subcategoryname.name.toLowerCase() === name
+    subcategoryname => subcategoryname.name.toLowerCase() === name
   );
 
   return type && !!type.shouldDisableForm;
 };
 const getrequiresLocation = (categories, name) => {
   var category = categories.find(
-    (category) => category.name.toLowerCase() === name
+    category => category.name.toLowerCase() === name
   );
   return category ? category.requiresLocation : true;
 };
 const getAnimalSubCategories = (AnimalBreeds, animalName) => {
   var animalCats = AnimalBreeds.find(
-    (animal) => animal.animal.toLowerCase() === animalName
+    animal => animal.animal.toLowerCase() === animalName
   );
   return animalCats ? animalCats : [];
 };
+
+const getTrashRecycleIssues = (issues, issueName) => {
+  console.log("issueName:" + JSON.stringify(issueName));
+  console.log("issues:" + JSON.stringify(issues));
+  var trashRecycle = issues.find(
+    issue => issue.name.toLowerCase() === issueName
+  );
+  console.log("trashRecycle.types:" + JSON.stringify(trashRecycle.types));
+  return trashRecycle ? trashRecycle : [];
+};
 const getID = (categories, categoryName) => {
+  // console.log("---categoryName---:" + categoryName);
+  // console.log("---categories---:" + JSON.stringify(categories));
+
   var category = categories.find(
-    (category) => category.name.toLowerCase() === categoryName
+    category => category.name.toLowerCase() === categoryName
   );
   return category ? category.id : [];
 };
@@ -105,6 +119,8 @@ const ServiceRequestForm = (props, errors, touched) => {
   const [notes, setNotes] = useState();
   const [animalSubCategories, setAnimalSubCategories] = useState([]);
   const [animalSex, setAnimalSex] = useState([]);
+  const [trashRecycleType, setTrashRecycleType] = useState([]);
+  const [selectedTrashRecycleType, setSelectedTrashRecycleType] = useState([]);
 
   const {
     ContactID,
@@ -115,7 +131,8 @@ const ServiceRequestForm = (props, errors, touched) => {
     isPanelRequired,
     requestType,
     subRequestType,
-    petType,
+    transhRecycleIssueType,
+    petType
   } = localProps.values;
 
   const contactID =
@@ -143,11 +160,16 @@ const ServiceRequestForm = (props, errors, touched) => {
           returnConfigItems("jsonFileLocations", "resultFormFieldNames")
         );
 
+        const resultTrashRecycleType = await axios(
+          returnConfigItems("jsonFileLocations", "resultTrashRecycleType")
+        );
         setCategories(result.data);
         setPetTypes(resultPetTypes.data);
         setAnimalBreeds(resultAnimalBreeds.data);
         setAnimalColors(resultAnimalColors.data);
         setOtherAnimalTypes(resultAnimalTypes.data);
+
+        setTrashRecycleType(resultTrashRecycleType.data);
 
         const preSelectedTypes = SelectedValue(result.data);
 
@@ -188,7 +210,7 @@ const ServiceRequestForm = (props, errors, touched) => {
           ResetPasswordPage: resultFormFieldNames.data.ResetPasswordPage,
           ContactID: contactID,
           requestType: selectedType(),
-          subRequestType: selectedSubType(),
+          subRequestType: selectedSubType()
         };
 
         SetFieldValues(localProps, fields);
@@ -204,7 +226,7 @@ const ServiceRequestForm = (props, errors, touched) => {
     console.error("service request form data", ex);
   }
 
-  const SelectedValue = (Categories) => {
+  const SelectedValue = Categories => {
     return URLRouting(Categories, categoryId);
   };
 
@@ -223,8 +245,7 @@ const ServiceRequestForm = (props, errors, touched) => {
     const requestFields = {
       requestTypeID: ID,
       requestTypeDescriptionID: description,
-      requiresLocation:
-        requiresLocation === undefined ? true : requiresLocation,
+      requiresLocation: requiresLocation === undefined ? true : requiresLocation
     };
 
     SetFieldValues(localProps, requestFields);
@@ -233,7 +254,7 @@ const ServiceRequestForm = (props, errors, touched) => {
       const addressFields = {
         Latitude: MapDefaults.Latitude,
         Longitude: MapDefaults.Longitude,
-        location: MapDefaults.Location,
+        location: MapDefaults.Location
       };
       SetFieldValues(localProps, addressFields);
     }
@@ -242,10 +263,12 @@ const ServiceRequestForm = (props, errors, touched) => {
   };
 
   const addSelectedSubValueOptions = (Categories, value) => {
-    const subCategories = Categories.flatMap((x) => x.types);
+    const subCategories = Categories.flatMap(x => x.types);
+    // console.log("subCategories:" + JSON.stringify(subCategories));
     const subInfo = getSubCategoriesIncludedDescription(subCategories, value);
     let ID = getID(subCategories, value);
     const subCategory = GetSubCategory(Categories, ID);
+    // console.log("subCategory:" + JSON.stringify(subCategory));
     setActiveSubCategory(subCategory);
     const isDisabled = getshouldDisableForm(subCategories, value);
 
@@ -261,7 +284,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 
     const requestSubFields = {
       subRequestTypeID: ID,
-      shouldDisableForm: isDisabled,
+      shouldDisableForm: isDisabled
     };
 
     SetFieldValues(localProps, requestSubFields);
@@ -277,12 +300,12 @@ const ServiceRequestForm = (props, errors, touched) => {
 
       if (subInfo.description !== undefined) {
         SetFieldValues(localProps, {
-          requestTypeDescriptionID: subInfo.description,
+          requestTypeDescriptionID: subInfo.description
         });
       }
       if (subInfo.streetAddress !== undefined) {
         SetFieldValues(localProps, {
-          requestTypeAddressID: subInfo.streetAddress,
+          requestTypeAddressID: subInfo.streetAddress
         });
       }
       if (subInfo.city !== undefined) {
@@ -294,25 +317,32 @@ const ServiceRequestForm = (props, errors, touched) => {
     }
   };
 
-  const handleServiceRequestChange = (changeEvent) => {
+  const handleServiceRequestChange = changeEvent => {
     const { options, selectedIndex } = changeEvent.target;
     const selectedText = options[selectedIndex].text.toLowerCase();
     addSelectedValueOptions(Categories, selectedText);
   };
 
-  const handleServiceSubRequestChange = (changeEvent) => {
+  const handleServiceSubRequestChange = changeEvent => {
     const { options, selectedIndex } = changeEvent.target;
     const selectedText = options[selectedIndex].text.toLowerCase();
+    if (['trash pickup issue', 'recycling pickup issue', 'yard waste pickup issue', 'trash hauler issue','other issues & requests'].indexOf(selectedText) >= 0) 
+    {
+      let ID = getID(trashRecycleType, selectedText);
+      const subIssues = getTrashRecycleIssues(trashRecycleType, selectedText);
+      setSelectedTrashRecycleType(subIssues.types);
+      SetFieldValues(localProps, { TrashRecycleIssueID: ID });
+    }
     addSelectedSubValueOptions(Categories, selectedText);
   };
 
-  const pullServiceRequestFields = (fields) => {
+  const pullServiceRequestFields = fields => {
     if (fields !== undefined) {
       const addressFields = {
         requestTypeAddressID: fields.streetAddress,
         requestTypeCityID: fields.city,
         requestTypeZipID: fields.zipCode,
-        isPanelRequired: true,
+        isPanelRequired: true
       };
       SetFieldValues(localProps, addressFields);
     } else {
@@ -320,7 +350,7 @@ const ServiceRequestForm = (props, errors, touched) => {
     }
   };
 
-  const handleServicePetChange = (changeEvent) => {
+  const handleServicePetChange = changeEvent => {
     const { options, selectedIndex } = changeEvent.target;
     const selectedText = options[selectedIndex].text.toLowerCase();
     let ID = getID(PetTypes, selectedText);
@@ -330,30 +360,44 @@ const ServiceRequestForm = (props, errors, touched) => {
     SetFieldValues(localProps, { petTypeID: ID });
   };
 
+  const handleServiceTrashRecycleIssueChange = changeEvent => {
+    const { options, selectedIndex } = changeEvent.target;
+    const selectedText = options[selectedIndex].text.toLowerCase();
+    let ID = getID(selectedTrashRecycleType, selectedText);
+    //const subIssues = getTrashRecycleIssues(trashRecycleType, selectedText);
+    console.log("recycleTransh:ID:" + ID);
+    SetFieldValues(localProps, { trashRecycleIssueTypeID: ID });
+    console.log(
+      "selectedTrashRecycleType:" + JSON.stringify(selectedTrashRecycleType)
+    );
+    console.log("trashRecycleType:" + JSON.stringify(trashRecycleType));
+    //  addSelectedSubValueOptions(trashRecycleType, selectedText);
+  };
+
   const handleFieldChange = (changeEvent, propertyName) => {
     const value = changeEvent.currentTarget.value.toLowerCase();
     SetFieldValues(localProps, { [propertyName]: value });
   };
 
-  const handleAnimalColorChange = (changeEvent) => {
+  const handleAnimalColorChange = changeEvent => {
     handleFieldChange(changeEvent, "animalColorTypeID");
   };
 
-  const handleOtherPetTypeChange = (changeEvent) => {
+  const handleOtherPetTypeChange = changeEvent => {
     handleFieldChange(changeEvent, "otherAnimalTypesID");
   };
 
-  const handlePetSexChange = (changeEvent) => {
+  const handlePetSexChange = changeEvent => {
     handleFieldChange(changeEvent, "sexTypeID");
   };
 
-  const handleAnimalBreedChange = (changeEvent) => {
+  const handleAnimalBreedChange = changeEvent => {
     handleFieldChange(changeEvent, "animalBreedID");
   };
 
-  const checkPetType = (value) => {
+  const checkPetType = value => {
     value = value.toLowerCase();
-    var animalCats = AnimalBreeds.find((animal) => animal.animal === value);
+    var animalCats = AnimalBreeds.find(animal => animal.animal === value);
     if (animalCats !== undefined) {
       return true;
     } else {
@@ -386,7 +430,7 @@ const ServiceRequestForm = (props, errors, touched) => {
           NameFirst: NameFirst,
           NameLast: NameLast,
           Email: Email,
-          Telephone: Phone,
+          Telephone: Phone
         };
 
         SetFieldValues(localProps, fields);
@@ -413,7 +457,7 @@ const ServiceRequestForm = (props, errors, touched) => {
 
   const { values, isSubmitting, ...rest } = props;
 
-  const loadSelectedItems = (props) => {
+  const loadSelectedItems = props => {
     let requestType = localProps.values["requestType"];
 
     if (
@@ -444,6 +488,10 @@ const ServiceRequestForm = (props, errors, touched) => {
   loadSelectedItems(props);
 
   const isAnimalCategory = activeCategory ? activeCategory.isAnimal : false;
+  const isTrashRecycleIssueCategory = activeCategory
+    ? activeCategory.isTrashRecyclingIssue
+    : false;
+ 
   const petAndAnimalIssue = returnConfigItems(
     "formTypes",
     "requestType_petAndAnimalIssue"
@@ -482,6 +530,19 @@ const ServiceRequestForm = (props, errors, touched) => {
         {activeSubCategory && activeSubCategory.warning && (
           <Note>{activeSubCategory.warning}</Note>
         )}
+        <TrashRecycleType
+          shouldShow={isTrashRecycleIssueCategory}
+          requestType={requestType}
+          subRequestType={subRequestType}
+          errorsTrashRecycleIssueType={localProps.errors.transhRecycleIssueType}
+          touchedTrashRecycleIssueType={localProps.touched.transhRecycleIssueType}
+          pageFieldName={RequestPage.TrashRecycleIssuesLabel}
+          handleServiceTrashRecycleIssueChange={
+            handleServiceTrashRecycleIssueChange
+          }
+          rest={rest}
+          selectedTrashRecycleType={selectedTrashRecycleType}
+        />
 
         {localProps.values.shouldDisableForm && notes}
         {!localProps.values.shouldDisableForm && (

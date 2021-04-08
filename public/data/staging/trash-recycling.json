@@ -1,0 +1,156 @@
+[
+  {
+    "name": "Trash Pickup Issue",
+    "id": 1111111,
+    "types": [
+      {
+        "name": "Trash Not Collected",
+        "id": 2111111
+      },
+      {
+        "name": "Trash NotColl-Par",
+        "id": 2111112
+      },
+      {
+        "name": "Prop Damage Dur Coll",
+        "id": 2111113
+      },
+      {
+        "name": "Mistaken Throw Away",
+        "id": 2111114
+      },
+      {
+        "name": "Can Lid Lost Damaged",
+        "id": 3111115
+      },
+      {
+        "name": "Missing PersonalProp",
+        "id": 4111116
+      }
+      
+ 
+    ]
+   
+  },
+  {
+    "name": "Recycling Pickup Issue",
+    "id": 1111112,
+    "types":[
+          {
+          "name": "Recycling NotCollect",
+          "id": 2211111
+        },
+        {
+          "name": "Recyce NotColl-Par",
+          "id": 2211112
+        },
+        {
+          "name": "Prop Damage Dur Coll",
+          "id": 2211113
+        },
+        {
+          "name": "Mistaken Throw Away",
+          "id": 2211114
+        },
+        {
+          "name": "Can Lid Lost Damaged",
+          "id": 2211115
+        },
+        {
+        "name": "Missing PersonalProp",
+        "id": 2211116
+        }
+      ]
+  },
+  {
+    "name": "Yard Waste Pickup Issue",
+    "id": 1111113,
+    "types":[{
+      "name": "Yrd Waste NotCollect",
+      "id": 3311111
+    },
+    {
+      "name": "YdWaste NotColl-Par",
+      "id": 3311112
+    }
+    ]
+},
+{
+  "name": "Trash Hauler Issue",
+  "id": 1111114,
+  "types":[{
+    "name": "Hauler-Unsafe Drive",
+    "id": 4411111
+  },
+  {
+    "name": "Hauler-Public Urin",
+    "id": 4411112
+  },
+  {
+  "name": "Hauler-LookThrough",
+  "id": 4411113
+  },
+  {
+  "name": "Hauler-TookNewspaper",
+  "id": 4411114
+  },
+  {
+  "name": "Hauler-ArrivTooEarly",
+  "id": 4411115
+  },
+  {
+  "name": "Hauler-InappropBehav",
+  "id": 4411116
+  },
+  {
+  "name": "Hauler-ImpropContRet",
+  "id": 4411117
+  },
+  {
+  "name": "Hauler-SpillMat",
+  "id": 4411118
+  },
+  {
+  "name": "Hauler-StageMat",
+  "id": 4411119
+  },
+  {
+  "name": "Hauler-Throwing Cans",
+  "id": 4411110
+  }
+  
+  ]
+},
+{
+  "name": "Other Issues & Requests",
+  "id": 1111115,
+  "types":[{
+    "name": "Odor Complaint",
+    "id": 5511111
+  },
+  {
+    "name": "Nuisance Compliant ",
+    "id": 5511112
+  },
+  {
+  "name": "Customer Compliant",
+  "id": 5511113
+  },
+  {
+  "name": "Community Clean Up",
+  "id": 5511114
+  },
+  {
+  "name": "ADA Request",
+  "id": 5511116
+  },
+  {
+  "name": "Exhib, Fairs, Fest",
+  "id": 5511117
+  },   {
+  "name": "Calendar",
+  "id": 5511118
+  }
+  ]
+}
+]

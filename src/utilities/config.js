@@ -1,93 +1,93 @@
 export const endPointsLocal = [
   {
     key: "apiLoginUrl",
-    value: "http://localhost:54727/platform.citysourced.net/login/",
+    value: "http://localhost:54727/platform.citysourced.net/login/"
   },
   {
     key: "apiSignInUrl",
-    value: "http://localhost:54727/platform.citysourced.net/SignUp/",
+    value: "http://localhost:54727/platform.citysourced.net/SignUp/"
   },
   {
     key: "apiPasswordResetUrl",
-    value: "http://localhost:54727/platform.citysourced.net/password/",
+    value: "http://localhost:54727/platform.citysourced.net/password/"
   },
   {
     key: "apiReportUrl",
-    value: "http://localhost:54727/platform.citysourced.net/servicerequests/",
+    value: "http://localhost:54727/platform.citysourced.net/servicerequests/"
   },
   {
     key: "apiContactUrl",
-    value: "http://localhost:54727/platform.citysourced.net/contacts/",
+    value: "http://localhost:54727/platform.citysourced.net/contacts/"
   },
   {
     key: "apiVerifyAddressUrl",
     value:
-      "http://localhost:54727/platform.citysourced.net/contacts/verifyaddress",
-  },
+      "http://localhost:54727/platform.citysourced.net/contacts/verifyaddress"
+  }
 ];
 export const endPointsTest = [
   {
     key: "apiLoginUrl",
     value:
-      "https://testservices.baltimorecountymd.gov/platform.citysourced.net/login/",
+      "https://testservices.baltimorecountymd.gov/platform.citysourced.net/login/"
   },
   {
     key: "apiSignInUrl",
     value:
-      "https://testservices.baltimorecountymd.gov/platform.citysourced.net/SignUp/",
+      "https://testservices.baltimorecountymd.gov/platform.citysourced.net/SignUp/"
   },
   {
     key: "apiPasswordResetUrl",
     value:
-      "https://testservices.baltimorecountymd.gov/platform.citysourced.net/password/",
+      "https://testservices.baltimorecountymd.gov/platform.citysourced.net/password/"
   },
   {
     key: "apiReportUrl",
     value:
-      "https://testservices.baltimorecountymd.gov/platform.citysourced.net/servicerequests/",
+      "https://testservices.baltimorecountymd.gov/platform.citysourced.net/servicerequests/"
   },
   {
     key: "apiContactUrl",
     value:
-      "https://testservices.baltimorecountymd.gov/platform.citysourced.net/contacts/",
+      "https://testservices.baltimorecountymd.gov/platform.citysourced.net/contacts/"
   },
   {
     key: "apiVerifyAddressUrl",
     value:
-      "https://testservices.baltimorecountymd.gov/platform.citysourced.net/contacts/verifyaddress",
-  },
+      "https://testservices.baltimorecountymd.gov/platform.citysourced.net/contacts/verifyaddress"
+  }
 ];
 export const endPointsStage = [
   {
     key: "apiLoginUrl",
     value:
-      "https://testservices.baltimorecountymd.gov/platform.citysourced.net/login/",
+      "https://testservices.baltimorecountymd.gov/platform.citysourced.net/login/"
   },
   {
     key: "apiSignInUrl",
     value:
-      "https://testservices.baltimorecountymd.gov/platform.citysourced.net/SignUp/",
+      "https://testservices.baltimorecountymd.gov/platform.citysourced.net/SignUp/"
   },
   {
     key: "apiPasswordResetUrl",
     value:
-      "https://testservices.baltimorecountymd.gov/platform.citysourced.net/password/",
+      "https://testservices.baltimorecountymd.gov/platform.citysourced.net/password/"
   },
   {
     key: "apiReportUrl",
     value:
-      "https://testservices.baltimorecountymd.gov/platform.citysourced.net/servicerequests/",
+      "https://testservices.baltimorecountymd.gov/platform.citysourced.net/servicerequests/"
   },
   {
     key: "apiContactUrl",
     value:
-      "https://testservices.baltimorecountymd.gov/platform.citysourced.net/contacts/",
+      "https://testservices.baltimorecountymd.gov/platform.citysourced.net/contacts/"
   },
   {
     key: "apiVerifyAddressUrl",
     value:
-      "https://testservices.baltimorecountymd.gov/platform.citysourced.net/contacts/verifyaddress",
-  },
+      "https://testservices.baltimorecountymd.gov/platform.citysourced.net/contacts/verifyaddress"
+  }
 ];
 
 export const endPointsBeta = endPointsStage;
@@ -96,33 +96,33 @@ export const endPointsProd = [
   {
     key: "apiLoginUrl",
     value:
-      "https://services.baltimorecountymd.gov/platform.citysourced.net/login/",
+      "https://services.baltimorecountymd.gov/platform.citysourced.net/login/"
   },
   {
     key: "apiSignInUrl",
     value:
-      "https://services.baltimorecountymd.gov/platform.citysourced.net/SignUp/",
+      "https://services.baltimorecountymd.gov/platform.citysourced.net/SignUp/"
   },
   {
     key: "apiPasswordResetUrl",
     value:
-      "https://services.baltimorecountymd.gov/platform.citysourced.net/password/",
+      "https://services.baltimorecountymd.gov/platform.citysourced.net/password/"
   },
   {
     key: "apiReportUrl",
     value:
-      "https://services.baltimorecountymd.gov/platform.citysourced.net/servicerequests/",
+      "https://services.baltimorecountymd.gov/platform.citysourced.net/servicerequests/"
   },
   {
     key: "apiContactUrl",
     value:
-      "https://services.baltimorecountymd.gov/platform.citysourced.net/contacts/",
+      "https://services.baltimorecountymd.gov/platform.citysourced.net/contacts/"
   },
   {
     key: "apiVerifyAddressUrl",
     value:
-      "https://services.baltimorecountymd.gov/platform.citysourced.net/contacts/verifyaddress",
-  },
+      "https://services.baltimorecountymd.gov/platform.citysourced.net/contacts/verifyaddress"
+  }
 ];
 export const jsonFileLocationsLocal = [
   { key: "results", value: "/data/staging/categories.json" },
@@ -131,85 +131,89 @@ export const jsonFileLocationsLocal = [
   { key: "resultAnimalColors", value: "/data/staging/animal-colors.json" },
   { key: "resultAnimalTypes", value: "/data/staging/animal-types.json" },
   { key: "resultFormFieldNames", value: "/data/staging/form-field-names.json" },
+  {
+    key: "resultTrashRecycleType",
+    value: "/data/staging/trash-recycling.json"
+  }
 ];
 export const jsonFileLocationsTest = [
   {
     key: "results",
-    value: "//dev.baltimorecountymd.gov/sebin/q/p/categories.json",
+    value: "//dev.baltimorecountymd.gov/sebin/q/p/categories.json"
   },
   {
     key: "resultPetTypes",
-    value: "//dev.baltimorecountymd.gov/sebin/m/b/pet-types.json",
+    value: "//dev.baltimorecountymd.gov/sebin/m/b/pet-types.json"
   },
   {
     key: "resultAnimalBreeds",
-    value: "//dev.baltimorecountymd.gov/sebin/y/c/animal-breeds.json",
+    value: "//dev.baltimorecountymd.gov/sebin/y/c/animal-breeds.json"
   },
   {
     key: "resultAnimalColors",
-    value: "//dev.baltimorecountymd.gov/sebin/u/w/animal-colors.json",
+    value: "//dev.baltimorecountymd.gov/sebin/u/w/animal-colors.json"
   },
   {
     key: "resultAnimalTypes",
-    value: "//dev.baltimorecountymd.gov/sebin/a/g/animal-types.json",
+    value: "//dev.baltimorecountymd.gov/sebin/a/g/animal-types.json"
   },
   {
     key: "resultFormFieldNames",
-    value: "//dev.baltimorecountymd.gov/sebin/c/y/form-field-names.json",
-  },
+    value: "//dev.baltimorecountymd.gov/sebin/c/y/form-field-names.json"
+  }
 ];
 export const jsonFileLocationsStage = [
   {
     key: "results",
-    value: "//staging.baltimorecountymd.gov/sebin/q/s/categories.json",
+    value: "//staging.baltimorecountymd.gov/sebin/q/s/categories.json"
   },
   {
     key: "resultPetTypes",
-    value: "//staging.baltimorecountymd.gov/sebin/m/e/pet-types.json",
+    value: "//staging.baltimorecountymd.gov/sebin/m/e/pet-types.json"
   },
   {
     key: "resultAnimalBreeds",
-    value: "//staging.baltimorecountymd.gov/sebin/y/e/animal-breeds.json",
+    value: "//staging.baltimorecountymd.gov/sebin/y/e/animal-breeds.json"
   },
   {
     key: "resultAnimalColors",
-    value: "//staging.baltimorecountymd.gov/sebin/u/y/animal-colors.json",
+    value: "//staging.baltimorecountymd.gov/sebin/u/y/animal-colors.json"
   },
   {
     key: "resultAnimalTypes",
-    value: "//staging.baltimorecountymd.gov/sebin/a/i/animal-types.json",
+    value: "//staging.baltimorecountymd.gov/sebin/a/i/animal-types.json"
   },
   {
     key: "resultFormFieldNames",
-    value: "//staging.baltimorecountymd.gov/sebin/c/a/form-field-names.json",
-  },
+    value: "//staging.baltimorecountymd.gov/sebin/c/a/form-field-names.json"
+  }
 ];
 
 export const jsonFileLocationsBeta = [
   {
     key: "results",
-    value: "//beta.baltimorecountymd.gov/sebin/q/p/categories.json",
+    value: "//beta.baltimorecountymd.gov/sebin/q/p/categories.json"
   },
   {
     key: "resultPetTypes",
-    value: "//beta.baltimorecountymd.gov/sebin/m/b/pet-types.json",
+    value: "//beta.baltimorecountymd.gov/sebin/m/b/pet-types.json"
   },
   {
     key: "resultAnimalBreeds",
-    value: "//beta.baltimorecountymd.gov/sebin/y/c/animal-breeds.json",
+    value: "//beta.baltimorecountymd.gov/sebin/y/c/animal-breeds.json"
   },
   {
     key: "resultAnimalColors",
-    value: "//beta.baltimorecountymd.gov/sebin/u/w/animal-colors.json",
+    value: "//beta.baltimorecountymd.gov/sebin/u/w/animal-colors.json"
   },
   {
     key: "resultAnimalTypes",
-    value: "//beta.baltimorecountymd.gov/sebin/a/g/animal-types.json",
+    value: "//beta.baltimorecountymd.gov/sebin/a/g/animal-types.json"
   },
   {
     key: "resultFormFieldNames",
-    value: "//beta.baltimorecountymd.gov/sebin/c/y/form-field-names.json",
-  },
+    value: "//beta.baltimorecountymd.gov/sebin/c/y/form-field-names.json"
+  }
 ];
 
 export const jsonFileLocationsProd = [
@@ -218,13 +222,13 @@ export const jsonFileLocationsProd = [
   { key: "resultAnimalBreeds", value: "/sebin/y/d/animal-breeds.json" },
   { key: "resultAnimalColors", value: "/sebin/u/x/animal-colors.json" },
   { key: "resultAnimalTypes", value: "/sebin/a/h/animal-types.json" },
-  { key: "resultFormFieldNames", value: "/sebin/c/z/form-field-names.json" },
+  { key: "resultFormFieldNames", value: "/sebin/c/z/form-field-names.json" }
 ];
 export const formTypesLocal = [
   { key: "requestType_petAndAnimalIssue", value: "Pets and Animals" },
   {
     key: "petAndAnimalIssueID_OtherAnimalComplaint",
-    value: "Other animal complaint",
+    value: "Other animal complaint"
   },
   { key: "requestType_WebSiteIssue", value: "Website Issue" },
   { key: "subCategory_OtherWebsiteProblem", value: "Other website problem" },
@@ -233,24 +237,24 @@ export const formTypesLocal = [
   { key: "requestType_RoadsAndSidewalks", value: "Roads and Sidewalks" },
   {
     key: "subCategory_CanOrLidLostDamaged",
-    value: "Can or lid lost or damaged",
+    value: "Can or lid lost or damaged"
   },
   {
     key: "subCategory_PropertyDamangeDuringCollection",
-    value: "Property damage during collection",
+    value: "Property damage during collection"
   },
   {
     key: "subCategory_RecyclingNotCollected",
-    value: "Recycling not collected",
+    value: "Recycling not collected"
   },
   {
     key: "subCategory_RequestToStartNewCollection",
-    value: "Request to start new collection",
+    value: "Request to start new collection"
   },
   { key: "subCategory_TrashNotCollected", value: "Trash not collected" },
   {
     key: "subCategory_YardWasteNotCollected",
-    value: "Yard waste not collected",
+    value: "Yard waste not collected"
   },
   { key: "subCategory_IcyConditions", value: "Icy conditions" },
   { key: "subCategory_SewerIssues", value: "Sewer issues" },
@@ -258,13 +262,13 @@ export const formTypesLocal = [
   { key: "subCategory_WaterSupplyIssues", value: "Water supply issues" },
   { key: "petTypeCat", value: "Cat" },
   { key: "petTypeDog", value: "Dog" },
-  { key: "petType_Others", value: "Other" },
+  { key: "petType_Others", value: "Other" }
 ];
 export const formTypesTest = [
   { key: "requestType_petAndAnimalIssue", value: "Pets and Animals" },
   {
     key: "petAndAnimalIssueID_OtherAnimalComplaint",
-    value: "Other animal complaint",
+    value: "Other animal complaint"
   },
   { key: "requestType_WebSiteIssue", value: "Website Issue" },
   { key: "subCategory_OtherWebsiteProblem", value: "Other website problem" },
@@ -273,24 +277,24 @@ export const formTypesTest = [
   { key: "requestType_RoadsAndSidewalks", value: "Roads and Sidewalks" },
   {
     key: "subCategory_CanOrLidLostDamaged",
-    value: "Can or lid lost or damaged",
+    value: "Can or lid lost or damaged"
   },
   {
     key: "subCategory_PropertyDamangeDuringCollection",
-    value: "Property damage during collection",
+    value: "Property damage during collection"
   },
   {
     key: "subCategory_RecyclingNotCollected",
-    value: "Recycling not collected",
+    value: "Recycling not collected"
   },
   {
     key: "subCategory_RequestToStartNewCollection",
-    value: "Request to start new collection",
+    value: "Request to start new collection"
   },
   { key: "subCategory_TrashNotCollected", value: "Trash not collected" },
   {
     key: "subCategory_YardWasteNotCollected",
-    value: "Yard waste not collected",
+    value: "Yard waste not collected"
   },
   { key: "subCategory_IcyConditions", value: "Icy conditions" },
   { key: "subCategory_SewerIssues", value: "Sewer issues" },
@@ -298,13 +302,13 @@ export const formTypesTest = [
   { key: "subCategory_WaterSupplyIssues", value: "Water supply issues" },
   { key: "petTypeCat", value: "Cat" },
   { key: "petTypeDog", value: "Dog" },
-  { key: "petType_Others", value: "Other" },
+  { key: "petType_Others", value: "Other" }
 ];
 export const formTypesStage = [
   { key: "requestType_petAndAnimalIssue", value: "Pets and Animals" },
   {
     key: "petAndAnimalIssueID_OtherAnimalComplaint",
-    value: "Other animal complaint",
+    value: "Other animal complaint"
   },
   { key: "requestType_WebSiteIssue", value: "Website Issue" },
   { key: "subCategory_OtherWebsiteProblem", value: "Other website problem" },
@@ -313,24 +317,24 @@ export const formTypesStage = [
   { key: "requestType_RoadsAndSidewalks", value: "Roads and Sidewalks" },
   {
     key: "subCategory_CanOrLidLostDamaged",
-    value: "Can or lid lost or damaged",
+    value: "Can or lid lost or damaged"
   },
   {
     key: "subCategory_PropertyDamangeDuringCollection",
-    value: "Property damage during collection",
+    value: "Property damage during collection"
   },
   {
     key: "subCategory_RecyclingNotCollected",
-    value: "Recycling not collected",
+    value: "Recycling not collected"
   },
   {
     key: "subCategory_RequestToStartNewCollection",
-    value: "Request to start new collection",
+    value: "Request to start new collection"
   },
   { key: "subCategory_TrashNotCollected", value: "Trash not collected" },
   {
     key: "subCategory_YardWasteNotCollected",
-    value: "Yard waste not collected",
+    value: "Yard waste not collected"
   },
   { key: "subCategory_IcyConditions", value: "Icy conditions" },
   { key: "subCategory_SewerIssues", value: "Sewer issues" },
@@ -338,7 +342,7 @@ export const formTypesStage = [
   { key: "subCategory_WaterSupplyIssues", value: "Water supply issues" },
   { key: "petTypeCat", value: "Cat" },
   { key: "petTypeDog", value: "Dog" },
-  { key: "petType_Others", value: "Other" },
+  { key: "petType_Others", value: "Other" }
 ];
 
 export const formTypesBeta = formTypesStage;
@@ -347,7 +351,7 @@ export const formTypesProd = [
   { key: "requestType_petAndAnimalIssue", value: "Pets and Animals Issue" },
   {
     key: "petAndAnimalIssueID_OtherAnimalComplaint",
-    value: "Other animal complaint",
+    value: "Other animal complaint"
   },
   { key: "requestType_WebSiteIssue", value: "Website Issue" },
   { key: "subCategory_OtherWebsiteProblem", value: "Other website problem" },
@@ -356,24 +360,24 @@ export const formTypesProd = [
   { key: "requestType_RoadsAndSidewalks", value: "Roads and Sidewalks Issue" },
   {
     key: "subCategory_CanOrLidLostDamaged",
-    value: "Can or lid lost or damaged",
+    value: "Can or lid lost or damaged"
   },
   {
     key: "subCategory_PropertyDamangeDuringCollection",
-    value: "Property damage during collection",
+    value: "Property damage during collection"
   },
   {
     key: "subCategory_RecyclingNotCollected",
-    value: "Recycling not collected",
+    value: "Recycling not collected"
   },
   {
     key: "subCategory_RequestToStartNewCollection",
-    value: "Request to start new collection",
+    value: "Request to start new collection"
   },
   { key: "subCategory_TrashNotCollected", value: "Trash not collected" },
   {
     key: "subCategory_YardWasteNotCollected",
-    value: "Yard waste not collected",
+    value: "Yard waste not collected"
   },
   { key: "subCategory_IcyConditions", value: "Icy conditions" },
   { key: "subCategory_SewerIssues", value: "Sewer issues" },
@@ -381,40 +385,40 @@ export const formTypesProd = [
   { key: "subCategory_WaterSupplyIssues", value: "Water supply issues" },
   { key: "petTypeCat", value: "Cat" },
   { key: "petTypeDog", value: "Dog" },
-  { key: "petType_Others", value: "Other" },
+  { key: "petType_Others", value: "Other" }
 ];
 export const mapEndPointLocal = [
   {
     key: "mapGISEndPoint",
-    value: "http://localhost:54727/api/gis/addressLookup/",
+    value: "http://localhost:54727/api/gis/addressLookup/"
   },
   {
     key: "mapReverseGISEndPoint",
     value:
-      "https://bcgis.baltimorecountymd.gov/arcgis/rest/services/Geocoders/CompositeGeocode_CS/GeocodeServer/reverseGeocode?location=",
-  },
+      "https://bcgis.baltimorecountymd.gov/arcgis/rest/services/Geocoders/CompositeGeocode_CS/GeocodeServer/reverseGeocode?location="
+  }
 ];
 export const mapEndPointTest = [
   {
     key: "mapGISEndPoint",
-    value: "https://services.baltimorecountymd.gov/api/gis/addressLookup/",
+    value: "https://services.baltimorecountymd.gov/api/gis/addressLookup/"
   },
   {
     key: "mapReverseGISEndPoint",
     value:
-      "https://bcgis.baltimorecountymd.gov/arcgis/rest/services/Geocoders/CompositeGeocode_CS/GeocodeServer/reverseGeocode?location=",
-  },
+      "https://bcgis.baltimorecountymd.gov/arcgis/rest/services/Geocoders/CompositeGeocode_CS/GeocodeServer/reverseGeocode?location="
+  }
 ];
 export const mapEndPointStage = [
   {
     key: "mapGISEndPoint",
-    value: "https://services.baltimorecountymd.gov/api/gis/addressLookup/",
+    value: "https://services.baltimorecountymd.gov/api/gis/addressLookup/"
   },
   {
     key: "mapReverseGISEndPoint",
     value:
-      "https://bcgis.baltimorecountymd.gov/arcgis/rest/services/Geocoders/CompositeGeocode_CS/GeocodeServer/reverseGeocode?location=",
-  },
+      "https://bcgis.baltimorecountymd.gov/arcgis/rest/services/Geocoders/CompositeGeocode_CS/GeocodeServer/reverseGeocode?location="
+  }
 ];
 
 export const mapEndPointBeta = mapEndPointStage;
@@ -422,13 +426,13 @@ export const mapEndPointBeta = mapEndPointStage;
 export const mapEndPointProd = [
   {
     key: "mapGISEndPoint",
-    value: "https://services.baltimorecountymd.gov/api/gis/addressLookup/",
+    value: "https://services.baltimorecountymd.gov/api/gis/addressLookup/"
   },
   {
     key: "mapReverseGISEndPoint",
     value:
-      "https://bcgis.baltimorecountymd.gov/arcgis/rest/services/Geocoders/CompositeGeocode_CS/GeocodeServer/reverseGeocode?location=",
-  },
+      "https://bcgis.baltimorecountymd.gov/arcgis/rest/services/Geocoders/CompositeGeocode_CS/GeocodeServer/reverseGeocode?location="
+  }
 ];
 
 export default endPointsLocal;

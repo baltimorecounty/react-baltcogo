@@ -1,5 +1,6 @@
 import { withFormik } from "formik";
 import * as Yup from "yup";
+import IssueType from './IssueType';
 
 export default withFormik({
   //displayName: 'WizardForm',
@@ -26,6 +27,8 @@ export default withFormik({
     subRequestTypeAddress: "",
     subRequestTypeCity: "",
     subRequestTypeZip: "",
+    transhRecycleIssueType:"",
+    trashRecycleIssueTypeID:"",
     serviceDescription: "",
     petType: "",
     petTypeID: "",
@@ -73,6 +76,7 @@ export default withFormik({
     Yup.object().shape({
       requestType: Yup.string().required("Please select a request category."),
       subRequestType: Yup.string().required("Please select a sub-category."),
+      transhRecycleIssueType:Yup.string().required("Please select an issue type."),
       petType: Yup.string().required("Please select a pet type."),
       animalColorType: Yup.string().required(
         "Primary Animal Color is required"
