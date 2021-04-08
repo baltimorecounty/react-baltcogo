@@ -88,18 +88,12 @@ const getAnimalSubCategories = (AnimalBreeds, animalName) => {
 };
 
 const getTrashRecycleIssues = (issues, issueName) => {
-  console.log("issueName:" + JSON.stringify(issueName));
-  console.log("issues:" + JSON.stringify(issues));
   var trashRecycle = issues.find(
     issue => issue.name.toLowerCase() === issueName
   );
-  console.log("trashRecycle.types:" + JSON.stringify(trashRecycle.types));
   return trashRecycle ? trashRecycle : [];
 };
 const getID = (categories, categoryName) => {
-  // console.log("---categoryName---:" + categoryName);
-  // console.log("---categories---:" + JSON.stringify(categories));
-
   var category = categories.find(
     category => category.name.toLowerCase() === categoryName
   );
@@ -264,11 +258,9 @@ const ServiceRequestForm = (props, errors, touched) => {
 
   const addSelectedSubValueOptions = (Categories, value) => {
     const subCategories = Categories.flatMap(x => x.types);
-    // console.log("subCategories:" + JSON.stringify(subCategories));
     const subInfo = getSubCategoriesIncludedDescription(subCategories, value);
     let ID = getID(subCategories, value);
     const subCategory = GetSubCategory(Categories, ID);
-    // console.log("subCategory:" + JSON.stringify(subCategory));
     setActiveSubCategory(subCategory);
     const isDisabled = getshouldDisableForm(subCategories, value);
 
@@ -364,14 +356,7 @@ const ServiceRequestForm = (props, errors, touched) => {
     const { options, selectedIndex } = changeEvent.target;
     const selectedText = options[selectedIndex].text.toLowerCase();
     let ID = getID(selectedTrashRecycleType, selectedText);
-    //const subIssues = getTrashRecycleIssues(trashRecycleType, selectedText);
-    console.log("recycleTransh:ID:" + ID);
     SetFieldValues(localProps, { trashRecycleIssueTypeID: ID });
-    console.log(
-      "selectedTrashRecycleType:" + JSON.stringify(selectedTrashRecycleType)
-    );
-    console.log("trashRecycleType:" + JSON.stringify(trashRecycleType));
-    //  addSelectedSubValueOptions(trashRecycleType, selectedText);
   };
 
   const handleFieldChange = (changeEvent, propertyName) => {

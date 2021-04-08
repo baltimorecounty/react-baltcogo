@@ -1,17 +1,25 @@
 export const IsFormInComplete = (props, category) => {
-  const { isAnimal: isAnimalCategory } = category || {};
+  const {
+    isAnimal: isAnimalCategory,
+    isTrashRecyclingIssue: isTrashRecycleIssueCategory
+  } = category || {};
   const {
     otherAnimalTypes,
     animalColorType,
     petType,
     requestType,
-    subRequestType,
+    transhRecycleIssueType,
+    subRequestType
   } = props.values || {};
 
   if (!requestType || !subRequestType) {
     return true;
   }
-
+  if (isTrashRecycleIssueCategory) {
+    if (!transhRecycleIssueType) {
+      return true;
+    }
+  }
   if (isAnimalCategory) {
     if (!petType) {
       return true;
@@ -44,11 +52,11 @@ export const URLRouting = (categories, id) => {
     let idCat = "";
 
     const getSelectedCategory = categories.find(
-      (items) => items.id === categoryId
+      items => items.id === categoryId
     );
 
-    const getSelectedSubCategory = categories.find((items) =>
-      items.types.find((type) => type.id === categoryId)
+    const getSelectedSubCategory = categories.find(items =>
+      items.types.find(type => type.id === categoryId)
     );
 
     if (getSelectedCategory) {
@@ -58,10 +66,10 @@ export const URLRouting = (categories, id) => {
       nameCat = getSelectedSubCategory.name;
       idCat = getSelectedSubCategory.id;
       nameSubCat = getSelectedSubCategory.types.find(
-        (type) => type.id === categoryId
+        type => type.id === categoryId
       ).name;
       idSubCat = getSelectedSubCategory.types.find(
-        (type) => type.id === categoryId
+        type => type.id === categoryId
       ).id;
     }
 
@@ -69,7 +77,7 @@ export const URLRouting = (categories, id) => {
       nameCategory: nameCat,
       idCategory: idCat,
       nameSubCategory: nameSubCat,
-      idSubCategory: idSubCat,
+      idSubCategory: idSubCat
     };
 
     return Selections;
@@ -79,7 +87,7 @@ export const URLRouting = (categories, id) => {
 };
 
 export const SetFieldValues = (props, fields) => {
-  Object.entries(fields).forEach((field) => {
+  Object.entries(fields).forEach(field => {
     props.setFieldValue(field[0], field[1]);
   });
 };

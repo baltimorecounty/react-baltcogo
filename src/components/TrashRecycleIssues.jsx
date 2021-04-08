@@ -17,8 +17,6 @@ const TrashRecycleIssues = ({
     const { name, options, selectedIndex } = changeEvent.target;
   
     const selectedText = options[selectedIndex].text;
-    console.log('trashRecycleIssueTypeID:' + trashRecycleIssueTypeID);
-    console.log("name:selectedIndex: selectedText:" + name + "-" + selectedIndex + "-" + selectedText);
     selectedIndex > 0
       ? localProps.setFieldValue(name, selectedText)
       : localProps.setFieldValue(name, "");
