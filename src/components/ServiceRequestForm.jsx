@@ -125,7 +125,6 @@ const ServiceRequestForm = (props, errors, touched) => {
     isPanelRequired,
     requestType,
     subRequestType,
-    transhRecycleIssueType,
     petType
   } = localProps.values;
 
@@ -316,10 +315,16 @@ const ServiceRequestForm = (props, errors, touched) => {
   };
 
   const handleServiceSubRequestChange = changeEvent => {
+    const trashRecycleArray = [
+      "trash pickup issue",
+      "recycling pickup issue",
+      "yard waste pickup issue",
+      "trash hauler issue",
+      "other issues & requests"
+    ];
     const { options, selectedIndex } = changeEvent.target;
     const selectedText = options[selectedIndex].text.toLowerCase();
-    if (['trash pickup issue', 'recycling pickup issue', 'yard waste pickup issue', 'trash hauler issue','other issues & requests'].indexOf(selectedText) >= 0) 
-    {
+    if (trashRecycleArray.indexOf(selectedText) >= 0) {
       let ID = getID(trashRecycleType, selectedText);
       const subIssues = getTrashRecycleIssues(trashRecycleType, selectedText);
       setSelectedTrashRecycleType(subIssues.types);
@@ -476,7 +481,7 @@ const ServiceRequestForm = (props, errors, touched) => {
   const isTrashRecycleIssueCategory = activeCategory
     ? activeCategory.isTrashRecyclingIssue
     : false;
- 
+
   const petAndAnimalIssue = returnConfigItems(
     "formTypes",
     "requestType_petAndAnimalIssue"
@@ -520,7 +525,9 @@ const ServiceRequestForm = (props, errors, touched) => {
           requestType={requestType}
           subRequestType={subRequestType}
           errorsTrashRecycleIssueType={localProps.errors.transhRecycleIssueType}
-          touchedTrashRecycleIssueType={localProps.touched.transhRecycleIssueType}
+          touchedTrashRecycleIssueType={
+            localProps.touched.transhRecycleIssueType
+          }
           pageFieldName={RequestPage.TrashRecycleIssuesLabel}
           handleServiceTrashRecycleIssueChange={
             handleServiceTrashRecycleIssueChange
