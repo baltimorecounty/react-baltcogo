@@ -116,6 +116,7 @@ const ServiceRequestForm = (props, errors, touched) => {
   const [trashRecycleType, setTrashRecycleType] = useState([]);
   const [selectedTrashRecycleType, setSelectedTrashRecycleType] = useState([]);
 
+
   const {
     ContactID,
     RequestPage,
@@ -188,6 +189,12 @@ const ServiceRequestForm = (props, errors, touched) => {
               result.data,
               requestSubCategory.toLowerCase()
             );
+
+            const subIssues = getTrashRecycleIssues(
+              resultTrashRecycleType.data,
+              requestSubCategory
+            );
+            setSelectedTrashRecycleType(subIssues.types);
           }
           return requestSubCategory;
         };
@@ -457,6 +464,7 @@ const ServiceRequestForm = (props, errors, touched) => {
       AnimalColors.length > 0 &&
       OtherAnimalTypes.length > 0
     ) {
+  
       if (requestType) {
         if (subCategories.length === 0) {
           const value = requestType.toLowerCase();
