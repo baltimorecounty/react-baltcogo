@@ -21,6 +21,8 @@ const SubCategory = ({
     localProps.setFieldTouched(name, true);
     localProps.setFieldValue("subRequestTypeDescriptionID", "");
     localProps.setFieldValue("subRequestTypeAddressID", "");
+    localProps.setFieldValue("transhRecycleIssueType", "");
+    localProps.setFieldValue("trashRecycleIssueTypeID", "");
     localProps.setFieldValue("subRequestTypeCityID", "");
     localProps.setFieldValue("subRequestTypeZipID", "");
     localProps.setFieldValue("petType", "");
