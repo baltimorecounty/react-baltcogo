@@ -9,13 +9,13 @@ const TrashRecycleIssues = ({
   handleServiceTrashRecycleIssueChange,
   rest,
   selectedTrashRecycleType,
-  shouldShow
+  shouldShow,
 }) => {
   const { trashRecycleIssueTypeID } = rest.formik.values;
-  const handleChange = changeEvent => {
+  const handleChange = (changeEvent) => {
     const localProps = rest.formik;
     const { name, options, selectedIndex } = changeEvent.target;
-  
+
     const selectedText = options[selectedIndex].text;
     selectedIndex > 0
       ? localProps.setFieldValue(name, selectedText)
@@ -56,7 +56,12 @@ const TrashRecycleIssues = ({
             {...rest}
           />
           <p role="alert" className="error-message">
-            {<ErrorMsg errormessage={errorsTrashRecycleIssueType} touched={touchedTrashRecycleIssueType} />}
+            {
+              <ErrorMsg
+                errormessage={errorsTrashRecycleIssueType}
+                touched={touchedTrashRecycleIssueType}
+              />
+            }
           </p>
         </div>
       ) : null}
