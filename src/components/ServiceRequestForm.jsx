@@ -10,6 +10,7 @@ import { GetContactDetails } from "../services/authService";
 import { IsFormInComplete } from "../utilities/FormHelpers";
 import { returnConfigItems } from "../utilities//returnEnvironmentItems";
 import PetType from "./petType";
+import TrashRecycleType from "./TrashRecycleIssues";
 import RequestCategory from "./requestCategory";
 import RequestSubCategory from "./requestSubCategory";
 import OtherAnimalsTypes from "./otherAnimalTypes";
@@ -85,6 +86,13 @@ const getAnimalSubCategories = (AnimalBreeds, animalName) => {
   );
   return animalCats ? animalCats : [];
 };
+
+const getTrashRecycleIssues = (issues, issueName) => {
+  var trashRecycle = issues.find(
+    (issue) => issue.name.toLowerCase() === issueName
+  );
+  return trashRecycle ? trashRecycle : [];
+};
 const getID = (categories, categoryName) => {
   var category = categories.find(
     (category) => category.name.toLowerCase() === categoryName
@@ -105,6 +113,8 @@ const ServiceRequestForm = (props, errors, touched) => {
   const [notes, setNotes] = useState();
   const [animalSubCategories, setAnimalSubCategories] = useState([]);
   const [animalSex, setAnimalSex] = useState([]);
+  const [trashRecycleType, setTrashRecycleType] = useState([]);
+  const [selectedTrashRecycleType, setSelectedTrashRecycleType] = useState([]);
 
   const {
     ContactID,
@@ -143,11 +153,16 @@ const ServiceRequestForm = (props, errors, touched) => {
           returnConfigItems("jsonFileLocations", "resultFormFieldNames")
         );
 
+        const resultTrashRecycleType = await axios(
+          returnConfigItems("jsonFileLocations", "resultTrashRecycleType")
+        );
         setCategories(result.data);
         setPetTypes(resultPetTypes.data);
         setAnimalBreeds(resultAnimalBreeds.data);
         setAnimalColors(resultAnimalColors.data);
         setOtherAnimalTypes(resultAnimalTypes.data);
+
+        setTrashRecycleType(resultTrashRecycleType.data);
 
         const preSelectedTypes = SelectedValue(result.data);
 
@@ -173,6 +188,12 @@ const ServiceRequestForm = (props, errors, touched) => {
               result.data,
               requestSubCategory.toLowerCase()
             );
+
+            const subIssues = getTrashRecycleIssues(
+              resultTrashRecycleType.data,
+              requestSubCategory
+            );
+            setSelectedTrashRecycleType(subIssues.types);
           }
           return requestSubCategory;
         };
@@ -301,8 +322,21 @@ const ServiceRequestForm = (props, errors, touched) => {
   };
 
   const handleServiceSubRequestChange = (changeEvent) => {
+    const trashRecycleArray = [
+      "trash pickup issue",
+      "recycling pickup issue",
+      "yard waste pickup issue",
+      "trash hauler issue",
+      "other issues & requests",
+    ];
     const { options, selectedIndex } = changeEvent.target;
     const selectedText = options[selectedIndex].text.toLowerCase();
+    if (trashRecycleArray.indexOf(selectedText) >= 0) {
+      let ID = getID(trashRecycleType, selectedText);
+      const subIssues = getTrashRecycleIssues(trashRecycleType, selectedText);
+      setSelectedTrashRecycleType(subIssues.types);
+      SetFieldValues(localProps, { TrashRecycleIssueID: ID });
+    }
     addSelectedSubValueOptions(Categories, selectedText);
   };
 
@@ -328,6 +362,13 @@ const ServiceRequestForm = (props, errors, touched) => {
     setAnimalSubCategories(subBreeds.breeds);
     setAnimalSex(subBreeds.sex);
     SetFieldValues(localProps, { petTypeID: ID });
+  };
+
+  const handleServiceTrashRecycleIssueChange = (changeEvent) => {
+    const { options, selectedIndex } = changeEvent.target;
+    const selectedText = options[selectedIndex].text.toLowerCase();
+    let ID = getID(selectedTrashRecycleType, selectedText);
+    SetFieldValues(localProps, { trashRecycleIssueTypeID: ID });
   };
 
   const handleFieldChange = (changeEvent, propertyName) => {
@@ -444,6 +485,10 @@ const ServiceRequestForm = (props, errors, touched) => {
   loadSelectedItems(props);
 
   const isAnimalCategory = activeCategory ? activeCategory.isAnimal : false;
+  const isTrashRecycleIssueCategory = activeCategory
+    ? activeCategory.isTrashRecyclingIssue
+    : false;
+
   const petAndAnimalIssue = returnConfigItems(
     "formTypes",
     "requestType_petAndAnimalIssue"
@@ -482,6 +527,21 @@ const ServiceRequestForm = (props, errors, touched) => {
         {activeSubCategory && activeSubCategory.warning && (
           <Note>{activeSubCategory.warning}</Note>
         )}
+        <TrashRecycleType
+          shouldShow={isTrashRecycleIssueCategory}
+          requestType={requestType}
+          subRequestType={subRequestType}
+          errorsTrashRecycleIssueType={localProps.errors.transhRecycleIssueType}
+          touchedTrashRecycleIssueType={
+            localProps.touched.transhRecycleIssueType
+          }
+          pageFieldName={RequestPage.TrashRecycleIssuesLabel}
+          handleServiceTrashRecycleIssueChange={
+            handleServiceTrashRecycleIssueChange
+          }
+          rest={rest}
+          selectedTrashRecycleType={selectedTrashRecycleType}
+        />
 
         {localProps.values.shouldDisableForm && notes}
         {!localProps.values.shouldDisableForm && (

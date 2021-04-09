@@ -1,415 +1,397 @@
-[
-  {
-    "name": "Budget and Finance",
-    "id": 1023380,
-    "types": [
-      {
-        "name": "Bids, disbursements and vendors",
-        "id": 1024925
+[{
+  "name": "Budget and Finance Issue",
+  "id": 1010119,
+  "types": [{
+          "name": "Bids, disbursements and vendors",
+          "id": 1011156
       },
       {
-        "name": "Parking, red light and speed camera violations",
-        "id": 1024930
+          "name": "Parking, red light and speed camera violations",
+          "id": 1011161
       },
       {
-        "name": "Personal injury and property claims",
-        "id": 1024932
+          "name": "Personal injury and property claims",
+          "id": 1011163
       },
       {
-        "name": "Property taxes",
-        "id": 1024934
+          "name": "Property taxes",
+          "id": 1011165
       },
       {
-        "name": "Other budget and finance problems",
-        "id": 1024937
+          "name": "Other budget and finance problems",
+          "id": 1011168
       }
-    ],
-    "description": 1024808
+  ],
+  "description": 1011590
+},
+{
+  "name": "Building and Development Issue",
+  "id": 1010139,
+  "types": [{
+          "name": "Building in disrepair",
+          "id": 1011582
+      },
+      {
+          "name": "Building without a permit",
+          "id": 1010141
+      },
+      {
+          "name": "Electrical work without a permit",
+          "id": 1011113,
+          "parentId": 1011107,
+          "parentName": "Building and Development (Electrical)",
+          "streetAddress": 1011122,
+          "city": 1011125,
+          "zipCode": 1011130,
+          "description": 1011590
+      },
+      {
+          "name": "Grading work without a permit",
+          "id": 1011114,
+          "parentId": 1011108,
+          "parentName": "Building and Development (Grading)",
+          "streetAddress": 1011123,
+          "city": 1011126,
+          "zipCode": 1011127,
+          "description": 1011590
+      },
+      {
+          "name": "Plumbing work without a permit",
+          "id": 1011115,
+          "parentId": 1011109,
+          "parentName": "Building and Development (Plumbing)",
+          "streetAddress": 1011124,
+          "city": 1011129,
+          "zipCode": 1011128,
+          "description": 1011590
+      }
+  ],
+  "description": 1011590,
+  "fields": {
+      "streetAddress": 1010144,
+      "city": 1011105,
+      "zipCode": 1010146
   },
-  {
-    "name": "Building and Development Issue",
-    "id": 1024816,
-    "types": [
-      {
-        "name": "Building without a permit",
-        "id": 1024818
+  "states": [{
+      "name": "MD",
+      "id": 1023615
+  }]
+},
+{
+  "name": "County Owned Grounds or Property Issue",
+  "id": 1011583,
+  "types": [{
+          "name": "Damage to county property",
+          "id": 1011586,
+          "note": "Due to system issues, we are currently unable to receive this request via this system.<br /><br /> Please call the Property Management Constituent Service Desk at <a href=\"tel:410-887-3827\">410-887-3827</a> from 7 a.m. to 4 p.m. or by email at <a href=\"mailto:pm-constituentservices@baltimorecountymd.gov\">pm-constituentservices@baltimorecountymd.gov</a>. We apologize for the inconvenience.",
+          "shouldDisableForm": true
       },
       {
-        "name": "Electrical work without a permit",
-        "id": 1024843,
-        "parentId": 1024837,
-        "parentName": "Building and Development (Electrical)",
-        "streetAddress": 1024853,
-        "city": 1024856,
-        "zipCode": 1024859,
-        "description": 1024849
+          "name": "Fallen trees on county property",
+          "id": 1011587,
+          "note": "Due to system issues, we are currently unable to receive this request via this system.<br /><br /> Please call the Property Management Constituent Service Desk at <a href=\"tel:410-887-3827\">410-887-3827</a> from 7 a.m. to 4 p.m. or by email at <a href=\"mailto:pm-constituentservices@baltimorecountymd.gov\">pm-constituentservices@baltimorecountymd.gov</a>. We apologize for the inconvenience.",
+          "shouldDisableForm": true
       },
       {
-        "name": "Grading work without a permit",
-        "id": 1024844,
-        "parentId": 1024838,
-        "parentName": "Building and Development (Grading)",
-        "streetAddress": 1024854,
-        "city": 1024857,
-        "zipCode": 1024860,
-        "description": 1024847
-      },
-      {
-        "name": "Plumbing work without a permit",
-        "id": 1024845,
-        "parentId": 1024839,
-        "parentName": "Building and Development (Plumbing)",
-        "streetAddress": 1024855,
-        "city": 1024858,
-        "zipCode": 1024861,
-        "description": 1024848
+          "name": "Mowing",
+          "id": 1011585,
+          "note": "Due to system issues, we are currently unable to receive this request via this system.<br /><br /> Please call the Property Management Constituent Service Desk at <a href=\"tel:410-887-3827\">410-887-3827</a> from 7 a.m. to 4 p.m. or by email at <a href=\"mailto:pm-constituentservices@baltimorecountymd.gov\">pm-constituentservices@baltimorecountymd.gov</a>. We apologize for the inconvenience.",
+          "shouldDisableForm": true
       }
-    ],
-    "description": 1024819,
-    "fields": {
-      "streetAddress": 1024821,
-      "city": 1024822,
-      "zipCode": 1024823
-    },
-    "states": [
-      {
-        "name": "MD",
-        "id": 1023615
-      }
-    ]
+  ],
+  "description": 1011590
+},
+{
+  "name": "Neighborhood Issue",
+  "id": 1010152,
+  "fields": {
+      "streetAddress": 1010165,
+      "city": 1010166,
+      "zipCode": 1010167
   },
-  {
-    "name": "Neighborhood",
-    "id": 1023378,
-    "fields": {
-      "streetAddress": 1023588,
-      "city": 1023589,
-      "zipCode": 1023591
-    },
-    "states": [
+  "states": [{
+      "name": "MD",
+      "id": 1023615
+  }],
+  "description": 1011590,
+  "types": [{
+          "name": "Excessive animal feces in neighbor's yard",
+          "id": 1010159
+      },
       {
-        "name": "MD",
-        "id": 1023615
+          "name": "Inoperable vehicle on private property",
+          "id": 1010157
+      },
+      {
+          "name": "Junk, trash, or debris on private property",
+          "id": 1010154
+      },
+      {
+          "name": "Neighbor's trash can without lid",
+          "id": 1011196
+      },
+      {
+          "name": "Poor living conditions in a rental home",
+          "id": 1011454
+      },
+      {
+          "name": "Rats",
+          "id": 1010163
+      },
+      {
+          "name": "Tall grass and weeds in yard",
+          "id": 1010155
+      },
+      {
+          "name": "Other code complaint",
+          "id": 1010164
       }
-    ],
-    "description": 1024810,
-    "types": [
-      {
-        "name": "Abandoned Vehicle (unregistered and/or inoperable)",
-        "id": 1023415
+  ]
+},
+{
+  "name": "Pets and Animals Issue",
+  "id": 1010169,
+  "isAnimal": true,
+  "types": [{
+          "name": "Animal bite",
+          "id": 1010175
       },
       {
-        "name": "Excessive animal feces in neighbor's yard",
-        "id": 1023417
+          "name": "Animal confined",
+          "id": 1010184
       },
       {
-        "name": "Failure to maintain plumbing system in a rental home",
-        "id": 1024825
+          "name": "Animal shows signs of rabies",
+          "id": 1010173
       },
       {
-        "name": "Failure to provide carbon monoxide detectors in a rental home",
-        "id": 1024824
+          "name": "Dangerous or menacing animal",
+          "id": 1010176
       },
       {
-        "name": "Graffiti",
-        "id": 1023414
+          "name": "Dead animal pickup",
+          "id": 1010177
       },
       {
-        "name": "Junk, trash, or debris on private property",
-        "id": 1023412
+          "name": "Excessive barking",
+          "id": 1010178
       },
       {
-        "name": "Poor living conditions in a rental home",
-        "id": 1024826
+          "name": "Pet out of yard or roaming",
+          "id": 1010181
       },
       {
-        "name": "Rats",
-        "id": 1024584
+          "name": "Pet waste was left in my yard",
+          "id": 1010182
       },
       {
-        "name": "Tall grass and weeds in yard",
-        "id": 1023413
+          "name": "Sick or injured animal",
+          "id": 1010183
       },
       {
-        "name": "Other code complaint",
-        "id": 1023418
+          "name": "Wildlife complaint",
+          "id": 1010185
+      },
+      {
+          "name": "Other animal complaint",
+          "id": 1010186,
+          "note": "The Police Department is responsible for investigating all animal cruelty incidents. <strong>If you witness a person inflicting harm on an animal, call 911 immediately.</strong><br /><br />To report animal cruelty when immediate police intervention is not required, call the police non-emergency line at 410-887-2222. Please don't use this form to report animal cruelty."
       }
-    ]
+  ],
+  "fields": {
+      "streetAddress": 1011061,
+      "city": 1011062,
+      "zipCode": 1011063
   },
-  {
-    "name": "County Grounds or Property Issue",
-    "id": 1026868,
-    "types": [
-      {
-        "name": "Damage to county property",
-        "id": 1026871
+  "states": [{
+      "name": "MD",
+      "id": 1023615
+  }],
+  "descriptionOfAnimal": 1011059,
+  "description": 1011590
+},
+{
+  "name": "Roads and Sidewalks Issue",
+  "id": 1011065,
+  "description": 1011590,
+  "types": [{
+          "name": "Driveway blocked by plowed snow",
+          "id": 1011199
       },
       {
-        "name": "Fallen trees on county property",
-        "id": 1026872,
-        "note": "Fallen trees are the County's responsibility only when they're located on County property. Please learn more about <a href=\"https://www.baltimorecountymd.gov/Agencies/budfin/propertymanagement/groundsmaintenance/fallentrees.html\">fallen trees and branches</a> before submitting a report."
+          "name": "Icy conditions",
+          "id": 1011069,
+          "note": "Due to the safety risk posed by ice in the roadway, we cannot take your report online.<br /><br />Please call the Department of Public Works immediately at <a href=\"tel:410-887-0000\">410-887-0000</a> to ensure we obtain the necessary information to address the issue as soon as possible.",
+          "shouldDisableForm": true
       },
       {
-        "name": "Mowing",
-        "id": 1026870,
-        "note": "Please review the County's <a href=\"https://www.baltimorecountymd.gov/Agencies/budfin/propertymanagement/groundsmaintenance/mowingcycles.html\">grass mowing schedules</a> before submitting a report."
+          "name": "Property damaged by county",
+          "id": 1011198
+      },
+      {
+          "name": "Unplowed road",
+          "id": 1011200
+      },
+      {
+          "name": "Fallen tree or limb",
+          "id": 1011197
+      },
+      {
+          "name": "Flooded road",
+          "id": 1011068
+      },
+      {
+          "name": "Overgrown trees, bushes or grass near roadway",
+          "id": 1011070
+      },
+      {
+          "name": "Paving or re-paving needed",
+          "id": 1011071
+      },
+      {
+          "name": "Pothole",
+          "id": 1011072
+      },
+      {
+          "name": "Sidewalk or curb repair needed",
+          "id": 1011073
+      },
+      {
+          "name": "Street cleaning needed",
+          "id": 1011074
+      },
+      {
+          "name": "Trash on roadside",
+          "id": 1011076
+      },
+      {
+          "name": "Other road or sidewalk complaint",
+          "id": 1011078
       }
-    ],
-    "description": 1026958
+  ]
+},
+{
+  "name": "Traffic Issue",
+  "id": 1011459,
+  "description": 1011590,
+  "types": [{
+          "name": "Handicap parking",
+          "id": 1011495
+      },
+      {
+          "name": "Road marking issues",
+          "id": 1011497
+      },
+      {
+          "name": "Traffic related signage issues",
+          "id": 1011499
+      },
+      {
+          "name": "Traffic signal issues",
+          "id": 1011500
+      },
+      {
+          "name": "Other issues",
+          "id": 1011496,
+          "note": "To report issues with vehicles located on public streets, please call the Police non-emergency line at <a href=\"tel:410-887-2222\">410-887-2222</a>. This system is not linked to Police or Fire agencies."
+      }
+  ]
+},
+{
+  "name": "Trash and Recycling Issue",
+  "id": 1111110,
+  "description": 1011590,
+  "isTrashRecyclingIssue": true,
+  "types": [{
+          "name": "Trash Pickup Issue",
+          "id": 1111111
+      },
+      {
+          "name": "Recycling Pickup Issue",
+          "id": 1111112
+      },
+      {
+          "name": "Yard Waste Pickup Issue",
+          "id": 1111113
+      },
+      {
+          "name": "Trash Hauler Issue",
+          "id": 1111114
+      },
+      {
+        "name": "Other Issues & Requests",
+        "id": 1111115
+    }
+  ]
+},
+{
+  "name": "Unregistered Rental Property Issue",
+  "id": 1011090,
+  "description": 1011590,
+  "states": [{
+      "name": "MD",
+      "id": 1023615
+  }],
+  "fields": {
+      "streetAddress": 1011094,
+      "city": 1011095,
+      "zipCode": 1011096
   },
-  {
-    "name": "Pets and Animals",
-    "id": 1023379,
-    "isAnimal": true,
-    "types": [
-      {
-        "name": "Animal cruelty",
-        "id": 1023420,
-        "note": "The Police Department is responsible for investigating all animal cruelty incidents. <strong>If you witness a person inflicting harm on an animal, call 911 immediately.</strong><br /><br />To report animal cruelty when immediate police intervention is not required, call the police non-emergency line at 410-887-2222. Please don't use this form to report animal cruelty.",
-        "shouldDisableForm": true
+  "types": [{
+      "name": "Unregistered rental property",
+      "id": 1011092
+  }]
+},
+{
+  "name": "Water and Sewer Issues",
+  "id": "D000001",
+  "types": [{
+          "name": "Sewer issues",
+          "id": "D000002",
+          "note": "Issues such as missing manhole covers, sewer backups, overflows or odors require immediate attention, and therefore cannot be reported online.<br /><br />Please call the Department of Public Works at <a href=\"tel:410-887-7415\">410-887-7415</a> to ensure we obtain the necessary information to address the issue as soon as possible.",
+          "shouldDisableForm": true
       },
       {
-        "name": "Animal caught in a trap",
-        "id": 1023421
+          "name": "Stormwater issues",
+          "id": "D000004",
+          "note": "Stormwater issues such as sinkholes and missing or damaged storm grates require immediate attention due to the risk of harm to persons or property, and therefore cannot be reported online.<br /><br />Please call the Department of Public Works at <a href=\"tel:410-887-7415\">410-887-7415</a> to ensure we obtain the necessary information to address the issue as soon as possible.",
+          "shouldDisableForm": true
       },
       {
-        "name": "Animal shows signs of rabies",
-        "id": 1023422
-      },
-      {
-        "name": "Animals in vacant property",
-        "id": 1023423
-      },
-      {
-        "name": "Bite from a pet",
-        "id": 1023424
-      },
-      {
-        "name": "Dangerous dog",
-        "id": 1023425
-      },
-      {
-        "name": "Dead animal pickup",
-        "id": 1023426
-      },
-      {
-        "name": "Excessive barking",
-        "id": 1023427
-      },
-      {
-        "name": "Menacing animal",
-        "id": 1023428
-      },
-      {
-        "name": "Nuisance animal",
-        "id": 1023429
-      },
-      {
-        "name": "Pet out of yard or roaming",
-        "id": 1023431
-      },
-      {
-        "name": "Pet waste was left in my yard",
-        "id": 1023432
-      },
-      {
-        "name": "Sick or injured animal",
-        "id": 1023433
-      },
-      {
-        "name": "Stray pet found and needs pickup",
-        "id": 1023434
-      },
-      {
-        "name": "Wildlife complaint",
-        "id": 1023435
-      },
-      {
-        "name": "Other animal complaint",
-        "id": 1023430
+          "name": "Water supply issues",
+          "id": "D000005",
+          "note": "Baltimore City (not Baltimore County) owns, maintains and repairs all water mains and hydrants. However, service requests for broken water mains, leaking hydrants and drinking water concerns can be reported directly to Baltimore County by calling <a href=\"tel:410-887-7415\">410-887-7415</a> anytime.",
+          "shouldDisableForm": true
       }
-    ],
-    "fields": {
-      "streetAddress": 1023529,
-      "city": 1023530,
-      "zipCode": 1023532
-    },
-    "states": [
+  ],
+  "description": "D000006"
+},
+{
+  "name": "Website Issue",
+  "id": 1011097,
+  "description": 1011590,
+  "requiresLocation": false,
+  "types": [{
+          "name": "Broken link",
+          "id": 1011099
+      },
       {
-        "name": "MD",
-        "id": 1023615
+          "name": "Typo/Misspelling",
+          "id": 1011100
+      },
+      {
+          "name": "Out of date information",
+          "id": 1011101
+      },
+      {
+          "name": "Technical error message",
+          "id": 1011102
+      },
+      {
+          "name": "Other website problem",
+          "id": 1011103,
+          "note": "In the description below, please include the URL of the page where you encountered the problem."
       }
-    ],
-    "descriptionOfAnimal": 1023524,
-    "descriptionOfLocation": 1023525,
-    "description": 1024807
-  },
-  {
-    "name": "Roads and Sidewalks",
-    "id": 1023376,
-    "description": 1024811,
-    "types": [
-      {
-        "name": "Adopt-a-Road inquiry",
-        "id": 1023393
-      },
-      {
-        "name": "Flooded road",
-        "id": 1023400
-      },
-      {
-        "name": "Icy conditions",
-        "id": 1011069,
-        "note": "Due to the safety risk posed by ice in the roadway, we cannot take your report online.<br /><br />Please call the Department of Public Works immediately at 410-887-5210 to ensure we obtain the necessary information to address the issues as soon as possible.",
-        "shouldDisableForm": true
-      },
-      {
-        "name": "Overgrown trees or bushes near roadway",
-        "id": 1023404
-      },
-      {
-        "name": "Paving or re-paving needed",
-        "id": 1023397
-      },
-      {
-        "name": "Pothole",
-        "id": 1023398
-      },
-      {
-        "name": "Sidewalk or curb repair needed",
-        "id": 1023401
-      },
-      {
-        "name": "Street cleaning needed",
-        "id": 1023403
-      },
-      {
-        "name": "Tall grass or weeds near roadway",
-        "id": 1023396
-      },
-      {
-        "name": "Trash on roadside",
-        "id": 1023399
-      },
-      {
-        "name": "Trash in roadside stream",
-        "id": 1023402
-      },
-      {
-        "name": "Other road or sidewalk complaint",
-        "id": 1023394
-      }
-    ]
-  },
-  {
-    "name": "Trash and Recycling",
-    "id": 1023375,
-    "description": 1024812,
-    "types": [
-      {
-        "name": "Can or lid lost or damaged",
-        "id": 1023389
-      },
-      {
-        "name": "Property damage during collection",
-        "id": 1023390
-      },
-      {
-        "name": "Recycling not collected",
-        "id": 1023386
-      },
-      {
-        "name": "Request to start new collection",
-        "id": 1023388
-      },
-      {
-        "name": "Trash not collected",
-        "id": 1023385
-      },
-      {
-        "name": "Yard waste not collected",
-        "id": 1023387
-      },
-      {
-        "name": "Other trash and recycling problem",
-        "id": 1023391
-      }
-    ]
-  },
-  {
-    "name": "Unregistered Rental Property",
-    "id": 1024827,
-    "description": 1024830,
-    "states": [
-      {
-        "name": "MD",
-        "id": 1023615
-      }
-    ],
-    "fields": {
-      "streetAddress": 1024831,
-      "city": 1024832,
-      "zipCode": 1024833
-    },
-    "types": [
-      {
-        "name": "Unregistered rental property",
-        "id": 1024829
-      }
-    ]
-  },
-  {
-    "name": "Water and Sewer Issues",
-    "id": "D000001",
-    "types": [
-      {
-        "name": "Sewer issues",
-        "id": "D000002",
-        "note": "Due to the safety risk posed by sewer issues, we cannot take your report online.<br /><br />Please call the Department of Public Works immediately at 410-877-7415 to ensure we obtain the necessary information to address the issue as soon as possible. ",
-        "shouldDisableForm": true
-      },
-      {
-        "name": "Stormwater issues",
-        "id": "D000004",
-        "note": "Due to the safety risk posed by stormwater issues, we cannot take your report online.<br /><br />Please call the Department of Public Works immediately at 410-877-7415 to ensure we obtain the necessary information to address the issue as soon as possible. ",
-        "shouldDisableForm": true
-      },
-      {
-        "name": "Water supply issues",
-        "id": "D000005",
-        "note": "Baltimore City is responsible for water service in Baltimore County. The city handles all issues related to the water service.<br /><br />Please report your problem to Baltimore City using their <a href=\"https://balt311.baltimorecity.gov\">online form</a> or by calling 410-396-5352. City residents should call 311.",
-        "shouldDisableForm": true
-      }
-    ],
-    "description": "D000006"
-  },
-  {
-    "name": "Website Issue",
-    "id": 1024585,
-    "requiresLocation": false,
-    "types": [
-      {
-        "name": "Broken link",
-        "id": 1024587
-      },
-      {
-        "name": "Typo/Misspelling",
-        "id": 1024588
-      },
-      {
-        "name": "Out of date information",
-        "id": 1024589
-      },
-      {
-        "name": "Technical error message",
-        "id": 1024590
-      },
-      {
-        "name": "Other website problem",
-        "id": 1024591,
-        "note": "In the description below, please include the URL of the page where you encountered the problem."
-      }
-    ],
-    "description": 1024813
-  }
+  ]
+}
 ]
