@@ -30,6 +30,8 @@ const RequestCategory = ({
     localProps.setFieldValue("subRequestTypeZipID", "");
     localProps.setFieldValue("subRequestType", "");
     localProps.setFieldValue("subRequestTypeID", "");
+    localProps.setFieldValue("trashRecycleIssueTypeID", "");
+    localProps.setFieldValue("subRequestTypeCityID", "");
     localProps.setFieldValue("petType", "");
     localProps.setFieldValue("petTypeID", "");
     localProps.setFieldValue("otherAnimalTypes", "");
