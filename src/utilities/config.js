@@ -161,6 +161,10 @@ export const jsonFileLocationsTest = [
     key: "resultFormFieldNames",
     value: "//dev.baltimorecountymd.gov/sebin/c/z/form-field-names.json",
   },
+  {
+    key: "resultTrashRecycleType",
+    value: "//dev.baltimorecountymd.gov/sebin/y/x/trash-recycling.json",
+  },
 ];
 export const jsonFileLocationsStage = [
   {
@@ -196,6 +200,7 @@ export const jsonFileLocationsProd = [
   { key: "resultAnimalColors", value: "/sebin/u/x/animal-colors.json" },
   { key: "resultAnimalTypes", value: "/sebin/a/h/animal-types.json" },
   { key: "resultFormFieldNames", value: "/sebin/c/z/form-field-names.json" },
+  { key: "resultTrashRecycleType", value: "/sebin/y/x/trash-recycling.json" },
 ];
 export const formTypesLocal = [
   { key: "requestType_petAndAnimalIssue", value: "Pets and Animals" },
