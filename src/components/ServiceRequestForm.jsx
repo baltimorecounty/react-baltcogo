@@ -188,12 +188,6 @@ const ServiceRequestForm = (props, errors, touched) => {
               result.data,
               requestSubCategory.toLowerCase()
             );
-
-            const subIssues = getTrashRecycleIssues(
-              resultTrashRecycleType.data,
-              requestSubCategory
-            );
-            setSelectedTrashRecycleType(subIssues.types);
           }
           return requestSubCategory;
         };
