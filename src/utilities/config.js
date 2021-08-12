@@ -191,6 +191,10 @@ export const jsonFileLocationsStage = [
     key: "resultFormFieldNames",
     value: "//staging.baltimorecountymd.gov/sebin/c/a/form-field-names.json",
   },
+  {
+    key: "resultTrashRecycleType",
+    value: "//staging.baltimorecountymd.gov/sebin/y/y/trash-recycling.json",
+  },
 ];
 
 export const jsonFileLocationsProd = [
