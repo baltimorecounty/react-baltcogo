@@ -153,16 +153,19 @@ const ServiceRequestForm = (props, errors, touched) => {
           returnConfigItems("jsonFileLocations", "resultFormFieldNames")
         );
 
-        const resultTrashRecycleType = await axios(
-          returnConfigItems("jsonFileLocations", "resultTrashRecycleType")
-        );
+        //Removed for until web services needs this a third issue type dropdown for trash added again.
+        //const resultTrashRecycleType = await axios(
+        //returnConfigItems("jsonFileLocations", "resultTrashRecycleType")
+        //);
+
         setCategories(result.data);
         setPetTypes(resultPetTypes.data);
         setAnimalBreeds(resultAnimalBreeds.data);
         setAnimalColors(resultAnimalColors.data);
         setOtherAnimalTypes(resultAnimalTypes.data);
 
-        setTrashRecycleType(resultTrashRecycleType.data);
+        //Removed for until web services needs this a third issue type dropdown for trash added again.
+        //setTrashRecycleType(resultTrashRecycleType.data);
 
         const preSelectedTypes = SelectedValue(result.data);
 
@@ -190,7 +193,7 @@ const ServiceRequestForm = (props, errors, touched) => {
             );
 
             const subIssues = getTrashRecycleIssues(
-              resultTrashRecycleType.data,
+              //resultTrashRecycleType.data, //Removed for until web services needs this a third issue type dropdown for trash added again.
               requestSubCategory
             );
             setSelectedTrashRecycleType(subIssues.types);
