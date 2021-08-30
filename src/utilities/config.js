@@ -131,10 +131,10 @@ export const jsonFileLocationsLocal = [
   { key: "resultAnimalColors", value: "/data/staging/animal-colors.json" },
   { key: "resultAnimalTypes", value: "/data/staging/animal-types.json" },
   { key: "resultFormFieldNames", value: "/data/staging/form-field-names.json" },
-  {
-    key: "resultTrashRecycleType",
-    value: "/data/staging/trash-recycling.json",
-  },
+  // {
+  //   key: "resultTrashRecycleType",
+  //   value: "/data/staging/trash-recycling.json",
+  // },
 ];
 export const jsonFileLocationsTest = [
   {
@@ -161,10 +161,10 @@ export const jsonFileLocationsTest = [
     key: "resultFormFieldNames",
     value: "//dev.baltimorecountymd.gov/sebin/c/z/form-field-names.json",
   },
-  {
-    key: "resultTrashRecycleType",
-    value: "//dev.baltimorecountymd.gov/sebin/y/x/trash-recycling.json",
-  },
+  // {
+  //   key: "resultTrashRecycleType",
+  //   value: "//dev.baltimorecountymd.gov/sebin/y/x/trash-recycling.json",
+  // },
 ];
 export const jsonFileLocationsStage = [
   {
@@ -191,6 +191,10 @@ export const jsonFileLocationsStage = [
     key: "resultFormFieldNames",
     value: "//staging.baltimorecountymd.gov/sebin/c/a/form-field-names.json",
   },
+  // {
+  //   key: "resultTrashRecycleType",
+  //   value: "//staging.baltimorecountymd.gov/sebin/y/y/trash-recycling.json",
+  // },
 ];
 
 export const jsonFileLocationsProd = [
@@ -200,7 +204,7 @@ export const jsonFileLocationsProd = [
   { key: "resultAnimalColors", value: "/sebin/u/x/animal-colors.json" },
   { key: "resultAnimalTypes", value: "/sebin/a/h/animal-types.json" },
   { key: "resultFormFieldNames", value: "/sebin/c/z/form-field-names.json" },
-  { key: "resultTrashRecycleType", value: "/sebin/y/x/trash-recycling.json" },
+  //{ key: "resultTrashRecycleType", value: "/sebin/y/x/trash-recycling.json" },
 ];
 export const formTypesLocal = [
   { key: "requestType_petAndAnimalIssue", value: "Pets and Animals" },
