@@ -34,7 +34,9 @@ export const returnModel = (props, streetAddress, city, zipCode) => {
   } = props.formik.values;
 
   const reportItems = [
-    requestTypeParentID
+    requestTypeParentID === "DTrash01" || requestTypeID === "DTrash01" //Trash and Recycling is no longer a valid parent ID and we must send a blank parent ID along
+      ? { Id: "", Value: "" }
+      : requestTypeParentID
       ? { Id: requestTypeParentID, Value: requestTypeParent }
       : { Id: requestTypeID, Value: requestType },
     { Id: subRequestTypeID, Value: subRequestType },
@@ -48,6 +50,8 @@ export const returnModel = (props, streetAddress, city, zipCode) => {
     { Id: requestTypeCityID, Value: city },
     { Id: requestTypeZipID, Value: zipCode },
   ].filter((item) => !!item.Id);
+
+  console.log(reportItems);
 
   var itemsToSubmit = {
     AppVersion: "308",
