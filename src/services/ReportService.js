@@ -34,7 +34,7 @@ export const returnModel = (props, streetAddress, city, zipCode) => {
   } = props.formik.values;
 
   const reportItems = [
-    requestTypeParentID === "DTrash01" || requestTypeID === "DTrash01" //Trash and Recycling is no longer a valid parent ID and we must send a blank parent ID along
+    requestTypeParentID === "NoIDNeeded" || requestTypeID === "NoIDNeeded" //These parent types are no longer needed and have to pass a null value.
       ? { Id: "", Value: "" }
       : requestTypeParentID
       ? { Id: requestTypeParentID, Value: requestTypeParent }

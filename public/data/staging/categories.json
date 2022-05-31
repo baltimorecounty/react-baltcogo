@@ -246,7 +246,7 @@
   },
   {
     "name": "Roads and Sidewalks",
-    "id": 1023376,
+    "id":"NoIDNeeded",
     "description": 1040681,
     "types": [
       {
@@ -303,7 +303,7 @@
   },
   {
     "name": "Trash and Recycling",
-    "id": "DTrash01",
+    "id": "NoIDNeeded",
     "description": 1040681,
     "types": [
       {
