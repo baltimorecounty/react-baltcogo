@@ -35,8 +35,8 @@ export const returnModel = (props, streetAddress, city, zipCode) => {
 
   const reportItems = [
     requestTypeParentID
-      ? Number.isInteger(requestTypeParentID) //We now check if the ID is an integer. If it is then we pass the value along, if its not then we pass a null. RS changed certain 
-        ? { Id: "", Value: "" }               //parent ID's to no longer be allowed so we had to add this to handle those cases. Any parent ID that is no longer supported
+      ? Number.isInteger(requestTypeParentID) //We now check if the ID is an integer. If it is then we pass the value along, if its not then we pass a null. RS changed certain
+        ? { Id: "", Value: "" } //parent ID's to no longer be allowed so we had to add this to handle those cases. Any parent ID that is no longer supported
         : { Id: requestTypeParentID, Value: requestTypeParent } //must be changed to something like 'NoIDNeeded1' to stop it from being sent along
       : Number.isInteger(requestTypeID)
       ? { Id: "", Value: "" }
