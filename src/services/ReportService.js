@@ -34,13 +34,12 @@ export const returnModel = (props, streetAddress, city, zipCode) => {
   } = props.formik.values;
 
   const reportItems = [
-    requestTypeParentID === "NoIDNeeded1" ||
-    requestTypeParentID === "NoIDNeeded2" ||
-    requestTypeID === "NoIDNeeded1" ||
-    requestTypeID === "NoIDNeeded2" //These parent types are no longer needed and have to pass a null value.
+    requestTypeParentID
+      ? Number.isInteger(requestTypeParentID) //We now check if the ID is an integer. If it is then we pass the value along, if its not then we pass a null. RS changed certain 
+        ? { Id: "", Value: "" }               //parent ID's to no longer be allowed so we had to add this to handle those cases. Any parent ID that is no longer supported
+        : { Id: requestTypeParentID, Value: requestTypeParent } //must be changed to something like 'NoIDNeeded1' to stop it from being sent along
+      : Number.isInteger(requestTypeID)
       ? { Id: "", Value: "" }
-      : requestTypeParentID
-      ? { Id: requestTypeParentID, Value: requestTypeParent }
       : { Id: requestTypeID, Value: requestType },
     { Id: subRequestTypeID, Value: subRequestType },
     { Id: petTypeID, Value: petType },
@@ -53,8 +52,6 @@ export const returnModel = (props, streetAddress, city, zipCode) => {
     { Id: requestTypeCityID, Value: city },
     { Id: requestTypeZipID, Value: zipCode },
   ].filter((item) => !!item.Id);
-
-  console.log(reportItems);
 
   var itemsToSubmit = {
     AppVersion: "308",
