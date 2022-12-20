@@ -74,6 +74,12 @@ const getshouldDisableForm = (subCategories, name) => {
 
   return type && !!type.shouldDisableForm;
 };
+const getisAnonLogin = (subCategories, name) => {
+  var type = subCategories.find(
+    (subcategoryname) => subcategoryname.name.toLowerCase() === name
+  );
+  return type && !!type.anonLogin;
+};
 const getrequiresLocation = (categories, name) => {
   var category = categories.find(
     (category) => category.name.toLowerCase() === name
@@ -122,6 +128,7 @@ const ServiceRequestForm = (props, errors, touched) => {
     Tabs,
     shouldDisableForm,
     MapDefaults,
+    anonLogin,
     isPanelRequired,
     requestType,
     subRequestType,
@@ -164,7 +171,7 @@ const ServiceRequestForm = (props, errors, touched) => {
         setAnimalColors(resultAnimalColors.data);
         setOtherAnimalTypes(resultAnimalTypes.data);
 
-        //Removed for until web services needs this a third issue type dropdown for trash added again.
+        //Removed until web services needs a third issue type dropdown for trash added again.
         //setTrashRecycleType(resultTrashRecycleType.data);
 
         const preSelectedTypes = SelectedValue(result.data);
@@ -193,7 +200,7 @@ const ServiceRequestForm = (props, errors, touched) => {
             );
 
             const subIssues = getTrashRecycleIssues(
-              //resultTrashRecycleType.data, //Removed for until web services needs this a third issue type dropdown for trash added again.
+              //resultTrashRecycleType.data, //Removed until web services needs a third issue type dropdown for trash added again.
               requestSubCategory
             );
             setSelectedTrashRecycleType(subIssues.types);
@@ -236,7 +243,6 @@ const ServiceRequestForm = (props, errors, touched) => {
     let ID = getID(Categories, value);
     const category = GetCategory(Categories, ID);
     setActiveCategory(category);
-
     const subCategories = getSubCategories(Categories, value);
     setSubCategories(subCategories);
 
@@ -272,6 +278,7 @@ const ServiceRequestForm = (props, errors, touched) => {
     const subCategory = GetSubCategory(Categories, ID);
     setActiveSubCategory(subCategory);
     const isDisabled = getshouldDisableForm(subCategories, value);
+    const isAnonLogin = getisAnonLogin(subCategories, value);
 
     const notes = subCategory ? subCategory.note : null;
     setNotes(
@@ -286,6 +293,7 @@ const ServiceRequestForm = (props, errors, touched) => {
     const requestSubFields = {
       subRequestTypeID: ID,
       shouldDisableForm: isDisabled,
+      anonLogin: isAnonLogin,
     };
 
     SetFieldValues(localProps, requestSubFields);
@@ -321,6 +329,7 @@ const ServiceRequestForm = (props, errors, touched) => {
   const handleServiceRequestChange = (changeEvent) => {
     const { options, selectedIndex } = changeEvent.target;
     const selectedText = options[selectedIndex].text.toLowerCase();
+    SetFieldValues(localProps, { anonLogin: false }); //Must return false to remove Anon button when Category changes
     addSelectedValueOptions(Categories, selectedText);
   };
 
@@ -409,6 +418,10 @@ const ServiceRequestForm = (props, errors, touched) => {
     return !localProps.values.shouldDisableForm;
   };
 
+  const buttonShowAnonLoginButton = () => {
+    return localProps.values.anonLogin;
+  };
+
   const buttonDisableValidation = () => {
     return IsFormInComplete(props.formik, activeCategory);
   };
@@ -442,6 +455,10 @@ const ServiceRequestForm = (props, errors, touched) => {
   };
 
   const callSignInForm = () => {
+    Go(props, Routes.SignIn);
+  };
+
+  const redirectToHTML5Site = () => {
     Go(props, Routes.SignIn);
   };
 
@@ -485,6 +502,8 @@ const ServiceRequestForm = (props, errors, touched) => {
 
   let disableButton = buttonDisableValidation();
   let displayButton = buttonShowHideValidation();
+  let displayAnonLoginButton = buttonShowAnonLoginButton();
+
   loadSelectedItems(props);
 
   const isAnimalCategory = activeCategory ? activeCategory.isAnimal : false;
@@ -619,19 +638,45 @@ const ServiceRequestForm = (props, errors, touched) => {
 
         {displayButton ? (
           !contactID ? (
-            <div className="d-md-flex justify-content-md-between d-sm-block">
-              <SeButton
-                text="Sign In"
-                isDisabled={disableButton}
-                onClick={callSignInForm}
-              />
-              <Modal className="d-sm-block" />
-              <SeButton
-                text="Register"
-                isDisabled={disableButton}
-                onClick={callRegisterForm}
-              />
-            </div>
+            !displayAnonLoginButton ? (
+              <div className="d-md-flex justify-content-md-between d-sm-block">
+                <SeButton
+                  text="Sign In"
+                  isDisabled={disableButton}
+                  onClick={callSignInForm}
+                />
+                <Modal className="d-sm-block" />
+                <SeButton
+                  text="Register"
+                  isDisabled={disableButton}
+                  onClick={callRegisterForm}
+                />
+              </div>
+            ) : (
+              <div>
+                <div className="d-md-flex justify-content-md-between d-sm-block">
+                  <SeButton
+                    text="Sign In"
+                    isDisabled={disableButton}
+                    onClick={callSignInForm}
+                  />
+                  <SeButton
+                    text="Anonymous Report"
+                    className
+                    onClick={redirectToHTML5Site}
+                  />
+
+                  <SeButton
+                    text="Register"
+                    isDisabled={disableButton}
+                    onClick={callRegisterForm}
+                  />
+                </div>
+                <div className="d-md-flex justify-content-md-center d-sm-block">
+                  <Modal className="d-sm-block" />
+                </div>
+              </div>
+            )
           ) : (
             <div className="cs-form-control">
               <p name="userLoggedIn">

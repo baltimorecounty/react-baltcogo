@@ -27,6 +27,7 @@ export default withFormik({
     subRequestTypeAddress: "",
     subRequestTypeCity: "",
     subRequestTypeZip: "",
+    anonLogin: "",
     transhRecycleIssueType: "",
     trashRecycleIssueTypeID: "",
     serviceDescription: "",
