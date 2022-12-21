@@ -93,12 +93,12 @@ const getAnimalSubCategories = (AnimalBreeds, animalName) => {
   return animalCats ? animalCats : [];
 };
 
-const getTrashRecycleIssues = (issues, issueName) => {
-  var trashRecycle = issues.find(
-    (issue) => issue.name.toLowerCase() === issueName
-  );
-  return trashRecycle ? trashRecycle : [];
-};
+// const getTrashRecycleIssues = (issues, issueName) => {
+//   var trashRecycle = issues.find(
+//     (issue) => issue.name.toLowerCase() === issueName
+//   );
+//   return trashRecycle ? trashRecycle : [];
+// };
 const getID = (categories, categoryName) => {
   var category = categories.find(
     (category) => category.name.toLowerCase() === categoryName
@@ -121,6 +121,7 @@ const ServiceRequestForm = (props, errors, touched) => {
   const [animalSex, setAnimalSex] = useState([]);
   const [trashRecycleType, setTrashRecycleType] = useState([]);
   const [selectedTrashRecycleType, setSelectedTrashRecycleType] = useState([]);
+  const [externalReport, setExternalReport] = useState([]);
 
   const {
     ContactID,
@@ -159,17 +160,19 @@ const ServiceRequestForm = (props, errors, touched) => {
         const resultFormFieldNames = await axios(
           returnConfigItems("jsonFileLocations", "resultFormFieldNames")
         );
+        const externalLinks = await axios(
+          returnConfigItems("jsonExternalLinks", "externalReport")
+        );
 
         //Removed for until web services needs this a third issue type dropdown for trash added again.
-        //const resultTrashRecycleType = await axios(
-        //returnConfigItems("jsonFileLocations", "resultTrashRecycleType")
-        //);
+        //const resultTrashRecycleType = await axios(returnConfigItems("jsonFileLocations", "resultTrashRecycleType"));
 
         setCategories(result.data);
         setPetTypes(resultPetTypes.data);
         setAnimalBreeds(resultAnimalBreeds.data);
         setAnimalColors(resultAnimalColors.data);
         setOtherAnimalTypes(resultAnimalTypes.data);
+        setExternalReport(externalLinks.config.url);
 
         //Removed until web services needs a third issue type dropdown for trash added again.
         //setTrashRecycleType(resultTrashRecycleType.data);
@@ -189,24 +192,24 @@ const ServiceRequestForm = (props, errors, touched) => {
           return requestCategory;
         };
 
-        const selectedSubType = () => {
-          requestSubCategory = preSelectedTypes
-            ? preSelectedTypes.nameSubCategory
-            : subRequestType;
-          if (requestSubCategory) {
-            addSelectedSubValueOptions(
-              result.data,
-              requestSubCategory.toLowerCase()
-            );
+        // const selectedSubType = () => {
+        //   requestSubCategory = preSelectedTypes
+        //     ? preSelectedTypes.nameSubCategory
+        //     : subRequestType;
+        //   if (requestSubCategory) {
+        //     addSelectedSubValueOptions(
+        //       result.data,
+        //       requestSubCategory.toLowerCase()
+        //     );
 
-            const subIssues = getTrashRecycleIssues(
-              //resultTrashRecycleType.data, //Removed until web services needs a third issue type dropdown for trash added again.
-              requestSubCategory
-            );
-            setSelectedTrashRecycleType(subIssues.types);
-          }
-          return requestSubCategory;
-        };
+        //     const subIssues = getTrashRecycleIssues(
+        //       resultTrashRecycleType.data, //Removed until web services needs a third issue type dropdown for trash added again.
+        //       requestSubCategory
+        //     );
+        //     setSelectedTrashRecycleType(subIssues.types);
+        //   }
+        //   return requestSubCategory;
+        // };
         const fields = {
           Categories: result.data,
           Tabs: resultFormFieldNames.data.Tabs,
@@ -219,7 +222,7 @@ const ServiceRequestForm = (props, errors, touched) => {
           ResetPasswordPage: resultFormFieldNames.data.ResetPasswordPage,
           ContactID: contactID,
           requestType: selectedType(),
-          subRequestType: selectedSubType(),
+          //subRequestType: selectedSubType(),
         };
 
         SetFieldValues(localProps, fields);
@@ -343,12 +346,12 @@ const ServiceRequestForm = (props, errors, touched) => {
     ];
     const { options, selectedIndex } = changeEvent.target;
     const selectedText = options[selectedIndex].text.toLowerCase();
-    if (trashRecycleArray.indexOf(selectedText) >= 0) {
-      let ID = getID(trashRecycleType, selectedText);
-      const subIssues = getTrashRecycleIssues(trashRecycleType, selectedText);
-      setSelectedTrashRecycleType(subIssues.types);
-      SetFieldValues(localProps, { TrashRecycleIssueID: ID });
-    }
+    //if (trashRecycleArray.indexOf(selectedText) >= 0) {
+    //let ID = getID(trashRecycleType, selectedText);
+    //const subIssues = getTrashRecycleIssues(trashRecycleType, selectedText);
+    //setSelectedTrashRecycleType(subIssues.types);
+    //SetFieldValues(localProps, { TrashRecycleIssueID: ID });
+    //}
     addSelectedSubValueOptions(Categories, selectedText);
   };
 
@@ -458,8 +461,8 @@ const ServiceRequestForm = (props, errors, touched) => {
     Go(props, Routes.SignIn);
   };
 
-  const redirectToHTML5Site = () => {
-    Go(props, Routes.SignIn);
+  const redirectToExternalSite = () => {
+    window.location.href = externalReport;
   };
 
   const callRegisterForm = () => {
@@ -663,7 +666,7 @@ const ServiceRequestForm = (props, errors, touched) => {
                   <SeButton
                     text="Anonymous Report"
                     className
-                    onClick={redirectToHTML5Site}
+                    onClick={redirectToExternalSite}
                   />
 
                   <SeButton
