@@ -160,8 +160,9 @@ const ServiceRequestForm = (props, errors, touched) => {
         const resultFormFieldNames = await axios(
           returnConfigItems("jsonFileLocations", "resultFormFieldNames")
         );
-        const externalLinks = await axios(
-          returnConfigItems("jsonExternalLinks", "externalReport")
+        const externalLinks = returnConfigItems(
+          "jsonExternalLinks",
+          "externalReport"
         );
 
         //Removed for until web services needs this a third issue type dropdown for trash added again.
@@ -172,7 +173,7 @@ const ServiceRequestForm = (props, errors, touched) => {
         setAnimalBreeds(resultAnimalBreeds.data);
         setAnimalColors(resultAnimalColors.data);
         setOtherAnimalTypes(resultAnimalTypes.data);
-        setExternalReport(externalLinks.config.url);
+        setExternalReport(externalLinks);
 
         //Removed until web services needs a third issue type dropdown for trash added again.
         //setTrashRecycleType(resultTrashRecycleType.data);
@@ -180,7 +181,7 @@ const ServiceRequestForm = (props, errors, touched) => {
         const preSelectedTypes = SelectedValue(result.data);
 
         let requestCategory = "";
-        let requestSubCategory = "";
+        //let requestSubCategory = "";
 
         const selectedType = () => {
           requestCategory = preSelectedTypes
