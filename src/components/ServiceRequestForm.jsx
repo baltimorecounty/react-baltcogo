@@ -666,7 +666,7 @@ const ServiceRequestForm = (props, errors, touched) => {
                   />
                   <SeButton
                     text="Anonymous Report"
-                    className
+                    className="dg_button-secondary"
                     onClick={redirectToExternalSite}
                   />
 
