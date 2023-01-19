@@ -127,28 +127,31 @@ export const endPointsProd = [
 export const jsonExternalLinksLocal = [
   {
     key: "externalReport",
-    value: "https://baltimorecountymdstg.citysourced.net/",
+    value:
+      "https://baltimorecountymdstg.citysourced.net/servicerequests/create",
   },
 ];
 
 export const jsonExternalLinksTest = [
   {
     key: "externalReport",
-    value: "https://baltimorecountymd.citysourced.net/",
+    value:
+      "https://baltimorecountymdstg.citysourced.net/servicerequests/create",
   },
 ];
 
 export const jsonExternalLinksStage = [
   {
     key: "externalReport",
-    value: "https://baltimorecountymd.citysourced.net/",
+    value:
+      "https://baltimorecountymdstg.citysourced.net/servicerequests/create",
   },
 ];
 
 export const jsonExternalLinksProd = [
   {
     key: "externalReport",
-    value: "https://baltimorecountymd.citysourced.us/",
+    value: "https://baltimorecountymd.citysourced.net/servicerequests/create",
   },
 ];
 

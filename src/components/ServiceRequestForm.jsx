@@ -664,12 +664,17 @@ const ServiceRequestForm = (props, errors, touched) => {
                     isDisabled={disableButton}
                     onClick={callSignInForm}
                   />
-                  <SeButton
+                  {/* <SeButton
                     text="Anonymous Report"
                     className="dg_button-secondary"
                     onClick={redirectToExternalSite}
+                  /> */}
+                  <Modal
+                    modalClasses="dg_modal__open-button dg_button-secondary"
+                    modalTitle="Anonymous Report"
+                    modalHeadingText="Reporting Anonymously"
+                    modalText="Thank you for contacting Baltimore County Code Enforcement. Your concerns are important to us. Your submission will be reviewed by a staff member within 24 hours. After review, an inspection may be performed and enforcement actions will be taken if applicable. Please note that many enforcement actions require a legal process that can sometimes last for several weeks before resolution.  You can check the status at https://baltimorecountymd.citysourced.us, select requests and then nearby request, then enter the address in the filter bar."
                   />
-
                   <SeButton
                     text="Register"
                     isDisabled={disableButton}

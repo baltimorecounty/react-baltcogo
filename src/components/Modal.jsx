@@ -6,13 +6,19 @@ import {
 } from "@baltimorecounty/dotgov-components";
 
 const Modal = (props) => {
+  const {
+    modalTitle = "Why do I need to do this?",
+    modalText = "In order to report an issue online, we require a one-time account creation. This allows us to better track and follow up on issues in a timely fashion, as it ensures that we get all of the proper contact information when the issue is submitted. At this time we cannot take anonymous requests online.",
+    modalHeadingText = "Why Register",
+    modalClasses = "dg_button-link",
+  } = props;
   return (
     <div>
       <Button
         type="button"
-        className={`dg_button-link dg_modal__open-button ${props.className}`}
+        className={`dg_modal__open-button ${modalClasses}`}
         data-target="my-accessible-dialog"
-        text="Why do I need to do this?"
+        text={modalTitle}
       ></Button>
 
       <div
@@ -36,16 +42,10 @@ const Modal = (props) => {
         </div>
         <IconHeading
           id="my-accessible-dialog_label"
-          text="Why Register"
+          text={modalHeadingText}
           icon="fas fa-star"
         />
-        <p>
-          In order to report an issue online, we require a one-time account
-          creation. This allows us to better track and follow up on issues in a
-          timely fashion, as it ensures that we get all of the proper contact
-          information when the issue is submitted. At this time we cannot take
-          anonymous requests online.
-        </p>
+        <p>{modalText}</p>
       </div>
     </div>
   );
