@@ -36,7 +36,7 @@
     "react-toastify": "^5.5.0",
     "reactstrap": "^8.4.1",
     "save": "^2.4.0",
-    "ua-parser-js": "^1.0.1",
+    "ua-parser-js": "^1.0.33",
     "yup": "^0.32.11"
   },
   "scripts": {
