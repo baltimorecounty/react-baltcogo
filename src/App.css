@@ -38,3 +38,8 @@ input::-ms-reveal {
 textarea {
   min-height: 12em;
 }
+
+.dg_modal__open-button{
+  margin-bottom: 15px;
+
+}

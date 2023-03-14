@@ -11,6 +11,7 @@ const Modal = (props) => {
     modalText = "In order to report an issue online, we require a one-time account creation. This allows us to better track and follow up on issues in a timely fashion, as it ensures that we get all of the proper contact information when the issue is submitted. At this time we cannot take anonymous requests online.",
     modalHeadingText = "Why Register",
     modalClasses = "dg_button-link",
+    additionalButton = "",
   } = props;
   return (
     <div>
@@ -46,6 +47,9 @@ const Modal = (props) => {
           icon="fas fa-star"
         />
         <p>{modalText}</p>
+        <div className="d-md-flex justify-content-md-center d-sm-block">
+          {additionalButton}
+        </div>
       </div>
     </div>
   );
