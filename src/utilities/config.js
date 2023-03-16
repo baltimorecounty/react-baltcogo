@@ -124,6 +124,37 @@ export const endPointsProd = [
       "https://services.baltimorecountymd.gov/platform.citysourced.net/contacts/verifyaddress",
   },
 ];
+export const jsonExternalLinksLocal = [
+  {
+    key: "externalReport",
+    value:
+      "https://baltimorecountymdstg.citysourced.net/servicerequests/create",
+  },
+];
+
+export const jsonExternalLinksTest = [
+  {
+    key: "externalReport",
+    value:
+      "https://baltimorecountymdstg.citysourced.net/servicerequests/create",
+  },
+];
+
+export const jsonExternalLinksStage = [
+  {
+    key: "externalReport",
+    value:
+      "https://baltimorecountymdstg.citysourced.net/servicerequests/create",
+  },
+];
+
+export const jsonExternalLinksProd = [
+  {
+    key: "externalReport",
+    value: "https://baltimorecountymd.citysourced.net/servicerequests/create",
+  },
+];
+
 export const jsonFileLocationsLocal = [
   { key: "results", value: "/data/staging/categories.json" },
   { key: "resultPetTypes", value: "/data/staging/pet-types.json" },

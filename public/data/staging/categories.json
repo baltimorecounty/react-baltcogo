@@ -96,19 +96,23 @@
     "types": [
       {
         "name": "Abandoned Vehicle (unregistered and/or inoperable)",
-        "id": 1023415
+        "id": 1023415,
+        "anonLogin": true
       },
       {
         "name": "Excessive animal feces in neighbor's yard",
-        "id": 1023417
+        "id": 1023417,
+        "anonLogin": true
       },
       {
         "name": "Failure to maintain plumbing system in a rental home",
-        "id": 1024825
+        "id": 1024825,
+        "anonLogin": true
       },
       {
         "name": "Failure to provide carbon monoxide detectors in a rental home",
-        "id": 1024824
+        "id": 1024824,
+        "anonLogin": true
       },
       {
         "name": "Graffiti",
@@ -116,7 +120,8 @@
       },
       {
         "name": "Junk, trash, or debris on private property",
-        "id": 1023412
+        "id": 1023412,
+        "anonLogin": true
       },
       {
         "name": "Poor living conditions in a rental home",
@@ -124,11 +129,13 @@
       },
       {
         "name": "Rats",
-        "id": 1024584
+        "id": 1024584,
+        "anonLogin": true
       },
       {
         "name": "Tall grass and weeds in yard",
-        "id": 1023413
+        "id": 1023413,
+        "anonLogin": true
       },
       {
         "name": "Other code complaint",
