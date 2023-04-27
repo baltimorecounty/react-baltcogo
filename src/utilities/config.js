@@ -151,7 +151,7 @@ export const jsonExternalLinksStage = [
 export const jsonExternalLinksProd = [
   {
     key: "externalReport",
-    value: "https://baltimorecountymd.citysourced.net/servicerequests/create",
+    value: "https://baltimorecountymd.citysourced.us/servicerequests/create",
   },
 ];
 
