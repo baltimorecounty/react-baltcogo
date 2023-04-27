@@ -63,8 +63,6 @@ export const returnModel = (props, streetAddress, city, zipCode) => {
     { Id: requestTypeZipID, Value: zipCode },
   ].filter((item) => !!item.Id);
 
-  console.log(reportItems);
-
   var itemsToSubmit = {
     AppVersion: "308",
     Location: {
